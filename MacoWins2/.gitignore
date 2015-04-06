@@ -1,1 +1,3 @@
 /bin/
+Lunes 6 de Abril -> Creo el metodo coincideFechaCon(unaFecha) en la clase Venta
+                   Cambio el metodo ventasDeFecha (unaFecha) en la clase MacoWins para que respete el encapsulamiento usando el mensaje coincideFechaCon(unaFecha)
