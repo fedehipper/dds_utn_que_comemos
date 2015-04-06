@@ -45,7 +45,7 @@ public class Venta {
 	}
 	
 	public void coincideFechaCon(String unaFecha) {
-		return (this.fechaVenta = unaFecha);
+		return (this.fechaVenta == unaFecha);
 	}
 
 
