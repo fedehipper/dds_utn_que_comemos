@@ -19,7 +19,7 @@ public class MacoWins {
 	}
 	
 	public Collection<Venta> ventasDeFecha(String unaFecha){
-		return (this.ventas.stream().filter(unaVenta -> (unaVenta.getFechaVenta() == unaFecha)).collect(Collectors.toList()));  
+		return (this.ventas.stream().filter(unaVenta -> (unaVenta.coincideFechaCon(unaFecha))).collect(Collectors.toList()));  
 	}
 	
 	public void vender(Prenda unaPrenda, int cantidad, String fecha) {
