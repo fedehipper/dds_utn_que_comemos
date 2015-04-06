@@ -44,7 +44,9 @@ public class Venta {
 		this.fechaVenta = fechaVenta;
 	}
 	
-	
+	public void coincideFechaCon(String unaFecha) {
+		return (this.fechaVenta = fechaVenta);
+	}
 
 
 }
