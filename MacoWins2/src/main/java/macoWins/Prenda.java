@@ -9,12 +9,8 @@ public class Prenda {
 	
 	/*------------------------------------------------------------------------------------*/
 	
-	public int valorFijoDelNegocio(MacoWins maco) {
-		return maco.valorFijoDelNegocio();
-	}
-	
-	public double precioFinal(MacoWins negocio) {
-		return ((precioBase + negocio.valorFijoDelNegocio())* (this.tasaDeImportacion()));
+	public double precioFinal(int valorFijo) {
+		return ((precioBase + valorFijo)* (this.tasaDeImportacion()));
 	}
 	
 	public double tasaDeImportacion() {
