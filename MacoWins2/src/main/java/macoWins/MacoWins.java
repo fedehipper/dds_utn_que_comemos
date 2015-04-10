@@ -5,16 +5,18 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class MacoWins {
+	private int valorFijoDelNegocio;
 	
-	private static int ValorFijo;
 	private Collection<Venta> ventas = new ArrayList<>();
 	
+	
+	
 	public double gananciasDelDia(String unaFecha) {
-		return (ventasDeFecha(unaFecha).stream().mapToDouble(venta -> venta.precio()).sum());
+		return (this.ventasDeFecha(unaFecha).stream().mapToDouble(venta -> venta.precio(this)).sum());
 	}
 	
 	public Collection<Venta> ventasDeFecha(String unaFecha){
-		return ventas.stream().filter(unaVenta -> (unaVenta.coincideFechaCon(unaFecha))).collect(Collectors.toList());  
+		return (this.ventas.stream().filter(unaVenta -> (unaVenta.getFechaVenta() == unaFecha)).collect(Collectors.toList()));  
 	}
 	
 	public void vender(Prenda unaPrenda, int cantidad, String fecha) {
@@ -22,12 +24,13 @@ public class MacoWins {
 		ventas.add(venta);
 	}
 				
-	public static int getValorFijo() {
-		return ValorFijo;
+
+	public int getValorFijoDelNegocio() {
+		return valorFijoDelNegocio;
 	}
 
-	public static void setValorFijo(int valorFijo) {
-		ValorFijo = valorFijo;
+	public void cambiarValorFijoDelNegocio(int valorFijo) {
+		valorFijoDelNegocio = valorFijo;
 	}
 	
 }
