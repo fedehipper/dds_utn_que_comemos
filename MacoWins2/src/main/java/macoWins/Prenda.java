@@ -1,25 +1,36 @@
 package macoWins;
 
-public class Prenda {
-	
-	private int precioBase;
-	private float tasaDeImportacion;
-	
-	public Prenda(int precioBase, String origen) {
-		this.precioBase = precioBase;
-		
-		if (esImportada(origen))
-			tasaDeImportacion = 1.3f;
-		else 
-			tasaDeImportacion = 1f;
-	}
+import macoWins.MacoWins;
 
-	public double precioFinal() {
-		return (precioBase + MacoWins.getValorFijo()) * tasaDeImportacion;
+public class Prenda {
+	private int precioBase;
+	private String tipoDeImportacion;
+
+	
+	
+	public int valorFijoDelNegocio(MacoWins maco) {
+		return maco.getValorFijoDelNegocio();
 	}
 	
-	public boolean esImportada(String origen) {
-		return origen.equals("importada");	
+	public double precioFinal(MacoWins negocio) {
+		return ((precioBase + negocio.getValorFijoDelNegocio())* (this.tasaDeImportacion()));
+	}
+	
+	public double tasaDeImportacion() {
+		if (this.esImportada())
+			return 1.3;
+		else 
+			return 1;
+	}
+	
+	public boolean esImportada() {
+		return (tipoDeImportacion.equals("importada") );
+		
+	}
+	
+	public Prenda(int valorPrecioBase, String valorTipoDeImportacion) {
+		precioBase = valorPrecioBase;
+		tipoDeImportacion = valorTipoDeImportacion;
 	}
 	
 }
