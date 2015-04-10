@@ -17,15 +17,15 @@ public class TestPrenda {
 		saco = new Prenda( 300, "importada");
 		pantalon = new Prenda( 200, "importada");
 		camisa = new Prenda( 30, "nacional");
-		
+		maco = new MacoWins
 	}
 		
 	@Test
     public void testPrecioFinal() {
 		
-    	assertTrue(saco.precioFinal() == 390 );
-        assertTrue(pantalon.precioFinal() == 260);
-        assertTrue(camisa.precioFinal() == 30);
+    	assertTrue(saco.precioFinal(maco) == 390 );
+        assertTrue(pantalon.precioFinal(maco) == 260);
+        assertTrue(camisa.precioFinal(maco) == 30);
         
     }  
 
