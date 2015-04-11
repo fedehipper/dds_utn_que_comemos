@@ -1,5 +1,7 @@
 package macoWins;
 
+import java.time.LocalDate;
+
 import macoWins.MacoWins;
 import macoWins.Prenda;
 
@@ -8,9 +10,9 @@ public class Venta {
 	
 	private Prenda prendaVendida;
 	private int cantidadVendida;
-	private String fechaVenta;
+	private LocalDate fechaVenta;
 	
-	public Venta(Prenda prenda, int cantidad, String fecha){
+	public Venta(Prenda prenda, int cantidad, LocalDate fecha){
 		prendaVendida = prenda;
 		cantidadVendida = cantidad;
 		fechaVenta = fecha;
@@ -36,11 +38,11 @@ public class Venta {
 		this.cantidadVendida = cantidad;
 	}
 	
-	public String getFechaVenta() {
+	public LocalDate getFechaVenta() {
 		return fechaVenta;
 	}
 	
-	public void setFechaVenta(String fechaVenta) {
+	public void setFechaVenta(LocalDate fechaVenta) {
 		this.fechaVenta = fechaVenta;
 	}
 	

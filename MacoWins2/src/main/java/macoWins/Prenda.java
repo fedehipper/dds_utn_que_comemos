@@ -6,8 +6,7 @@ public class Prenda {
 	private int precioBase;
 	private String tipoDeImportacion;
 
-	
-	
+
 	public int valorFijoDelNegocio(MacoWins maco) {
 		return maco.getValorFijoDelNegocio();
 	}
