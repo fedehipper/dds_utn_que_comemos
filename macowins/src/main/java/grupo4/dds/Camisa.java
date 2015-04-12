@@ -1,10 +1,16 @@
-package grupo4.dds;
+package tpMacoWins;
 
 public class Camisa extends Prenda {
 
-	public Camisa(boolean esImportada) {
-		super(esImportada, 200f);
-		// TODO Auto-generated constructor stub
+	public Camisa(TipoDeImportacion tipoDeImportacion, Marca marca, MacoWins negocio) {
+		super(tipoDeImportacion, marca, negocio);
+
+	}
+
+	@Override
+	protected double precioBase() {
+		
+		return 200;
 	}
 
 }

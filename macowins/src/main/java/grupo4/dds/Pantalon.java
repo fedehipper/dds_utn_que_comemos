@@ -1,10 +1,15 @@
-package grupo4.dds;
+package tpMacoWins;
 
 public class Pantalon extends Prenda {
-
-	public Pantalon(boolean esImportada) {
-		super(esImportada, 250f);
-		// TODO Auto-generated constructor stub
+	
+	private int cmTela;
+	
+	public double precioBase(){
+		return (250+cmTela);
 	}
 
+	public Pantalon(TipoDeImportacion tipoDeImportacion, Marca marca, int tela, MacoWins negocio) {
+        super(tipoDeImportacion, marca, negocio);
+		cmTela = tela;
+	}
 }

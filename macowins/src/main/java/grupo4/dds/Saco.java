@@ -1,10 +1,15 @@
-package grupo4.dds;
+package tpMacoWins;
 
 public class Saco extends Prenda {
-
-	public Saco(boolean esImportada) {
-		super(esImportada, 300f);
-		// TODO Auto-generated constructor stub
+	
+	private int botones;
+	
+	public double precioBase(){
+		return (300 + 10*botones);
 	}
 
+	public Saco(TipoDeImportacion tipoDeImportacion, Marca marca, int cantBotones, MacoWins negocio) {
+		super(tipoDeImportacion, marca, negocio);
+		botones = cantBotones;
+	}
 }

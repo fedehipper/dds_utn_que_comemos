@@ -1,34 +1,35 @@
-package grupo4.dds;
+package tpMacoWins;
+
+import tpMacoWins.MacoWins;
+import static tpMacoWins.TipoDeImportacion.*;
 
 public abstract class Prenda {
+	private double tasaDeImportacion;
+	private Marca marca;
+	private MacoWins negocio;
 	
-	protected static float valorFijoNegocio;
-	protected float precioBase;
-	protected float tasaImportacion;
 	
-	public float precioFinal() {
+	public Prenda(TipoDeImportacion tipoDeImportacion, Marca marca, MacoWins negocio) {
 		
-		return (valorFijoNegocio + precioBase) * tasaImportacion;
-		
-	}
-	
-	protected void fijatTasaImportacion(boolean esImportada) {
-		
-		tasaImportacion = esImportada ? 1.3f : 1.0f;
+		this.marca = marca;
+		this.negocio = negocio;
+		tasaDeImportacion= tipoDeImportacion.equals(IMPORTADA) ? 1.3 : 1 ;
 		
 	}
 
-	public Prenda(boolean esImportada, float precioBase) {
-		
-		this.precioBase = precioBase;
-		fijatTasaImportacion(esImportada);
-		
+	public double precioFinal() {
+		return marca.precioFinal(this);
 	}
 	
-	public static void fijarValorDeNegocio(float valorFijoNegocio) {
-		
-		Prenda.valorFijoNegocio = valorFijoNegocio;
-		
+	public double precioOriginal() {
+		return (precioBase() + negocio.getValorFijoDelNegocio())* tasaDeImportacion;
+	}
+
+
+	protected abstract double precioBase();
+
+	public Marca getMarca() {
+		return marca;
 	}
 
 }
