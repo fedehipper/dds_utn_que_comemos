@@ -1,4 +1,4 @@
-package tpMacoWins;
+package grupo4.dds;
 
 public class Sombrero extends Prenda {
 	

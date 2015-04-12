@@ -1,7 +1,7 @@
-package tpMacoWins;
+package grupo4.dds;
 
-import tpMacoWins.MacoWins;
-import static tpMacoWins.TipoDeImportacion.*;
+import grupo4.dds.MacoWins;
+import static grupo4.dds.TipoDeImportacion.*;
 
 public abstract class Prenda {
 	private double tasaDeImportacion;

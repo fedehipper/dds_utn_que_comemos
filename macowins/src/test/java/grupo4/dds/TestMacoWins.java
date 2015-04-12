@@ -1,9 +1,8 @@
-package tpMacoWins;
+package grupo4.dds;
 
-import static org.junit.Assert.*;
-import static tpMacoWins.TipoDeImportacion.*; 
-
+import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;
+import static grupo4.dds.TipoDeImportacion.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

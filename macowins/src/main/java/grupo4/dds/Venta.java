@@ -1,8 +1,6 @@
-package tpMacoWins;
+package grupo4.dds;
 
 import java.time.LocalDate;
-
-import tpMacoWins.Prenda;
 
 
 public class Venta {

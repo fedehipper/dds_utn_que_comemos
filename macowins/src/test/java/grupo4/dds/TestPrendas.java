@@ -1,9 +1,8 @@
-package tpMacoWins;
+package grupo4.dds;
 
-import static org.junit.Assert.*;
-import static tpMacoWins.TipoDeImportacion.IMPORTADA;
-import static tpMacoWins.TipoDeImportacion.NACIONAL;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static grupo4.dds.TipoDeImportacion.*;
 
 public class TestPrendas {
 	
