@@ -1,0 +1,9 @@
+En el Trabajo Práctico, creamos la clase MacoWins y como atributo una 
+colección de ventas para poder controlar y registrar las ventas de determinada
+fecha. Para que resulte más fácil el hecho de tener que agregar más ventas 
+utilizamos un constructor, de esta forma es más flexible (tanto extendible como mantenible).
+Cada venta tiene asociada la prenda vendida.
+Las distintas prendas las creamos como subclase de Prenda (que es abstracta) para que, de esa forma,
+puedan tener métodos independientes cada una, y lo que tienen en común queda en la superclase.
+Por último se usó una interfaz para las marcas, así los objetos de esta clase (Sarkani, Armani)
+entienden los mismos mensajes (polimorfismo).
