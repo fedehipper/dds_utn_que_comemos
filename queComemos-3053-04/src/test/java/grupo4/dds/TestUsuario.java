@@ -27,6 +27,6 @@ public class TestUsuario {
 	}	
 	@Test 
 	public void testConPeso87YAltura181() {
-		assertEquals(arielFolino.indiceDeMasaCorporal(), 26.556 , 0.001)
+		assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 26.556 , 0.001)
 	}
 }
