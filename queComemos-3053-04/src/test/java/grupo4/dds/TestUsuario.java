@@ -16,6 +16,7 @@ public class TestUsuario {
     private Usuario fecheSena = new Usuario(1.70, 65.0);
     private Usuario federicoHipper = new Usuario(1.91, 102.0);
 	private Usuario arielFolino = new Usuario(1.69,95.0); 
+	private Usuario cristianMaldonado = new Usuario(1.81,87.0);
 	private Usuario pedro = new Usuario("pedro",'M',LocalDate.of(2015, 04, 22), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
 	
 	
@@ -25,6 +26,7 @@ public class TestUsuario {
 		preferencias.add("carne");
 		pedro.setPreferenciasAlimenticias(preferencias);
 	}
+
 		
 	@Test
 	public void testConPeso65YAltura170() {
@@ -41,7 +43,11 @@ public class TestUsuario {
 		assertEquals(arielFolino.indiceDeMasaCorporal(), 56.213 , 0.001);
 	}	
 	
-	
+     @Test
+	public void testConPeso87YAltura181() {
+	 assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 48.066 , 0.001);
+     }
+		
 	@Test
 	public void esFechaDeNacimientoPedro(){
 		assertTrue(pedro.esFechaDeNacimiento());
@@ -70,5 +76,6 @@ public class TestUsuario {
 	@Test
 	public void testEsValidoFecheSena(){
 		assertFalse(fecheSena.esValido());
+
 	}
 }

@@ -33,7 +33,7 @@ public class Usuario {
 	}
 	
 	public double indiceDeMasaCorporal(){
-		return peso/estatura;
+		return peso/(estatura);
 	}
 	
 	public boolean esValido(){
