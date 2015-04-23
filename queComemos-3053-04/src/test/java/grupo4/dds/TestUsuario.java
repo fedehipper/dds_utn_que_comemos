@@ -9,6 +9,7 @@ public class TestUsuario {
     private Usuario fecheSena = new Usuario(1.70, 65);
     private Usuario federicoHipper = new Usuario(1.91, 102);
 	private Usuario arielFolino = new Usuario(1.69,95);    
+	private Usuario cristianMaldonado = new Usuario(1.81,87);
 		
 	@Test
 	public void testConPeso65YAltura170() {
@@ -24,4 +25,8 @@ public class TestUsuario {
 	public void testConPeso96YAltura169() {
 		assertEquals(arielFolino.indiceDeMasaCorporal(), 56.213 , 0.001);
 	}	
+	@Test 
+	public void testConPeso87YAltura181() {
+		assertEquals(arielFolino.indiceDeMasaCorporal(), 26.556 , 0.001)
+	}
 }
