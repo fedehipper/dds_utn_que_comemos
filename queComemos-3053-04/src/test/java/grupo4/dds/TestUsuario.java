@@ -15,9 +15,9 @@ public class TestUsuario {
 
     private Usuario fecheSena = new Usuario(1.70, 65.0);
     private Usuario federicoHipper = new Usuario(1.91, 102.0);
-	private Usuario arielFolino = new Usuario(1.69,95.0); 
+	private Usuario arielFolino = new Usuario(1.69,96.0); 
 	private Usuario cristianMaldonado = new Usuario(1.81,87.0);
-	private Usuario pedro = new Usuario("pedro",'M',LocalDate.of(2015, 04, 22), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
+	private Usuario pedro = new Usuario("pedro",'M',LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
 	
 	
 	@Before
@@ -30,22 +30,22 @@ public class TestUsuario {
 		
 	@Test
 	public void testConPeso65YAltura170() {
-		assertEquals(fecheSena.indiceDeMasaCorporal(), 38.235 , 0.001);
+		assertEquals(fecheSena.indiceDeMasaCorporal(), 22.491 , 0.001);
 	}
 	
 	@Test
 	public void testConPeso102YAltura191() {
-		assertEquals(federicoHipper.indiceDeMasaCorporal(), 53.403, 0.001);
+		assertEquals(federicoHipper.indiceDeMasaCorporal(), 27.959, 0.001);
 	}
 
 	@Test
 	public void testConPeso96YAltura169() {
-		assertEquals(arielFolino.indiceDeMasaCorporal(), 56.213 , 0.001);
+		assertEquals(arielFolino.indiceDeMasaCorporal(), 33.612 , 0.001);
 	}	
 	
      @Test
 	public void testConPeso87YAltura181() {
-	 assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 48.066 , 0.001);
+	 assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 26.555 , 0.001);
      }
 		
 	@Test

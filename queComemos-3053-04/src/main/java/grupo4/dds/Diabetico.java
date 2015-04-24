@@ -7,5 +7,7 @@ public class Diabetico implements Condicion {
 		
 		return (usuario.getSexo() != null) && (usuario.getPreferenciasAlimenticias().size() > 0) ;
 	}
+	
+	}
 
-}
+

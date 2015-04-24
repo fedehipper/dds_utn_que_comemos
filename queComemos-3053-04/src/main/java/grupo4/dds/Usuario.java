@@ -33,7 +33,7 @@ public class Usuario {
 	}
 	
 	public double indiceDeMasaCorporal(){
-		return peso/(estatura);
+		return peso/(estatura*estatura);
 	}
 	
 	public boolean esValido(){
@@ -58,7 +58,7 @@ public class Usuario {
 	public boolean esFechaDeNacimiento(){
 		
 		LocalDate fechaActual = LocalDate.now();
-		return fechaActual.compareTo(this.fechaNac) == 1 ;
+		return this.fechaNac.isBefore(fechaActual) ;
 	}
 
 	public Character getSexo() {
@@ -75,5 +75,6 @@ public class Usuario {
 	}
 	
 	
+
 
 }

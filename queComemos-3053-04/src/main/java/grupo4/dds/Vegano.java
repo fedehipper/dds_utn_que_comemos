@@ -16,5 +16,7 @@ public class Vegano implements Condicion {
 		return usuario.getPreferenciasAlimenticias().containsAll(palabrasClave);
 		
 	}
+	
+
 
 }

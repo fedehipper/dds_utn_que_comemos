@@ -4,4 +4,5 @@ public interface Condicion {
 	
 	public boolean esValido(Usuario usuario);
 
+
 }
