@@ -6,6 +6,8 @@ public class Receta extends RecetaDelSistema {
 
 	private Usuario creador;
 	
-	
+	public Receta(){
+		super();
+	}
 
 }

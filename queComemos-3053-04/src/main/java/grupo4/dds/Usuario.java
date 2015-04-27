@@ -15,7 +15,7 @@ public class Usuario {
 	private Collection<String> alimentosNoPreferidos = new ArrayList<>();
 	private Collection<Condicion> condiciones = new ArrayList<>();
 	private Rutina rutina;
-	private Receta receta;
+	private Collection<Receta> recetas = new ArrayList<>();
 
 	public Usuario(Double estatura, Double peso) {
 		this.peso = peso;
@@ -42,8 +42,6 @@ public class Usuario {
 				&& cumpleCondiciones() && esFechaDeNacimiento());
 
 	}
-
-
 
 	public boolean tieneCamposObligatorios() {
 
@@ -114,13 +112,13 @@ public class Usuario {
 		return this.peso > valorPeso;
 	}
 
-	
-public void agregarCondicion(Condicion condicion) {
+	public void agregarCondicion(Condicion condicion) {
 		this.condiciones.add(condicion);
 	}
 
- 
-	
+	public void agregarReceta(Receta unaReceta) {
+		if (unaReceta.esValida())
+			this.recetas.add(unaReceta);
+	}
+
 }
-
-

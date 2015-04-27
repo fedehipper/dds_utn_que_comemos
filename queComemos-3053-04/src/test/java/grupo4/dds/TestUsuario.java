@@ -120,4 +120,5 @@ public class TestUsuario {
 		juancho.agregarCondicion(celiaco);
 		assertTrue(juancho.cumpleNecesidades());
 	}
+
 }
