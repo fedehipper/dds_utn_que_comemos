@@ -10,7 +10,7 @@ public class Celiaco implements Condicion {
 		return true;
 	}
 	
-	public boolean noEsRecomendable(Receta receta) {
+	public boolean esRecomendable(Receta receta) {
 		return true;
 	}
 
