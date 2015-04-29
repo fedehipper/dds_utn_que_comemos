@@ -26,6 +26,7 @@ public class TestReceta {
 		receta.getIngredientes().add("morron");
 		receta.getIngredientes().add("sal");
 		receta.getIngredientes().add("caldo");
+		receta.getIngredientes().add("carne");
 		receta.setCalorias(10);
 	
 	}
@@ -41,10 +42,16 @@ public class TestReceta {
 		assertTrue(!(hipertenso.esRecomendable(receta)));
 	}
 	
+	@Test
+	public void esRecetaInadecuadaEnVeganos() {
+		Vegano vegano = new Vegano();
+		assertTrue(!(vegano.esRecomendable(receta)));
+	}
 		
 	@Test 
 	public void testEsRecetaInadecuadaParaUnUsuario() {
 		pedro.agregarCondicion(hipertenso);
+		pedro.agregarCondicion(vegano);
 		pedro.agregarReceta(receta);
 		assertTrue(!(pedro.esRecetaAdecuada(receta)));
 	}
