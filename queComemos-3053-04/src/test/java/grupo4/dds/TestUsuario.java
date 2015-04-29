@@ -23,7 +23,6 @@ public class TestUsuario {
 	private Celiaco celiaco = new Celiaco();
 	private Vegano vegano = new Vegano();
 	private Diabetico diabetico = new Diabetico();
-	private Hipertenso hipertenso = new Hipertenso();
 	private Receta recetaDeJuancho = new Receta(juancho);
 	private RecetaDelSistema recetaDeTodos = new RecetaDelSistema();
 	
@@ -96,25 +95,6 @@ public class TestUsuario {
 		assertTrue(juancho.imcEstaEntre(18, 30));
 	}
 
-	@Test
-	public void testCumpleNecesidadesDeCeliaco() {
-		assertTrue(celiaco.cumpleNecesidades(juancho));
-	}
-
-	@Test
-	public void testCumpleNecesidadesDeVegano() {
-		assertTrue(vegano.cumpleNecesidades(juancho));
-	}
-
-	@Test
-	public void testCumpleNecesidadesDeDiabetico() {
-		assertTrue(diabetico.cumpleNecesidades(juancho));
-	}
-
-	@Test
-	public void testCumpleNecesidadesDeHipertenso() {
-		assertTrue(hipertenso.cumpleNecesidades(juancho));
-	}
 
 	@Test
 	public void testCumpleNecesidades() {

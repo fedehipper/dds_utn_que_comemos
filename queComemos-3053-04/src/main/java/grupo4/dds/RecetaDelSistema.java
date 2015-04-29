@@ -11,7 +11,7 @@ public class RecetaDelSistema {
 	private String preparacionDeReceta; 
 	private int calorias;
 	private String dificultad;
-	private Collection<String> temporada = new ArrayList<>();
+	private Collection<Temporada> temporada = new ArrayList<>();
 	private Receta subReceta;
 	
 	
