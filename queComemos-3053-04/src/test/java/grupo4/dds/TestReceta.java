@@ -36,17 +36,17 @@ public class TestReceta {
 	}
 	
 	@Test
-	public void esRecetaInhadecuadaEnHipertensos() {
+	public void esRecetaInadecuadaEnHipertensos() {
 		Hipertenso hipertenso = new Hipertenso();
-		assertTrue(hipertenso.noEsRecomendable(receta));
+		assertTrue(!(hipertenso.esRecomendable(receta)));
 	}
 	
 		
 	@Test 
-	public void testEsRecetaInhadecuadaParaUnUsuario() {
+	public void testEsRecetaInadecuadaParaUnUsuario() {
 		pedro.agregarCondicion(hipertenso);
 		pedro.agregarReceta(receta);
-		assertTrue(pedro.esRecetaInhadecuada(receta));
+		assertTrue(!(pedro.esRecetaAdecuada(receta)));
 	}
 	
 	
