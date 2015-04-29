@@ -120,5 +120,11 @@ public class Usuario {
 		if (unaReceta.esValida())
 			this.recetas.add(unaReceta);
 	}
+	
+	//----------------
+	public boolean esRecetaInhadecuada(Receta receta) {
+		return this.condiciones.stream().allMatch(condicion -> condicion.noEsRecomendable(receta));
+	}
+	
 
 }
