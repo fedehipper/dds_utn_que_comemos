@@ -38,20 +38,24 @@ public class TestReceta {
 	
 	@Test
 	public void esRecetaInadecuadaEnHipertensos() {
-		Hipertenso hipertenso = new Hipertenso();
 		assertTrue(!(hipertenso.esRecomendable(receta)));
 	}
 	
 	@Test
 	public void esRecetaInadecuadaEnVeganos() {
-		Vegano vegano = new Vegano();
 		assertTrue(!(vegano.esRecomendable(receta)));
+	}
+	
+	@Test
+	public void esRecetaAdecuadaEnCeliacos() {
+		assertTrue((celiaco.esRecomendable(receta))); 
 	}
 		
 	@Test 
 	public void testEsRecetaInadecuadaParaUnUsuario() {
 		pedro.agregarCondicion(hipertenso);
 		pedro.agregarCondicion(vegano);
+		pedro.agregarCondicion(celiaco);
 		pedro.agregarReceta(receta);
 		assertTrue(!(pedro.esRecetaAdecuada(receta)));
 	}
