@@ -15,4 +15,7 @@ public class Diabetico implements Condicion {
 
 	}
 
+	public boolean noEsRecomendable(Receta receta) {
+		return true;
+	}
 }
