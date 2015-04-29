@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class testCondiciones {
-	
+
 	private Usuario juancho = new Usuario("juancho", 'M', LocalDate.of(1000,
 			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
 	private Celiaco celiaco = new Celiaco();
@@ -23,7 +23,7 @@ public class testCondiciones {
 
 	@Before
 	public void setUp() throws Exception {
-		
+
 		Collection<String> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add("frutas");
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);

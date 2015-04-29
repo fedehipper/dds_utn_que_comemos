@@ -25,7 +25,7 @@ public class TestUsuario {
 	private Diabetico diabetico = new Diabetico();
 	private Receta recetaDeJuancho = new Receta(juancho);
 	private RecetaDelSistema recetaDeTodos = new RecetaDelSistema();
-	
+
 	@Before
 	public void setUp() {
 
@@ -35,8 +35,7 @@ public class TestUsuario {
 		Collection<String> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add("frutas");
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
-		
-		
+
 	}
 
 	@Test
@@ -95,7 +94,6 @@ public class TestUsuario {
 		assertTrue(juancho.imcEstaEntre(18, 30));
 	}
 
-
 	@Test
 	public void testCumpleNecesidades() {
 		juancho.agregarCondicion(vegano);
@@ -105,12 +103,12 @@ public class TestUsuario {
 	}
 
 	@Test
-	public void testJuanchoPuedeVerOModificarSuReceta(){
+	public void testJuanchoPuedeVerOModificarSuReceta() {
 		assertTrue(juancho.puedeVerOModificar(recetaDeJuancho));
 	}
-	
+
 	@Test
-	public void testPedroPuedeVerOModificarUnaRecetaDelSistema(){
+	public void testPedroPuedeVerOModificarUnaRecetaDelSistema() {
 		assertTrue(pedro.puedeVerOModificar(recetaDeTodos));
 	}
 }
