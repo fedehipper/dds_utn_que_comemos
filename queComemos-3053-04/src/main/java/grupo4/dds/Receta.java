@@ -10,4 +10,8 @@ public class Receta extends RecetaDelSistema {
 		super();
 	}
 
+	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){
+		return (unUsuario == creador);
+	}
+	
 }

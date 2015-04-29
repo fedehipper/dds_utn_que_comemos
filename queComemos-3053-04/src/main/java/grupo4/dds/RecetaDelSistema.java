@@ -35,8 +35,9 @@ public class RecetaDelSistema {
 		this.calorias = calorias;
 	}
 	
-
-	
+	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){
+		return true;
+	}
 	
 
 }

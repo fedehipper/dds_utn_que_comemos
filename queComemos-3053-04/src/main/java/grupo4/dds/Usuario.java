@@ -60,7 +60,6 @@ public class Usuario {
 	}
 
 	public boolean esFechaDeNacimiento() {
-
 		LocalDate fechaActual = LocalDate.now();
 		return this.fechaNac.isBefore(fechaActual);
 	}
@@ -73,7 +72,6 @@ public class Usuario {
 	}
 
 	public boolean imcEstaEntre(int unValor, int otroValor) {
-
 		return (this.indiceDeMasaCorporal() >= unValor)
 				&& (this.indiceDeMasaCorporal() <= otroValor);
 	}
@@ -81,19 +79,6 @@ public class Usuario {
 	public boolean cumpleNecesidades() {
 		return this.condiciones.stream().allMatch(
 				condicion -> condicion.cumpleNecesidades(this));
-	}
-
-	public Character getSexo() {
-		return sexo;
-	}
-
-	public void setPreferenciasAlimenticias(
-			Collection<String> preferenciasAlimenticias) {
-		this.preferenciasAlimenticias = preferenciasAlimenticias;
-	}
-
-	public Collection<String> getPreferenciasAlimenticias() {
-		return preferenciasAlimenticias;
 	}
 
 	public boolean leGusta(String alimento) {
@@ -119,6 +104,32 @@ public class Usuario {
 	public void agregarReceta(Receta unaReceta) {
 		if (unaReceta.esValida())
 			this.recetas.add(unaReceta);
+	}
+
+	public boolean puedeVerOModificar (Receta unaReceta){
+		return unaReceta.puedeSerVistaOModificadaPor(this);
+	}
+	
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Character getSexo() {
+		return sexo;
+	}
+
+	public void setPreferenciasAlimenticias(
+			Collection<String> preferenciasAlimenticias) {
+		this.preferenciasAlimenticias = preferenciasAlimenticias;
+	}
+
+	public Collection<String> getPreferenciasAlimenticias() {
+		return preferenciasAlimenticias;
 	}
 
 }
