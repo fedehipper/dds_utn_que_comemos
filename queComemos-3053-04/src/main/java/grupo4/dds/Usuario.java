@@ -17,12 +17,14 @@ public class Usuario {
 	private Rutina rutina;
 	private Collection<Receta> recetas = new ArrayList<>();
 
+	//------CONSTRUCTORES-----
 	public Usuario(Double estatura, Double peso) {
 		this.peso = peso;
 		this.estatura = estatura;
 
 	}
-
+	//Creado para testear por ahora
+	
 	public Usuario(String nombre, char sexo, LocalDate fechaNac, Double altura,
 			Double peso, Rutina rutina) {
 		this.nombre = nombre;
@@ -32,7 +34,9 @@ public class Usuario {
 		this.peso = peso;
 		this.rutina = rutina;
 	}
-
+	//------CONSTRUCTORES-----
+	
+	
 	public double indiceDeMasaCorporal() {
 		return peso / (estatura * estatura);
 	}
@@ -106,16 +110,16 @@ public class Usuario {
 			this.recetas.add(unaReceta);
 	}
 	
-	//----------------
 	public boolean esRecetaAdecuada(Receta receta) {
 		return this.condiciones.stream().allMatch(condicion -> condicion.esRecomendable(receta));
 	}
 	
-
 	public boolean puedeVerOModificar (RecetaDelSistema unaReceta){
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
 	
+
+	//-----Getters y setters-----
 	
 	public String getNombre() {
 		return nombre;

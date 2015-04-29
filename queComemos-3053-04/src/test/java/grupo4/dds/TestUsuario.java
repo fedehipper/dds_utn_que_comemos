@@ -106,9 +106,19 @@ public class TestUsuario {
 	public void testJuanchoPuedeVerOModificarSuReceta() {
 		assertTrue(juancho.puedeVerOModificar(recetaDeJuancho));
 	}
-
+	
+	@Test
+	public void testPedroJuanchoVerOModificarUnaRecetaDelSistema() {
+		assertTrue(pedro.puedeVerOModificar(recetaDeTodos));
+	}
+	
 	@Test
 	public void testPedroPuedeVerOModificarUnaRecetaDelSistema() {
 		assertTrue(pedro.puedeVerOModificar(recetaDeTodos));
+	}
+	
+	@Test
+	public void testPedroNoPuedeVerOModificarSuReceta() {
+		assertFalse(pedro.puedeVerOModificar(recetaDeJuancho));
 	}
 }
