@@ -105,8 +105,14 @@ public class Usuario {
 		if (unaReceta.esValida())
 			this.recetas.add(unaReceta);
 	}
+	
+	//----------------
+	public boolean esRecetaInhadecuada(Receta receta) {
+		return this.condiciones.stream().allMatch(condicion -> condicion.noEsRecomendable(receta));
+	}
+	
 
-	public boolean puedeVerOModificar (Receta unaReceta){
+	public boolean puedeVerOModificar (RecetaDelSistema unaReceta){
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
 	

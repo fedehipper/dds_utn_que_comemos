@@ -38,6 +38,7 @@ public class RecetaDelSistema {
 	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){
 		return true;
 	}
+
 	
 
 }

@@ -6,8 +6,9 @@ public class Receta extends RecetaDelSistema {
 
 	private Usuario creador;
 	
-	public Receta(){
-		super();
+	public Receta(){};
+	public Receta(Usuario elCreador){
+		creador=elCreador;
 	}
 
 	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){

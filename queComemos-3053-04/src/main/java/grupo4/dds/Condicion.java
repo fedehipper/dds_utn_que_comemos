@@ -6,4 +6,5 @@ public interface Condicion {
 
 	public boolean cumpleNecesidades(Usuario usuario);
 
+	public boolean noEsRecomendable(Receta receta);
 }
