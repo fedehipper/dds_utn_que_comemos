@@ -12,10 +12,8 @@ public class Hipertenso implements Condicion {
 		return usuario.tieneRutinaActivaConEjercicioAdicional();
 	}
 	
-	//----------------------------------
-	
-	public boolean noEsRecomendable(Receta receta) {
-		return (receta.getIngredientes().contains("sal") || (receta.getIngredientes().contains("caldo")));
+	public boolean esRecomendable(Receta receta) {
+		return !(receta.getIngredientes().contains("sal") || (receta.getIngredientes().contains("caldo")));
 	}
 
  

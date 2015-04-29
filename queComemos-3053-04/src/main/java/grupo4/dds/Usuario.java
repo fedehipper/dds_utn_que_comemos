@@ -107,8 +107,8 @@ public class Usuario {
 	}
 	
 	//----------------
-	public boolean esRecetaInhadecuada(Receta receta) {
-		return this.condiciones.stream().allMatch(condicion -> condicion.noEsRecomendable(receta));
+	public boolean esRecetaAdecuada(Receta receta) {
+		return this.condiciones.stream().allMatch(condicion -> condicion.esRecomendable(receta));
 	}
 	
 

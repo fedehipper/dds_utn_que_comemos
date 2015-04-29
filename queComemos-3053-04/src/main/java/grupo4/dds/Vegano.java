@@ -20,7 +20,7 @@ public class Vegano implements Condicion {
 		return usuario.leGusta("frutas");
 	}
 	
-	public boolean noEsRecomendable(Receta receta) {
+	public boolean esRecomendable(Receta receta) {
 		return true;
 	}
 
