@@ -6,7 +6,6 @@ import static grupo4.dds.Rutina.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -109,10 +108,7 @@ public class TestUsuario {
 		juancho.agregarReceta(recetaDeJuancho);
 		assertTrue(!juancho.getRecetas().isEmpty());
 	}
-	
-	
-	
-	
+				
 	@Test
 	public void testJuanchoPuedeVerOModificarSuReceta() {
 		assertTrue(juancho.puedeVerOModificar(recetaDeJuancho));
