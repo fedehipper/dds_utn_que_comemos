@@ -1,25 +1,28 @@
 package grupo4.dds;
 
 import java.util.HashMap;
+import java.util.Collection;
 
 public class RecetaDelSistema {
 
-	private String nombreDelPlato;
-	private HashMap<String, Double> ingredientes = new HashMap<String, Double>();
-	private HashMap<String, Double> condimentos = new HashMap<String, Double>();
-	private String preparacion;
-	private int calorias;
-	private String dificultad;
-	private Temporada temporada;
-	private Receta subReceta;
+	
 
+	protected String nombreDelPlato;
+	protected HashMap<String, Double> ingredientes = new HashMap<String, Double>();
+	protected HashMap<String, Double> condimentos = new HashMap<String, Double>();
+	protected String preparacion;
+	protected int calorias;
+	protected String dificultad;
+	protected Temporada temporada;
+	protected Collection<Receta> subReceta;
+	
 	//------CONSTRUCTORES-----
 	public RecetaDelSistema(){};//Creado para testear por ahora
 	
 	public RecetaDelSistema(String nombreDelPlato,
 			HashMap<String, Double> ingredientes, HashMap<String, Double> condimentos,
 			String preparacion, int calorias, String dificultad,
-			Temporada temporada) {
+			Temporada temporada, Collection<Receta> subReceta) {
 		this.nombreDelPlato = nombreDelPlato;
 		this.ingredientes = ingredientes;
 		this.condimentos = condimentos;
@@ -46,6 +49,12 @@ public class RecetaDelSistema {
 		return true;
 	}
 
+	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Double> ingredientes, 
+			HashMap<String, Double> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
+		Receta unaReceta= new Receta(nombre,ingredientes,condimentos,preparacion,calorias,dificultad,temporada, subReceta, unUsuario);
+		unUsuario.agregarReceta(unaReceta);
+	}
+	//Posiblemente parezca un metodo con muchos parametros si a alguno se le ocurre como mejorarlo, no lo duden.	
 	
 	//-----Getters y setters-----
 	
