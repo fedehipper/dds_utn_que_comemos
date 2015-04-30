@@ -51,14 +51,7 @@ public class TestReceta {
 		assertTrue((celiaco.esRecomendable(receta))); 
 	}
 		
-	@Test 
-	public void testEsRecetaInadecuadaParaUnUsuario() {
-		pedro.agregarCondicion(hipertenso);
-		pedro.agregarCondicion(vegano);
-		pedro.agregarCondicion(celiaco);
-		pedro.agregarReceta(receta);
-		assertTrue(!(pedro.esRecetaAdecuada(receta)));
-	}
+
 	
 	
 }
