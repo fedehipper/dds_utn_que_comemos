@@ -1,8 +1,8 @@
 package grupo4.dds;
 
-import static grupo4.dds.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static org.junit.Assert.*;
 
+import static grupo4.dds.Rutina.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,5 +73,4 @@ public class TestCondiciones {
 	public void esRecetaAdecuadaEnDiabeticos() {
 		assertTrue(diabetico.esRecomendable(recetaDeJuancho));
 	}
-
 }
