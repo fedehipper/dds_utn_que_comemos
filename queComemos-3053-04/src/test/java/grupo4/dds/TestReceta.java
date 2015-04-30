@@ -34,26 +34,7 @@ public class TestReceta {
 		assertTrue(receta.esValida());
 	}
 	
-	@Test
-	public void esRecetaInadecuadaEnHipertensos() {
-		assertTrue(!(hipertenso.esRecomendable(receta)));
-	}
 	
-	@Test
-	public void esRecetaInadecuadaEnVeganos() {
-		assertTrue(!(vegano.esRecomendable(receta)));
-	}
-	
-	@Test
-	public void esRecetaAdecuadaEnCeliacos() {
-		assertTrue((celiaco.esRecomendable(receta))); 
-	}
-	
-	@Test
-	public void esRecetaAdecuadaEnDiabeticos() {
-		assertTrue(diabetico.esRecomendable(receta));
-	}
-		
 	@Test 
 	public void testEsRecetaInadecuadaParaUnUsuario() {
 		pedro.agregarCondicion(hipertenso);

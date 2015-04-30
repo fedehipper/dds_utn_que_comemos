@@ -10,7 +10,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-public class testCondiciones {
+public class TestCondiciones {
 
 	private Usuario juancho = new Usuario("juancho", 'M', LocalDate.of(1000,
 			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
@@ -23,7 +23,12 @@ public class testCondiciones {
 
 	@Before
 	public void setUp() throws Exception {
-
+		recetaDeJuancho.getIngredientes().put("morron", 80.0);
+		recetaDeJuancho.getIngredientes().put("sal", 90.0);
+		recetaDeJuancho.getIngredientes().put("caldo", 8.0);
+		recetaDeJuancho.getIngredientes().put("carne", 90.0);
+		recetaDeJuancho.getCondimentos().put("azucar", 100.0);
+		recetaDeJuancho.setCalorias(10);	
 		Collection<String> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add("frutas");
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
@@ -47,6 +52,26 @@ public class testCondiciones {
 	@Test
 	public void testCumpleNecesidadesDeHipertenso() {
 		assertTrue(hipertenso.cumpleNecesidades(juancho));
+	}
+	
+	@Test
+	public void esRecetaInadecuadaEnHipertensos() {
+		assertTrue(!(hipertenso.esRecomendable(recetaDeJuancho)));
+	}
+	
+	@Test
+	public void esRecetaInadecuadaEnVeganos() {
+		assertTrue(!(vegano.esRecomendable(recetaDeJuancho)));
+	}
+	
+	@Test
+	public void esRecetaAdecuadaEnCeliacos() {
+		assertTrue((celiaco.esRecomendable(recetaDeJuancho))); 
+	}
+	
+	@Test
+	public void esRecetaAdecuadaEnDiabeticos() {
+		assertTrue(diabetico.esRecomendable(recetaDeJuancho));
 	}
 
 }

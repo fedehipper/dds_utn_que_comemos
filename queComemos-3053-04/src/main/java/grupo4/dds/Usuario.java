@@ -141,5 +141,10 @@ public class Usuario {
 	public Collection<String> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
+	
+	public Collection<Receta> getRecetas() {
+		return recetas;
+	}
+	
 
 }

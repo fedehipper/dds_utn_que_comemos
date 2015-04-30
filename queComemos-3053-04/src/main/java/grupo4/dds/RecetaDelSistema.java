@@ -1,16 +1,12 @@
 package grupo4.dds;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class RecetaDelSistema {
 
 	private String nombreDelPlato;
-	//private Collection<String> ingredientes = new ArrayList<>();
 	private HashMap<String, Double> ingredientes = new HashMap<String, Double>();
 	private HashMap<String, Double> condimentos = new HashMap<String, Double>();
-	//private Collection<String> condimentos = new ArrayList<>();
 	private String preparacion;
 	private int calorias;
 	private String dificultad;

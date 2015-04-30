@@ -1,6 +1,5 @@
 package grupo4.dds;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 public class Receta extends RecetaDelSistema {
