@@ -21,10 +21,10 @@ public class Vegano implements Condicion {
 	}
 	
 	public boolean esRecomendable(Receta receta) {
-		return !(receta.getIngredientes().contains("carne") ||
-				 receta.getIngredientes().contains("chivito") ||
-				 receta.getIngredientes().contains("chori") ||
-				 receta.getIngredientes().contains("pollo") );
+		return !(receta.getIngredientes().containsKey("carne") ||
+				 receta.getIngredientes().containsKey("chivito") ||
+				 receta.getIngredientes().containsKey("chori") ||
+				 receta.getIngredientes().containsKey("pollo") );
 	}
 
 }

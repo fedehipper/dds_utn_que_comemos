@@ -3,6 +3,7 @@ package grupo4.dds;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import static grupo4.dds.Rutina.*;
 
@@ -110,10 +111,9 @@ public class Usuario {
 		return this.condiciones.stream().allMatch(condicion -> condicion.esRecomendable(receta));
 	}
 	
-	public void agregarReceta(String nombre, Collection<String> ingredientes, Collection<String> condimentos,
-								String preparacion,int calorias, String dificultad,Temporada temporada,Collection<Receta> subReceta) {
-		Receta unaReceta = new Receta (nombre, ingredientes, condimentos, preparacion , calorias, dificultad, temporada, subReceta, this);
-		if (unaReceta.esValida())
+	
+	public void agregarReceta(Receta unaReceta){
+		if (unaReceta.esValida()&& unaReceta.puedeSerVistaOModificadaPor(this))
 			this.recetas.add(unaReceta);
 	}
 	
@@ -121,8 +121,8 @@ public class Usuario {
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
 	
-	public void modificarReceta (RecetaDelSistema unaReceta, String nombre, Collection<String> ingredientes, 
-					Collection<String> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
+	public void modificarReceta (RecetaDelSistema unaReceta, String nombre, HashMap<String, Double> ingredientes, 
+			HashMap<String, Double> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
 		unaReceta.serModificadaPor(this,nombre, ingredientes, condimentos, preparacion, calorias, dificultad, temporada, subReceta);
 	}
 	
@@ -148,5 +148,10 @@ public class Usuario {
 	public Collection<String> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
+	
+	public Collection<Receta> getRecetas() {
+		return recetas;
+	}
+	
 
 }

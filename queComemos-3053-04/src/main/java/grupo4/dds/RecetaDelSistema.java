@@ -1,24 +1,26 @@
 package grupo4.dds;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Collection;
 
 public class RecetaDelSistema {
 
+	
+
 	protected String nombreDelPlato;
-	protected Collection<String> ingredientes = new ArrayList<>();
-	protected Collection<String> condimentos = new ArrayList<>();
+	protected HashMap<String, Double> ingredientes = new HashMap<String, Double>();
+	protected HashMap<String, Double> condimentos = new HashMap<String, Double>();
 	protected String preparacion;
 	protected int calorias;
 	protected String dificultad;
 	protected Temporada temporada;
 	protected Collection<Receta> subReceta;
-
+	
 	//------CONSTRUCTORES-----
 	public RecetaDelSistema(){};//Creado para testear por ahora
 	
 	public RecetaDelSistema(String nombreDelPlato,
-			Collection<String> ingredientes, Collection<String> condimentos,
+			HashMap<String, Double> ingredientes, HashMap<String, Double> condimentos,
 			String preparacion, int calorias, String dificultad,
 			Temporada temporada, Collection<Receta> subReceta) {
 		this.nombreDelPlato = nombreDelPlato;
@@ -47,16 +49,21 @@ public class RecetaDelSistema {
 		return true;
 	}
 
-	public void serModificadaPor(Usuario unUsuario, String nombre, Collection<String> ingredientes, 
-			Collection<String> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
-		unUsuario.agregarReceta(nombre, ingredientes, condimentos, preparacion, calorias, dificultad, temporada, subReceta);
+	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Double> ingredientes, 
+			HashMap<String, Double> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
+		Receta unaReceta= new Receta(nombre,ingredientes,condimentos,preparacion,calorias,dificultad,temporada, subReceta, unUsuario);
+		unUsuario.agregarReceta(unaReceta);
 	}
 	//Posiblemente parezca un metodo con muchos parametros si a alguno se le ocurre como mejorarlo, no lo duden.	
 	
 	//-----Getters y setters-----
 	
-	public Collection<String> getIngredientes() {
+	public HashMap<String, Double> getIngredientes() {
 		return ingredientes;
+	}
+	
+	public HashMap<String, Double> getCondimentos() {
+		return condimentos;
 	}
 	
 	public void setCalorias(int calorias) {

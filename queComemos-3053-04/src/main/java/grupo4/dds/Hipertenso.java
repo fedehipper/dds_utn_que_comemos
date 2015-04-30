@@ -13,7 +13,7 @@ public class Hipertenso implements Condicion {
 	}
 	
 	public boolean esRecomendable(Receta receta) {
-		return !(receta.getIngredientes().contains("sal") || (receta.getIngredientes().contains("caldo")));
+		return !(receta.getIngredientes().containsKey("sal") || (receta.getIngredientes().containsKey("caldo")));
 	}
 
  

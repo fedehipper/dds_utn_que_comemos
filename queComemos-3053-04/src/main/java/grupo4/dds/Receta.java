@@ -1,5 +1,6 @@
 package grupo4.dds;
 
+import java.util.HashMap;
 import java.util.Collection;
 
 
@@ -15,7 +16,7 @@ public class Receta extends RecetaDelSistema {
 	//Creados para testear por ahora
 	
 	public Receta(String nombreDelPlato,
-			Collection<String> ingredientes, Collection<String> condimentos, 
+			HashMap<String, Double> ingredientes, HashMap<String, Double> condimentos, 
 			String preparacion,int calorias, String dificultad, 
 			Temporada temporada,Collection<Receta> subReceta,Usuario elCreador) {
 		super(nombreDelPlato, ingredientes, condimentos, preparacion, calorias, dificultad, temporada,subReceta);		
@@ -28,8 +29,8 @@ public class Receta extends RecetaDelSistema {
 	}
 	
 	
-	public void serModificadaPor(Usuario unUsuario, String nombre, Collection<String> ingredientes, 
-			Collection<String> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
+	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Double> ingredientes, 
+			HashMap<String, Double> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
 		if(this.puedeSerVistaOModificadaPor(unUsuario)){
 			this.nombreDelPlato = nombre;
 			this.ingredientes = ingredientes;

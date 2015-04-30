@@ -16,6 +16,8 @@ public class Diabetico implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		return true;
+		return (receta.getCondimentos().get("azucar") <= 100);
 	}
+	
+	//return !(receta.getIngredientes().containsKey("sal") || (receta.getIngredientes().containsKey("caldo")));
 }
