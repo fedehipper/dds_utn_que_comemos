@@ -3,6 +3,7 @@ package grupo4.dds;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import static grupo4.dds.Rutina.*;
 
 public class Usuario {
@@ -105,20 +106,26 @@ public class Usuario {
 		this.condiciones.add(condicion);
 	}
 
-	public void agregarReceta(Receta unaReceta) {
-		if (unaReceta.esValida())
-			this.recetas.add(unaReceta);
-	}
-	
 	public boolean esRecetaAdecuada(Receta receta) {
 		return this.condiciones.stream().allMatch(condicion -> condicion.esRecomendable(receta));
+	}
+	
+	public void agregarReceta(String nombre, Collection<String> ingredientes, Collection<String> condimentos,
+								String preparacion,int calorias, String dificultad,Temporada temporada,Collection<Receta> subReceta) {
+		Receta unaReceta = new Receta (nombre, ingredientes, condimentos, preparacion , calorias, dificultad, temporada, subReceta, this);
+		if (unaReceta.esValida())
+			this.recetas.add(unaReceta);
 	}
 	
 	public boolean puedeVerOModificar (RecetaDelSistema unaReceta){
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
 	
-
+	public void modificarReceta (RecetaDelSistema unaReceta, String nombre, Collection<String> ingredientes, 
+					Collection<String> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
+		unaReceta.serModificadaPor(this,nombre, ingredientes, condimentos, preparacion, calorias, dificultad, temporada, subReceta);
+	}
+	
 	//-----Getters y setters-----
 	
 	public String getNombre() {
