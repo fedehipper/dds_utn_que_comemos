@@ -19,16 +19,14 @@ public class TestReceta {
 	private Hipertenso hipertenso = new Hipertenso();
 
 	
-	
-
 	@Before
 	public void setUp() {
-		receta.getIngredientes().add("morron");
-		receta.getIngredientes().add("sal");
-		receta.getIngredientes().add("caldo");
-		receta.getIngredientes().add("carne");
-		receta.setCalorias(10);
-	
+		receta.getIngredientes().put("morron", 80.0);
+		receta.getIngredientes().put("sal", 90.0);
+		receta.getIngredientes().put("caldo", 8.0);
+		receta.getIngredientes().put("carne", 90.0);
+		receta.getCondimentos().put("azucar", 100.0);
+		receta.setCalorias(10);	
 	}
 
 	@Test
@@ -50,12 +48,18 @@ public class TestReceta {
 	public void esRecetaAdecuadaEnCeliacos() {
 		assertTrue((celiaco.esRecomendable(receta))); 
 	}
+	
+	@Test
+	public void esRecetaAdecuadaEnDiabeticos() {
+		assertTrue(diabetico.esRecomendable(receta));
+	}
 		
 	@Test 
 	public void testEsRecetaInadecuadaParaUnUsuario() {
 		pedro.agregarCondicion(hipertenso);
 		pedro.agregarCondicion(vegano);
 		pedro.agregarCondicion(celiaco);
+		pedro.agregarCondicion(diabetico);
 		pedro.agregarReceta(receta);
 		assertTrue(!(pedro.esRecetaAdecuada(receta)));
 	}

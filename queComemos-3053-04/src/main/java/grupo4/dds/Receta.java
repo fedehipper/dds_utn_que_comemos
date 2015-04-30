@@ -1,6 +1,7 @@
 package grupo4.dds;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 public class Receta extends RecetaDelSistema {
 
@@ -14,7 +15,7 @@ public class Receta extends RecetaDelSistema {
 	//Creados para testear por ahora
 	
 	public Receta(String nombreDelPlato,
-			Collection<String> ingredientes, Collection<String> condimentos, 
+			HashMap<String, Double> ingredientes, HashMap<String, Double> condimentos, 
 			String preparacion,int calorias, String dificultad, 
 			Temporada temporada,Usuario elCreador) {
 		super(nombreDelPlato, ingredientes, condimentos, preparacion, calorias, dificultad, temporada);		
