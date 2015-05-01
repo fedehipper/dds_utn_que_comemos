@@ -16,7 +16,10 @@ public class RecetaDelSistema {
 	protected Temporada temporada;
 	protected Collection<Receta> subReceta;
 	
+	
 	//------CONSTRUCTORES-----
+	
+	
 	public RecetaDelSistema(){};//Creado para testear por ahora
 	
 	public RecetaDelSistema(String nombreDelPlato,
@@ -31,7 +34,10 @@ public class RecetaDelSistema {
 		this.dificultad = dificultad;
 		this.temporada = temporada;
 	}
+	
+	
 	//------CONSTRUCTORES-----
+	
 	
 	public boolean esValida() {
 		return this.tieneIngredientes() && totalCaloriasEntre(10, 5000);
@@ -54,9 +60,21 @@ public class RecetaDelSistema {
 		Receta unaReceta= new Receta(nombre,ingredientes,condimentos,preparacion,calorias,dificultad,temporada, subReceta, unUsuario);
 		unUsuario.agregarReceta(unaReceta);
 	}
+	
+	public boolean tenesIngrediente(String unIngrediente) {
+		return this.ingredientes.containsKey(unIngrediente);
+	}
+	
+	public Double cantidadCondimento(String unCondimento) {
+		return this.condimentos.get(unCondimento);
+	}
+	
+	
 	//Posiblemente parezca un metodo con muchos parametros si a alguno se le ocurre como mejorarlo, no lo duden.	
 	
+	
 	//-----Getters y setters-----
+	
 	
 	public HashMap<String, Double> getIngredientes() {
 		return ingredientes;

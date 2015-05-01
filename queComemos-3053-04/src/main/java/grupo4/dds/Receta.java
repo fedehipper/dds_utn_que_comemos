@@ -8,12 +8,18 @@ public class Receta extends RecetaDelSistema {
 
 	private Usuario creador;
 	
+	
 	//------CONSTRUCTORES-----
+	
+	
 	public Receta(){};
 	public Receta(Usuario elCreador){
 		creador=elCreador;
 	}
+	
+	
 	//Creados para testear por ahora
+	
 	
 	public Receta(String nombreDelPlato,
 			HashMap<String, Double> ingredientes, HashMap<String, Double> condimentos, 
@@ -22,8 +28,11 @@ public class Receta extends RecetaDelSistema {
 		super(nombreDelPlato, ingredientes, condimentos, preparacion, calorias, dificultad, temporada,subReceta);		
 		this.creador=elCreador;
 	}
+	
+	
 	//------CONSTRUCTORES-----
 		
+	
 	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){
 		return (unUsuario == creador);
 	}
@@ -41,5 +50,9 @@ public class Receta extends RecetaDelSistema {
 			this.temporada = temporada;			
 			this.subReceta= subReceta;}
 	}
+	
+	
 	//Hay que agregar un Error exeption o algo asi
+	
+	
 }

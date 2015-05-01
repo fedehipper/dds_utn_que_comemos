@@ -19,13 +19,19 @@ public class Usuario {
 	private Rutina rutina;
 	private Collection<Receta> recetas = new ArrayList<>();
 
+	
 	//------CONSTRUCTORES-----
+	
+	
 	public Usuario(Double estatura, Double peso) {
 		this.peso = peso;
 		this.estatura = estatura;
 
 	}
+	
+	
 	//Creado para testear por ahora
+	
 	
 	public Usuario(String nombre, char sexo, LocalDate fechaNac, Double altura,
 			Double peso, Rutina rutina) {
@@ -36,6 +42,8 @@ public class Usuario {
 		this.peso = peso;
 		this.rutina = rutina;
 	}
+	
+	
 	//------CONSTRUCTORES-----
 	
 	
@@ -126,7 +134,9 @@ public class Usuario {
 		unaReceta.serModificadaPor(this,nombre, ingredientes, condimentos, preparacion, calorias, dificultad, temporada, subReceta);
 	}
 	
+	
 	//-----Getters y setters-----
+	
 	
 	public String getNombre() {
 		return nombre;

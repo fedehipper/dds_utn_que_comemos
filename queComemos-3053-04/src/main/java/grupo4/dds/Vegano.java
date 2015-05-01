@@ -11,7 +11,7 @@ public class Vegano implements Condicion {
 		palabrasClave.add("carne");
 		palabrasClave.add("chivito");
 		palabrasClave.add("chori");
-
+		// ver si se puede agregar todos las comidas de una a palabrasClave
 		return usuario.getPreferenciasAlimenticias().containsAll(palabrasClave);
 
 	}
@@ -21,10 +21,9 @@ public class Vegano implements Condicion {
 	}
 	
 	public boolean esRecomendable(Receta receta) {
-		return !(receta.getIngredientes().containsKey("carne") ||
-				 receta.getIngredientes().containsKey("chivito") ||
-				 receta.getIngredientes().containsKey("chori") ||
-				 receta.getIngredientes().containsKey("pollo") );
+		return !(receta.tenesIngrediente("carne") || receta.tenesIngrediente("chivito") ||
+				 receta.tenesIngrediente("chori") || receta.tenesIngrediente("pollo") );
+		// hay que ver si se puede reducir este metodo
 	}
 
 }
