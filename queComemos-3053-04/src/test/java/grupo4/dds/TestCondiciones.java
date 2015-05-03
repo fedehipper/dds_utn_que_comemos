@@ -2,6 +2,7 @@ package grupo4.dds;
 
 import static org.junit.Assert.*;
 import static grupo4.dds.usuario.Rutina.*;
+import static grupo4.dds.usuario.Sexo.*;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.usuario.Usuario;
@@ -19,7 +20,7 @@ import org.junit.Test;
 
 public class TestCondiciones {
 
-	private Usuario juancho = new Usuario("juancho", 'M', LocalDate.of(1000,
+	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
 			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
 	private Celiaco celiaco = new Celiaco();
 	private Vegano vegano = new Vegano();

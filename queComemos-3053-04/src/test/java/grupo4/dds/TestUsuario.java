@@ -1,7 +1,10 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
-import static grupo4.dds.usuario.Rutina.*;
+import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
+import static grupo4.dds.usuario.Sexo.MASCULINO;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.usuario.Usuario;
@@ -23,9 +26,9 @@ public class TestUsuario {
 	private Usuario arielFolino = new Usuario(1.69, 96.0);
 	private Usuario cristianMaldonado = new Usuario(1.81, 87.0);
 	private Usuario matiasMartino = new Usuario(1.74, 79.0);
-	private Usuario pedro = new Usuario("pedro", 'M',
+	private Usuario pedro = new Usuario("pedro", MASCULINO,
 			LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
-	private Usuario juancho = new Usuario("juancho", 'M', LocalDate.of(1000,
+	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
 			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
 	private Celiaco celiaco = new Celiaco();
 	private Vegano vegano = new Vegano();

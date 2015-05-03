@@ -16,7 +16,7 @@ public class Usuario {
 
 	/* Datos básicos */
 	private String nombre;
-	private Character sexo;
+	private Sexo sexo;
 	private LocalDate fechaNacimiento;
 
 	/* Datos de la complexión */
@@ -40,7 +40,7 @@ public class Usuario {
 
 	}
 
-	public Usuario(String nombre, char sexo, LocalDate fechaNac, Double altura,
+	public Usuario(String nombre, Sexo sexo, LocalDate fechaNac, Double altura,
 			Double peso, Rutina rutina) {
 		this.nombre = nombre;
 		this.sexo = sexo;
@@ -153,7 +153,7 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public Character getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 

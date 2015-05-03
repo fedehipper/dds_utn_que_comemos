@@ -1,7 +1,8 @@
 package grupo4.dds;
 
 import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
-import static org.junit.Assert.*;
+import static grupo4.dds.usuario.Sexo.MASCULINO;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
@@ -16,7 +17,7 @@ import org.junit.Test;
 
 public class TestReceta {
 	
-	private Usuario pedro = new Usuario("pedro", 'M',
+	private Usuario pedro = new Usuario("pedro", MASCULINO,
 			LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
 	private Receta receta = new Receta(pedro);
 	private Celiaco celiaco = new Celiaco();
