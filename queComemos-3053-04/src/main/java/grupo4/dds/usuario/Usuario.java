@@ -1,7 +1,7 @@
 package grupo4.dds.usuario;
 
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.receta.Temporada;
 import grupo4.dds.usuario.condicion.Condicion;
 import java.time.LocalDate;
@@ -86,7 +86,7 @@ public class Usuario {
 		return rutina.equals(rutina);
 	}
 
-	public boolean puedeVerOModificar(RecetaDelSistema unaReceta) {
+	public boolean puedeVerOModificar(Receta unaReceta) {
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
 
@@ -114,17 +114,17 @@ public class Usuario {
 	}
 
 	// TODO verificar que sea lo pedido en el punto 4
-	public boolean esRecetaAdecuada(Receta receta) {
+	public boolean esRecetaAdecuada(RecetaPublica receta) {
 		return this.condiciones.stream().allMatch(
 				condicion -> condicion.esRecomendable(receta));
 	}
 
 	// TODO corregir
-	public void modificarReceta(RecetaDelSistema unaReceta, String nombre,
+	public void modificarReceta(Receta unaReceta, String nombre,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
 			int calorias, String dificultad, Temporada temporada,
-			Collection<Receta> subReceta) {
+			Collection<RecetaPublica> subReceta) {
 		unaReceta.serModificadaPor(this, nombre, ingredientes, condimentos,
 				preparacion, calorias, dificultad, temporada, subReceta);
 	}

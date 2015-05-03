@@ -4,7 +4,7 @@ import static grupo4.dds.usuario.Alimento.FRUTAS;
 import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static grupo4.dds.usuario.Sexo.MASCULINO;
 import static org.junit.Assert.assertTrue;
-import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
@@ -27,7 +27,7 @@ public class TestCondiciones {
 	private Vegano vegano = new Vegano();
 	private Diabetico diabetico = new Diabetico();
 	private Hipertenso hipertenso = new Hipertenso();
-	private Receta recetaDeJuancho = new Receta(juancho);
+	private RecetaPublica recetaDeJuancho = new RecetaPublica();
 
 	@Before
 	public void setUp() throws Exception {

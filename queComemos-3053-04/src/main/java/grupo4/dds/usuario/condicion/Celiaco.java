@@ -1,6 +1,6 @@
 package grupo4.dds.usuario.condicion;
 
-import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Usuario;
 
 public class Celiaco implements Condicion {
@@ -13,7 +13,7 @@ public class Celiaco implements Condicion {
 		return true;
 	}
 
-	public boolean esRecomendable(Receta receta) {
+	public boolean esRecomendable(RecetaPublica receta) {
 		return true;
 	}
 

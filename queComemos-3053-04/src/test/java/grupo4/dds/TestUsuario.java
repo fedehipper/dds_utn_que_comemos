@@ -7,8 +7,8 @@ import static grupo4.dds.usuario.Sexo.MASCULINO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 
@@ -31,7 +31,7 @@ public class TestUsuario {
 	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
 			04, 04), 1.80f, 70.0f, ACTIVA_EJERCICIO_ADICIONAL);
 	private Receta recetaDeJuancho = new Receta(juancho);
-	private RecetaDelSistema recetaDeTodos = new RecetaDelSistema();
+	private RecetaPublica recetaDeTodos = new RecetaPublica();
 
 	@Before
 	public void setUp() {
