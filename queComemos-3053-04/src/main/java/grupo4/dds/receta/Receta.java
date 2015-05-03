@@ -24,7 +24,7 @@ public class Receta extends RecetaDelSistema {
 	
 	
 	public Receta(String nombreDelPlato,
-			HashMap<String, Double> ingredientes, HashMap<String, Double> condimentos, 
+			HashMap<String, Float> ingredientes, HashMap<String, Float> condimentos, 
 			String preparacion,int calorias, String dificultad, 
 			Temporada temporada,Collection<Receta> subReceta,Usuario elCreador) {
 		super(nombreDelPlato, ingredientes, condimentos, preparacion, calorias, dificultad, temporada,subReceta);		
@@ -40,8 +40,8 @@ public class Receta extends RecetaDelSistema {
 	}
 	
 	
-	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Double> ingredientes, 
-			HashMap<String, Double> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
+	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Float> ingredientes, 
+			HashMap<String, Float> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
 		if(this.puedeSerVistaOModificadaPor(unUsuario)){
 			this.nombreDelPlato = nombre;
 			this.ingredientes = ingredientes;

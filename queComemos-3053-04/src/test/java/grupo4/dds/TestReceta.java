@@ -30,16 +30,16 @@ public class TestReceta {
 	
 	@Before
 	public void setUp() {
-		receta.getIngredientes().put("morron", 80.0);
-		receta.getIngredientes().put("sal", 90.0);
-		receta.getIngredientes().put("caldo", 8.0);
-		receta.getIngredientes().put("carne", 90.0);
-		receta.getCondimentos().put("azucar", 100.0);
+		receta.getIngredientes().put("morron", 80.0f);
+		receta.getIngredientes().put("sal", 90.0f);
+		receta.getIngredientes().put("caldo", 8.0f);
+		receta.getIngredientes().put("carne", 90.0f);
+		receta.getCondimentos().put("azucar", 100.0f);
 		receta.setTotalCalorias(10);	
-		recetaDePedro.getIngredientes().put("miel", 60.0);
-		recetaDePedro.getIngredientes().put("agua", 160.0);
-		recetaDePedro.getIngredientes().put("levadura", 50.0);
-		recetaDePedro.getIngredientes().put("hojas de menta", 1.0);
+		recetaDePedro.getIngredientes().put("miel", 60.0f);
+		recetaDePedro.getIngredientes().put("agua", 160.0f);
+		recetaDePedro.getIngredientes().put("levadura", 50.0f);
+		recetaDePedro.getIngredientes().put("hojas de menta", 1.0f);
 		recetaDePedro.setTotalCalorias(50);
 	}
 

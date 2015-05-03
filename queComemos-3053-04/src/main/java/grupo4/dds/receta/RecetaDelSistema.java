@@ -8,8 +8,8 @@ import java.util.Collection;
 public class RecetaDelSistema {
 
 	protected String nombreDelPlato;
-	protected HashMap<String, Double> ingredientes = new HashMap<String, Double>();
-	protected HashMap<String, Double> condimentos = new HashMap<String, Double>();
+	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
+	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
 	protected String preparacion;
 	protected int totalCalorias;
 	protected String dificultad;
@@ -22,8 +22,8 @@ public class RecetaDelSistema {
 	};// Creado para testear por ahora
 
 	public RecetaDelSistema(String nombreDelPlato,
-			HashMap<String, Double> ingredientes,
-			HashMap<String, Double> condimentos, String preparacion,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
 			int calorias, String dificultad, Temporada temporada,
 			Collection<Receta> subReceta) {
 		this.nombreDelPlato = nombreDelPlato;
@@ -47,7 +47,7 @@ public class RecetaDelSistema {
 		return this.ingredientes.containsKey(unIngrediente);
 	}
 
-	public Double cantidadCondimento(String unCondimento) {
+	public Float cantidadCondimento(String unCondimento) {
 		return this.condimentos.get(unCondimento);
 	}
 
@@ -56,8 +56,8 @@ public class RecetaDelSistema {
 	}
 
 	public void serModificadaPor(Usuario unUsuario, String nombre,
-			HashMap<String, Double> ingredientes,
-			HashMap<String, Double> condimentos, String preparacion,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
 			int calorias, String dificultad, Temporada temporada,
 			Collection<Receta> subReceta) {
 		Receta unaReceta = new Receta(nombre, ingredientes, condimentos,
@@ -84,11 +84,11 @@ public class RecetaDelSistema {
 		this.totalCalorias = totalCalorias;
 	}
 
-	public HashMap<String, Double> getIngredientes() {
+	public HashMap<String, Float> getIngredientes() {
 		return ingredientes;
 	}
 
-	public HashMap<String, Double> getCondimentos() {
+	public HashMap<String, Float> getCondimentos() {
 		return condimentos;
 	}
 

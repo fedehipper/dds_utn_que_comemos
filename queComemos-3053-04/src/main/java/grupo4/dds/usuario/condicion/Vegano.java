@@ -12,6 +12,7 @@ import grupo4.dds.usuario.Usuario;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+
 public class Vegano implements Condicion {
 
 	static Collection<Alimento> Carnes = Arrays.asList(POLLO, CARNE, CHIVITO,
@@ -25,11 +26,9 @@ public class Vegano implements Condicion {
 	public boolean subsanaCondicion(Usuario usuario) {
 		return usuario.leGusta(FRUTAS);
 	}
-	
+
 	public boolean esRecomendable(Receta receta) {
-		return !(receta.tenesIngrediente("carne") || receta.tenesIngrediente("chivito") ||
-				 receta.tenesIngrediente("chori") || receta.tenesIngrediente("pollo") );
-		// hay que ver si se puede reducir este metodo
+		return !Collections.disjoint(Carnes, receta.getNombreIngredientes());
 	}
 
 }

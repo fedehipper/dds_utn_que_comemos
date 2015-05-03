@@ -37,7 +37,7 @@ public class Usuario {
 		this.altura = estatura;
 
 	}
-	
+
 	public Usuario(String nombre, LocalDate fechaNacimiento, float altura,
 			float peso, Rutina rutina) {
 		this.nombre = nombre;
@@ -46,9 +46,9 @@ public class Usuario {
 		this.peso = peso;
 		this.rutina = rutina;
 	}
-		
-	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura,
-			float peso, Rutina rutina) {
+
+	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento,
+			float altura, float peso, Rutina rutina) {
 		this(nombre, fechaNacimiento, altura, peso, rutina);
 		this.sexo = sexo;
 	}
@@ -121,8 +121,8 @@ public class Usuario {
 
 	// TODO corregir
 	public void modificarReceta(RecetaDelSistema unaReceta, String nombre,
-			HashMap<String, Double> ingredientes,
-			HashMap<String, Double> condimentos, String preparacion,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
 			int calorias, String dificultad, Temporada temporada,
 			Collection<Receta> subReceta) {
 		unaReceta.serModificadaPor(this, nombre, ingredientes, condimentos,

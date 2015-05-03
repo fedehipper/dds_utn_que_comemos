@@ -31,12 +31,12 @@ public class TestCondiciones {
 
 	@Before
 	public void setUp() throws Exception {
-		recetaDeJuancho.getIngredientes().put("morron", 80.0);
-		recetaDeJuancho.getIngredientes().put("sal", 90.0);
-		recetaDeJuancho.getIngredientes().put("caldo", 8.0);
-		recetaDeJuancho.getIngredientes().put("carne", 90.0);
-		recetaDeJuancho.getCondimentos().put("azucar", 100.0);
-		recetaDeJuancho.setCalorias(10);	
+		recetaDeJuancho.getIngredientes().put("morron", 80.0f);
+		recetaDeJuancho.getIngredientes().put("sal", 90.0f);
+		recetaDeJuancho.getIngredientes().put("caldo", 8.0f);
+		recetaDeJuancho.getIngredientes().put("carne", 90.0f);
+		recetaDeJuancho.getCondimentos().put("azucar", 100.0f);
+		recetaDeJuancho.setTotalCalorias(10);	
 		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);

@@ -12,7 +12,7 @@ public class Celiaco implements Condicion {
 	public boolean subsanaCondicion(Usuario usuario) {
 		return true;
 	}
-	
+
 	public boolean esRecomendable(Receta receta) {
 		return true;
 	}

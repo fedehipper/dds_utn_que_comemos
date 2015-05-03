@@ -9,5 +9,7 @@ public interface Condicion {
 
 	public boolean subsanaCondicion(Usuario usuario);
 
+	// TODO ver si es necesario para el punto 4
 	public boolean esRecomendable(Receta receta);
+
 }

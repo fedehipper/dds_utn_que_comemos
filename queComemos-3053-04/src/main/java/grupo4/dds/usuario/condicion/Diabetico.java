@@ -3,6 +3,7 @@ package grupo4.dds.usuario.condicion;
 import static grupo4.dds.usuario.Rutina.*;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
+
 public class Diabetico implements Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {
@@ -17,7 +18,8 @@ public class Diabetico implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		return (receta.cantidadCondimento("azucar") <= 100);
+		Float cantAzucar = receta.cantidadCondimento("azucar");
+		return cantAzucar != null && cantAzucar <= 100;
 	}
 	
 }
