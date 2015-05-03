@@ -21,8 +21,8 @@ public class Usuario {
 
 	/* Datos de la complexión */
 
-	private Double peso;
-	private Double estatura;
+	private float peso;
+	private float estatura;
 
 	/* Otros datos */
 
@@ -34,14 +34,14 @@ public class Usuario {
 
 	/* Constructores */
 
-	public Usuario(Double estatura, Double peso) {
+	public Usuario(float estatura, float peso) {
 		this.peso = peso;
 		this.estatura = estatura;
 
 	}
 
-	public Usuario(String nombre, Sexo sexo, LocalDate fechaNac, Double altura,
-			Double peso, Rutina rutina) {
+	public Usuario(String nombre, Sexo sexo, LocalDate fechaNac, float altura,
+			float peso, Rutina rutina) {
 		this.nombre = nombre;
 		this.sexo = sexo;
 		this.fechaNacimiento = fechaNac;
@@ -92,8 +92,8 @@ public class Usuario {
 	
 	private boolean tieneCamposObligatorios() {
 
-		return (this.nombre != null) && (this.peso != null)
-				&& (this.estatura != null) && (this.fechaNacimiento != null)
+		return (this.nombre != null) && (this.peso != 0)
+				&& (this.estatura != 0) && (this.fechaNacimiento != null)
 				&& (this.rutina != null);
 	}
 
@@ -153,7 +153,7 @@ public class Usuario {
 		return recetas;
 	}
 
-	public Double getPeso() {
+	public float getPeso() {
 		return peso;
 	}
 

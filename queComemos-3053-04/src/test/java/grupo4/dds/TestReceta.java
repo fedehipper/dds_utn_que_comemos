@@ -18,7 +18,7 @@ import org.junit.Test;
 public class TestReceta {
 	
 	private Usuario pedro = new Usuario("pedro", MASCULINO,
-			LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
+			LocalDate.of(2015, 04, 23), 1.50f, 90.0f, ACTIVA_EJERCICIO_ADICIONAL);
 	private Receta receta = new Receta(pedro);
 	private Celiaco celiaco = new Celiaco();
 	private Vegano vegano = new Vegano();

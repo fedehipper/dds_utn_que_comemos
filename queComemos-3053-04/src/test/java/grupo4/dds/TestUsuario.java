@@ -21,15 +21,15 @@ import org.junit.Test;
 
 public class TestUsuario {
 
-	private Usuario fecheSena = new Usuario(1.70, 65.0);
-	private Usuario federicoHipper = new Usuario(1.91, 102.0);
-	private Usuario arielFolino = new Usuario(1.69, 96.0);
-	private Usuario cristianMaldonado = new Usuario(1.81, 87.0);
-	private Usuario matiasMartino = new Usuario(1.74, 79.0);
+	private Usuario fecheSena = new Usuario(1.70f, 65.0f);
+	private Usuario federicoHipper = new Usuario(1.91f, 102.0f);
+	private Usuario arielFolino = new Usuario(1.69f, 96.0f);
+	private Usuario cristianMaldonado = new Usuario(1.81f, 87.0f);
+	private Usuario matiasMartino = new Usuario(1.74f, 79.0f);
 	private Usuario pedro = new Usuario("pedro", MASCULINO,
-			LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
+			LocalDate.of(2015, 04, 23), 1.50f, 90.0f, ACTIVA_EJERCICIO_ADICIONAL);
 	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
-			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
+			04, 04), 1.80f, 70.0f, ACTIVA_EJERCICIO_ADICIONAL);
 	private Receta recetaDeJuancho = new Receta(juancho);
 	private RecetaDelSistema recetaDeTodos = new RecetaDelSistema();
 

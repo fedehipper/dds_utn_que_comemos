@@ -22,7 +22,7 @@ import org.junit.Test;
 public class TestCondiciones {
 
 	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
-			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
+			04, 04), 1.80f, 70.0f, ACTIVA_EJERCICIO_ADICIONAL);
 	private Celiaco celiaco = new Celiaco();
 	private Vegano vegano = new Vegano();
 	private Diabetico diabetico = new Diabetico();
