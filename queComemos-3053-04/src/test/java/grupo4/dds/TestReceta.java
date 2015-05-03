@@ -1,7 +1,13 @@
 package grupo4.dds;
 
-import static grupo4.dds.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
+import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static org.junit.Assert.*;
+import grupo4.dds.receta.Receta;
+import grupo4.dds.usuario.Usuario;
+import grupo4.dds.usuario.condicion.Celiaco;
+import grupo4.dds.usuario.condicion.Diabetico;
+import grupo4.dds.usuario.condicion.Hipertenso;
+import grupo4.dds.usuario.condicion.Vegano;
 
 import java.time.LocalDate;
 

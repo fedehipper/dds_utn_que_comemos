@@ -1,4 +1,7 @@
-package grupo4.dds;
+package grupo4.dds.usuario.condicion;
+
+import grupo4.dds.receta.Receta;
+import grupo4.dds.usuario.Usuario;
 
 public interface Condicion {
 

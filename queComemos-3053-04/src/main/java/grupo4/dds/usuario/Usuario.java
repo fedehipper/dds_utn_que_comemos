@@ -1,52 +1,57 @@
-package grupo4.dds;
+package grupo4.dds.usuario;
+
+import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaDelSistema;
+import grupo4.dds.receta.Temporada;
+import grupo4.dds.usuario.condicion.Condicion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import static grupo4.dds.Rutina.*;
+import static grupo4.dds.usuario.Rutina.*;
 
 public class Usuario {
-	private Double estatura;
-	private Double peso;
+
+	/* Datos básicos */
 	private String nombre;
 	private Character sexo;
-	private LocalDate fechaNac;
+	private LocalDate fechaNacimiento;
+
+	/* Datos de la complexión */
+
+	private Double peso;
+	private Double estatura;
+
+	/* Otros datos */
+
+	private Rutina rutina;
 	private Collection<String> preferenciasAlimenticias = new ArrayList<>();
 	private Collection<String> alimentosNoPreferidos = new ArrayList<>();
 	private Collection<Condicion> condiciones = new ArrayList<>();
-	private Rutina rutina;
 	private Collection<Receta> recetas = new ArrayList<>();
 
-	
-	//------CONSTRUCTORES-----
-	
-	
+	/* Constructores */
+
 	public Usuario(Double estatura, Double peso) {
 		this.peso = peso;
 		this.estatura = estatura;
 
 	}
-	
-	
-	//Creado para testear por ahora
-	
-	
+
 	public Usuario(String nombre, char sexo, LocalDate fechaNac, Double altura,
 			Double peso, Rutina rutina) {
 		this.nombre = nombre;
 		this.sexo = sexo;
-		this.fechaNac = fechaNac;
+		this.fechaNacimiento = fechaNac;
 		this.estatura = altura;
 		this.peso = peso;
 		this.rutina = rutina;
 	}
-	
-	
-	//------CONSTRUCTORES-----
-	
-	
+
+	/* Servicios */
+
 	public double indiceDeMasaCorporal() {
 		return peso / (estatura * estatura);
 	}
@@ -60,7 +65,7 @@ public class Usuario {
 	public boolean tieneCamposObligatorios() {
 
 		return (this.nombre != null) && (this.peso != null)
-				&& (this.estatura != null) && (this.fechaNac != null)
+				&& (this.estatura != null) && (this.fechaNacimiento != null)
 				&& (this.rutina != null);
 	}
 
@@ -75,7 +80,7 @@ public class Usuario {
 
 	public boolean esFechaDeNacimiento() {
 		LocalDate fechaActual = LocalDate.now();
-		return this.fechaNac.isBefore(fechaActual);
+		return this.fechaNacimiento.isBefore(fechaActual);
 	}
 
 	public boolean sigueRutinaSaludable() {
@@ -116,28 +121,30 @@ public class Usuario {
 	}
 
 	public boolean esRecetaAdecuada(Receta receta) {
-		return this.condiciones.stream().allMatch(condicion -> condicion.esRecomendable(receta));
+		return this.condiciones.stream().allMatch(
+				condicion -> condicion.esRecomendable(receta));
 	}
-	
-	
-	public void agregarReceta(Receta unaReceta){
-		if (unaReceta.esValida()&& unaReceta.puedeSerVistaOModificadaPor(this))
+
+	public void agregarReceta(Receta unaReceta) {
+		if (unaReceta.esValida() && unaReceta.puedeSerVistaOModificadaPor(this))
 			this.recetas.add(unaReceta);
 	}
-	
-	public boolean puedeVerOModificar (RecetaDelSistema unaReceta){
+
+	public boolean puedeVerOModificar(RecetaDelSistema unaReceta) {
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
-	
-	public void modificarReceta (RecetaDelSistema unaReceta, String nombre, HashMap<String, Double> ingredientes, 
-			HashMap<String, Double> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<Receta> subReceta){
-		unaReceta.serModificadaPor(this,nombre, ingredientes, condimentos, preparacion, calorias, dificultad, temporada, subReceta);
+
+	public void modificarReceta(RecetaDelSistema unaReceta, String nombre,
+			HashMap<String, Double> ingredientes,
+			HashMap<String, Double> condimentos, String preparacion,
+			int calorias, String dificultad, Temporada temporada,
+			Collection<Receta> subReceta) {
+		unaReceta.serModificadaPor(this, nombre, ingredientes, condimentos,
+				preparacion, calorias, dificultad, temporada, subReceta);
 	}
-	
-	
-	//-----Getters y setters-----
-	
-	
+
+	/* Accessors and Mutators */
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -158,10 +165,9 @@ public class Usuario {
 	public Collection<String> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
-	
+
 	public Collection<Receta> getRecetas() {
 		return recetas;
 	}
-	
 
 }

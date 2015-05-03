@@ -1,4 +1,6 @@
-package grupo4.dds;
+package grupo4.dds.receta;
+
+import grupo4.dds.usuario.Usuario;
 
 import java.util.HashMap;
 import java.util.Collection;

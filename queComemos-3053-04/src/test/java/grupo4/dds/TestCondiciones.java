@@ -1,8 +1,15 @@
 package grupo4.dds;
 
 import static org.junit.Assert.*;
+import static grupo4.dds.usuario.Rutina.*;
+import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaDelSistema;
+import grupo4.dds.usuario.Usuario;
+import grupo4.dds.usuario.condicion.Celiaco;
+import grupo4.dds.usuario.condicion.Diabetico;
+import grupo4.dds.usuario.condicion.Hipertenso;
+import grupo4.dds.usuario.condicion.Vegano;
 
-import static grupo4.dds.Rutina.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;

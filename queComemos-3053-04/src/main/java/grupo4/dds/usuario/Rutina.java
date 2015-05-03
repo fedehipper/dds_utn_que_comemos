@@ -1,4 +1,4 @@
-package grupo4.dds;
+package grupo4.dds.usuario;
 
 public enum Rutina {
 	

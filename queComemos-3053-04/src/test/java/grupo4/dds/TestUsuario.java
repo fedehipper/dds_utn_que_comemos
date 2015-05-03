@@ -1,7 +1,13 @@
 package grupo4.dds;
 
 import static org.junit.Assert.*;
-import static grupo4.dds.Rutina.*;
+import static grupo4.dds.usuario.Rutina.*;
+import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaDelSistema;
+import grupo4.dds.usuario.Usuario;
+import grupo4.dds.usuario.condicion.Celiaco;
+import grupo4.dds.usuario.condicion.Diabetico;
+import grupo4.dds.usuario.condicion.Vegano;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +22,7 @@ public class TestUsuario {
 	private Usuario federicoHipper = new Usuario(1.91, 102.0);
 	private Usuario arielFolino = new Usuario(1.69, 96.0);
 	private Usuario cristianMaldonado = new Usuario(1.81, 87.0);
+	private Usuario matiasMartino = new Usuario(1.74, 79.0);
 	private Usuario pedro = new Usuario("pedro", 'M',
 			LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
 	private Usuario juancho = new Usuario("juancho", 'M', LocalDate.of(1000,
@@ -59,6 +66,11 @@ public class TestUsuario {
 		assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 26.555, 0.001);
 	}
 
+	@Test
+	public void testConPeso79YAltura174() {
+		assertEquals(matiasMartino.indiceDeMasaCorporal(), 26.093, 0.001);
+	}
+	
 	@Test
 	public void esFechaDeNacimientoPedro() {
 		assertTrue(pedro.esFechaDeNacimiento());

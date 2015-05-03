@@ -1,4 +1,4 @@
-package grupo4.dds;
+package grupo4.dds.receta;
 
 public enum Temporada {
 	
