@@ -27,8 +27,8 @@ public class Usuario {
 	/* Otros datos */
 
 	private Rutina rutina;
-	private Collection<String> preferenciasAlimenticias = new ArrayList<>();
-	private Collection<String> alimentosNoPreferidos = new ArrayList<>();
+	private Collection<Alimento> preferenciasAlimenticias = new ArrayList<>();
+	private Collection<Alimento> alimentosNoPreferidos = new ArrayList<>();
 	private Collection<Condicion> condiciones = new ArrayList<>();
 	private Collection<Receta> recetas = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class Usuario {
 				condicion -> condicion.cumpleNecesidades(this));
 	}
 
-	public boolean leGusta(String alimento) {
+	public boolean leGusta(Alimento alimento) {
 		return this.preferenciasAlimenticias.contains(alimento);
 	}
 
@@ -158,11 +158,11 @@ public class Usuario {
 	}
 
 	public void setPreferenciasAlimenticias(
-			Collection<String> preferenciasAlimenticias) {
+			Collection<Alimento> preferenciasAlimenticias) {
 		this.preferenciasAlimenticias = preferenciasAlimenticias;
 	}
 
-	public Collection<String> getPreferenciasAlimenticias() {
+	public Collection<Alimento> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
 

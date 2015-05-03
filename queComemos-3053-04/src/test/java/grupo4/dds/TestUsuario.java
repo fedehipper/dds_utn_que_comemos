@@ -7,10 +7,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaDelSistema;
+import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Diabetico;
 import grupo4.dds.usuario.condicion.Vegano;
+import static grupo4.dds.usuario.Alimento.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,11 +41,11 @@ public class TestUsuario {
 	@Before
 	public void setUp() {
 
-		Collection<String> preferencias = new ArrayList<>();
-		preferencias.add("carne");
+		Collection<Alimento> preferencias = new ArrayList<>();
+		preferencias.add(CARNE);
 		pedro.setPreferenciasAlimenticias(preferencias);
-		Collection<String> preferenciasFrutas = new ArrayList<>();
-		preferenciasFrutas.add("frutas");
+		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
+		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
 		recetaDeJuancho.getIngredientes().put("papa", 4.0);
 		recetaDeJuancho.setCalorias(100);

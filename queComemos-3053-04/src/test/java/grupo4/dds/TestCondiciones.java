@@ -3,8 +3,10 @@ package grupo4.dds;
 import static org.junit.Assert.*;
 import static grupo4.dds.usuario.Rutina.*;
 import static grupo4.dds.usuario.Sexo.*;
+import static grupo4.dds.usuario.Alimento.*;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaDelSistema;
+import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Diabetico;
@@ -37,8 +39,8 @@ public class TestCondiciones {
 		recetaDeJuancho.getIngredientes().put("carne", 90.0);
 		recetaDeJuancho.getCondimentos().put("azucar", 100.0);
 		recetaDeJuancho.setCalorias(10);	
-		Collection<String> preferenciasFrutas = new ArrayList<>();
-		preferenciasFrutas.add("frutas");
+		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
+		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
 	}
 
