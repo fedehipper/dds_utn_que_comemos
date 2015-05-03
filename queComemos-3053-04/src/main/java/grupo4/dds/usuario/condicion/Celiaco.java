@@ -5,11 +5,11 @@ import grupo4.dds.usuario.Usuario;
 
 public class Celiaco implements Condicion {
 
-	public boolean esValido(Usuario usuario) {
+	public boolean esValidoCon(Usuario usuario) {
 		return true;
 	}
 
-	public boolean cumpleNecesidades(Usuario usuario) {
+	public boolean subsanaCondicion(Usuario usuario) {
 		return true;
 	}
 	

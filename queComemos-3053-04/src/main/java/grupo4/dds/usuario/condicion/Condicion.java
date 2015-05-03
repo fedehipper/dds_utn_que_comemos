@@ -5,9 +5,9 @@ import grupo4.dds.usuario.Usuario;
 
 public interface Condicion {
 
-	public boolean esValido(Usuario usuario);
+	public boolean esValidoCon(Usuario usuario);
 
-	public boolean cumpleNecesidades(Usuario usuario);
+	public boolean subsanaCondicion(Usuario usuario);
 
 	public boolean esRecomendable(Receta receta);
 }

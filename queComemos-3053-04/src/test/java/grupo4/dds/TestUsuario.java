@@ -1,5 +1,7 @@
 package grupo4.dds;
 
+import static grupo4.dds.usuario.Alimento.CARNE;
+import static grupo4.dds.usuario.Alimento.FRUTAS;
 import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static grupo4.dds.usuario.Sexo.MASCULINO;
 import static org.junit.Assert.assertEquals;
@@ -9,10 +11,6 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.usuario.condicion.Celiaco;
-import grupo4.dds.usuario.condicion.Diabetico;
-import grupo4.dds.usuario.condicion.Vegano;
-import static grupo4.dds.usuario.Alimento.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,9 +30,6 @@ public class TestUsuario {
 			LocalDate.of(2015, 04, 23), 1.50, 90.0, ACTIVA_EJERCICIO_ADICIONAL);
 	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
 			04, 04), 1.80, 70.0, ACTIVA_EJERCICIO_ADICIONAL);
-	private Celiaco celiaco = new Celiaco();
-	private Vegano vegano = new Vegano();
-	private Diabetico diabetico = new Diabetico();
 	private Receta recetaDeJuancho = new Receta(juancho);
 	private RecetaDelSistema recetaDeTodos = new RecetaDelSistema();
 
@@ -75,26 +70,6 @@ public class TestUsuario {
 	public void testConPeso79YAltura174() {
 		assertEquals(matiasMartino.indiceDeMasaCorporal(), 26.093, 0.001);
 	}
-	
-	@Test
-	public void esFechaDeNacimientoPedro() {
-		assertTrue(pedro.esFechaDeNacimiento());
-	}
-
-	@Test
-	public void testTieneCamposObligatoriosDePedro() {
-		assertTrue(pedro.tieneCamposObligatorios());
-	}
-
-	@Test
-	public void testTieneMasDeCuatroCaracteresPedro() {
-		assertTrue(pedro.tieneMasDe(4));
-	}
-
-	@Test
-	public void testCumpleCondicionesPedro() {
-		assertTrue(pedro.cumpleCondiciones());
-	}
 
 	@Test
 	public void testEsValidoPedro() {
@@ -105,19 +80,6 @@ public class TestUsuario {
 	public void testEsValidoFecheSena() {
 		assertFalse(fecheSena.esValido());
 
-	}
-
-	@Test
-	public void testImcEstaEntre18Y30() {
-		assertTrue(juancho.imcEstaEntre(18, 30));
-	}
-
-	@Test
-	public void testCumpleNecesidades() {
-		juancho.agregarCondicion(vegano);
-		juancho.agregarCondicion(diabetico);
-		juancho.agregarCondicion(celiaco);
-		assertTrue(juancho.cumpleNecesidades());
 	}
 
 	@Test

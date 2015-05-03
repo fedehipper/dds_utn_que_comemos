@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.function.Predicate;
 
-import static grupo4.dds.usuario.Rutina.*;
 
 public class Usuario {
 
@@ -56,84 +56,67 @@ public class Usuario {
 		return peso / (estatura * estatura);
 	}
 
+
 	public boolean esValido() {
-		return (tieneCamposObligatorios() && tieneMasDe(4)
-				&& cumpleCondiciones() && esFechaDeNacimiento());
+		return tieneCamposObligatorios() && nombre.length() > 4
+				&& tieneCondicionesValidas()
+				&& fechaNacimiento.isBefore(LocalDate.now());
 
 	}
+	
+	public boolean sigueRutinaSaludable() {
 
-	public boolean tieneCamposObligatorios() {
+		double imc = indiceDeMasaCorporal();
+		return (18 < imc) && (imc < 30) && subsanaTodasLasCondiciones();
+
+	}
+	
+	public boolean leGusta(Alimento alimento) {
+		return this.preferenciasAlimenticias.contains(alimento);
+	}
+	
+	public void agregarReceta(Receta unaReceta) {
+		if (unaReceta.esValida() && unaReceta.puedeSerVistaOModificadaPor(this))
+			this.recetas.add(unaReceta);
+	}
+	
+	public boolean tieneRutina(Rutina rutina) {
+		return rutina.equals(rutina);
+	}
+
+	public boolean puedeVerOModificar(RecetaDelSistema unaReceta) {
+		return unaReceta.puedeSerVistaOModificadaPor(this);
+	}
+	
+	/* Servicios internos */
+	
+	private boolean tieneCamposObligatorios() {
 
 		return (this.nombre != null) && (this.peso != null)
 				&& (this.estatura != null) && (this.fechaNacimiento != null)
 				&& (this.rutina != null);
 	}
 
-	public boolean tieneMasDe(int cantCaracteres) {
-		return this.nombre.length() > cantCaracteres;
+
+	private boolean todasLasCondicionesCumplen(Predicate<Condicion> predicado) {
+		return condiciones.isEmpty() ? true : condiciones.stream().allMatch(predicado);
+	}
+	
+	private boolean tieneCondicionesValidas() {
+		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.esValidoCon(this));
 	}
 
-	public boolean cumpleCondiciones() {
-		return condiciones.isEmpty() ? true : condiciones.stream().allMatch(
-				unaCondicion -> unaCondicion.esValido(this));
+	private boolean subsanaTodasLasCondiciones() {
+		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.subsanaCondicion(this));
 	}
 
-	public boolean esFechaDeNacimiento() {
-		LocalDate fechaActual = LocalDate.now();
-		return this.fechaNacimiento.isBefore(fechaActual);
-	}
-
-	public boolean sigueRutinaSaludable() {
-		if (this.condiciones.isEmpty())
-			return this.imcEstaEntre(18, 30);
-		else
-			return this.cumpleNecesidades();
-	}
-
-	public boolean imcEstaEntre(int unValor, int otroValor) {
-		return (this.indiceDeMasaCorporal() >= unValor)
-				&& (this.indiceDeMasaCorporal() <= otroValor);
-	}
-
-	public boolean cumpleNecesidades() {
-		return this.condiciones.stream().allMatch(
-				condicion -> condicion.cumpleNecesidades(this));
-	}
-
-	public boolean leGusta(Alimento alimento) {
-		return this.preferenciasAlimenticias.contains(alimento);
-	}
-
-	public boolean tieneRutinaActivaConEjercicioAdicional() {
-		return (this.rutina == ACTIVA_EJERCICIO_ADICIONAL);
-	}
-
-	public boolean tieneRutinaActivaSinEjercicioAdicional() {
-		return this.rutina == ACTIVA_SIN_EJERCICIO_ADICIONAL;
-	}
-
-	public boolean pesaMasDe(Double valorPeso) {
-		return this.peso > valorPeso;
-	}
-
-	public void agregarCondicion(Condicion condicion) {
-		this.condiciones.add(condicion);
-	}
-
+	//TODO verificar que sea lo pedido en el punto 4
 	public boolean esRecetaAdecuada(Receta receta) {
 		return this.condiciones.stream().allMatch(
 				condicion -> condicion.esRecomendable(receta));
 	}
 
-	public void agregarReceta(Receta unaReceta) {
-		if (unaReceta.esValida() && unaReceta.puedeSerVistaOModificadaPor(this))
-			this.recetas.add(unaReceta);
-	}
-
-	public boolean puedeVerOModificar(RecetaDelSistema unaReceta) {
-		return unaReceta.puedeSerVistaOModificadaPor(this);
-	}
-
+	//TODO corregir
 	public void modificarReceta(RecetaDelSistema unaReceta, String nombre,
 			HashMap<String, Double> ingredientes,
 			HashMap<String, Double> condimentos, String preparacion,
@@ -170,4 +153,13 @@ public class Usuario {
 		return recetas;
 	}
 
+	public Double getPeso() {
+		return peso;
+	}
+
+
+	public void agregarCondicion(Condicion condicion) {
+		this.condiciones.add(condicion);
+	}
+	
 }

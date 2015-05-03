@@ -10,7 +10,7 @@ import java.util.Collection;
 import static grupo4.dds.usuario.Alimento.*;
 public class Vegano implements Condicion {
 
-	public boolean esValido(Usuario usuario) {
+	public boolean esValidoCon(Usuario usuario) {
 		Collection<Alimento> palabrasClave = new ArrayList<>();
 		palabrasClave.add(POLLO);
 		palabrasClave.add(CARNE);
@@ -21,7 +21,7 @@ public class Vegano implements Condicion {
 
 	}
 
-	public boolean cumpleNecesidades(Usuario usuario) {
+	public boolean subsanaCondicion(Usuario usuario) {
 		return usuario.leGusta(FRUTAS);
 	}
 	

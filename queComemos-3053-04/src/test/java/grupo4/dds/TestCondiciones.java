@@ -1,11 +1,10 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
-import static grupo4.dds.usuario.Rutina.*;
-import static grupo4.dds.usuario.Sexo.*;
-import static grupo4.dds.usuario.Alimento.*;
+import static grupo4.dds.usuario.Alimento.FRUTAS;
+import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
+import static grupo4.dds.usuario.Sexo.MASCULINO;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
@@ -29,7 +28,6 @@ public class TestCondiciones {
 	private Diabetico diabetico = new Diabetico();
 	private Hipertenso hipertenso = new Hipertenso();
 	private Receta recetaDeJuancho = new Receta(juancho);
-	private RecetaDelSistema recetaDeTodos = new RecetaDelSistema();
 
 	@Before
 	public void setUp() throws Exception {
@@ -46,22 +44,22 @@ public class TestCondiciones {
 
 	@Test
 	public void testCumpleNecesidadesDeCeliaco() {
-		assertTrue(celiaco.cumpleNecesidades(juancho));
+		assertTrue(celiaco.subsanaCondicion(juancho));
 	}
 
 	@Test
 	public void testCumpleNecesidadesDeVegano() {
-		assertTrue(vegano.cumpleNecesidades(juancho));
+		assertTrue(vegano.subsanaCondicion(juancho));
 	}
 
 	@Test
 	public void testCumpleNecesidadesDeDiabetico() {
-		assertTrue(diabetico.cumpleNecesidades(juancho));
+		assertTrue(diabetico.subsanaCondicion(juancho));
 	}
 
 	@Test
 	public void testCumpleNecesidadesDeHipertenso() {
-		assertTrue(hipertenso.cumpleNecesidades(juancho));
+		assertTrue(hipertenso.subsanaCondicion(juancho));
 	}
 	
 	@Test
