@@ -1,24 +1,25 @@
 package grupo4.dds.usuario.condicion;
 
+import static grupo4.dds.usuario.Alimento.CARNE;
+import static grupo4.dds.usuario.Alimento.CHIVITO;
+import static grupo4.dds.usuario.Alimento.CHORI;
+import static grupo4.dds.usuario.Alimento.FRUTAS;
+import static grupo4.dds.usuario.Alimento.POLLO;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-
-import static grupo4.dds.usuario.Alimento.*;
+import java.util.Collections;
 public class Vegano implements Condicion {
 
-	public boolean esValidoCon(Usuario usuario) {
-		Collection<Alimento> palabrasClave = new ArrayList<>();
-		palabrasClave.add(POLLO);
-		palabrasClave.add(CARNE);
-		palabrasClave.add(CHIVITO);
-		palabrasClave.add(CHORI);
-		// ver si se puede agregar todos las comidas de una a palabrasClave
-		return usuario.getPreferenciasAlimenticias().containsAll(palabrasClave);
+	static Collection<Alimento> Carnes = Arrays.asList(POLLO, CARNE, CHIVITO,
+			CHORI);
 
+	public boolean esValidaCon(Usuario usuario) {
+		return Collections.disjoint(Carnes,
+				usuario.getPreferenciasAlimenticias());
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {

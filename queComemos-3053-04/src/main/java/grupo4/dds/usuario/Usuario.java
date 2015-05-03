@@ -4,13 +4,11 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaDelSistema;
 import grupo4.dds.receta.Temporada;
 import grupo4.dds.usuario.condicion.Condicion;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Predicate;
-
 
 public class Usuario {
 
@@ -22,13 +20,13 @@ public class Usuario {
 	/* Datos de la complexión */
 
 	private float peso;
-	private float estatura;
+	private float altura;
 
 	/* Otros datos */
 
 	private Rutina rutina;
 	private Collection<Alimento> preferenciasAlimenticias = new ArrayList<>();
-	private Collection<Alimento> alimentosNoPreferidos = new ArrayList<>();
+	private Collection<Alimento> comidasQueLeDisgustan = new ArrayList<>();
 	private Collection<Condicion> condiciones = new ArrayList<>();
 	private Collection<Receta> recetas = new ArrayList<>();
 
@@ -36,26 +34,30 @@ public class Usuario {
 
 	public Usuario(float estatura, float peso) {
 		this.peso = peso;
-		this.estatura = estatura;
+		this.altura = estatura;
 
 	}
-
-	public Usuario(String nombre, Sexo sexo, LocalDate fechaNac, float altura,
+	
+	public Usuario(String nombre, LocalDate fechaNacimiento, float altura,
 			float peso, Rutina rutina) {
 		this.nombre = nombre;
-		this.sexo = sexo;
-		this.fechaNacimiento = fechaNac;
-		this.estatura = altura;
+		this.fechaNacimiento = fechaNacimiento;
+		this.altura = altura;
 		this.peso = peso;
 		this.rutina = rutina;
+	}
+		
+	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura,
+			float peso, Rutina rutina) {
+		this(nombre, fechaNacimiento, altura, peso, rutina);
+		this.sexo = sexo;
 	}
 
 	/* Servicios */
 
 	public double indiceDeMasaCorporal() {
-		return peso / (estatura * estatura);
+		return peso / (altura * altura);
 	}
-
 
 	public boolean esValido() {
 		return tieneCamposObligatorios() && nombre.length() > 4
@@ -63,23 +65,23 @@ public class Usuario {
 				&& fechaNacimiento.isBefore(LocalDate.now());
 
 	}
-	
+
 	public boolean sigueRutinaSaludable() {
 
 		double imc = indiceDeMasaCorporal();
 		return (18 < imc) && (imc < 30) && subsanaTodasLasCondiciones();
 
 	}
-	
+
 	public boolean leGusta(Alimento alimento) {
 		return this.preferenciasAlimenticias.contains(alimento);
 	}
-	
+
 	public void agregarReceta(Receta unaReceta) {
 		if (unaReceta.esValida() && unaReceta.puedeSerVistaOModificadaPor(this))
 			this.recetas.add(unaReceta);
 	}
-	
+
 	public boolean tieneRutina(Rutina rutina) {
 		return rutina.equals(rutina);
 	}
@@ -87,36 +89,37 @@ public class Usuario {
 	public boolean puedeVerOModificar(RecetaDelSistema unaReceta) {
 		return unaReceta.puedeSerVistaOModificadaPor(this);
 	}
-	
+
 	/* Servicios internos */
-	
+
 	private boolean tieneCamposObligatorios() {
 
-		return (this.nombre != null) && (this.peso != 0)
-				&& (this.estatura != 0) && (this.fechaNacimiento != null)
-				&& (this.rutina != null);
+		return (this.nombre != null) && (this.peso != 0) && (this.altura != 0)
+				&& (this.fechaNacimiento != null) && (this.rutina != null);
 	}
-
 
 	private boolean todasLasCondicionesCumplen(Predicate<Condicion> predicado) {
-		return condiciones.isEmpty() ? true : condiciones.stream().allMatch(predicado);
+		return condiciones.isEmpty() ? true : condiciones.stream().allMatch(
+				predicado);
 	}
-	
+
 	private boolean tieneCondicionesValidas() {
-		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.esValidoCon(this));
+		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion
+				.esValidaCon(this));
 	}
 
 	private boolean subsanaTodasLasCondiciones() {
-		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.subsanaCondicion(this));
+		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion
+				.subsanaCondicion(this));
 	}
 
-	//TODO verificar que sea lo pedido en el punto 4
+	// TODO verificar que sea lo pedido en el punto 4
 	public boolean esRecetaAdecuada(Receta receta) {
 		return this.condiciones.stream().allMatch(
 				condicion -> condicion.esRecomendable(receta));
 	}
 
-	//TODO corregir
+	// TODO corregir
 	public void modificarReceta(RecetaDelSistema unaReceta, String nombre,
 			HashMap<String, Double> ingredientes,
 			HashMap<String, Double> condimentos, String preparacion,
@@ -132,12 +135,52 @@ public class Usuario {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public Sexo getSexo() {
 		return sexo;
+	}
+
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public float getAltura() {
+		return altura;
+	}
+
+	public float getPeso() {
+		return peso;
+	}
+
+	public Collection<Alimento> getPreferenciasAlimenticias() {
+		return preferenciasAlimenticias;
+	}
+
+	public Collection<Alimento> getComidasQueLeDisgustan() {
+		return comidasQueLeDisgustan;
+	}
+
+	public Collection<Condicion> getCondiciones() {
+		return condiciones;
+	}
+
+	public Rutina getRutina() {
+		return rutina;
+	}
+
+	public Collection<Receta> getRecetas() {
+		return recetas;
+	}
+
+	public void agregarCondicion(Condicion condicion) {
+		condiciones.add(condicion);
+	}
+
+	public void agregarPreferenciaAlimenticia(Alimento alimento) {
+		preferenciasAlimenticias.add(alimento);
+	}
+
+	public void agregarComidaQueLeDisgusta(Alimento alimento) {
+		comidasQueLeDisgustan.add(alimento);
 	}
 
 	public void setPreferenciasAlimenticias(
@@ -145,21 +188,4 @@ public class Usuario {
 		this.preferenciasAlimenticias = preferenciasAlimenticias;
 	}
 
-	public Collection<Alimento> getPreferenciasAlimenticias() {
-		return preferenciasAlimenticias;
-	}
-
-	public Collection<Receta> getRecetas() {
-		return recetas;
-	}
-
-	public float getPeso() {
-		return peso;
-	}
-
-
-	public void agregarCondicion(Condicion condicion) {
-		this.condiciones.add(condicion);
-	}
-	
 }
