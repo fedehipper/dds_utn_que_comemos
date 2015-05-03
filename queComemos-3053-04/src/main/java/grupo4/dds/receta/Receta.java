@@ -47,7 +47,7 @@ public class Receta extends RecetaDelSistema {
 			this.ingredientes = ingredientes;
 			this.condimentos = condimentos;
 			this.preparacion = preparacion;
-			this.calorias = calorias;
+			this.totalCalorias = calorias;
 			this.dificultad = dificultad;
 			this.temporada = temporada;			
 			this.subReceta= subReceta;}

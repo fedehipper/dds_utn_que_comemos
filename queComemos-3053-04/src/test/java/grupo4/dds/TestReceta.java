@@ -35,12 +35,12 @@ public class TestReceta {
 		receta.getIngredientes().put("caldo", 8.0);
 		receta.getIngredientes().put("carne", 90.0);
 		receta.getCondimentos().put("azucar", 100.0);
-		receta.setCalorias(10);	
+		receta.setTotalCalorias(10);	
 		recetaDePedro.getIngredientes().put("miel", 60.0);
 		recetaDePedro.getIngredientes().put("agua", 160.0);
 		recetaDePedro.getIngredientes().put("levadura", 50.0);
 		recetaDePedro.getIngredientes().put("hojas de menta", 1.0);
-		recetaDePedro.setCalorias(50);
+		recetaDePedro.setTotalCalorias(50);
 	}
 
 	@Test
