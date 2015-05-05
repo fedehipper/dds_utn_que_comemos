@@ -10,10 +10,7 @@ public class Receta {
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
-	protected String nombreDelPlato;
-	protected Temporada temporada;
-	protected int totalCalorias;
-	protected String dificultad;
+	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
 	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
@@ -27,34 +24,30 @@ public class Receta {
 		this.creador = creador;
 	}// Creado para testear por ahora
 
-	protected Receta(Usuario creador, String nombreDelPlato,
+	public Receta(Usuario creador, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
-			int totalCalorias, String dificultad, Temporada temporada,
-			Collection<Receta> subRecetas) {
+			HashMap<String, Float> condimentos, Collection<Receta> subRecetas,
+			String preparacion) {
 		this.creador = creador;
-		this.nombreDelPlato = nombreDelPlato;
+		this.encabezado = encabezado;
 		this.ingredientes = ingredientes;
 		this.condimentos = condimentos;
-		this.preparacion = preparacion;
-		this.totalCalorias = totalCalorias;
-		this.dificultad = dificultad;
-		this.temporada = temporada;
 		this.subRecetas = subRecetas;
+		this.preparacion = preparacion;
 	}
 
-	static public Receta crearNueva(Usuario creador, String nombreDelPlato,
-			HashMap<String, Float> ingredientes,
+	static public Receta crearNueva(Usuario creador,
+			EncabezadoDeReceta encabezado, HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			int totalCalorias, String dificultad, Temporada temporada,
 			Collection<Receta> subRecetas) {
-		
-		Receta nuevaReceta = new Receta(creador, nombreDelPlato, ingredientes, condimentos, preparacion, totalCalorias, dificultad, temporada, subRecetas);
+
+		Receta nuevaReceta = new Receta(creador, encabezado, ingredientes,
+				condimentos, subRecetas, preparacion);
 		creador.agregarReceta(nuevaReceta);
-		
+
 		return nuevaReceta;
 	}
-	
+
 	/* Servicios */
 
 	public boolean esValida() {
@@ -79,19 +72,7 @@ public class Receta {
 		return puedeSerVistaPor(usuario);
 	}
 
-	public void modificarEncabezado(Usuario usuario, String nombreDelPlato,
-			String dificultad, Temporada temporada)
-			throws NoTienePermisoParaModificar {
-
-		if (!puedeSerModificadaPor(usuario))
-			throw new NoTienePermisoParaModificar();
-
-		this.nombreDelPlato = nombreDelPlato;
-		this.dificultad = dificultad;
-		this.temporada = temporada;
-	}
-
-	public void modificarDetalle(Usuario usuario,
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
 			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
@@ -99,10 +80,11 @@ public class Receta {
 		if (!puedeSerModificadaPor(usuario))
 			throw new NoTienePermisoParaModificar();
 
+		this.encabezado = encabezado;
 		this.ingredientes = ingredientes;
 		this.condimentos = condimentos;
-		this.preparacion = preparacion;
 		this.subRecetas = subRecetas;
+		this.preparacion = preparacion;
 	}
 
 	/* Accessors and Mutators */
@@ -120,11 +102,11 @@ public class Receta {
 	}
 
 	public int getTotalCalorias() {
-		return totalCalorias;
+		return encabezado.getTotalCalorias();
 	}
 
 	public void setTotalCalorias(int totalCalorias) {
-		this.totalCalorias = totalCalorias;
+		encabezado.setTotalCalorias(totalCalorias);
 	}
 
 	public HashMap<String, Float> getIngredientes() {
@@ -135,4 +117,16 @@ public class Receta {
 		return condimentos;
 	}
 
+	public String getNombreDelPlato() {
+		return encabezado.getNombreDelPlato();
+	}
+
+	public Temporada getTemporada() {
+		return encabezado.getTemporada();
+	}
+
+	public String getDificultad() {
+		return encabezado.getDificultad();
+	}
+	
 }

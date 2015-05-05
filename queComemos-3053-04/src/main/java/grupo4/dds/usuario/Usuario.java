@@ -1,8 +1,8 @@
 package grupo4.dds.usuario;
 
+import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.NoTienePermisoParaModificar;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.Temporada;
 import grupo4.dds.usuario.condicion.Condicion;
 
 import java.time.LocalDate;
@@ -94,27 +94,27 @@ public class Usuario {
 	public boolean puedeModificar(Receta receta) {
 		return receta.puedeSerModificadaPor(this);
 	}
-	
+
 	public boolean esAdecuada(Receta receta) {
-		return receta.esValida() && todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
+		return receta.esValida()
+				&& todasLasCondicionesCumplen(condicion -> condicion
+						.esRecomendable(receta));
 	}
 
-	public void modificarReceta(Receta receta, String nombreDelPlato,
+	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			int calorias, String dificultad, Temporada temporada,
-			Collection<Receta> subRecetas) {
-	
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+
 		try {
-			receta.modificarEncabezado(this, nombreDelPlato, dificultad, temporada);
-			receta.modificarDetalle(this, ingredientes, condimentos, preparacion, subRecetas);
-		}
-		catch(NoTienePermisoParaModificar e) {
+			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
+					preparacion, subRecetas);
+		} catch (NoTienePermisoParaModificar e) {
 			System.out.println("No tiene permiso para modificar la receta.");
 		}
-		
+
 	}
-	
+
 	/* Servicios internos */
 
 	private boolean tieneCamposObligatorios() {

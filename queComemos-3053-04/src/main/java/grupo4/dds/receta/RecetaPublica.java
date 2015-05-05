@@ -13,13 +13,12 @@ public class RecetaPublica extends Receta {
 		super(null);
 	};// Creado para testear por ahora
 
-	public RecetaPublica(Usuario creador, String nombreDelPlato,
+	public RecetaPublica(EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
-			int totalCalorias, String dificultad, Temporada temporada,
-			Collection<Receta> subReceta) {
-		super(null, nombreDelPlato, ingredientes, condimentos, preparacion,
-				totalCalorias, dificultad, temporada, subReceta);
+			HashMap<String, Float> condimentos, Collection<Receta> subRecetas,
+			String preparacion) {
+		super(null, encabezado, ingredientes, condimentos, subRecetas,
+				preparacion);
 	}
 
 	/* Servicios */
@@ -32,30 +31,20 @@ public class RecetaPublica extends Receta {
 		return true;
 	}
 
-	public void modificarEncabezado(Usuario usuario, String nombreDelPlato,
-			String dificultad, Temporada temporada)
-			throws NoTienePermisoParaModificar {
-
-		Receta receta = convertirEnPrivada(usuario);
-		receta.modificarEncabezado(usuario, nombreDelPlato, dificultad,
-				temporada);
-	}
-
-	public void modificarDetalle(Usuario usuario,
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
 			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
 
 		Receta receta = convertirEnPrivada(usuario);
-		receta.modificarDetalle(usuario, ingredientes, condimentos,
+		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos,
 				preparacion, subRecetas);
 	}
 
-	public Receta convertirEnPrivada(Usuario usuario) {
+	private Receta convertirEnPrivada(Usuario usuario) {
 
-		return Receta.crearNueva(usuario, nombreDelPlato, ingredientes,
-				condimentos, preparacion, totalCalorias, dificultad, temporada,
-				subRecetas);
+		return Receta.crearNueva(usuario, encabezado, ingredientes,
+				condimentos, preparacion, subRecetas);
 
 	}
 
