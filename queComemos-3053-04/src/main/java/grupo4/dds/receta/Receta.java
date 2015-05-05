@@ -8,14 +8,18 @@ import java.util.Collection;
 public class Receta {
 
 	protected Usuario creador;
+
+	/* Encabezado de la receta */
 	protected String nombreDelPlato;
-	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
-	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
-	protected String preparacion;
+	protected Temporada temporada;
 	protected int totalCalorias;
 	protected String dificultad;
-	protected Temporada temporada;
-	protected Collection<RecetaPublica> subReceta;
+
+	/* Detalle de la receta */
+	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
+	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
+	protected Collection<Receta> subRecetas;
+	protected String preparacion;
 
 	/* Constructores */
 
@@ -23,11 +27,11 @@ public class Receta {
 		this.creador = creador;
 	}// Creado para testear por ahora
 
-	public Receta(Usuario creador, String nombreDelPlato,
+	protected Receta(Usuario creador, String nombreDelPlato,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
 			int totalCalorias, String dificultad, Temporada temporada,
-			Collection<RecetaPublica> subReceta) {
+			Collection<Receta> subRecetas) {
 		this.creador = creador;
 		this.nombreDelPlato = nombreDelPlato;
 		this.ingredientes = ingredientes;
@@ -36,9 +40,21 @@ public class Receta {
 		this.totalCalorias = totalCalorias;
 		this.dificultad = dificultad;
 		this.temporada = temporada;
-		this.subReceta = subReceta;
+		this.subRecetas = subRecetas;
 	}
 
+	static public Receta crearNueva(Usuario creador, String nombreDelPlato,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
+			int totalCalorias, String dificultad, Temporada temporada,
+			Collection<Receta> subRecetas) {
+		
+		Receta nuevaReceta = new Receta(creador, nombreDelPlato, ingredientes, condimentos, preparacion, totalCalorias, dificultad, temporada, subRecetas);
+		creador.agregarReceta(nuevaReceta);
+		
+		return nuevaReceta;
+	}
+	
 	/* Servicios */
 
 	public boolean esValida() {
@@ -47,7 +63,7 @@ public class Receta {
 				&& totalCalorias <= 5000;
 	}
 
-	public boolean tenesIngrediente(String unIngrediente) {
+	public boolean tieneIngrediente(String unIngrediente) {
 		return this.ingredientes.containsKey(unIngrediente);
 	}
 
@@ -55,28 +71,48 @@ public class Receta {
 		return this.condimentos.get(unCondimento);
 	}
 
-	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){
-		return creador.equals(unUsuario);
+	public boolean puedeSerVistaPor(Usuario usuario) {
+		return creador.equals(usuario);
 	}
 
-	// TODO arreglar este metodo
-	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Float> ingredientes, 
-			HashMap<String, Float> condimentos, String preparacion,int calorias, String dificultad,Temporada temporada, Collection<RecetaPublica> subReceta){
-		if(this.puedeSerVistaOModificadaPor(unUsuario)){
-			this.nombreDelPlato = nombre;
-			this.ingredientes = ingredientes;
-			this.condimentos = condimentos;
-			this.preparacion = preparacion;
-			this.totalCalorias = calorias;
-			this.dificultad = dificultad;
-			this.temporada = temporada;			
-			this.subReceta= subReceta;}
+	public boolean puedeSerModificadaPor(Usuario usuario) {
+		return puedeSerVistaPor(usuario);
+	}
+
+	public void modificarEncabezado(Usuario usuario, String nombreDelPlato,
+			String dificultad, Temporada temporada)
+			throws NoTienePermisoParaModificar {
+
+		if (!puedeSerModificadaPor(usuario))
+			throw new NoTienePermisoParaModificar();
+
+		this.nombreDelPlato = nombreDelPlato;
+		this.dificultad = dificultad;
+		this.temporada = temporada;
+	}
+
+	public void modificarDetalle(Usuario usuario,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+
+		if (!puedeSerModificadaPor(usuario))
+			throw new NoTienePermisoParaModificar();
+
+		this.ingredientes = ingredientes;
+		this.condimentos = condimentos;
+		this.preparacion = preparacion;
+		this.subRecetas = subRecetas;
 	}
 
 	/* Accessors and Mutators */
 
 	public Collection<String> getNombreIngredientes() {
 		return ingredientes.keySet();
+	}
+
+	public String getPreparacion() {
+		return preparacion;
 	}
 
 	public Collection<String> getNombreCondimentos() {

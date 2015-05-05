@@ -64,7 +64,7 @@ public class TestReceta {
 		pedro.agregarCondicion(celiaco);
 		pedro.agregarCondicion(diabetico);
 		pedro.agregarReceta(receta);
-		assertTrue(!(pedro.esRecetaAdecuada(receta)));
+		assertTrue(!(pedro.esAdecuada(receta)));
 	}
 
 	

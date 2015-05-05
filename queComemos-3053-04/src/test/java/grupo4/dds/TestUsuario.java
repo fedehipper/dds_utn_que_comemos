@@ -90,22 +90,22 @@ public class TestUsuario {
 				
 	@Test
 	public void testJuanchoPuedeVerOModificarSuReceta() {
-		assertTrue(juancho.puedeVerOModificar(recetaDeJuancho));
+		assertTrue(juancho.puedeVer(recetaDeJuancho));
 	}
 	
 	@Test
 	public void testJuanchoPuedeVerOModificarUnaRecetaDelSistema() {
-		assertTrue(juancho.puedeVerOModificar(recetaDeTodos));
+		assertTrue(juancho.puedeVer(recetaDeTodos));
 	}
 	
 	@Test
 	public void testPedroPuedeVerOModificarUnaRecetaDelSistema() {
-		assertTrue(pedro.puedeVerOModificar(recetaDeTodos));
+		assertTrue(pedro.puedeVer(recetaDeTodos));
 	}
 	
 	@Test
 	public void testPedroNoPuedeVerOModificarUnaRecetaQueNoLePertenece() {
-		assertFalse(pedro.puedeVerOModificar(recetaDeJuancho));
+		assertFalse(pedro.puedeVer(recetaDeJuancho));
 	}
 	
 		

@@ -1,9 +1,10 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.receta.RecetaPublica;
+import grupo4.dds.receta.NoTienePermisoParaModificar;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.Temporada;
 import grupo4.dds.usuario.condicion.Condicion;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,12 +13,12 @@ import java.util.function.Predicate;
 
 public class Usuario {
 
-	/* Datos básicos */
+	/* Datos bÃ¡sicos */
 	private String nombre;
 	private Sexo sexo;
 	private LocalDate fechaNacimiento;
 
-	/* Datos de la complexión */
+	/* Datos de la complexiÃ³n */
 
 	private float peso;
 	private float altura;
@@ -77,19 +78,43 @@ public class Usuario {
 		return this.preferenciasAlimenticias.contains(alimento);
 	}
 
-	public void agregarReceta(Receta unaReceta) {
-		if (unaReceta.esValida() && unaReceta.puedeSerVistaOModificadaPor(this))
-			this.recetas.add(unaReceta);
+	public void agregarReceta(Receta receta) {
+		if (esAdecuada(receta) && this.puedeVer(receta))
+			this.recetas.add(receta);
 	}
 
 	public boolean tieneRutina(Rutina rutina) {
 		return rutina.equals(rutina);
 	}
 
-	public boolean puedeVerOModificar(Receta unaReceta) {
-		return unaReceta.puedeSerVistaOModificadaPor(this);
+	public boolean puedeVer(Receta receta) {
+		return receta.puedeSerVistaPor(this);
 	}
 
+	public boolean puedeModificar(Receta receta) {
+		return receta.puedeSerModificadaPor(this);
+	}
+	
+	public boolean esAdecuada(Receta receta) {
+		return receta.esValida() && todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
+	}
+
+	public void modificarReceta(Receta receta, String nombreDelPlato,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
+			int calorias, String dificultad, Temporada temporada,
+			Collection<Receta> subRecetas) {
+	
+		try {
+			receta.modificarEncabezado(this, nombreDelPlato, dificultad, temporada);
+			receta.modificarDetalle(this, ingredientes, condimentos, preparacion, subRecetas);
+		}
+		catch(NoTienePermisoParaModificar e) {
+			System.out.println("No tiene permiso para modificar la receta.");
+		}
+		
+	}
+	
 	/* Servicios internos */
 
 	private boolean tieneCamposObligatorios() {
@@ -111,22 +136,6 @@ public class Usuario {
 	private boolean subsanaTodasLasCondiciones() {
 		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion
 				.subsanaCondicion(this));
-	}
-
-	// TODO verificar que sea lo pedido en el punto 4
-	public boolean esRecetaAdecuada(RecetaPublica receta) {
-		return this.condiciones.stream().allMatch(
-				condicion -> condicion.esRecomendable(receta));
-	}
-
-	// TODO corregir
-	public void modificarReceta(Receta unaReceta, String nombre,
-			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
-			int calorias, String dificultad, Temporada temporada,
-			Collection<RecetaPublica> subReceta) {
-		unaReceta.serModificadaPor(this, nombre, ingredientes, condimentos,
-				preparacion, calorias, dificultad, temporada, subReceta);
 	}
 
 	/* Accessors and Mutators */
