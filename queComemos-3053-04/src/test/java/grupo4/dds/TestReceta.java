@@ -88,7 +88,7 @@ public class TestReceta {
 	@Test
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaValidaSiNoEsElCreador(){
 		pedro.agregarReceta(recetaDeJuancho);
-		assertFalse(pedro.puedeVerOModificar(recetaDeJuancho));
+		assertFalse(pedro.getRecetas().contains(recetaDeJuancho));
 	}
 }
 

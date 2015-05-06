@@ -1,9 +1,10 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.receta.RecetaPublica;
+import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.NoTienePermisoParaModificar;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.Temporada;
 import grupo4.dds.usuario.condicion.Condicion;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.function.Predicate;
 public class Usuario {
 
 	/* Datos b�sicos */
+
 	private String nombre;
 	private Sexo sexo;
 	private LocalDate fechaNacimiento;
@@ -83,8 +85,32 @@ public class Usuario {
 		return this.rutina.equals(rutina);
 	}
 
-	public boolean puedeVerOModificar(Receta unaReceta) {
-		return unaReceta.puedeSerVistaOModificadaPor(this);
+	public boolean puedeVer(Receta receta) {
+		return receta.puedeSerVistaPor(this);
+	}
+
+	public boolean puedeModificar(Receta receta) {
+		return receta.puedeSerModificadaPor(this);
+	}
+
+	public boolean esAdecuada(Receta receta) {
+		return receta.esValida()
+				&& todasLasCondicionesCumplen(condicion -> condicion
+						.esRecomendable(receta));
+	}
+
+	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+
+		try {
+			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
+					preparacion, subRecetas);
+		} catch (NoTienePermisoParaModificar e) {
+			System.out.println("No tiene permiso para modificar la receta.");
+		}
+
 	}
 
 	/* Servicios internos */
@@ -109,20 +135,9 @@ public class Usuario {
 				.subsanaCondicion(this));
 	}
 
-
 	public boolean esRecetaAdecuada(Receta receta) {
 		return this.condiciones.stream().allMatch(
 				condicion -> condicion.esRecomendable(receta));
-	}
-
-	// TODO corregir
-	public void modificarReceta(Receta unaReceta, String nombre,
-			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
-			int calorias, String dificultad, Temporada temporada,
-			Collection<RecetaPublica> subReceta) {
-		unaReceta.serModificadaPor(this, nombre, ingredientes, condimentos,
-				preparacion, dificultad, temporada, subReceta);
 	}
 
 	/* Accessors and Mutators */

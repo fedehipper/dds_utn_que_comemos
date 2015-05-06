@@ -13,17 +13,16 @@ public class RecetaPublica extends Receta {
 		super(null);
 	};// Creado para testear por ahora
 
-	public RecetaPublica(Usuario creador, String nombreDelPlato,
+	public RecetaPublica(EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
-			String dificultad, Temporada temporada,
-			Collection<RecetaPublica> subReceta) {
-		super(null, nombreDelPlato, ingredientes, condimentos, preparacion, dificultad, temporada, subReceta);
+			HashMap<String, Float> condimentos, Collection<Receta> subRecetas,
+			String preparacion){
+		super (null, encabezado, ingredientes, condimentos, preparacion, subRecetas);
 	}
-
+	
 	/* Servicios */
 
-	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario) {
+	public boolean puedeSerVistaPor(Usuario unUsuario) {
 		return true;
 	}
 	
@@ -32,16 +31,22 @@ public class RecetaPublica extends Receta {
 	}
 	
 
-	// TODO arreglar este metodo
-	public void serModificadaPor(Usuario unUsuario, String nombre,
+	public boolean puedeSerModificadaPor(Usuario unUsuario) {
+		return true;
+	}
+
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			String dificultad, Temporada temporada,
-			Collection<RecetaPublica> subReceta) {
-		Receta unaReceta = new RecetaPublica(unUsuario, nombre,
-				ingredientes, condimentos, preparacion, dificultad,
-				temporada, subReceta);
-		unUsuario.agregarReceta(unaReceta);
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+		Receta receta = convertirEnPrivada(usuario);
+		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos,
+				preparacion, subRecetas);
+	}
+
+	private Receta convertirEnPrivada(Usuario usuario) {
+		return Receta.crearNueva(usuario, encabezado, ingredientes,
+				condimentos, preparacion, subRecetas);
 	}
 
 }

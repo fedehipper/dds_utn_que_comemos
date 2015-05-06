@@ -15,7 +15,6 @@ import grupo4.dds.usuario.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -102,29 +101,22 @@ public class TestUsuario {
 	
 	@Test
 	public void testJuanchoPuedeVerOModificarSuReceta() {
-		assertTrue(juancho.puedeVerOModificar(recetaDeJuancho));
+		assertTrue(juancho.puedeVer(recetaDeJuancho));
 	}
 	
 	@Test
 	public void testJuanchoPuedeVerOModificarUnaRecetaDelSistema() {
-		assertTrue(juancho.puedeVerOModificar(recetaDeTodos));
+		assertTrue(juancho.puedeVer(recetaDeTodos));
 	}
 	
 	@Test
 	public void testPedroPuedeVerOModificarUnaRecetaDelSistema() {
-		assertTrue(pedro.puedeVerOModificar(recetaDeTodos));
+		assertTrue(pedro.puedeVer(recetaDeTodos));
 	}
 	
 	@Test
 	public void testPedroNoPuedeVerOModificarUnaRecetaQueNoLePertenece() {
-		assertFalse(pedro.puedeVerOModificar(recetaDeJuancho));
+		assertFalse(pedro.puedeVer(recetaDeJuancho));
 	}
 	
-	@Test
-	public void testJuanchoAgregaUnaBatataALaReceta(){
-		HashMap<String,Float> ing = recetaDeJuancho.getIngredientes();
-		ing.put("batata",1.0f);
-		juancho.modificarReceta(recetaDeJuancho, null,ing, null, null, 0, null, null, null);
-		assertTrue(recetaDeJuancho.getNombreIngredientes().contains("batata"));
-	}
 }

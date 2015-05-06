@@ -27,7 +27,7 @@ public class Vegano implements Condicion {
 		return usuario.leGusta(FRUTAS);
 	}
 
-	public boolean esRecomendable(Receta  receta) {
+	public boolean esRecomendable(Receta receta) {
 		return !Collections.disjoint(Carnes, receta.getNombreIngredientes());
 	}
 

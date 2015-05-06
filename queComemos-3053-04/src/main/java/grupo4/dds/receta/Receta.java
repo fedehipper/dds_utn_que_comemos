@@ -8,13 +8,17 @@ import java.util.Collection;
 public class Receta {
 
 	protected Usuario creador;
-	protected String nombreDelPlato;
+
+	/* Encabezado de la receta */
+	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
+
+	/* Detalle de la receta */
 	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
+	protected Collection<Receta> subRecetas;
 	protected String preparacion;
 	protected String dificultad;
 	protected Temporada temporada;
-	protected Collection<RecetaPublica> subReceta;
 
 	/* Constructores */
 
@@ -22,21 +26,29 @@ public class Receta {
 		this.creador = creador;
 	}// Creado para testear por ahora
 
-	public Receta(Usuario creador, String nombreDelPlato,
+	public Receta(Usuario creador, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			String dificultad, Temporada temporada,
-			Collection<RecetaPublica> subReceta) {
+			Collection<Receta> subRecetas) {
 		this.creador = creador;
-		this.nombreDelPlato = nombreDelPlato;
+		this.encabezado = encabezado;
 		this.ingredientes = ingredientes;
 		this.condimentos = condimentos;
+		this.subRecetas = subRecetas;
 		this.preparacion = preparacion;
-		this.dificultad = dificultad;
-		this.temporada = temporada;
-		this.subReceta = subReceta;
 	}
 
+	static public Receta crearNueva(Usuario creador,
+			EncabezadoDeReceta encabezado, HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
+			Collection<Receta> subRecetas) {
+
+		Receta nuevaReceta = new Receta(creador, encabezado, ingredientes,
+				condimentos,preparacion, subRecetas);
+		creador.agregarReceta(nuevaReceta);
+		return nuevaReceta;
+	}
+	
 	/* Servicios */
 
 	public boolean esValida() {
@@ -52,34 +64,44 @@ public class Receta {
 		return this.condimentos.get(unCondimento);
 	}
 
-	public boolean puedeSerVistaOModificadaPor(Usuario unUsuario){
-		return creador.equals(unUsuario);
+	public boolean puedeSerVistaPor(Usuario usuario) {
+		return esElCreador(usuario);
+	}
+
+	public boolean puedeSerModificadaPor(Usuario usuario) {
+		return esElCreador(usuario);
 	}
 
 	//TODO completar. No especificaron como se resuelve este metodo, devuelve "50" para poder testear.
 	public int totalCalorias(){return 50;}
-	
-	// TODO arreglar este metodo
-	public void serModificadaPor(Usuario unUsuario, String nombre, HashMap<String, Float> ingredientes, 
-			HashMap<String, Float> condimentos, String preparacion, String dificultad,Temporada temporada, Collection<RecetaPublica> subReceta){
-		if(this.puedeSerVistaOModificadaPor(unUsuario)){
-			this.nombreDelPlato = nombre;
-			this.ingredientes = ingredientes;
-			this.condimentos = condimentos;
-			this.preparacion = preparacion;
-			this.dificultad = dificultad;
-			this.temporada = temporada;			
-			this.subReceta= subReceta;}
+
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, String preparacion,
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+
+		if (!puedeSerModificadaPor(usuario))
+			throw new NoTienePermisoParaModificar();
+
+		this.encabezado = encabezado;
+		this.ingredientes = ingredientes;
+		this.condimentos = condimentos;
+		this.subRecetas = subRecetas;
+		this.preparacion = preparacion;
 	}
 
 	public boolean esElCreador(Usuario unUsuario){
-		return puedeSerVistaOModificadaPor(unUsuario);
+		return creador.equals(unUsuario);
 	}
 	
 	/* Accessors and Mutators */
 
 	public Collection<String> getNombreIngredientes() {
 		return ingredientes.keySet();
+	}
+
+	public String getPreparacion() {
+		return preparacion;
 	}
 
 	public Collection<String> getNombreCondimentos() {
@@ -94,4 +116,16 @@ public class Receta {
 		return condimentos;
 	}
 
+	public String getNombreDelPlato() {
+		return encabezado.getNombreDelPlato();
+	}
+
+	public Temporada getTemporada() {
+		return encabezado.getTemporada();
+	}
+
+	public String getDificultad() {
+		return encabezado.getDificultad();
+	}
+	
 }
