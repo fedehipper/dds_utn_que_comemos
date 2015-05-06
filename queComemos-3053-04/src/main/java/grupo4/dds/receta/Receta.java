@@ -59,6 +59,10 @@ public class Receta {
 	public boolean tieneIngrediente(String unIngrediente) {
 		return this.ingredientes.containsKey(unIngrediente);
 	}
+	
+	public boolean tieneCondimento(String condimento) {
+		return this.condimentos.containsKey(condimento);
+	}
 
 	public Float cantidadCondimento(String unCondimento) {
 		return this.condimentos.get(unCondimento);

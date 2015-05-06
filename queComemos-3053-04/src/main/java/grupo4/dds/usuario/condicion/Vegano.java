@@ -12,6 +12,7 @@ import grupo4.dds.usuario.Usuario;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class Vegano implements Condicion {
 
@@ -28,7 +29,11 @@ public class Vegano implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		return !Collections.disjoint(Carnes, receta.getNombreIngredientes());
+		return !Collections.disjoint(mapValor(Carnes), receta.getNombreIngredientes());
+	}
+	
+	private Collection<String> mapValor(Collection<Alimento> c) {
+		return c.stream().map(Alimento::getValor).collect(Collectors.toList());
 	}
 
 }

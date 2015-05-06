@@ -14,8 +14,7 @@ public class Hipertenso implements Condicion {
 		return usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL);
 	}
 
-	// TODO ver si es necesario para el punto 4
 	public boolean esRecomendable(Receta receta) {
-		return !(receta.tieneIngrediente("sal") || receta.tieneIngrediente("caldo"));
+		return !(receta.tieneCondimento("sal") || receta.tieneCondimento("caldo"));
 	}
 }
