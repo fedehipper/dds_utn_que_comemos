@@ -42,7 +42,7 @@ public class TestUsuario {
 		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
-		recetaDeJuancho.getIngredientes().put("papa", 4.0f);
+		recetaDeJuancho.agregarIngrediente("papa", 4.0f);
 		recetaDeJuancho.setTotalCalorias(100);
 	}
 

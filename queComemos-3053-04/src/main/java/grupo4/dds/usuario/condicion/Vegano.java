@@ -1,10 +1,6 @@
 package grupo4.dds.usuario.condicion;
 
-import static grupo4.dds.usuario.Alimento.CARNE;
-import static grupo4.dds.usuario.Alimento.CHIVITO;
-import static grupo4.dds.usuario.Alimento.CHORI;
-import static grupo4.dds.usuario.Alimento.FRUTAS;
-import static grupo4.dds.usuario.Alimento.POLLO;
+import static grupo4.dds.usuario.Alimento.*;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
@@ -12,12 +8,11 @@ import grupo4.dds.usuario.Usuario;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class Vegano implements Condicion {
 
-	static Collection<Alimento> Carnes = Arrays.asList(POLLO, CARNE, CHIVITO,
-			CHORI);
+	static Collection<Alimento> Carnes = Arrays.asList(POLLO, CARNE, CHIVITO, CHORI);
+	static Collection<String> IngredientesConCarne = Alimento.mapIngrediente(Carnes);
 
 	public boolean esValidaCon(Usuario usuario) {
 		return Collections.disjoint(Carnes,
@@ -29,11 +24,7 @@ public class Vegano implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		return !Collections.disjoint(mapValor(Carnes), receta.getNombreIngredientes());
-	}
-	
-	private Collection<String> mapValor(Collection<Alimento> c) {
-		return c.stream().map(Alimento::getValor).collect(Collectors.toList());
+		return Collections.disjoint(IngredientesConCarne, receta.getNombreIngredientes());
 	}
 
 }

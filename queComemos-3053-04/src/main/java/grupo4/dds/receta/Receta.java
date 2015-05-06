@@ -2,8 +2,12 @@ package grupo4.dds.receta;
 
 import grupo4.dds.usuario.Usuario;
 
-import java.util.HashMap;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Receta {
 
@@ -24,7 +28,7 @@ public class Receta {
 		this.creador = creador;
 	}// Creado para testear por ahora
 
-	public Receta(Usuario creador, EncabezadoDeReceta encabezado,
+	protected Receta(Usuario creador, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, Collection<Receta> subRecetas,
 			String preparacion) {
@@ -59,7 +63,7 @@ public class Receta {
 	public boolean tieneIngrediente(String unIngrediente) {
 		return this.ingredientes.containsKey(unIngrediente);
 	}
-	
+
 	public boolean tieneCondimento(String condimento) {
 		return this.condimentos.containsKey(condimento);
 	}
@@ -91,19 +95,59 @@ public class Receta {
 		this.preparacion = preparacion;
 	}
 
-	/* Accessors and Mutators */
-
 	public Collection<String> getNombreIngredientes() {
-		return ingredientes.keySet();
+		return getConSubrecetas((Receta receta) -> {
+			return receta.ingredientes.keySet();
+		}, ingredientes.keySet());
 	}
 
 	public String getPreparacion() {
-		return preparacion;
+
+		String preparacionDeSubrecetas = subRecetas.stream()
+				.map(Receta::getPreparacion).collect(Collectors.joining("\n"));
+
+		return String.join("\n", preparacion, preparacionDeSubrecetas);
 	}
 
 	public Collection<String> getNombreCondimentos() {
-		return condimentos.keySet();
+		return getConSubrecetas((Receta receta) -> {
+			return receta.condimentos.keySet();
+		}, condimentos.keySet());
 	}
+
+	/* Servicios Internos */
+	//TODO mejorar para llegar a algo más cercano a fold/reduct
+	private Collection<String> getConSubrecetas(
+			Function<Receta, Collection<String>> f, Collection<String> seed) {
+
+		class CollectionMerger implements BinaryOperator<Collection<String>> {
+
+			@Override
+			public Collection<String> apply(Collection<String> t,
+					Collection<String> u) {
+				Collection<String> a = new HashSet<String>();
+
+				a.addAll(t);
+				a.addAll(u);
+
+				return a;
+			}
+
+		}
+
+		CollectionMerger merger = new CollectionMerger();
+
+		if (subRecetas == null)
+			return seed;
+
+		Collection<String> coleccionesDeSubrecetas = subRecetas.stream().map(f)
+				.collect(Collectors.reducing(merger)).get();
+
+		return merger.apply(seed, coleccionesDeSubrecetas);
+
+	}
+
+	/* Accessors and Mutators */
 
 	public int getTotalCalorias() {
 		return encabezado.getTotalCalorias();
@@ -113,12 +157,12 @@ public class Receta {
 		encabezado.setTotalCalorias(totalCalorias);
 	}
 
-	public HashMap<String, Float> getIngredientes() {
-		return ingredientes;
+	public void agregarIngrediente(String key, Float value) {
+		ingredientes.put(key, value);
 	}
 
-	public HashMap<String, Float> getCondimentos() {
-		return condimentos;
+	public void agregarCondimento(String key, Float value) {
+		condimentos.put(key, value);
 	}
 
 	public String getNombreDelPlato() {
@@ -132,5 +176,5 @@ public class Receta {
 	public String getDificultad() {
 		return encabezado.getDificultad();
 	}
-	
+
 }
