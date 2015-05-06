@@ -13,12 +13,12 @@ import java.util.function.Predicate;
 
 public class Usuario {
 
-	/* Datos básicos */
+	/* Datos basicos */
 	private String nombre;
 	private Sexo sexo;
 	private LocalDate fechaNacimiento;
 
-	/* Datos de la complexión */
+	/* Datos de la complexion */
 
 	private float peso;
 	private float altura;
