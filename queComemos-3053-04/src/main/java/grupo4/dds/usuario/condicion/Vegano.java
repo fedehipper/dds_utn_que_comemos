@@ -5,7 +5,7 @@ import static grupo4.dds.usuario.Alimento.CHIVITO;
 import static grupo4.dds.usuario.Alimento.CHORI;
 import static grupo4.dds.usuario.Alimento.FRUTAS;
 import static grupo4.dds.usuario.Alimento.POLLO;
-import grupo4.dds.receta.RecetaPublica;
+import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Alimento;
 import grupo4.dds.usuario.Usuario;
 
@@ -27,7 +27,7 @@ public class Vegano implements Condicion {
 		return usuario.leGusta(FRUTAS);
 	}
 
-	public boolean esRecomendable(RecetaPublica receta) {
+	public boolean esRecomendable(Receta  receta) {
 		return !Collections.disjoint(Carnes, receta.getNombreIngredientes());
 	}
 

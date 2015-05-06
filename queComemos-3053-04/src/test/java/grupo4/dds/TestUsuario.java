@@ -15,6 +15,7 @@ import grupo4.dds.usuario.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,6 @@ public class TestUsuario {
 		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
 		recetaDeJuancho.getIngredientes().put("papa", 4.0f);
-		recetaDeJuancho.setTotalCalorias(100);
 	}
 
 	@Test
@@ -83,11 +83,23 @@ public class TestUsuario {
 	}
 
 	@Test
-	public void testUsuarioAgregaUnaReceta() {
+	public void testUsuarioAgregaUnaRecetaSiLePertenece() {
 		juancho.agregarReceta(recetaDeJuancho);
 		assertTrue(!juancho.getRecetas().isEmpty());
 	}
-				
+	
+	@Test
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece(){
+		pedro.agregarReceta(recetaDeJuancho);
+		assertTrue(pedro.getRecetas().isEmpty());
+	}
+	
+	@Test
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica(){
+		juancho.agregarReceta(recetaDeTodos);
+		assertTrue(juancho.getRecetas().isEmpty());
+	}
+	
 	@Test
 	public void testJuanchoPuedeVerOModificarSuReceta() {
 		assertTrue(juancho.puedeVerOModificar(recetaDeJuancho));
@@ -108,6 +120,11 @@ public class TestUsuario {
 		assertFalse(pedro.puedeVerOModificar(recetaDeJuancho));
 	}
 	
-		
-	
+	@Test
+	public void testJuanchoAgregaUnaBatataALaReceta(){
+		HashMap<String,Float> ing = recetaDeJuancho.getIngredientes();
+		ing.put("batata",1.0f);
+		juancho.modificarReceta(recetaDeJuancho, null,ing, null, null, 0, null, null, null);
+		assertTrue(recetaDeJuancho.getNombreIngredientes().contains("batata"));
+	}
 }

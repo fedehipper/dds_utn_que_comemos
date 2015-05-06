@@ -35,50 +35,49 @@ public class TestCondiciones {
 		recetaDeJuancho.getIngredientes().put("sal", 90.0f);
 		recetaDeJuancho.getIngredientes().put("caldo", 8.0f);
 		recetaDeJuancho.getIngredientes().put("carne", 90.0f);
-		recetaDeJuancho.getCondimentos().put("azucar", 100.0f);
-		recetaDeJuancho.setTotalCalorias(10);	
+		recetaDeJuancho.getCondimentos().put("azucar", 101.0f);
 		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeCeliaco() {
+	public void testJuanchoCumpleNecesidadesDeCeliaco() {
 		assertTrue(celiaco.subsanaCondicion(juancho));
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeVegano() {
+	public void testJuanchoCumpleNecesidadesDeVegano() {
 		assertTrue(vegano.subsanaCondicion(juancho));
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeDiabetico() {
+	public void testJuanchoCumpleNecesidadesDeDiabetico() {
 		assertTrue(diabetico.subsanaCondicion(juancho));
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeHipertenso() {
+	public void testJuanchoCumpleNecesidadesDeHipertenso() {
 		assertTrue(hipertenso.subsanaCondicion(juancho));
 	}
 	
 	@Test
-	public void esRecetaInadecuadaEnHipertensos() {
+	public void esRecetaDeJuanchoInadecuadaEnHipertensos() {
 		assertTrue(!(hipertenso.esRecomendable(recetaDeJuancho)));
 	}
 	
 	@Test
-	public void esRecetaInadecuadaEnVeganos() {
+	public void esRecetaDeJuanchoInadecuadaEnVeganos() {
 		assertTrue(!(vegano.esRecomendable(recetaDeJuancho)));
 	}
 	
 	@Test
-	public void esRecetaAdecuadaEnCeliacos() {
+	public void esRecetaDeJuanchoAdecuadaEnCeliacos() {
 		assertTrue((celiaco.esRecomendable(recetaDeJuancho))); 
 	}
 	
 	@Test
-	public void esRecetaAdecuadaEnDiabeticos() {
-		assertTrue(diabetico.esRecomendable(recetaDeJuancho));
+	public void esRecetaDeJuanchoInadecuadaEnDiabeticos() {
+		assertTrue(!(diabetico.esRecomendable(recetaDeJuancho)));
 	}
 }

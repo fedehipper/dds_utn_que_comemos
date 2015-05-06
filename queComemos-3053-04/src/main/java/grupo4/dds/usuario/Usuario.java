@@ -12,12 +12,12 @@ import java.util.function.Predicate;
 
 public class Usuario {
 
-	/* Datos básicos */
+	/* Datos bï¿½sicos */
 	private String nombre;
 	private Sexo sexo;
 	private LocalDate fechaNacimiento;
 
-	/* Datos de la complexión */
+	/* Datos de la complexiï¿½n */
 
 	private float peso;
 	private float altura;
@@ -63,14 +63,11 @@ public class Usuario {
 		return tieneCamposObligatorios() && nombre.length() > 4
 				&& tieneCondicionesValidas()
 				&& fechaNacimiento.isBefore(LocalDate.now());
-
 	}
 
 	public boolean sigueRutinaSaludable() {
-
 		double imc = indiceDeMasaCorporal();
 		return (18 < imc) && (imc < 30) && subsanaTodasLasCondiciones();
-
 	}
 
 	public boolean leGusta(Alimento alimento) {
@@ -78,12 +75,12 @@ public class Usuario {
 	}
 
 	public void agregarReceta(Receta unaReceta) {
-		if (unaReceta.esValida() && unaReceta.puedeSerVistaOModificadaPor(this))
+		if (unaReceta.esValida() && unaReceta.esElCreador(this) && esRecetaAdecuada(unaReceta))
 			this.recetas.add(unaReceta);
 	}
 
 	public boolean tieneRutina(Rutina rutina) {
-		return rutina.equals(rutina);
+		return this.rutina.equals(rutina);
 	}
 
 	public boolean puedeVerOModificar(Receta unaReceta) {
@@ -93,7 +90,6 @@ public class Usuario {
 	/* Servicios internos */
 
 	private boolean tieneCamposObligatorios() {
-
 		return (this.nombre != null) && (this.peso != 0) && (this.altura != 0)
 				&& (this.fechaNacimiento != null) && (this.rutina != null);
 	}
@@ -113,8 +109,8 @@ public class Usuario {
 				.subsanaCondicion(this));
 	}
 
-	// TODO verificar que sea lo pedido en el punto 4
-	public boolean esRecetaAdecuada(RecetaPublica receta) {
+
+	public boolean esRecetaAdecuada(Receta receta) {
 		return this.condiciones.stream().allMatch(
 				condicion -> condicion.esRecomendable(receta));
 	}
@@ -126,7 +122,7 @@ public class Usuario {
 			int calorias, String dificultad, Temporada temporada,
 			Collection<RecetaPublica> subReceta) {
 		unaReceta.serModificadaPor(this, nombre, ingredientes, condimentos,
-				preparacion, calorias, dificultad, temporada, subReceta);
+				preparacion, dificultad, temporada, subReceta);
 	}
 
 	/* Accessors and Mutators */
