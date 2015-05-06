@@ -58,25 +58,25 @@ public class TestReceta {
 	@Test 
 	public void testEsRecetaAdecuadaParaUnCeliaco() {
 		pedro.agregarCondicion(celiaco);
-		assertTrue(pedro.esRecetaAdecuada(receta));
+		assertTrue(pedro.esAdecuada(receta));
 	}
 	
 	@Test 
 	public void testEsRecetaInadecuadaParaUnVegano() {
 		pedro.agregarCondicion(vegano);
-		assertTrue(!(pedro.esRecetaAdecuada(receta)));
+		assertTrue(!(pedro.esAdecuada(receta)));
 	}
 		
 	@Test 
 	public void testEsRecetaInadecuadaParaUnDiabetico() {
 		pedro.agregarCondicion(diabetico);
-		assertTrue(!(pedro.esRecetaAdecuada(receta)));
+		assertTrue(!(pedro.esAdecuada(receta)));
 	}
 	
 	@Test 
 	public void testEsRecetaInadecuadaParaUnHipertenso() {
 		pedro.agregarCondicion(hipertenso);
-		assertTrue(!(pedro.esRecetaAdecuada(receta)));
+		assertTrue(!(pedro.esAdecuada(receta)));
 	}
 	
 	@Test

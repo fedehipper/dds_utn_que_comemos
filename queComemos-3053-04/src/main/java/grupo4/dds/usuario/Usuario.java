@@ -77,7 +77,7 @@ public class Usuario {
 	}
 
 	public void agregarReceta(Receta unaReceta) {
-		if (unaReceta.esValida() && unaReceta.esElCreador(this) && esRecetaAdecuada(unaReceta))
+		if (unaReceta.esValida() && unaReceta.esElCreador(this) && esAdecuada(unaReceta))
 			this.recetas.add(unaReceta);
 	}
 
@@ -135,11 +135,7 @@ public class Usuario {
 				.subsanaCondicion(this));
 	}
 
-	public boolean esRecetaAdecuada(Receta receta) {
-		return this.condiciones.stream().allMatch(
-				condicion -> condicion.esRecomendable(receta));
-	}
-
+	
 	/* Accessors and Mutators */
 
 	public String getNombre() {
