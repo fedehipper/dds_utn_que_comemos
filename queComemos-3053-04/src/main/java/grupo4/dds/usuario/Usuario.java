@@ -35,12 +35,6 @@ public class Usuario {
 
 	public Usuario(){};
 	
-	public Usuario(float estatura, float peso) {
-		this.peso = peso;
-		this.altura = estatura;
-
-	}
-
 	public Usuario(String nombre, LocalDate fechaNacimiento, float altura,
 			float peso, Rutina rutina) {
 		this.nombre = nombre;
