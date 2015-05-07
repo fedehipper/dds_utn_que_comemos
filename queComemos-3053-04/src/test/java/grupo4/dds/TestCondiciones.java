@@ -1,86 +1,135 @@
 package grupo4.dds;
 
-import static grupo4.dds.usuario.Alimento.FRUTAS;
-import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
-import static grupo4.dds.usuario.Sexo.MASCULINO;
+import static grupo4.dds.usuario.Alimento.*;
+import static grupo4.dds.usuario.Rutina.*;
+import static grupo4.dds.usuario.Sexo.*;
 import static org.junit.Assert.assertTrue;
-import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.usuario.Alimento;
+import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.usuario.condicion.Celiaco;
-import grupo4.dds.usuario.condicion.Diabetico;
-import grupo4.dds.usuario.condicion.Hipertenso;
-import grupo4.dds.usuario.condicion.Vegano;
+import grupo4.dds.usuario.condicion.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestCondiciones {
 
-	private Usuario juancho = new Usuario("juancho", MASCULINO, LocalDate.of(1000,
-			04, 04), 1.80f, 70.0f, ACTIVA_EJERCICIO_ADICIONAL);
-	private Celiaco celiaco = new Celiaco();
-	private Vegano vegano = new Vegano();
-	private Diabetico diabetico = new Diabetico();
-	private Hipertenso hipertenso = new Hipertenso();
-	private RecetaPublica recetaDeJuancho = new RecetaPublica();
+	private Usuario usuario;
+	private Receta receta;
+	private Condicion celiaco = new Celiaco();
+	private Condicion vegano = new Vegano();
+	private Condicion diabetico = new Diabetico();
+	private Condicion hipertenso = new Hipertenso();
+	
+	/* Test: @esValidoCon/1 */
+	
+	public void testCeliacoSiempreEsCondicionValida() {
+		assertTrue(celiaco.esValidaCon(null));
+	}
+	
+	public void testDiabeticoEsValidaSiElUsuarioIndicaSexoYAlgunaPreferenciaAlimenticia() {
+		usuario = new Usuario(null, MASCULINO, null, 0, 0, null);
+		
+		usuario.agregarPreferenciaAlimenticia(CHIVITO);
+		assertTrue(diabetico.esValidaCon(usuario));
+	}
+	
+	public void testHipertensoEsValidaSiElUsuarioIndicaAlgunaPreferenciaAlimenticia() {
+		usuario = new Usuario();
+		
+		usuario.agregarPreferenciaAlimenticia(CARNE);
+		assertTrue(hipertenso.esValidaCon(usuario));
+	}
+	
+	public void testVeganoEsValidaSiElUsuarioNoTieneCarnesEnSusPreferenciasAlimenticias() {
+		usuario = new Usuario();
+		
+		usuario.agregarPreferenciaAlimenticia(FRUTAS);
+		usuario.agregarPreferenciaAlimenticia(MELON);
+		usuario.agregarPreferenciaAlimenticia(PESCADO);
+		assertTrue(vegano.esValidaCon(usuario));
+		
+		usuario.agregarPreferenciaAlimenticia(CHIVITO);
+		assertTrue(!vegano.esValidaCon(usuario));
+	}
 
-	@Before
-	public void setUp() throws Exception {
-
-		recetaDeJuancho.agregarIngrediente("morron", 80.0f);
-		recetaDeJuancho.agregarCondimento("sal", 90.0f);
-		recetaDeJuancho.agregarIngrediente("caldo", 8.0f);
-		recetaDeJuancho.agregarIngrediente("carne", 90.0f);
-		recetaDeJuancho.agregarCondimento("azucar", 100.1f);
-		recetaDeJuancho.setTotalCalorias(10);	
-
-		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
-		preferenciasFrutas.add(FRUTAS);
-		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
+	/* Test: @subsanaCondicion/1 */
+	
+	@Test
+	public void testCeliacoSiempreSubsanaCondicion() {
+		assertTrue(celiaco.subsanaCondicion(null));
 	}
 
 	@Test
-	public void testJuanchoCumpleNecesidadesDeCeliaco() {
-		assertTrue(celiaco.subsanaCondicion(juancho));
+	public void testVeganoSubsanaCondicionSiAlUsuarioLeGustanLasFrutas() {
+		usuario = new Usuario();
+		
+		usuario.agregarPreferenciaAlimenticia(MONDONGO);
+		assertTrue(!vegano.subsanaCondicion(usuario));
+		
+		usuario.agregarPreferenciaAlimenticia(FRUTAS);
+		assertTrue(vegano.subsanaCondicion(usuario));
 	}
 
 	@Test
-	public void testJuanchoCumpleNecesidadesDeVegano() {
-		assertTrue(vegano.subsanaCondicion(juancho));
+	public void testHipertensoSubsanaCondicionSiElUsuarioTieneRuinaActivaIntensaConEjercicioAdicional() {
+		usuario = new Usuario(null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL);
+		assertTrue(hipertenso.subsanaCondicion(usuario));
 	}
 
 	@Test
-	public void testJuanchoCumpleNecesidadesDeDiabetico() {
-		assertTrue(diabetico.subsanaCondicion(juancho));
+	public void testDiabeticoSubsanaCondicionSiElUsuarioTieneRutinaActivaONoPesaMasDe70() {
+		assertTrue(diabetico.subsanaCondicion(new Usuario(null, null, 0, 69.9f, null)));
+		assertTrue(diabetico.subsanaCondicion(new Usuario(null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL)));
+		assertTrue(diabetico.subsanaCondicion(new Usuario(null, null, 0, 0, ACTIVA_SIN_EJERCICIO_ADICIONAL)));
 	}
-
+	
+	/* Test: @esRecomendable/1 */
+	
 	@Test
-	public void testJuanchoCumpleNecesidadesDeHipertenso() {
-		assertTrue(hipertenso.subsanaCondicion(juancho));
+	public void testCeliacoSiempreEsRecomendable() {
+		assertTrue(celiaco.esRecomendable(null));
 	}
 	
 	@Test
-	public void esRecetaDeJuanchoInadecuadaEnHipertensos() {
-		assertTrue(!(hipertenso.esRecomendable(recetaDeJuancho)));
+	public void testHipertensoEsRecomendableSiLaRecetaNoContieneSalNiCaldo() {
+		receta = new Receta();
+		
+		receta.agregarCondimento("pimienta", 0f);
+		receta.agregarCondimento("oregano", 0f);
+		assertTrue(hipertenso.esRecomendable(receta));
+	}
+	
+	public void testHipertensoNoEsRecomendableSiLaRecetaContieneSaloCaldo() {
+		receta = new Receta();
+		receta.agregarCondimento("sal", 0f);
+		assertTrue(!hipertenso.esRecomendable(receta));
+		
+		receta = new Receta();
+		receta.agregarCondimento("caldo", 0f);
+		assertTrue(!hipertenso.esRecomendable(receta));
 	}
 	
 	@Test
-	public void esRecetaDeJuanchoInadecuadaEnVeganos() {
-		assertTrue(!(vegano.esRecomendable(recetaDeJuancho)));
+	public void testVeganoEsRecomendableSiLaRecetaNoTieneCarne() {
+		receta = new Receta();
+		
+		receta.agregarIngrediente("frutas", 0f);
+		receta.agregarIngrediente("melon", 0f);
+		receta.agregarIngrediente("pescado", 0f);
+
+		assertTrue(vegano.esRecomendable(receta));
+		
+		receta.agregarIngrediente("chivito", 0f);
+		assertTrue(!vegano.esRecomendable(receta));
 	}
 	
 	@Test
-	public void esRecetaDeJuanchoAdecuadaEnCeliacos() {
-		assertTrue((celiaco.esRecomendable(recetaDeJuancho))); 
-	}
-	
-	@Test
-	public void esRecetaDeJuanchoInadecuadaEnDiabeticos() {
-		assertTrue(!diabetico.esRecomendable(recetaDeJuancho));
+	public void testDiabeticoEsRecomendableSiLaRecetaNoTieneMasDe100DeAzucar() {
+		receta = new Receta();
+		receta.agregarCondimento("azucar", 100.1f);
+		assertTrue(!diabetico.esRecomendable(receta));
+		
+		receta = new Receta();
+		receta.agregarCondimento("azucar", 99.9f);
+		assertTrue(diabetico.esRecomendable(receta));
 	}
 }

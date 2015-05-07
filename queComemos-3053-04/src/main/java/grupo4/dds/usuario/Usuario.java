@@ -33,6 +33,8 @@ public class Usuario {
 
 	/* Constructores */
 
+	public Usuario(){};
+	
 	public Usuario(float estatura, float peso) {
 		this.peso = peso;
 		this.altura = estatura;

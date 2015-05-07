@@ -13,12 +13,8 @@ public class RecetaPublica extends Receta {
 		super(null);
 	};// Creado para testear por ahora
 
-	public RecetaPublica(EncabezadoDeReceta encabezado,
-			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, Collection<Receta> subRecetas,
-			String preparacion) {
-		super(null, encabezado, ingredientes, condimentos, subRecetas,
-				preparacion);
+	public RecetaPublica(EncabezadoDeReceta encabezado, String preparacion) {
+		super(null, encabezado, preparacion);
 	}
 
 	/* Servicios */
@@ -43,8 +39,7 @@ public class RecetaPublica extends Receta {
 
 	private Receta convertirEnPrivada(Usuario usuario) {
 
-		return Receta.crearNueva(usuario, encabezado, ingredientes,
-				condimentos, preparacion, subRecetas);
+		return Receta.crearNueva(usuario, encabezado, preparacion);
 
 	}
 

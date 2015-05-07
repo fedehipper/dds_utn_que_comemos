@@ -19,34 +19,27 @@ public class Receta {
 	/* Detalle de la receta */
 	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
-	protected Collection<Receta> subRecetas;
+	protected Collection<Receta> subrecetas;
 	protected String preparacion;
 
 	/* Constructores */
+	
+	public Receta(){}
 
 	public Receta(Usuario creador) {
 		this.creador = creador;
 	}// Creado para testear por ahora
 
-	protected Receta(Usuario creador, EncabezadoDeReceta encabezado,
-			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, Collection<Receta> subRecetas,
-			String preparacion) {
+	protected Receta(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
 		this.creador = creador;
 		this.encabezado = encabezado;
-		this.ingredientes = ingredientes;
-		this.condimentos = condimentos;
-		this.subRecetas = subRecetas;
 		this.preparacion = preparacion;
 	}
 
 	static public Receta crearNueva(Usuario creador,
-			EncabezadoDeReceta encabezado, HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) {
+			EncabezadoDeReceta encabezado, String preparacion) {
 
-		Receta nuevaReceta = new Receta(creador, encabezado, ingredientes,
-				condimentos, subRecetas, preparacion);
+		Receta nuevaReceta = new Receta(creador, encabezado, preparacion);
 		creador.agregarReceta(nuevaReceta);
 
 		return nuevaReceta;
@@ -91,7 +84,7 @@ public class Receta {
 		this.encabezado = encabezado;
 		this.ingredientes = ingredientes;
 		this.condimentos = condimentos;
-		this.subRecetas = subRecetas;
+		this.subrecetas = subRecetas;
 		this.preparacion = preparacion;
 	}
 
@@ -103,7 +96,7 @@ public class Receta {
 
 	public String getPreparacion() {
 
-		String preparacionDeSubrecetas = subRecetas.stream()
+		String preparacionDeSubrecetas = subrecetas.stream()
 				.map(Receta::getPreparacion).collect(Collectors.joining("\n"));
 
 		return String.join("\n", preparacion, preparacionDeSubrecetas);
@@ -137,10 +130,10 @@ public class Receta {
 
 		CollectionMerger merger = new CollectionMerger();
 
-		if (subRecetas == null)
+		if (subrecetas == null)
 			return seed;
 
-		Collection<String> coleccionesDeSubrecetas = subRecetas.stream().map(f)
+		Collection<String> coleccionesDeSubrecetas = subrecetas.stream().map(f)
 				.collect(Collectors.reducing(merger)).get();
 
 		return merger.apply(seed, coleccionesDeSubrecetas);
@@ -164,7 +157,23 @@ public class Receta {
 	public void agregarCondimento(String key, Float value) {
 		condimentos.put(key, value);
 	}
+	
+	public void agregarSubreceta(Receta subreceta) {
+		subrecetas.add(subreceta);
+	}
 
+	public void agregarIngredientes(HashMap<String, Float> ingredientes) {
+		ingredientes.putAll(ingredientes);
+	}
+
+	public void agregarCondimentos(HashMap<String, Float> condimentos) {
+		condimentos.putAll(condimentos);
+	}
+	
+	public void agregarSubrecetas(Collection<Receta> subrecetas) {
+		subrecetas.addAll(subrecetas);
+	}
+	
 	public String getNombreDelPlato() {
 		return encabezado.getNombreDelPlato();
 	}
