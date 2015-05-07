@@ -42,8 +42,10 @@ public class TestUsuario {
 		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
+
 		recetaDeJuancho.agregarIngrediente("papa", 4.0f);
 		recetaDeJuancho.setTotalCalorias(100);
+
 	}
 
 	@Test
@@ -83,11 +85,23 @@ public class TestUsuario {
 	}
 
 	@Test
-	public void testUsuarioAgregaUnaReceta() {
+	public void testUsuarioAgregaUnaRecetaSiLePertenece() {
 		juancho.agregarReceta(recetaDeJuancho);
 		assertTrue(!juancho.getRecetas().isEmpty());
 	}
-				
+	
+	@Test
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece(){
+		pedro.agregarReceta(recetaDeJuancho);
+		assertTrue(pedro.getRecetas().isEmpty());
+	}
+	
+	@Test
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica(){
+		juancho.agregarReceta(recetaDeTodos);
+		assertTrue(juancho.getRecetas().isEmpty());
+	}
+	
 	@Test
 	public void testJuanchoPuedeVerOModificarSuReceta() {
 		assertTrue(juancho.puedeVer(recetaDeJuancho));
@@ -107,7 +121,5 @@ public class TestUsuario {
 	public void testPedroNoPuedeVerOModificarUnaRecetaQueNoLePertenece() {
 		assertFalse(pedro.puedeVer(recetaDeJuancho));
 	}
-	
-		
 	
 }

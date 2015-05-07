@@ -31,54 +31,56 @@ public class TestCondiciones {
 
 	@Before
 	public void setUp() throws Exception {
+
 		recetaDeJuancho.agregarIngrediente("morron", 80.0f);
 		recetaDeJuancho.agregarCondimento("sal", 90.0f);
 		recetaDeJuancho.agregarIngrediente("caldo", 8.0f);
 		recetaDeJuancho.agregarIngrediente("carne", 90.0f);
-		recetaDeJuancho.agregarCondimento("azucar", 100.0f);
+		recetaDeJuancho.agregarCondimento("azucar", 100.1f);
 		recetaDeJuancho.setTotalCalorias(10);	
+
 		Collection<Alimento> preferenciasFrutas = new ArrayList<>();
 		preferenciasFrutas.add(FRUTAS);
 		juancho.setPreferenciasAlimenticias(preferenciasFrutas);
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeCeliaco() {
+	public void testJuanchoCumpleNecesidadesDeCeliaco() {
 		assertTrue(celiaco.subsanaCondicion(juancho));
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeVegano() {
+	public void testJuanchoCumpleNecesidadesDeVegano() {
 		assertTrue(vegano.subsanaCondicion(juancho));
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeDiabetico() {
+	public void testJuanchoCumpleNecesidadesDeDiabetico() {
 		assertTrue(diabetico.subsanaCondicion(juancho));
 	}
 
 	@Test
-	public void testCumpleNecesidadesDeHipertenso() {
+	public void testJuanchoCumpleNecesidadesDeHipertenso() {
 		assertTrue(hipertenso.subsanaCondicion(juancho));
 	}
 	
 	@Test
-	public void esRecetaInadecuadaEnHipertensos() {
+	public void esRecetaDeJuanchoInadecuadaEnHipertensos() {
 		assertTrue(!(hipertenso.esRecomendable(recetaDeJuancho)));
 	}
 	
 	@Test
-	public void esRecetaInadecuadaEnVeganos() {
+	public void esRecetaDeJuanchoInadecuadaEnVeganos() {
 		assertTrue(!(vegano.esRecomendable(recetaDeJuancho)));
 	}
 	
 	@Test
-	public void esRecetaAdecuadaEnCeliacos() {
+	public void esRecetaDeJuanchoAdecuadaEnCeliacos() {
 		assertTrue((celiaco.esRecomendable(recetaDeJuancho))); 
 	}
 	
 	@Test
-	public void esRecetaAdecuadaEnDiabeticos() {
-		assertTrue(diabetico.esRecomendable(recetaDeJuancho));
+	public void esRecetaDeJuanchoInadecuadaEnDiabeticos() {
+		assertTrue(!diabetico.esRecomendable(recetaDeJuancho));
 	}
 }
