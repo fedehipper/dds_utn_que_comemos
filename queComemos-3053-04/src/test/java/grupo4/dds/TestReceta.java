@@ -2,7 +2,6 @@ package grupo4.dds;
 
 import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static grupo4.dds.usuario.Sexo.MASCULINO;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.NoTienePermisoParaAgregarReceta;
 import grupo4.dds.receta.Receta;

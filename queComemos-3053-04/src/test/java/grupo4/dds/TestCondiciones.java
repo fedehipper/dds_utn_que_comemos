@@ -22,10 +22,12 @@ public class TestCondiciones {
 	
 	/* Test: @esValidoCon/1 */
 	
+	@Test
 	public void testCeliacoSiempreEsCondicionValida() {
 		assertTrue(celiaco.esValidaCon(null));
 	}
 	
+	@Test
 	public void testDiabeticoEsValidaSiElUsuarioIndicaSexoYAlgunaPreferenciaAlimenticia() {
 		usuario = new Usuario(null, MASCULINO, null, 0, 0, null);
 		
@@ -33,6 +35,7 @@ public class TestCondiciones {
 		assertTrue(diabetico.esValidaCon(usuario));
 	}
 	
+	@Test
 	public void testHipertensoEsValidaSiElUsuarioIndicaAlgunaPreferenciaAlimenticia() {
 		usuario = new Usuario();
 		
@@ -40,6 +43,7 @@ public class TestCondiciones {
 		assertTrue(hipertenso.esValidaCon(usuario));
 	}
 	
+	@Test
 	public void testVeganoEsValidaSiElUsuarioNoTieneCarnesEnSusPreferenciasAlimenticias() {
 		usuario = new Usuario();
 		
@@ -99,6 +103,7 @@ public class TestCondiciones {
 		assertTrue(hipertenso.esRecomendable(receta));
 	}
 	
+	@Test
 	public void testHipertensoNoEsRecomendableSiLaRecetaContieneSaloCaldo() {
 		receta = new Receta();
 		receta.agregarCondimento("sal", 0f);
