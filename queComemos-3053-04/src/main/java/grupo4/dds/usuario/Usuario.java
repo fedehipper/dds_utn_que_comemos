@@ -1,7 +1,8 @@
 package grupo4.dds.usuario;
 
 import grupo4.dds.receta.EncabezadoDeReceta;
-import grupo4.dds.receta.NoTienePermisoParaModificar;
+import grupo4.dds.receta.NoTienePermisoParaAgregarReceta;
+import grupo4.dds.receta.NoTienePermisoParaModificarReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Condicion;
 
@@ -74,13 +75,19 @@ public class Usuario {
 		return this.preferenciasAlimenticias.contains(alimento);
 	}
 
-	public void agregarReceta(Receta receta) {
+	public void agregarReceta(Receta receta) throws NoTienePermisoParaAgregarReceta {
 		if (esAdecuada(receta) && this.puedeVer(receta))
-			this.recetas.add(receta);
+			recetas.add(receta);
+		else
+			throw new NoTienePermisoParaAgregarReceta();
 	}
 
 	public boolean tieneRutina(Rutina rutina) {
 		return rutina.equals(rutina);
+	}
+	
+	public boolean tieneReceta(Receta receta) {
+		return recetas.contains(receta);
 	}
 
 	public boolean puedeVer(Receta receta) {
@@ -100,13 +107,14 @@ public class Usuario {
 	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificarReceta {
 
 		try {
 			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
 					preparacion, subRecetas);
-		} catch (NoTienePermisoParaModificar e) {
-			System.out.println("No tiene permiso para modificar la receta.");
+		} catch (NoTienePermisoParaModificarReceta e) {
+			//TODO: hacer algo con esta excepción
+			throw e;
 		}
 
 	}

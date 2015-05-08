@@ -4,6 +4,7 @@ import static grupo4.dds.usuario.Alimento.*;
 import static grupo4.dds.usuario.Rutina.*;
 import static grupo4.dds.usuario.Sexo.*;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
@@ -48,7 +49,7 @@ public class TestCondiciones {
 		assertTrue(vegano.esValidaCon(usuario));
 		
 		usuario.agregarPreferenciaAlimenticia(CHIVITO);
-		assertTrue(!vegano.esValidaCon(usuario));
+		assertFalse(vegano.esValidaCon(usuario));
 	}
 
 	/* Test: @subsanaCondicion/1 */
@@ -63,7 +64,7 @@ public class TestCondiciones {
 		usuario = new Usuario();
 		
 		usuario.agregarPreferenciaAlimenticia(MONDONGO);
-		assertTrue(!vegano.subsanaCondicion(usuario));
+		assertFalse(vegano.subsanaCondicion(usuario));
 		
 		usuario.agregarPreferenciaAlimenticia(FRUTAS);
 		assertTrue(vegano.subsanaCondicion(usuario));
@@ -101,11 +102,11 @@ public class TestCondiciones {
 	public void testHipertensoNoEsRecomendableSiLaRecetaContieneSaloCaldo() {
 		receta = new Receta();
 		receta.agregarCondimento("sal", 0f);
-		assertTrue(!hipertenso.esRecomendable(receta));
+		assertFalse(hipertenso.esRecomendable(receta));
 		
 		receta = new Receta();
 		receta.agregarCondimento("caldo", 0f);
-		assertTrue(!hipertenso.esRecomendable(receta));
+		assertFalse(hipertenso.esRecomendable(receta));
 	}
 	
 	@Test
@@ -119,14 +120,14 @@ public class TestCondiciones {
 		assertTrue(vegano.esRecomendable(receta));
 		
 		receta.agregarIngrediente("chivito", 0f);
-		assertTrue(!vegano.esRecomendable(receta));
+		assertFalse(vegano.esRecomendable(receta));
 	}
 	
 	@Test
 	public void testDiabeticoEsRecomendableSiLaRecetaNoTieneMasDe100DeAzucar() {
 		receta = new Receta();
 		receta.agregarCondimento("azucar", 100.1f);
-		assertTrue(!diabetico.esRecomendable(receta));
+		assertFalse(diabetico.esRecomendable(receta));
 		
 		receta = new Receta();
 		receta.agregarCondimento("azucar", 99.9f);

@@ -30,16 +30,22 @@ public class RecetaPublica extends Receta {
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificarReceta {
 
 		Receta receta = convertirEnPrivada(usuario);
+		
+		try {
+		usuario.agregarReceta(receta);
+		}
+		catch(NoTienePermisoParaAgregarReceta e){}
+		
 		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos,
 				preparacion, subRecetas);
 	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {
 
-		return Receta.crearNueva(usuario, encabezado, preparacion);
+		return new Receta(usuario, encabezado, preparacion);
 
 	}
 

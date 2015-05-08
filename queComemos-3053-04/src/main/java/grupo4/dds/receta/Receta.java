@@ -29,20 +29,11 @@ public class Receta {
 	public Receta(Usuario creador) {
 		this.creador = creador;
 	}// Creado para testear por ahora
-
-	protected Receta(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
+	//TODO: lanzar excepción cuando no se especifica el creador
+	public Receta(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
 		this.creador = creador;
-		this.encabezado = encabezado;
+		this.encabezado = encabezado != null ? encabezado : new EncabezadoDeReceta();
 		this.preparacion = preparacion;
-	}
-
-	static public Receta crearNueva(Usuario creador,
-			EncabezadoDeReceta encabezado, String preparacion) {
-
-		Receta nuevaReceta = new Receta(creador, encabezado, preparacion);
-		creador.agregarReceta(nuevaReceta);
-
-		return nuevaReceta;
 	}
 
 	/* Servicios */
@@ -76,10 +67,10 @@ public class Receta {
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) throws NoTienePermisoParaModificar {
+			Collection<Receta> subRecetas) throws NoTienePermisoParaModificarReceta {
 
 		if (!puedeSerModificadaPor(usuario))
-			throw new NoTienePermisoParaModificar();
+			throw new NoTienePermisoParaModificarReceta();
 
 		this.encabezado = encabezado;
 		this.ingredientes = ingredientes;
@@ -96,9 +87,15 @@ public class Receta {
 
 	public String getPreparacion() {
 
-		String preparacionDeSubrecetas = subrecetas.stream()
+		if(preparacion == null && subrecetas == null)
+			return null;
+		
+		String preparacionDeSubrecetas = subrecetas == null ? null : subrecetas.stream()
 				.map(Receta::getPreparacion).collect(Collectors.joining("\n"));
-
+		
+		if(preparacionDeSubrecetas == null)
+			return preparacion;
+		
 		return String.join("\n", preparacion, preparacionDeSubrecetas);
 	}
 

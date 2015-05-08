@@ -4,6 +4,7 @@ import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static grupo4.dds.usuario.Sexo.MASCULINO;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import grupo4.dds.receta.NoTienePermisoParaAgregarReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Usuario;
@@ -15,7 +16,9 @@ import grupo4.dds.usuario.condicion.Vegano;
 import java.time.LocalDate;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class TestReceta {
 	
@@ -31,7 +34,7 @@ public class TestReceta {
 	private Receta recetaDePedro = new Receta(pedro);
 	private Receta recetaDeJuancho = new Receta(juancho);
 		
-
+	@Rule public ExpectedException expectedExcetption = ExpectedException.none();
 	
 	@Before
 	public void setUp() {
@@ -81,15 +84,16 @@ public class TestReceta {
 	}
 	
 	@Test
-	public void testUnUsuarioPuedeAgregarUnaRecetaValidaSiEsElCreador(){
+	public void testUnUsuarioPuedeAgregarUnaRecetaValidaSiEsElCreador() throws NoTienePermisoParaAgregarReceta{
 		pedro.agregarReceta(recetaDePedro);
 		assertTrue(pedro.getRecetas().contains(recetaDePedro));
 	}
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaValidaSiNoEsElCreador(){
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaValidaSiNoEsElCreador() throws NoTienePermisoParaAgregarReceta{
+		expectedExcetption.expect(NoTienePermisoParaAgregarReceta.class);
+		
 		pedro.agregarReceta(recetaDeJuancho);
-		assertFalse(pedro.getRecetas().contains(recetaDeJuancho));
 	}
 }
 
