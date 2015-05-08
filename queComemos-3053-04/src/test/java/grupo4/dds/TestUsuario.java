@@ -6,15 +6,18 @@ import static grupo4.dds.usuario.Sexo.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import grupo4.dds.receta.NoTienePermisoParaAgregarReceta;
-import grupo4.dds.receta.NoTienePermisoParaModificarReceta;
+import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.NoSePuedeAgregarLaReceta;
+import grupo4.dds.receta.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,13 +26,20 @@ public class TestUsuario {
 
 	private Usuario usuario;
 	private Receta receta;
-	private Usuario fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
-	private Usuario federicoHipper = new Usuario("Federico Hipper", null, 1.91f, 102.0f, null);
-	private Usuario arielFolino = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
-	private Usuario cristianMaldonado = new Usuario("Cristian Maldonado", null, 1.81f, 87.0f, null);
-	private Usuario matiasMartino = new Usuario("Matías Martino", null, 1.74f, 79.0f, null);
+	private Usuario fecheSena;
+	private Usuario arielFolino;
+	private Usuario matiasMartino;
+	private Usuario federicoHipper;
+	private Usuario cristianMaldonado;
 	
 	@Rule public ExpectedException expectedExcetption = ExpectedException.none();
+	
+	@Before
+	public void setUp() {
+		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
+		arielFolino = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
+		matiasMartino = new Usuario("Matías Martino", null, 1.74f, 79.0f, null);
+	}
 	
 	/* Test: @indiceDeMasaCorporal/0 */
 
@@ -40,6 +50,7 @@ public class TestUsuario {
 
 	@Test
 	public void testIMCConPeso102YAltura191() {
+		federicoHipper = new Usuario("Federico Hipper", null, 1.91f, 102.0f, null);
 		assertEquals(federicoHipper.indiceDeMasaCorporal(), 27.959, 0.001);
 	}
 
@@ -50,6 +61,7 @@ public class TestUsuario {
 
 	@Test
 	public void testIMCConPeso87YAltura181() {
+		cristianMaldonado = new Usuario("Cristian Maldonado", null, 1.81f, 87.0f, null);
 		assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 26.555, 0.001);
 	}
 
@@ -280,8 +292,8 @@ public class TestUsuario {
 	/* Test: @agregarReceta/1 */
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl() throws NoTienePermisoParaAgregarReceta {
-		expectedExcetption.expect(NoTienePermisoParaAgregarReceta.class);
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl() throws NoSePuedeAgregarLaReceta {
+		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new Receta(fecheSena, null, null);
 		assertFalse(fecheSena.esAdecuada(receta));
@@ -290,8 +302,8 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoPuedeVer() throws NoTienePermisoParaAgregarReceta {
-		expectedExcetption.expect(NoTienePermisoParaAgregarReceta.class);
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece() throws NoSePuedeAgregarLaReceta {
+		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
@@ -301,17 +313,8 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia() throws NoTienePermisoParaAgregarReceta {
-	
-		receta = new Receta(matiasMartino, null, null);
-		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
-		
-		matiasMartino.agregarReceta(receta);
-	}
-	
-	@Test
-	public void testUnUsuarioPuedeAgregarUnaRecetaPublicaValida() throws NoTienePermisoParaAgregarReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica() throws NoSePuedeAgregarLaReceta {
+		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new RecetaPublica();
 		receta.setTotalCalorias(4500);
@@ -320,21 +323,37 @@ public class TestUsuario {
 		fecheSena.agregarReceta(receta);
 	}
 	
-	/* Test: @modificarReceta/1 */
-	
 	@Test
-	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoTienePermisoParaModificarReceta {
-		
-		receta = new Receta(fecheSena, null, null);
+	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia() throws NoSePuedeAgregarLaReceta {
+	
+		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
 		receta.agregarIngrediente("frutas", 0f);
 		
-		fecheSena.modificarReceta(receta, null, null, null, "", null);
+		matiasMartino.agregarReceta(receta);
+	}
+	
+	/* Test: @modificarReceta/1 */
+	
+	@Test
+	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
+		
+		receta = new Receta(fecheSena, null, "Preparación antes de modificar");
+		
+		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
+		encabezado.setTotalCalorias(4500);
+		
+		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
+		ingredientes.put("frutas", 0f);
+		
+		fecheSena.modificarReceta(receta, encabezado, ingredientes, null, "Preparación después de modificar", null);
+		
+		assertTrue(receta.getPreparacion().equals("Preparación después de modificar"));
 	}
 	
 	@Test
-	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar() throws NoTienePermisoParaModificarReceta {
-		expectedExcetption.expect(NoTienePermisoParaModificarReceta.class);
+	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar() throws NoSePuedeModificarLaReceta {
+		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
 		receta = new Receta(fecheSena, null, null);
 		receta.setTotalCalorias(4500);
@@ -344,19 +363,19 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios() throws NoTienePermisoParaModificarReceta {
-	//TODO: terminar este test
-//		receta = new RecetaPublica(null, "Preparación antes de modificar");
-//		receta.setTotalCalorias(4500);
-//		receta.agregarIngrediente("frutas", 0f);
-//		
-//		fecheSena.modificarReceta(receta, null, null, null, "Preparación después de modificar", null);
-//		
-//		Receta[] a = null;
-//		a = fecheSena.getRecetas().toArray(a);
-//		a[a.length].equals("Preparación después de modificar");
-//		
-//		assertTrue(receta.getPreparacion().equals("Preparación antes de modificar"));
+	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios() throws NoSePuedeModificarLaReceta {
+		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparación antes de modificar");
+		
+		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
+		encabezado.setTotalCalorias(4500);
+		
+		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
+		ingredientes.put("frutas", 0f);
+
+		fecheSena.modificarReceta(recetaPublica, encabezado, ingredientes, null, "Preparación después de modificar", null);
+
+		assertTrue(recetaPublica.getPreparacion().equals("Preparación antes de modificar"));
+		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparación después de modificar"));
 	}
 	
 }

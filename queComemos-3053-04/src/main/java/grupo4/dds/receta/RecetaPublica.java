@@ -2,8 +2,8 @@ package grupo4.dds.receta;
 
 import grupo4.dds.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Collection;
 
 public class RecetaPublica extends Receta {
 
@@ -26,26 +26,35 @@ public class RecetaPublica extends Receta {
 	public boolean puedeSerModificadaPor(Usuario unUsuario) {
 		return true;
 	}
+	
+	public boolean puedeSerAgregadaPor(Usuario usuario) {
+		return false;
+	}
 
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) throws NoTienePermisoParaModificarReceta {
+			ArrayList<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
 
+		if (!puedeSerModificadaPor(usuario))
+			throw new NoSePuedeModificarLaReceta();
+		
 		Receta receta = convertirEnPrivada(usuario);
+		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos,
+				preparacion, subRecetas);
 		
 		try {
 		usuario.agregarReceta(receta);
 		}
-		catch(NoTienePermisoParaAgregarReceta e){}
+		catch(NoSePuedeAgregarLaReceta e){
+			throw new EsInadecuadaDespuesDeModificar();
+		}
 		
-		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos,
-				preparacion, subRecetas);
 	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {
 
-		return new Receta(usuario, encabezado, preparacion);
+		return new Receta(usuario, encabezado, ingredientes, condimentos, subrecetas, preparacion);
 
 	}
 

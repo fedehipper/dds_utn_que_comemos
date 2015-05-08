@@ -1,8 +1,8 @@
 package grupo4.dds.usuario;
 
 import grupo4.dds.receta.EncabezadoDeReceta;
-import grupo4.dds.receta.NoTienePermisoParaAgregarReceta;
-import grupo4.dds.receta.NoTienePermisoParaModificarReceta;
+import grupo4.dds.receta.NoSePuedeAgregarLaReceta;
+import grupo4.dds.receta.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Condicion;
 
@@ -30,7 +30,7 @@ public class Usuario {
 	private Collection<Alimento> preferenciasAlimenticias = new ArrayList<>();
 	private Collection<Alimento> comidasQueLeDisgustan = new ArrayList<>();
 	private Collection<Condicion> condiciones = new ArrayList<>();
-	private Collection<Receta> recetas = new ArrayList<>();
+	private ArrayList<Receta> recetas = new ArrayList<>();
 
 	/* Constructores */
 
@@ -75,11 +75,11 @@ public class Usuario {
 		return this.preferenciasAlimenticias.contains(alimento);
 	}
 
-	public void agregarReceta(Receta receta) throws NoTienePermisoParaAgregarReceta {
-		if (esAdecuada(receta) && this.puedeVer(receta))
+	public void agregarReceta(Receta receta) throws NoSePuedeAgregarLaReceta {
+		if (esAdecuada(receta) && receta.puedeSerAgregadaPor(this))
 			recetas.add(receta);
 		else
-			throw new NoTienePermisoParaAgregarReceta();
+			throw new NoSePuedeAgregarLaReceta();
 	}
 
 	public boolean tieneRutina(Rutina rutina) {
@@ -107,16 +107,20 @@ public class Usuario {
 	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) throws NoTienePermisoParaModificarReceta {
+			ArrayList<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
 
 		try {
 			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
 					preparacion, subRecetas);
-		} catch (NoTienePermisoParaModificarReceta e) {
+		} catch (NoSePuedeModificarLaReceta e) {
 			//TODO: hacer algo con esta excepción
 			throw e;
 		}
 
+	}
+	
+	public Receta recetaMasReciente() {
+		return recetas.get(recetas.size() - 1);
 	}
 
 	/* Servicios internos */

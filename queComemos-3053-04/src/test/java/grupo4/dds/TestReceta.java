@@ -3,7 +3,7 @@ package grupo4.dds;
 import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
 import static grupo4.dds.usuario.Sexo.MASCULINO;
 import static org.junit.Assert.assertTrue;
-import grupo4.dds.receta.NoTienePermisoParaAgregarReceta;
+import grupo4.dds.receta.NoSePuedeAgregarLaReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Usuario;
@@ -83,14 +83,14 @@ public class TestReceta {
 	}
 	
 	@Test
-	public void testUnUsuarioPuedeAgregarUnaRecetaValidaSiEsElCreador() throws NoTienePermisoParaAgregarReceta{
+	public void testUnUsuarioPuedeAgregarUnaRecetaValidaSiEsElCreador() throws NoSePuedeAgregarLaReceta{
 		pedro.agregarReceta(recetaDePedro);
 		assertTrue(pedro.getRecetas().contains(recetaDePedro));
 	}
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaValidaSiNoEsElCreador() throws NoTienePermisoParaAgregarReceta{
-		expectedExcetption.expect(NoTienePermisoParaAgregarReceta.class);
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaValidaSiNoEsElCreador() throws NoSePuedeAgregarLaReceta{
+		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		pedro.agregarReceta(recetaDeJuancho);
 	}

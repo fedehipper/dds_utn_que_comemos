@@ -2,6 +2,7 @@ package grupo4.dds.receta;
 
 import grupo4.dds.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ public class Receta {
 	/* Detalle de la receta */
 	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
-	protected Collection<Receta> subrecetas;
+	protected ArrayList<Receta> subrecetas;
 	protected String preparacion;
 
 	/* Constructores */
@@ -34,6 +35,16 @@ public class Receta {
 		this.creador = creador;
 		this.encabezado = encabezado != null ? encabezado : new EncabezadoDeReceta();
 		this.preparacion = preparacion;
+	}
+	
+	public Receta(Usuario creador, EncabezadoDeReceta encabezado,
+			HashMap<String, Float> ingredientes,
+			HashMap<String, Float> condimentos, ArrayList<Receta> subrecetas,
+			String preparacion) {
+		this(creador, encabezado, preparacion);
+		this.ingredientes = ingredientes;
+		this.condimentos = condimentos;
+		this.subrecetas = subrecetas;
 	}
 
 	/* Servicios */
@@ -63,20 +74,27 @@ public class Receta {
 	public boolean puedeSerModificadaPor(Usuario usuario) {
 		return puedeSerVistaPor(usuario);
 	}
+	
+	public boolean puedeSerAgregadaPor(Usuario usuario) {
+		return puedeSerVistaPor(usuario);
+	}
 
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			Collection<Receta> subRecetas) throws NoTienePermisoParaModificarReceta {
+			ArrayList<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
 
 		if (!puedeSerModificadaPor(usuario))
-			throw new NoTienePermisoParaModificarReceta();
+			throw new NoSePuedeModificarLaReceta();
 
 		this.encabezado = encabezado;
 		this.ingredientes = ingredientes;
 		this.condimentos = condimentos;
 		this.subrecetas = subRecetas;
 		this.preparacion = preparacion;
+		
+		if (!usuario.esAdecuada(this))
+			throw new EsInadecuadaDespuesDeModificar();
 	}
 
 	public Collection<String> getNombreIngredientes() {
