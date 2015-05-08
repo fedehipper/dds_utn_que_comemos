@@ -27,9 +27,9 @@ public class Usuario {
 	/* Otros datos */
 
 	private Rutina rutina;
-	private Collection<Alimento> preferenciasAlimenticias = new ArrayList<>();
-	private Collection<Alimento> comidasQueLeDisgustan = new ArrayList<>();
-	private Collection<Condicion> condiciones = new ArrayList<>();
+	private ArrayList<Alimento> preferenciasAlimenticias = new ArrayList<>();
+	private ArrayList<Alimento> comidasQueLeDisgustan = new ArrayList<>();
+	private ArrayList<Condicion> condiciones = new ArrayList<>();
 	private ArrayList<Receta> recetas = new ArrayList<>();
 
 	/* Constructores */
@@ -168,15 +168,15 @@ public class Usuario {
 		return peso;
 	}
 
-	public Collection<Alimento> getPreferenciasAlimenticias() {
+	public ArrayList<Alimento> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
 
-	public Collection<Alimento> getComidasQueLeDisgustan() {
+	public ArrayList<Alimento> getComidasQueLeDisgustan() {
 		return comidasQueLeDisgustan;
 	}
 
-	public Collection<Condicion> getCondiciones() {
+	public ArrayList<Condicion> getCondiciones() {
 		return condiciones;
 	}
 
@@ -201,7 +201,7 @@ public class Usuario {
 	}
 
 	public void setPreferenciasAlimenticias(
-			Collection<Alimento> preferenciasAlimenticias) {
+			ArrayList<Alimento> preferenciasAlimenticias) {
 		this.preferenciasAlimenticias = preferenciasAlimenticias;
 	}
 

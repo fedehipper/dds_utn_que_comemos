@@ -20,7 +20,7 @@ public class Receta {
 	/* Detalle de la receta */
 	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
-	protected ArrayList<Receta> subrecetas;
+	protected ArrayList<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
 
 	/* Constructores */
@@ -30,6 +30,7 @@ public class Receta {
 	public Receta(Usuario creador) {
 		this.creador = creador;
 	}// Creado para testear por ahora
+	
 	//TODO: lanzar excepción cuando no se especifica el creador
 	public Receta(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
 		this.creador = creador;
@@ -37,14 +38,14 @@ public class Receta {
 		this.preparacion = preparacion;
 	}
 	
-	public Receta(Usuario creador, EncabezadoDeReceta encabezado,
+	protected Receta(Usuario creador, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, ArrayList<Receta> subrecetas,
 			String preparacion) {
 		this(creador, encabezado, preparacion);
-		this.ingredientes = ingredientes;
-		this.condimentos = condimentos;
-		this.subrecetas = subrecetas;
+		this.ingredientes = ingredientes != null ? ingredientes : new HashMap<String, Float>();
+		this.condimentos = condimentos != null ? condimentos : new HashMap<String, Float>();
+		this.subrecetas = subrecetas != null ? subrecetas : new ArrayList<Receta>();
 	}
 
 	/* Servicios */
@@ -82,15 +83,15 @@ public class Receta {
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			ArrayList<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
+			ArrayList<Receta> subrecetas) throws NoSePuedeModificarLaReceta {
 
 		if (!puedeSerModificadaPor(usuario))
 			throw new NoSePuedeModificarLaReceta();
 
 		this.encabezado = encabezado;
-		this.ingredientes = ingredientes;
-		this.condimentos = condimentos;
-		this.subrecetas = subRecetas;
+		this.ingredientes = ingredientes != null ? ingredientes : new HashMap<String, Float>();
+		this.condimentos = condimentos != null ? condimentos : new HashMap<String, Float>();
+		this.subrecetas = subrecetas != null ? subrecetas : new ArrayList<Receta>();
 		this.preparacion = preparacion;
 		
 		if (!usuario.esAdecuada(this))
@@ -98,23 +99,25 @@ public class Receta {
 	}
 
 	public Collection<String> getNombreIngredientes() {
+		
 		return getConSubrecetas((Receta receta) -> {
 			return receta.ingredientes.keySet();
 		}, ingredientes.keySet());
+		
 	}
 
 	public String getPreparacion() {
 
-		if(preparacion == null && subrecetas == null)
-			return null;
+		if(preparacion == null && subrecetas.isEmpty())
+			return "";
 		
 		String preparacionDeSubrecetas = subrecetas == null ? null : subrecetas.stream()
-				.map(Receta::getPreparacion).collect(Collectors.joining("\n"));
+				.map(Receta::getPreparacion).collect(Collectors.joining(""));
 		
 		if(preparacionDeSubrecetas == null)
 			return preparacion;
 		
-		return String.join("\n", preparacion, preparacionDeSubrecetas);
+		return String.join("", preparacion, preparacionDeSubrecetas);
 	}
 
 	public Collection<String> getNombreCondimentos() {
@@ -127,32 +130,15 @@ public class Receta {
 	//TODO mejorar para llegar a algo más cercano a fold/reduct
 	private Collection<String> getConSubrecetas(
 			Function<Receta, Collection<String>> f, Collection<String> seed) {
-
-		class CollectionMerger implements BinaryOperator<Collection<String>> {
-
-			@Override
-			public Collection<String> apply(Collection<String> t,
-					Collection<String> u) {
-				Collection<String> a = new HashSet<String>();
-
-				a.addAll(t);
-				a.addAll(u);
-
-				return a;
-			}
-
+		
+		Collection<String> acum = new ArrayList<String>(seed);
+		
+		for (Receta elem : subrecetas) {	
+			acum.addAll(f.apply(elem));
 		}
-
-		CollectionMerger merger = new CollectionMerger();
-
-		if (subrecetas == null)
-			return seed;
-
-		Collection<String> coleccionesDeSubrecetas = subrecetas.stream().map(f)
-				.collect(Collectors.reducing(merger)).get();
-
-		return merger.apply(seed, coleccionesDeSubrecetas);
-
+		
+		return acum;
+		
 	}
 
 	/* Accessors and Mutators */

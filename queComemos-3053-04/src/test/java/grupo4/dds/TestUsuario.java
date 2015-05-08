@@ -333,7 +333,7 @@ public class TestUsuario {
 		matiasMartino.agregarReceta(receta);
 	}
 	
-	/* Test: @modificarReceta/1 */
+	/* Test: @modificarReceta/6 */
 	
 	@Test
 	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
