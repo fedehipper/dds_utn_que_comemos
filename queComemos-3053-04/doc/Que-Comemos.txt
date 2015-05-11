@@ -1,0 +1,29 @@
+Para poder desarrollar el TP se utilizó una clase general Usuario, que representa a la persona en cuanto a condiciones y gustos,
+una clase Receta para modelar cada receta y para ciertos datos creamos también una clase denominada EncabezadoDeReceta que representa justamente 
+el encabezado pedido de la receta.
+Luego para la distinción de las recetas públicas de las privadas, utilizamos una herencia teniendo como clase padre a Receta y como clase hija a
+RecetaPublica (que representa la pública) para poder hacer las validaciones y los métodos correspondientes a sobre si puede ser vista, modificada, etc.
+Las Rutinas y Temporadas las modelamos como Enum ya que no tienen comportamiento en cuanto a lo pedido.
+También implementamos una interfaz denominada Condición que representa cada una de las condiciones preexistentes que puede tener cada usuario, en el presente TP
+se explicitan cuatro condiciones. Por lo tanto, hemos creado las clases Celíaco, Vegano, Hipertenso y Diabético que representan a las dichas condiciones.
+En Condición utilizamos polimorfismo para poder lograr que todas las condiciones entiendan los mismos mensajes (esValidaCon (unUsuario) por ejemplo) y realicen
+las acciones correspondientes.
+
+En cuanto a las cualidades de diseño, podemos mencionar y explicar las siguientes:
+
+-Extensibilidad: al crear la interfaz Condición, estamos siendo extensibles porque en un futuro cercano se pueden agregar más condiciones de las ya mencionadas
+y se pueden agregar sin problemas con el uso del polimorfismo.
+
+-Cohesión: cada uno de los métodos hace algo que lo caracteriza y de lo que es responsable. Se delegan responsabilidades también.
+
+-Simplicidad: tratamos de no sobrediseñar nada fuera de lo pedido, y de generar las abstracciones correspondientes (no sé cómo detallarlo y en cuánto podemos explicar
+cuán simple es nuestro diseño)
+
+-Testeabilidad: cumple con esta cualidad, ya que hicimos tanto tests unitarios como integrados. Todos ellos funcionando.
+
+-Desacoplamiento: ?
+
+
+ 
+
+
