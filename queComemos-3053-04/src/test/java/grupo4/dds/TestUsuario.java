@@ -338,7 +338,7 @@ public class TestUsuario {
 	@Test
 	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
 		
-		receta = new Receta(fecheSena, null, "Preparación antes de modificar");
+		receta = new Receta(fecheSena, null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -346,9 +346,9 @@ public class TestUsuario {
 		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 		ingredientes.put("frutas", 0f);
 		
-		fecheSena.modificarReceta(receta, encabezado, ingredientes, null, "Preparación después de modificar", null);
+		fecheSena.modificarReceta(receta, encabezado, ingredientes, null, "Preparacion despues de modificar", null);
 		
-		assertTrue(receta.getPreparacion().equals("Preparación después de modificar"));
+		assertTrue(receta.getPreparacion().equals("Preparacion despues de modificar"));
 	}
 	
 	@Test
@@ -364,7 +364,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios() throws NoSePuedeModificarLaReceta {
-		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparación antes de modificar");
+		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -372,10 +372,10 @@ public class TestUsuario {
 		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 		ingredientes.put("frutas", 0f);
 
-		fecheSena.modificarReceta(recetaPublica, encabezado, ingredientes, null, "Preparación después de modificar", null);
+		fecheSena.modificarReceta(recetaPublica, encabezado, ingredientes, null, "Preparacion despues de modificar", null);
 
-		assertTrue(recetaPublica.getPreparacion().equals("Preparación antes de modificar"));
-		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparación después de modificar"));
+		assertTrue(recetaPublica.getPreparacion().equals("Preparacion antes de modificar"));
+		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparacion despues de modificar"));
 	}
 	
 }

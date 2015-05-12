@@ -10,16 +10,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class Usuario {
 
-	/* Datos básicos */
+	/* Datos basicos */
 	private String nombre;
 	private Sexo sexo;
 	private LocalDate fechaNacimiento;
 
-	/* Datos de la complexión */
+	/* Datos de la complexion */
 
 	private float peso;
 	private float altura;
@@ -27,10 +28,10 @@ public class Usuario {
 	/* Otros datos */
 
 	private Rutina rutina;
-	private ArrayList<Alimento> preferenciasAlimenticias = new ArrayList<>();
-	private ArrayList<Alimento> comidasQueLeDisgustan = new ArrayList<>();
-	private ArrayList<Condicion> condiciones = new ArrayList<>();
-	private ArrayList<Receta> recetas = new ArrayList<>();
+	private List<Alimento> preferenciasAlimenticias = new ArrayList<>();
+	private List<Alimento> comidasQueLeDisgustan = new ArrayList<>();
+	private List<Condicion> condiciones = new ArrayList<>();
+	private List<Receta> recetas = new ArrayList<>();
 
 	/* Constructores */
 
@@ -168,15 +169,15 @@ public class Usuario {
 		return peso;
 	}
 
-	public ArrayList<Alimento> getPreferenciasAlimenticias() {
+	public List<Alimento> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
 
-	public ArrayList<Alimento> getComidasQueLeDisgustan() {
+	public List<Alimento> getComidasQueLeDisgustan() {
 		return comidasQueLeDisgustan;
 	}
 
-	public ArrayList<Condicion> getCondiciones() {
+	public List<Condicion> getCondiciones() {
 		return condiciones;
 	}
 
