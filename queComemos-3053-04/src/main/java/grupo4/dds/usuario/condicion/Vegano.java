@@ -15,8 +15,7 @@ public class Vegano implements Condicion {
 	static Collection<String> IngredientesConCarne = Alimento.mapIngrediente(Carnes);
 
 	public boolean esValidaCon(Usuario usuario) {
-		return Collections.disjoint(Carnes,
-				usuario.getPreferenciasAlimenticias());
+		return Collections.disjoint(Carnes, usuario.getPreferenciasAlimenticias());
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {

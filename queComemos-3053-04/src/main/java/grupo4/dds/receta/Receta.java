@@ -5,6 +5,7 @@ import grupo4.dds.usuario.Usuario;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class Receta {
 	/* Detalle de la receta */
 	protected HashMap<String, Float> ingredientes = new HashMap<String, Float>();
 	protected HashMap<String, Float> condimentos = new HashMap<String, Float>();
-	protected ArrayList<Receta> subrecetas = new ArrayList<Receta>();
+	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
 
 	/* Constructores */
@@ -38,7 +39,7 @@ public class Receta {
 	
 	protected Receta(Usuario creador, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, ArrayList<Receta> subrecetas,
+			HashMap<String, Float> condimentos, List<Receta> subrecetas,
 			String preparacion) {
 		this(creador, encabezado, preparacion);
 		this.ingredientes = ingredientes != null ? ingredientes : new HashMap<String, Float>();
@@ -81,7 +82,7 @@ public class Receta {
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			ArrayList<Receta> subrecetas) throws NoSePuedeModificarLaReceta {
+			List<Receta> subrecetas) throws NoSePuedeModificarLaReceta {
 
 		if (!puedeSerModificadaPor(usuario))
 			throw new NoSePuedeModificarLaReceta();

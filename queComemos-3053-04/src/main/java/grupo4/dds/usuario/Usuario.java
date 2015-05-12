@@ -62,14 +62,11 @@ public class Usuario {
 		return tieneCamposObligatorios() && nombre.length() > 4
 				&& tieneCondicionesValidas()
 				&& fechaNacimiento.isBefore(LocalDate.now());
-
 	}
 
 	public boolean sigueRutinaSaludable() {
-
 		double imc = indiceDeMasaCorporal();
 		return (18 < imc) && (imc < 30) && subsanaTodasLasCondiciones();
-
 	}
 
 	public boolean leGusta(Alimento alimento) {
@@ -108,7 +105,7 @@ public class Usuario {
 	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			ArrayList<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
+			List<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
 
 		try {
 			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
@@ -201,8 +198,7 @@ public class Usuario {
 		comidasQueLeDisgustan.add(alimento);
 	}
 
-	public void setPreferenciasAlimenticias(
-			ArrayList<Alimento> preferenciasAlimenticias) {
+	public void setPreferenciasAlimenticias(List<Alimento> preferenciasAlimenticias) {
 		this.preferenciasAlimenticias = preferenciasAlimenticias;
 	}
 

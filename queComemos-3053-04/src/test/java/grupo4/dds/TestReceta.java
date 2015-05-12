@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.NoSePuedeModificarLaReceta;
@@ -123,7 +124,7 @@ public class TestReceta {
 		receta.agregarIngrediente("carne", 0f);
 		receta.agregarIngrediente("pollo", 0f);
 		
-		ArrayList<String> expected = new ArrayList<String>();
+		List<String> expected = new ArrayList<String>();
 		expected.add("carne");
 		expected.add("pollo");
 		
@@ -136,7 +137,7 @@ public class TestReceta {
 		receta.agregarIngrediente("carne", 0f);
 		receta.agregarIngrediente("pollo", 0f);
 		
-		ArrayList<String> expected = new ArrayList<String>();
+		List<String> expected = new ArrayList<String>();
 		expected.add("carne");
 		expected.add("pollo");
 		expected.add("chivito");
@@ -161,7 +162,7 @@ public class TestReceta {
 		receta.agregarCondimento("caldo", 0f);
 		receta.agregarCondimento("sal", 0f);
 		
-		ArrayList<String> expected = new ArrayList<String>();
+		List<String> expected = new ArrayList<String>();
 		expected.add("caldo");
 		expected.add("sal");
 		
@@ -175,7 +176,7 @@ public class TestReceta {
 		receta.agregarCondimento("sal", 0f);
 		
 		
-		ArrayList<String> expected = new ArrayList<String>();
+		List<String> expected = new ArrayList<String>();
 		expected.add("caldo");
 		expected.add("sal");
 		expected.add("pimienta");
