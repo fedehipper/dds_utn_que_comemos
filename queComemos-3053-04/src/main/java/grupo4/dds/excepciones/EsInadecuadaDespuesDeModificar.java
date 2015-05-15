@@ -1,4 +1,4 @@
-package grupo4.dds.receta;
+package grupo4.dds.excepciones;
 
 public class EsInadecuadaDespuesDeModificar extends NoSePuedeModificarLaReceta {
 

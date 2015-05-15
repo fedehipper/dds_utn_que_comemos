@@ -1,5 +1,7 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.excepciones.EsInadecuadaDespuesDeModificar;
+import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -82,7 +84,7 @@ public class Receta {
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			List<Receta> subrecetas) throws NoSePuedeModificarLaReceta {
+			List<Receta> subrecetas) {
 
 		if (!puedeSerModificadaPor(usuario))
 			throw new NoSePuedeModificarLaReceta();
@@ -93,8 +95,6 @@ public class Receta {
 		this.subrecetas = subrecetas != null ? subrecetas : new ArrayList<Receta>();
 		this.preparacion = preparacion;
 		
-		if (!usuario.esAdecuada(this))
-			throw new EsInadecuadaDespuesDeModificar();
 	}
 
 	public Collection<String> getNombreIngredientes() {

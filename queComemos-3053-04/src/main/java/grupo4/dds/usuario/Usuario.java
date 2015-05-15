@@ -1,8 +1,8 @@
 package grupo4.dds.usuario;
 
+import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
-import grupo4.dds.receta.NoSePuedeAgregarLaReceta;
-import grupo4.dds.receta.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Condicion;
 
@@ -73,7 +73,7 @@ public class Usuario {
 		return this.preferenciasAlimenticias.contains(alimento);
 	}
 
-	public void agregarReceta(Receta receta) throws NoSePuedeAgregarLaReceta {
+	public void agregarReceta(Receta receta) {
 		if (esAdecuada(receta) && receta.puedeSerAgregadaPor(this))
 			recetas.add(receta);
 		else
@@ -105,7 +105,7 @@ public class Usuario {
 	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
 			HashMap<String, Float> ingredientes,
 			HashMap<String, Float> condimentos, String preparacion,
-			List<Receta> subRecetas) throws NoSePuedeModificarLaReceta {
+			List<Receta> subRecetas) {
 
 		try {
 			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
