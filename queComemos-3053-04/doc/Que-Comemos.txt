@@ -9,19 +9,20 @@ se explicitan cuatro condiciones. Por lo tanto, hemos creado las clases Celíaco,
 En Condición utilizamos polimorfismo para poder lograr que todas las condiciones entiendan los mismos mensajes (esValidaCon (unUsuario) por ejemplo) y realicen
 las acciones correspondientes.
 
-En cuanto a las cualidades de diseño, podemos mencionar y explicar las siguientes:
+En cuanto al diseño elegido de la solución, creamos la interfaz Condición por lo mencionado anteriormente para modelar cada una de las condiciones haciendo uso del
+polimorfismo y poder hacer así más extensible esta característica ya que en un futuro será más fácil agregar más condiciones preexistentes.
+Las recetas las modelamos con la herencia para diferenciar las recetas del usuario de las recetas del sistema. En un principio teníamos todo un constructor
+con los atributos correspondientes, pero luego de ver que recibía muchos parámetros y de notar un long parameter list, creamos la abstracción de encabezado de receta.
+Con la herencia modelada podemos tener tanto una receta de un usuario que sería privada, como una receta publica que hereda de la privada y nos sirvió para modelar
+el permiso o no de quién puede acceder o modificar una receta. Además de contar con la ventaja de la reusabilidad de código en ciertos métodos, ya que ambas recetas
+si bien se comportan diferente serían similares en ciertos aspectos.
+Los ingredientes inicialmente los pensamos como strings y luego como hashMap pensando en la idea de que no tenían comportamiento alguno. Pero terminamos de 
+modelarlos como una clase Ingrediente para poder reconocer cual es carne y cuál no, para usarlos en los métodos que solicitaban cierta restricción con esa cuestión.
+En cuanto a los tests, hicimos tests unitarios y algunos integradores separándolos por receta, usuario y condición.
 
--Extensibilidad: al crear la interfaz Condición, estamos siendo extensibles porque en un futuro cercano se pueden agregar más condiciones de las ya mencionadas
-y se pueden agregar sin problemas con el uso del polimorfismo.
 
--Cohesión: cada uno de los métodos hace algo que lo caracteriza y de lo que es responsable. Se delegan responsabilidades también.
 
--Simplicidad: tratamos de no sobrediseñar nada fuera de lo pedido, y de generar las abstracciones correspondientes (no sé cómo detallarlo y en cuánto podemos explicar
-cuán simple es nuestro diseño)
 
--Testeabilidad: cumple con esta cualidad, ya que hicimos tanto tests unitarios como integrados. Todos ellos funcionando.
-
--Desacoplamiento: ?
 
 
  
