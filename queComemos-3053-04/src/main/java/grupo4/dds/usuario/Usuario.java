@@ -2,6 +2,7 @@ package grupo4.dds.usuario;
 
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.excepciones.NoSePuedeSugerirRecetaAlUsuario;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Condicion;
@@ -20,12 +21,10 @@ public class Usuario {
 	private LocalDate fechaNacimiento;
 
 	/* Datos de la complexion */
-
 	private float peso;
 	private float altura;
 
 	/* Otros datos */
-
 	private Rutina rutina;
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
@@ -33,11 +32,9 @@ public class Usuario {
 	private List<Receta> recetas = new ArrayList<>();
 
 	/* Constructores */
-
 	public Usuario(){};
 	
-	public Usuario(String nombre, LocalDate fechaNacimiento, float altura,
-			float peso, Rutina rutina) {
+	public Usuario(String nombre, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.altura = altura;
@@ -46,13 +43,11 @@ public class Usuario {
 	}
 
 	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento,
-			float altura, float peso, Rutina rutina) {
-		this(nombre, fechaNacimiento, altura, peso, rutina);
+		float altura, float peso, Rutina rutina) {this(nombre, fechaNacimiento, altura, peso, rutina);
 		this.sexo = sexo;
 	}
 
 	/* Servicios */
-
 	public double indiceDeMasaCorporal() {
 		return peso / (altura * altura);
 	}
@@ -103,14 +98,12 @@ public class Usuario {
 			List<Ingrediente> ingredientes,
 			List<Ingrediente> condimentos, String preparacion,
 			List<Receta> subRecetas) {
-
 		try {
 			receta.modificarReceta(this, encabezado, ingredientes, condimentos, preparacion, subRecetas);
 		} catch (NoSePuedeModificarLaReceta e) {
 			//TODO: hacer algo con esta excepción
 			throw e;
 		}
-
 	}
 	
 	public Receta recetaMasReciente() {
@@ -118,9 +111,7 @@ public class Usuario {
 	}
 
 	/* Servicios internos */
-
 	private boolean tieneCamposObligatorios() {
-
 		return (this.nombre != null) && (this.peso != 0) && (this.altura != 0)
 				&& (this.fechaNacimiento != null) && (this.rutina != null);
 	}
@@ -130,17 +121,21 @@ public class Usuario {
 	}
 
 	private boolean tieneCondicionesValidas() {
-		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion
-				.esValidaCon(this));
+		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.esValidaCon(this));
 	}
 
 	private boolean subsanaTodasLasCondiciones() {
-		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion
-				.subsanaCondicion(this));
+		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.subsanaCondicion(this));
 	}
+	
+	// testear 
+	public void sugerirReceta(Receta unaReceta) {
+		if (!  (unaReceta.compartenPalabrasClave(comidasQueLeDisgustan) & (this.esAdecuada(unaReceta))))
+				throw new NoSePuedeSugerirRecetaAlUsuario();
+	}
+	
 
 	/* Accessors and Mutators */
-
 	public String getNombre() {
 		return nombre;
 	}

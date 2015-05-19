@@ -111,7 +111,9 @@ public class Receta {
 		return this.condimentos;
 	}
 	
-	// testear
+	// testear, necesito comparar por ingredientes totales, osea de la receta y sus subrecetas
+	// en lugar de meter el this.ingredientes, hay que hacer un metodo que devuelva todos
+	// el mismo que piden los dos test que pinchan
 	public boolean compartenPalabrasClave(List<Ingrediente> palabrasClaveGrupo) {
 		return this.ingredientes.stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
 	}

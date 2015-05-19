@@ -12,7 +12,7 @@ public class Grupo {
 	private List<Ingrediente> palabrasClave;
 	
 	
-	// testear
+	// testear, 
 	public void sugerirReceta(Receta unaReceta) {
 		if(!((unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))))))
 				throw new NoSePuedeSugerirRecetaAlGrupo();
