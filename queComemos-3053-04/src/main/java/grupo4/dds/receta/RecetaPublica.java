@@ -3,9 +3,9 @@ package grupo4.dds.receta;
 import grupo4.dds.excepciones.EsInadecuadaDespuesDeModificar;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class RecetaPublica extends Receta {
@@ -35,8 +35,8 @@ public class RecetaPublica extends Receta {
 	}
 
 	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
-			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
+			List<Ingrediente> ingredientes,
+			List<Ingrediente> condimentos, String preparacion,
 			List<Receta> subRecetas) {
 
 		if (!puedeSerModificadaPor(usuario))

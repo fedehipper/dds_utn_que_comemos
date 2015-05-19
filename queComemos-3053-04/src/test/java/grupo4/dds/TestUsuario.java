@@ -1,6 +1,5 @@
 package grupo4.dds;
 
-import static grupo4.dds.usuario.Alimento.*;
 import static grupo4.dds.usuario.Rutina.*;
 import static grupo4.dds.usuario.Sexo.*;
 import static org.junit.Assert.assertEquals;
@@ -11,11 +10,13 @@ import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +43,6 @@ public class TestUsuario {
 	}
 	
 	/* Test: @indiceDeMasaCorporal/0 */
-
 	@Test
 	public void testIMCConPeso65YAltura170() {
 		assertEquals(fecheSena.indiceDeMasaCorporal(), 22.491, 0.001);
@@ -71,7 +71,6 @@ public class TestUsuario {
 	}
 	
 	/* Test: @esValido/0 */
-
 	@Test
 	public void testNoEsValidoUnUsuarioConNombreMenorA4Caracteres() {
 		usuario = new Usuario("Ari", LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL);
@@ -114,8 +113,10 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
 		usuario.agregarCondicion(new Diabetico());
-		usuario.agregarPreferenciaAlimenticia(CHIVITO);
 		
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+
+		usuario.agregarPreferenciaAlimenticia(chivito);	
 		assertTrue(usuario.esValido());
 	}
 	
@@ -126,13 +127,14 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
 		usuario.agregarCondicion(new Vegano());
-		usuario.agregarPreferenciaAlimenticia(CHIVITO);
+		
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+		usuario.agregarPreferenciaAlimenticia(chivito);
 		
 		assertFalse(usuario.esValido());
 	}
 
 	/* Test: @sigueRutinaSaludable/0 */
-	
 	@Test
 	public void testSigueRutinaSaludableUnUsuarioSinCondicionesConIMCEntre18Y30() {
 		usuario = new Usuario("Ariel", LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL);
@@ -157,31 +159,34 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
 		usuario.agregarCondicion(new Vegano());
-		usuario.agregarPreferenciaAlimenticia(FRUTAS);
 		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		usuario.agregarPreferenciaAlimenticia(frutas);
+	
 		assertTrue(usuario.esValido());
 	}
 	
 	/* Test: @leGusta/1 */
-	
 	@Test
 	public void testLeGustaLaCarneAUnUsuario() {
 		usuario = new Usuario();
-				
-		usuario.agregarPreferenciaAlimenticia(CARNE);
-		assertTrue(usuario.leGusta(CARNE));
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		
+		usuario.agregarPreferenciaAlimenticia(carne);
+		assertTrue(usuario.leGusta("carne"));
 	}
 	
 	@Test
 	public void testNoLeGustanLasFrutasAUnUsuario() {
 		usuario = new Usuario();
+		
+		Ingrediente carne = new Ingrediente("carne", 0f);
 				
-		usuario.agregarPreferenciaAlimenticia(CARNE);
-		assertFalse(usuario.leGusta(FRUTAS));
+		usuario.agregarPreferenciaAlimenticia(carne);
+		assertFalse(usuario.leGusta("fruta"));
 	}
 	
 	/* Test: @esAdecuada/1 */
-	
 	@Test
 	public void testNoEsAdecuadaUnaRecetaParaUnUsuarioSiEsInvalida() {
 		usuario = new Usuario();
@@ -196,7 +201,9 @@ public class TestUsuario {
 		
 		receta = new Receta();
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);	
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		receta.agregarIngrediente(frutas);	
 		
 		assertTrue(usuario.esAdecuada(receta));
 	}
@@ -211,10 +218,15 @@ public class TestUsuario {
 		
 		receta = new Receta();
 		receta.setTotalCalorias(4500);
-		receta.agregarCondimento("azucar", 99.9f);		
-		receta.agregarIngrediente("frutas", 0f);
-		receta.agregarIngrediente("melon", 0f);
-		receta.agregarIngrediente("pescado", 0f);
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		Ingrediente azucar = new Ingrediente("azucar", 99.9f);
+		Ingrediente melon = new Ingrediente("melon", 0f);
+		Ingrediente pescado = new Ingrediente("pescado", 0f);
+		
+		receta.agregarCondimento(azucar);		
+		receta.agregarIngrediente(frutas);
+		receta.agregarIngrediente(melon);
+		receta.agregarIngrediente(pescado);
 		
 		assertTrue(usuario.esAdecuada(receta));
 	}
@@ -226,24 +238,33 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
 		usuario.agregarCondicion(new Vegano());
-		
+			
 		receta = new Receta();
 		receta.setTotalCalorias(4500);
-		receta.agregarCondimento("azucar", 99.9f);		
-		receta.agregarIngrediente("frutas", 0f);
-		receta.agregarIngrediente("melon", 0f);
-		receta.agregarIngrediente("chivito", 0f);
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		Ingrediente azucar = new Ingrediente("azucar", 99.9f);
+		Ingrediente melon = new Ingrediente("melon", 0f);
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+		
+		
+		receta.agregarCondimento(azucar);		
+		receta.agregarIngrediente(frutas);
+		receta.agregarIngrediente(melon);
+		receta.agregarIngrediente(chivito);
 		
 		assertFalse(usuario.esAdecuada(receta));
 	}
 	
 	/* Test: @puedeVer/1 */
-	
 	@Test
 	public void testUnUsuarioPuedeVerUnaRecetaSiLePertenece() {
 		receta = new Receta(fecheSena, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		
+		receta.agregarIngrediente(frutas);
 		
 		assertTrue(fecheSena.puedeVer(receta));
 	}
@@ -252,7 +273,9 @@ public class TestUsuario {
 	public void testUnUsuarioNoPuedeVerUnaRecetaSiNoLePertenece() {
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+
+		receta.agregarIngrediente(frutas);
 		
 		assertFalse(arielFolino.puedeVer(receta));
 	}
@@ -264,12 +287,13 @@ public class TestUsuario {
 	}
 	
 	/* Test: @puedeModificar/1 */
-	
 	@Test
 	public void testUnUsuarioPuedeModificarUnaRecetaSiLePertenece() {
 		receta = new Receta(fecheSena, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		receta.agregarIngrediente(frutas);
 		
 		assertTrue(fecheSena.puedeModificar(receta));
 	}
@@ -278,7 +302,9 @@ public class TestUsuario {
 	public void testUnUsuarioNoPuedeModificarUnaRecetaSiNoLePertenece() {
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		receta.agregarIngrediente(frutas);
 		
 		assertFalse(arielFolino.puedeModificar(receta));
 	}
@@ -290,7 +316,6 @@ public class TestUsuario {
 	}
 	
 	/* Test: @agregarReceta/1 */
-	
 	@Test
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl() throws NoSePuedeAgregarLaReceta {
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
@@ -307,7 +332,9 @@ public class TestUsuario {
 		
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		receta.agregarIngrediente(frutas);
 		
 		fecheSena.agregarReceta(receta);
 	}
@@ -318,23 +345,24 @@ public class TestUsuario {
 		
 		receta = new RecetaPublica();
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
-		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+	
+		receta.agregarIngrediente(frutas);
 		fecheSena.agregarReceta(receta);
 	}
 	
 	@Test
 	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia() throws NoSePuedeAgregarLaReceta {
-	
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		receta.agregarIngrediente(frutas);
 		
 		matiasMartino.agregarReceta(receta);
 	}
 	
 	/* Test: @modificarReceta/6 */
-	
 	@Test
 	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
 		
@@ -343,11 +371,12 @@ public class TestUsuario {
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
 		
-		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
-		ingredientes.put("frutas", 0f);
+		List<Ingrediente> ingredientes = new ArrayList<>();
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		ingredientes.add(frutas);
 		
 		fecheSena.modificarReceta(receta, encabezado, ingredientes, null, "Preparacion despues de modificar", null);
-		
 		assertTrue(receta.getPreparacion().equals("Preparacion despues de modificar"));
 	}
 	
@@ -357,7 +386,9 @@ public class TestUsuario {
 		
 		receta = new Receta(fecheSena, null, null);
 		receta.setTotalCalorias(4500);
-		receta.agregarIngrediente("frutas", 0f);
+		
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		receta.agregarIngrediente(frutas);
 		
 		matiasMartino.modificarReceta(receta, null, null, null, "", null);
 	}
@@ -369,8 +400,10 @@ public class TestUsuario {
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
 		
-		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
-		ingredientes.put("frutas", 0f);
+		List<Ingrediente> ingredientes = new ArrayList<>();
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		
+		ingredientes.add(frutas);
 
 		fecheSena.modificarReceta(recetaPublica, encabezado, ingredientes, null, "Preparacion despues de modificar", null);
 

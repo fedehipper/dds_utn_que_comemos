@@ -1,11 +1,11 @@
 package grupo4.dds;
 
-import static grupo4.dds.usuario.Alimento.*;
 import static grupo4.dds.usuario.Rutina.*;
 import static grupo4.dds.usuario.Sexo.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
 
@@ -21,7 +21,6 @@ public class TestCondiciones {
 	private Condicion hipertenso = new Hipertenso();
 	
 	/* Test: @esValidoCon/1 */
-	
 	@Test
 	public void testCeliacoSiempreEsCondicionValida() {
 		assertTrue(celiaco.esValidaCon(null));
@@ -31,15 +30,30 @@ public class TestCondiciones {
 	public void testDiabeticoEsValidaSiElUsuarioIndicaSexoYAlgunaPreferenciaAlimenticia() {
 		usuario = new Usuario(null, MASCULINO, null, 0, 0, null);
 		
-		usuario.agregarPreferenciaAlimenticia(CHIVITO);
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+
+		usuario.agregarPreferenciaAlimenticia(chivito);
 		assertTrue(diabetico.esValidaCon(usuario));
+	}
+	
+	@Test 
+	public void testEsCarne() {
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		assertTrue(carne.getEsCarne());
+	}
+	
+	@Test
+	public void noEsCarne() {
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		assertFalse(fruta.getEsCarne());
 	}
 	
 	@Test
 	public void testHipertensoEsValidaSiElUsuarioIndicaAlgunaPreferenciaAlimenticia() {
 		usuario = new Usuario();
 		
-		usuario.agregarPreferenciaAlimenticia(CARNE);
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		usuario.agregarPreferenciaAlimenticia(carne);
 		assertTrue(hipertenso.esValidaCon(usuario));
 	}
 	
@@ -47,17 +61,22 @@ public class TestCondiciones {
 	public void testVeganoEsValidaSiElUsuarioNoTieneCarnesEnSusPreferenciasAlimenticias() {
 		usuario = new Usuario();
 		
-		usuario.agregarPreferenciaAlimenticia(FRUTAS);
-		usuario.agregarPreferenciaAlimenticia(MELON);
-		usuario.agregarPreferenciaAlimenticia(PESCADO);
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		Ingrediente melon = new Ingrediente("melon", 0f);
+		Ingrediente pescado = new Ingrediente("pescado", 0f);
+		
+		usuario.agregarPreferenciaAlimenticia(fruta);
+		usuario.agregarPreferenciaAlimenticia(melon);
+		usuario.agregarPreferenciaAlimenticia(pescado);
 		assertTrue(vegano.esValidaCon(usuario));
 		
-		usuario.agregarPreferenciaAlimenticia(CHIVITO);
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+
+		usuario.agregarPreferenciaAlimenticia(chivito);
 		assertFalse(vegano.esValidaCon(usuario));
 	}
 
 	/* Test: @subsanaCondicion/1 */
-	
 	@Test
 	public void testCeliacoSiempreSubsanaCondicion() {
 		assertTrue(celiaco.subsanaCondicion(null));
@@ -67,10 +86,15 @@ public class TestCondiciones {
 	public void testVeganoSubsanaCondicionSiAlUsuarioLeGustanLasFrutas() {
 		usuario = new Usuario();
 		
-		usuario.agregarPreferenciaAlimenticia(MONDONGO);
-		assertFalse(vegano.subsanaCondicion(usuario));
+		Ingrediente mondongo = new Ingrediente("mondongo", 0f);		
+		usuario.agregarPreferenciaAlimenticia(mondongo);
 		
-		usuario.agregarPreferenciaAlimenticia(FRUTAS);
+		assertFalse(vegano.subsanaCondicion(usuario));
+	
+		// falla aca abajo
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		usuario.agregarPreferenciaAlimenticia(fruta);
+		
 		assertTrue(vegano.subsanaCondicion(usuario));
 	}
 
@@ -88,7 +112,6 @@ public class TestCondiciones {
 	}
 	
 	/* Test: @esRecomendable/1 */
-	
 	@Test
 	public void testCeliacoSiempreEsRecomendable() {
 		assertTrue(celiaco.esRecomendable(null));
@@ -98,19 +121,24 @@ public class TestCondiciones {
 	public void testHipertensoEsRecomendableSiLaRecetaNoContieneSalNiCaldo() {
 		receta = new Receta();
 		
-		receta.agregarCondimento("pimienta", 0f);
-		receta.agregarCondimento("oregano", 0f);
+		Ingrediente pimienta = new Ingrediente("pimienta", 0f);
+		Ingrediente oregano = new Ingrediente("oregano", 0f);
+		
+		receta.agregarCondimento(pimienta);
+		receta.agregarCondimento(oregano);
 		assertTrue(hipertenso.esRecomendable(receta));
 	}
 	
 	@Test
 	public void testHipertensoNoEsRecomendableSiLaRecetaContieneSaloCaldo() {
 		receta = new Receta();
-		receta.agregarCondimento("sal", 0f);
+		Ingrediente sal = new Ingrediente("sal", 0f);
+		receta.agregarCondimento(sal);
 		assertFalse(hipertenso.esRecomendable(receta));
 		
 		receta = new Receta();
-		receta.agregarCondimento("caldo", 0f);
+		Ingrediente caldo = new Ingrediente("caldo", 0f);
+		receta.agregarCondimento(caldo);
 		assertFalse(hipertenso.esRecomendable(receta));
 	}
 	
@@ -118,24 +146,35 @@ public class TestCondiciones {
 	public void testVeganoEsRecomendableSiLaRecetaNoTieneCarne() {
 		receta = new Receta();
 		
-		receta.agregarIngrediente("frutas", 0f);
-		receta.agregarIngrediente("melon", 0f);
-		receta.agregarIngrediente("pescado", 0f);
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		Ingrediente melon = new Ingrediente("melon", 0f);
+		Ingrediente pescado = new Ingrediente("pescado", 0f);
+		
+		
+		receta.agregarIngrediente(fruta);
+		receta.agregarIngrediente(melon);
+		receta.agregarIngrediente(pescado);
 
 		assertTrue(vegano.esRecomendable(receta));
 		
-		receta.agregarIngrediente("chivito", 0f);
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+		
+		receta.agregarIngrediente(chivito);
 		assertFalse(vegano.esRecomendable(receta));
 	}
 	
 	@Test
 	public void testDiabeticoEsRecomendableSiLaRecetaNoTieneMasDe100DeAzucar() {
 		receta = new Receta();
-		receta.agregarCondimento("azucar", 100.1f);
+		Ingrediente azucar1 = new Ingrediente("azucar", 100.1f);
+		
+		receta.agregarCondimento(azucar1);
 		assertFalse(diabetico.esRecomendable(receta));
 		
 		receta = new Receta();
-		receta.agregarCondimento("azucar", 99.9f);
+		Ingrediente azucar2 = new Ingrediente("azucar", 99.9f);
+		
+		receta.agregarCondimento(azucar2);
 		assertTrue(diabetico.esRecomendable(receta));
 	}
 }

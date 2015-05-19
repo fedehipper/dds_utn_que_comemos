@@ -3,13 +3,13 @@ package grupo4.dds;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
+import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
@@ -29,7 +29,6 @@ public class TestReceta {
 	}
 	
 	/* Test: @esValida/0 */
-
 	@Test
 	public void testNoEsValidaUnaRecetaSinIngredientes() {
 		receta = new Receta();
@@ -42,13 +41,13 @@ public class TestReceta {
 	public void testEsValidaUnaRecetaConIngredientesY4500Calorias() {
 		receta = new Receta();
 		
-		receta.agregarIngrediente("carne", 0f);
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		receta.agregarIngrediente(carne);
 		receta.setTotalCalorias(4500);
 		assertTrue(receta.esValida());
 	}
 	
 	/* Test: @modificarReceta/6 */
-	
 	@Test
 	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() throws NoSePuedeModificarLaReceta {
 		Usuario usuario = new Usuario();		
@@ -57,8 +56,11 @@ public class TestReceta {
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
 		
-		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
-		ingredientes.put("frutas", 0f);
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		
+		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+		
+		ingredientes.add(frutas);
 				
 		receta.modificarReceta(usuario, encabezado, ingredientes, null, "Preparación después de modificar", null);
 		assertEquals(receta.getPreparacion(),"Preparación después de modificar");
@@ -74,12 +76,14 @@ public class TestReceta {
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
 		
-		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
-		ingredientes.put("frutas", 0f);
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		
+		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+		ingredientes.add(frutas);
 				
 		receta.modificarReceta(new Usuario(), encabezado, ingredientes, null, "Preparación después de modificar", null);
 		assertEquals(receta.getPreparacion(), "Preparación después de modificar");
-		}
+	}
 	
 	@Test
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta {
@@ -89,8 +93,10 @@ public class TestReceta {
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
 		
-		HashMap<String, Float> ingredientes = new HashMap<String, Float>();
-		ingredientes.put("frutas", 0f);
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		
+		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+		ingredientes.add(frutas);
 
 		usuario.modificarReceta(recetaPublica, encabezado, ingredientes, null, "Preparación después de modificar", null);
 
@@ -99,7 +105,6 @@ public class TestReceta {
 	}
 	
 	/* Test: @getPreparacion */
-		
 	@Test
 	public void testLaPreparacionDeUnaRecetaSinSubrecetasEsLaSuya() {
 		receta = new Receta(null, null, "Preparación propia");
@@ -117,81 +122,97 @@ public class TestReceta {
 	}
 	
 	/* Test: @getNombreIngredientes */
-	
 	@Test
 	public void testLosIngredientesDeUnaRecetaSinSubrecetasSonLosSuyos() {
 		receta = new Receta(null, null, null);
-		receta.agregarIngrediente("carne", 0f);
-		receta.agregarIngrediente("pollo", 0f);
 		
-		List<String> expected = new ArrayList<String>();
-		expected.add("carne");
-		expected.add("pollo");
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		Ingrediente pollo = new Ingrediente("pollo", 0f);
 		
-		assertEquals(receta.getNombreIngredientes(), expected);
+		receta.agregarIngrediente(carne);
+		receta.agregarIngrediente(pollo);
+		
+		List<Ingrediente> expected = new ArrayList<>();
+		expected.add(carne);
+		expected.add(pollo);
+		
+		assertEquals(receta.getIngredientes(), expected);
+	}
+	
+	/* Test: @getNombreCondimentos */
+	@Test
+	public void testLosCondimentosDeUnaRecetaSinSubrecetasSonLosSuyos() {
+		receta = new Receta(null, null, null);
+
+		Ingrediente caldo = new Ingrediente("caldo", 0f);
+		Ingrediente sal = new Ingrediente("sal", 0f);
+		
+		receta.agregarCondimento(caldo);
+		receta.agregarCondimento(sal);
+		
+		List<Ingrediente> expected = new ArrayList<>();
+		expected.add(caldo);
+		expected.add(sal);
+		
+		assertEquals(receta.getCondimentos(), expected);
 	}
 	
 	@Test
 	public void testLosIngredientesDeUnaRecetaSonLosSuyosYLosDeSusSubrecetas() {
 		receta = new Receta(null, null, null);
-		receta.agregarIngrediente("carne", 0f);
-		receta.agregarIngrediente("pollo", 0f);
 		
-		List<String> expected = new ArrayList<String>();
-		expected.add("carne");
-		expected.add("pollo");
-		expected.add("chivito");
-		expected.add("chori");
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		Ingrediente pollo = new Ingrediente("pollo", 0f);
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+		Ingrediente chori = new Ingrediente("chori", 0f);
+		
+		receta.agregarIngrediente(carne);
+		receta.agregarIngrediente(pollo);
+		
+		List<Ingrediente> expected = new ArrayList<>();
+		expected.add(carne);
+		expected.add(pollo);
+		expected.add(chivito);
+		expected.add(chori);
 		
 		Receta sub1 = new Receta(null, null, null);
-		sub1.agregarIngrediente("chivito", 0f);
+		sub1.agregarIngrediente(chivito);
 		Receta sub2 = new Receta(null, null, null);
-		sub2.agregarIngrediente("chori", 0f);
+		sub2.agregarIngrediente(chori);
 		
 		receta.agregarSubreceta(sub1);
 		receta.agregarSubreceta(sub2);
 		
-		assertEquals(receta.getNombreIngredientes(), expected);
-	}
-	
-	/* Test: @getNombreCondimentos */
-	
-	@Test
-	public void testLosCondimentosDeUnaRecetaSinSubrecetasSonLosSuyos() {
-		receta = new Receta(null, null, null);
-		receta.agregarCondimento("caldo", 0f);
-		receta.agregarCondimento("sal", 0f);
-		
-		List<String> expected = new ArrayList<String>();
-		expected.add("caldo");
-		expected.add("sal");
-		
-		assertEquals(receta.getNombreCondimentos(), expected);
+		assertEquals(receta.getIngredientes(), expected);
 	}
 	
 	@Test
 	public void testLosCondimentosDeUnaRecetaSonLosSuyosYLosDeSusSubrecetas() {
 		receta = new Receta(null, null, null);
-		receta.agregarCondimento("caldo", 0f);
-		receta.agregarCondimento("sal", 0f);
 		
+		Ingrediente caldo = new Ingrediente("caldo", 0f);
+		Ingrediente sal = new Ingrediente("sal", 0f);
+		Ingrediente pimienta = new Ingrediente("pimienta", 0f);
+		Ingrediente azucar = new Ingrediente("azucar", 0f);
 		
-		List<String> expected = new ArrayList<String>();
-		expected.add("caldo");
-		expected.add("sal");
-		expected.add("pimienta");
-		expected.add("azucar");
+		receta.agregarCondimento(caldo);
+		receta.agregarCondimento(sal);
+		
+		List<Ingrediente> expected = new ArrayList<>();
+		expected.add(caldo);
+		expected.add(sal);
+		expected.add(pimienta);
+		expected.add(azucar);
 		
 		Receta sub1 = new Receta(null, null, null);
-		sub1.agregarCondimento("pimienta", 0f);
+		sub1.agregarCondimento(pimienta);
 		Receta sub2 = new Receta(null, null, null);
-		sub2.agregarCondimento("azucar", 0f);
+		sub2.agregarCondimento(azucar);
 		
 		receta.agregarSubreceta(sub1);
 		receta.agregarSubreceta(sub2);
-		
-		assertEquals(receta.getNombreCondimentos(), expected);
 	
+		assertEquals(receta.getCondimentos(), expected);
 	}
 	
 }

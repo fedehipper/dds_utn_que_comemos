@@ -9,7 +9,6 @@ import grupo4.dds.usuario.condicion.Condicion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -28,8 +27,8 @@ public class Usuario {
 	/* Otros datos */
 
 	private Rutina rutina;
-	private List<Alimento> preferenciasAlimenticias = new ArrayList<>();
-	private List<Alimento> comidasQueLeDisgustan = new ArrayList<>();
+	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
+	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
 
@@ -69,8 +68,8 @@ public class Usuario {
 		return (18 < imc) && (imc < 30) && subsanaTodasLasCondiciones();
 	}
 
-	public boolean leGusta(Alimento alimento) {
-		return this.preferenciasAlimenticias.contains(alimento);
+	public boolean leGusta(String alimento) {
+		return this.preferenciasAlimenticias.stream().anyMatch(a -> a.getNombre() == alimento);
 	}
 
 	public void agregarReceta(Receta receta) {
@@ -97,19 +96,16 @@ public class Usuario {
 	}
 
 	public boolean esAdecuada(Receta receta) {
-		return receta.esValida()
-				&& todasLasCondicionesCumplen(condicion -> condicion
-						.esRecomendable(receta));
+		return receta.esValida() && todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
 	}
 
 	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
-			HashMap<String, Float> ingredientes,
-			HashMap<String, Float> condimentos, String preparacion,
+			List<Ingrediente> ingredientes,
+			List<Ingrediente> condimentos, String preparacion,
 			List<Receta> subRecetas) {
 
 		try {
-			receta.modificarReceta(this, encabezado, ingredientes, condimentos,
-					preparacion, subRecetas);
+			receta.modificarReceta(this, encabezado, ingredientes, condimentos, preparacion, subRecetas);
 		} catch (NoSePuedeModificarLaReceta e) {
 			//TODO: hacer algo con esta excepción
 			throw e;
@@ -130,8 +126,7 @@ public class Usuario {
 	}
 
 	private boolean todasLasCondicionesCumplen(Predicate<Condicion> predicado) {
-		return condiciones.isEmpty() ? true : condiciones.stream().allMatch(
-				predicado);
+		return condiciones.isEmpty() ? true : condiciones.stream().allMatch(predicado);
 	}
 
 	private boolean tieneCondicionesValidas() {
@@ -166,11 +161,11 @@ public class Usuario {
 		return peso;
 	}
 
-	public List<Alimento> getPreferenciasAlimenticias() {
+	public List<Ingrediente> getPreferenciasAlimenticias() {
 		return preferenciasAlimenticias;
 	}
 
-	public List<Alimento> getComidasQueLeDisgustan() {
+	public List<Ingrediente> getComidasQueLeDisgustan() {
 		return comidasQueLeDisgustan;
 	}
 
@@ -190,15 +185,15 @@ public class Usuario {
 		condiciones.add(condicion);
 	}
 
-	public void agregarPreferenciaAlimenticia(Alimento alimento) {
+	public void agregarPreferenciaAlimenticia(Ingrediente alimento) {
 		preferenciasAlimenticias.add(alimento);
 	}
 
-	public void agregarComidaQueLeDisgusta(Alimento alimento) {
+	public void agregarComidaQueLeDisgusta(Ingrediente alimento) {
 		comidasQueLeDisgustan.add(alimento);
 	}
 
-	public void setPreferenciasAlimenticias(List<Alimento> preferenciasAlimenticias) {
+	public void setPreferenciasAlimenticias(List<Ingrediente> preferenciasAlimenticias) {
 		this.preferenciasAlimenticias = preferenciasAlimenticias;
 	}
 
