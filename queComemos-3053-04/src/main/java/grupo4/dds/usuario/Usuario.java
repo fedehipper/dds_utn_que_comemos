@@ -42,8 +42,8 @@ public class Usuario {
 		this.rutina = rutina;
 	}
 
-	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento,
-		float altura, float peso, Rutina rutina) {this(nombre, fechaNacimiento, altura, peso, rutina);
+	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) 
+		{this(nombre, fechaNacimiento, altura, peso, rutina);
 		this.sexo = sexo;
 	}
 
@@ -134,7 +134,6 @@ public class Usuario {
 				throw new NoSePuedeSugerirRecetaAlUsuario();
 	}
 	
-
 	/* Accessors and Mutators */
 	public String getNombre() {
 		return nombre;

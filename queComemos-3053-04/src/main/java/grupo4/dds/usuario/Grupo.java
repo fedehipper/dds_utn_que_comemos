@@ -12,15 +12,35 @@ public class Grupo {
 	private List<Ingrediente> palabrasClave;
 	
 	
-	// testear, 
-	public void sugerirReceta(Receta unaReceta) {
+	// testear
+	public boolean sugerirReceta(Receta unaReceta) {
+		
 		if(!((unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))))))
-				throw new NoSePuedeSugerirRecetaAlGrupo();
+			throw new NoSePuedeSugerirRecetaAlGrupo();
+		
+		return (unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))));
 	}
 
+	// testear
+	public Grupo(String nombre) {
+		nombreDelClub = nombre;
+	}
 	
+	// testear
+	public void agregarUsuario(Usuario usuario) {
+		usuarios.add(usuario);
+	}
 	
+	// testear
+	public void agregarPalabrasClave(Ingrediente palabraClave) {
+		palabrasClave.add(palabraClave);
+	}
 	
-	
-	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
 }
+	
+	
+	
