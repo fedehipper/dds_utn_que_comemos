@@ -13,12 +13,11 @@ public class Grupo {
 	
 	
 	// testear
-	public boolean sugerirReceta(Receta unaReceta) {
+	public void sugerirReceta(Receta unaReceta) {
 		
 		if(!((unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))))))
 			throw new NoSePuedeSugerirRecetaAlGrupo();
-		
-		return (unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))));
+	
 	}
 
 	// testear
