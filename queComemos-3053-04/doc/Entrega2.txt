@@ -1,0 +1,3 @@
+Para modelar el grupo, creamos una clase grupo, con una variable de instancia de tipo
+lista que conoce al grupo de usuarios, ademas, los atributos que tiene el grupo son
+palabrasClave que es una lista de ingredientes y una variable que contiene el nombre
