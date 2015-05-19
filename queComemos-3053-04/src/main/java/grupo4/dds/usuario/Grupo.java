@@ -14,8 +14,9 @@ public class Grupo {
 	
 	// testear
 	public void sugerirReceta(Receta unaReceta) {
+		boolean condicion = (unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))));
 		
-		if(!((unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))))))
+		if(!condicion)
 			throw new NoSePuedeSugerirRecetaAlGrupo();
 	
 	}
