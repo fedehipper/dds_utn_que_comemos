@@ -111,6 +111,12 @@ public class Receta {
 		return this.condimentos;
 	}
 	
+	// testear
+	public boolean compartenPalabrasClave(List<Ingrediente> palabrasClaveGrupo) {
+		return this.ingredientes.stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
+	}
+	
+		
 	/* Accessors and Mutators */
 	public int getTotalCalorias() {
 		return encabezado.getTotalCalorias();
