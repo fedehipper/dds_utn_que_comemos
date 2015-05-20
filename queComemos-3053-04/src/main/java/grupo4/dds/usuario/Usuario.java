@@ -53,14 +53,12 @@ public class Usuario {
 	}
 
 	public boolean esValido() {
-		return tieneCamposObligatorios() && nombre.length() > 4
-				&& tieneCondicionesValidas()
-				&& fechaNacimiento.isBefore(LocalDate.now());
+		return tieneCamposObligatorios() & nombre.length() > 4 & tieneCondicionesValidas() & fechaNacimiento.isBefore(LocalDate.now());
 	}
 
 	public boolean sigueRutinaSaludable() {
 		double imc = indiceDeMasaCorporal();
-		return (18 < imc) && (imc < 30) && subsanaTodasLasCondiciones();
+		return (18 < imc) & (imc < 30) & subsanaTodasLasCondiciones();
 	}
 
 	public boolean leGusta(String alimento) {
@@ -68,7 +66,7 @@ public class Usuario {
 	}
 
 	public void agregarReceta(Receta receta) {
-		if (esAdecuada(receta) && receta.puedeSerAgregadaPor(this))
+		if (esAdecuada(receta) & receta.puedeSerAgregadaPor(this))
 			recetas.add(receta);
 		else
 			throw new NoSePuedeAgregarLaReceta();
@@ -91,7 +89,7 @@ public class Usuario {
 	}
 
 	public boolean esAdecuada(Receta receta) {
-		return receta.esValida() && todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
+		return receta.esValida() & todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
 	}
 
 	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
@@ -112,8 +110,8 @@ public class Usuario {
 
 	/* Servicios internos */
 	private boolean tieneCamposObligatorios() {
-		return (this.nombre != null) && (this.peso != 0) && (this.altura != 0)
-				&& (this.fechaNacimiento != null) && (this.rutina != null);
+		return (this.nombre != null) & (this.peso != 0) & (this.altura != 0)
+				& (this.fechaNacimiento != null) & (this.rutina != null);
 	}
 
 	private boolean todasLasCondicionesCumplen(Predicate<Condicion> predicado) {
@@ -128,10 +126,8 @@ public class Usuario {
 		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.subsanaCondicion(this));
 	}
 	
-	// testear 
 	public boolean sugerirReceta(Receta unaReceta) {
-		return (!  (unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) & (this.esAdecuada(unaReceta)));
-				
+		return (!  (unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) & (this.esAdecuada(unaReceta)));			
 	}
 	
 	/* Accessors and Mutators */

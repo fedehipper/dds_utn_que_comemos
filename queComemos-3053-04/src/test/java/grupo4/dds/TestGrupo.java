@@ -34,10 +34,7 @@ public class TestGrupo {
 		chori = new Ingrediente("chori", 0f);
 		azucar = new Ingrediente("azucar", 90f);
 		receta = new Receta();
-		receta.agregarIngrediente(carne);
-		receta.agregarIngrediente(fruta);
-		receta.agregarIngrediente(chori);
-		receta.agregarIngrediente(azucar);
+		receta.setTotalCalorias(4500);
 		vegano = new Vegano();
 		diabetico = new Diabetico();
 		
@@ -45,6 +42,7 @@ public class TestGrupo {
 		elPanadero.agregarCondicion(diabetico);
 		
 		grupo.agregarPalabrasClave(chori);
+		
 	}
 
 	@Test
@@ -62,9 +60,27 @@ public class TestGrupo {
 	}
 	
 	@Test
-	public void testSugerirRecetaAGrupoGrosos(){
+	public void testNoSePuedeSugerirRecetaAGrupoGrosos(){
+	
+		receta.agregarIngrediente(carne);
+		
+		fecheSena.agregarPreferenciaAlimenticia(fruta);
+	
+		assertFalse(grupo.sugerirReceta(receta));
+	}
+	
+	@Test
+	public void testSePuedeSugerirRecetaAGrupoGrosos(){
+		
+		receta.agregarIngrediente(azucar);
+		receta.agregarIngrediente(fruta);
+		
+		fecheSena.agregarPreferenciaAlimenticia(fruta);
+		grupo.agregarPalabrasClave(azucar);
+			
 		assertTrue(grupo.sugerirReceta(receta));
 	}
+	
 	
 
 }

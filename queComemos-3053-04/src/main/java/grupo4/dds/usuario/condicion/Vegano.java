@@ -10,7 +10,6 @@ public class Vegano implements Condicion {
 		return (usuario.getPreferenciasAlimenticias().stream().allMatch(a -> !a.getEsCarne()));
 	}
 
-	// arreglar esta
 	public boolean subsanaCondicion(Usuario usuario) {
 		return usuario.leGusta("fruta");
 	}
