@@ -1,23 +1,21 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.excepciones.NoSePuedeSugerirRecetaAlGrupo;
+
 import grupo4.dds.receta.Receta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Grupo {
 	
-	private List<Usuario> usuarios;
+	private List<Usuario> usuarios = new ArrayList<>();
 	private String nombreDelClub;
-	private List<Ingrediente> palabrasClave;
+	private List<Ingrediente> palabrasClave = new ArrayList<>();
 	
 	
 	// testear
-	public void sugerirReceta(Receta unaReceta) {
-		boolean condicion = (unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))));
-		
-		if(!condicion)
-			throw new NoSePuedeSugerirRecetaAlGrupo();
+	public boolean sugerirReceta(Receta unaReceta) {
+		return (unaReceta.compartenPalabrasClave(palabrasClave) & (usuarios.stream().allMatch(u -> u.esAdecuada(unaReceta))));
 	
 	}
 
@@ -38,6 +36,10 @@ public class Grupo {
 	
 	public List<Usuario> getUsuarios() {
 		return usuarios;
+	}
+	
+	public List<Ingrediente> getPalabrasClave() {
+		return palabrasClave;
 	}
 
 }

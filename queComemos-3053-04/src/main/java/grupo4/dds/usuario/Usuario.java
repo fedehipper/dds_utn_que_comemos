@@ -2,7 +2,7 @@ package grupo4.dds.usuario;
 
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
-import grupo4.dds.excepciones.NoSePuedeSugerirRecetaAlUsuario;
+
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Condicion;
@@ -129,9 +129,9 @@ public class Usuario {
 	}
 	
 	// testear 
-	public void sugerirReceta(Receta unaReceta) {
-		if (!  (unaReceta.compartenPalabrasClave(comidasQueLeDisgustan) & (this.esAdecuada(unaReceta))))
-				throw new NoSePuedeSugerirRecetaAlUsuario();
+	public boolean sugerirReceta(Receta unaReceta) {
+		return (!  (unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) & (this.esAdecuada(unaReceta)));
+				
 	}
 	
 	/* Accessors and Mutators */
