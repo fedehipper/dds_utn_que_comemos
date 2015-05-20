@@ -411,4 +411,27 @@ public class TestUsuario {
 		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparacion despues de modificar"));
 	}
 	
+	@Test
+	public void testSugerirRecetaAUnUsuario() {
+		
+		usuario = new Usuario();
+		usuario.agregarCondicion(new Hipertenso());
+
+		Ingrediente frutas = new Ingrediente("frutas", 0f);
+		Ingrediente azucar = new Ingrediente("azucar", 99.9f);
+		Ingrediente melon = new Ingrediente("melon", 11f);
+		Ingrediente chivito = new Ingrediente("chivito", 0f);
+		
+		receta = new Receta();
+		receta.agregarCondimento(azucar);		
+		receta.agregarIngrediente(frutas);
+		receta.agregarIngrediente(chivito);
+		receta.setTotalCalorias(4500);
+		
+		usuario.agregarPreferenciaAlimenticia(chivito);
+		usuario.agregarPreferenciaAlimenticia(azucar);
+		usuario.agregarComidaQueLeDisgusta(melon);
+		
+		assertTrue(usuario.sugerirReceta(receta));
+	}
 }
