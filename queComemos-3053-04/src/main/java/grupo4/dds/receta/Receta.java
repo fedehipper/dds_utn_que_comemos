@@ -1,11 +1,14 @@
 package grupo4.dds.receta;
 
+import static org.junit.Assert.assertEquals;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 public class Receta {
@@ -168,70 +171,33 @@ public class Receta {
 		return this.subrecetas;
 	}
 	
+	/* retorna el total de ingredientes de la receta mas los de las subrecetas */
+	public List<Ingrediente> getIngredientesRecetaYSubReceta() {		
+				
+		List<Ingrediente> totalIngredientes = new ArrayList<>();
+		ListIterator<Receta> r =  subrecetas.listIterator(); 
+		
+		while(r.hasNext())
+			totalIngredientes.addAll(r.next().getIngredientes());
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	
-	/////////////////////////////// con estas funciones se resolvian los test que estan en azul, no pude cambiarlas, quedan esos dos test
-	public List<Ingrediente> getIngredientesRecetaYSubReceta() {
-		return getConSubrecetas((Receta receta) -> {return receta.ingredientes.keySet(); }, ingredientes.keySet());
+		totalIngredientes.addAll(ingredientes);
+		return totalIngredientes;  
 	}
-
 	
-	public List<Ingrediente> getNombreCondimentosRecetaYSubReceta() {
-		return getConSubrecetas((Receta receta) -> {return receta.condimentos.keySet(); }, condimentos.keySet());
+	/* retorna el total de condimentos de la receta mas los de las subrecetas */
+	public List<Ingrediente> getCondimentosRecetaYSubReceta() {		
+		
+		List<Ingrediente> totalCondimentos = new ArrayList<>();
+		ListIterator<Receta> r =  subrecetas.listIterator(); 
+		
+		while(r.hasNext())
+			totalCondimentos.addAll(r.next().getCondimentos());
+	
+		totalCondimentos.addAll(condimentos);
+		return totalCondimentos;  
 	}
-
-	/* Servicios Internos */
-	//TODO mejorar para llegar a algo más cercano a fold/reduct*/
 	
-	/*
-	private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
 		
-		List<Ingrediente> acum = new ArrayList<>(seed);
-		
-		for (Receta elem : subrecetas) {	
-			acum.addAll(f.apply(elem));
-		}
-		
-		return acum;
-	
-*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
 
 
