@@ -52,15 +52,15 @@ public class Receta {
 	}
 
 	public boolean tieneIngrediente(String unIngrediente) {
-		return this.ingredientes.stream().anyMatch(i -> i.getNombre() == unIngrediente);
+		return this.getIngredientesRecetaYSubReceta().stream().anyMatch(i -> i.getNombre() == unIngrediente);
 	}
 
 	public boolean tieneCondimento(String condimento) {
-		return this.condimentos.stream().anyMatch(c -> c.getNombre() == condimento);
+		return this.getCondimentosRecetaYSubReceta().stream().anyMatch(c -> c.getNombre() == condimento);
 	}
 
 	public Float cantidadCondimento(String nombreCondimento) {
-		 return this.condimentos.stream().filter(c -> c.getNombre() == nombreCondimento).findFirst().get().getCantidad();  					
+		 return this.getCondimentosRecetaYSubReceta().stream().filter(c -> c.getNombre() == nombreCondimento).findFirst().get().getCantidad();  					
 	}
 	
 	public boolean puedeSerVistaPor(Usuario usuario) {
@@ -112,11 +112,9 @@ public class Receta {
 		return this.condimentos;
 	}
 	
-	// ver si es total de ingredientes o ingredientes solo de la receta y no de las subrecetas
 	public boolean compartenPalabrasClave(List<Ingrediente> palabrasClaveGrupo) {
-		return this.ingredientes.stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
+		return this.getIngredientesRecetaYSubReceta().stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
 	}
-	
 		
 	/* Accessors and Mutators */
 	public int getTotalCalorias() {
@@ -143,14 +141,6 @@ public class Receta {
 		ingredientes.addAll(ingredientes);
 	}
 
-	public void agregarCondimentos(List<Ingrediente> condimentos) {
-		condimentos.addAll(condimentos);
-	}
-	
-	public void agregarSubrecetas(List<Receta> subrecetas) {
-		subrecetas.addAll(subrecetas);
-	}
-	
 	public String getNombreDelPlato() {
 		return encabezado.getNombreDelPlato();
 	}
@@ -193,7 +183,6 @@ public class Receta {
 		return totalCondimentos;  
 	}
 	
-		
 }
 
 
