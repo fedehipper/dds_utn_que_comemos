@@ -52,7 +52,6 @@ public class RecetaPublica extends Receta {
 		catch(NoSePuedeAgregarLaReceta e){
 			throw new EsInadecuadaDespuesDeModificar();
 		}
-		
 	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {

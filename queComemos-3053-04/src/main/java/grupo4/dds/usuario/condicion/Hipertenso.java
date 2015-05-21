@@ -15,6 +15,6 @@ public class Hipertenso implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		return !(receta.tieneCondimento("sal") || receta.tieneCondimento("caldo"));
+		return !(receta.tieneCondimento("sal") | receta.tieneCondimento("caldo"));
 	}
 }

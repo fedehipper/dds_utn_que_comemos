@@ -1,12 +1,10 @@
 package grupo4.dds.receta;
 
-import static org.junit.Assert.assertEquals;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
@@ -50,7 +48,7 @@ public class Receta {
 	/* Servicios */
 	public boolean esValida() {
 		int totalCalorias = getTotalCalorias();
-		return !ingredientes.isEmpty() && 10 <= totalCalorias && totalCalorias <= 5000;
+		return !ingredientes.isEmpty() & 10 <= totalCalorias & totalCalorias <= 5000;
 	}
 
 	public boolean tieneIngrediente(String unIngrediente) {
@@ -94,7 +92,7 @@ public class Receta {
 	}
 
 	public String getPreparacion() {
-		if(preparacion == null && subrecetas.isEmpty())
+		if(preparacion == null & subrecetas.isEmpty())
 			return "";
 		
 		String preparacionDeSubrecetas = subrecetas == null ? null : subrecetas.stream()
@@ -114,9 +112,7 @@ public class Receta {
 		return this.condimentos;
 	}
 	
-	// testear, necesito comparar por ingredientes totales, osea de la receta y sus subrecetas
-	// en lugar de meter el this.ingredientes, hay que hacer un metodo que devuelva todos
-	// el mismo que piden los dos test que pinchan
+	// ver si es total de ingredientes o ingredientes solo de la receta y no de las subrecetas
 	public boolean compartenPalabrasClave(List<Ingrediente> palabrasClaveGrupo) {
 		return this.ingredientes.stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
 	}

@@ -75,6 +75,11 @@ public class TestGrupo {
 		receta.agregarIngrediente(azucar);
 		receta.agregarIngrediente(fruta);
 		
+		Receta sub1 = new Receta(null, null, null);
+		sub1.agregarIngrediente(carne);
+		
+		receta.agregarSubreceta(sub1);
+		
 		fecheSena.agregarPreferenciaAlimenticia(fruta);
 		grupo.agregarPalabrasClave(azucar);
 			

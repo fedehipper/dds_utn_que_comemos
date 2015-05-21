@@ -7,19 +7,17 @@ import grupo4.dds.usuario.Usuario;
 public class Diabetico implements Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {
-		return usuario.getSexo() != null
-				&& !usuario.getPreferenciasAlimenticias().isEmpty();
+		return usuario.getSexo() != null & !usuario.getPreferenciasAlimenticias().isEmpty();
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {
-		return usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
-				|| usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
-				|| usuario.getPeso() <= 70;
+		return usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL) | usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
+															   | usuario.getPeso() <= 70;
 	}
 
 	public boolean esRecomendable(Receta receta) {
 		Float cantAzucar = receta.cantidadCondimento("azucar");
-		return cantAzucar != null && cantAzucar <= 100;
+		return cantAzucar != null & cantAzucar <= 100;
 	}
 	
 }

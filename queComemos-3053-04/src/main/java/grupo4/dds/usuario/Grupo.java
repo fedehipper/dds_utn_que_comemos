@@ -18,7 +18,7 @@ public class Grupo {
 	}
 
 	public Grupo(String nombre) {
-		nombreDelClub = nombre;
+		setNombreDelClub(nombre);
 	}
 	
 	public void agregarUsuario(Usuario usuario) {
@@ -28,13 +28,22 @@ public class Grupo {
 	public void agregarPalabrasClave(Ingrediente palabraClave) {
 		palabrasClave.add(palabraClave);
 	}
-	
+
+	/* getters and setters*/
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
 	
 	public List<Ingrediente> getPalabrasClave() {
 		return palabrasClave;
+	}
+	
+	public String getNombreDelClub() {
+		return nombreDelClub;
+	}
+
+	public void setNombreDelClub(String nombreDelClub) {
+		this.nombreDelClub = nombreDelClub;
 	}
 
 }

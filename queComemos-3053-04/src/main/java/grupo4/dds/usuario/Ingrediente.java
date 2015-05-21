@@ -20,7 +20,7 @@ public class Ingrediente {
 	}
 	
 	public boolean getEsCarne() {
-		return (nombre == "carne" || nombre == "chivito" || nombre == "chori" || nombre == "pollo");
+		return (nombre == "carne" | nombre == "chivito" | nombre == "chori" | nombre == "pollo");
 	}
 
 	public boolean esFruta() {
