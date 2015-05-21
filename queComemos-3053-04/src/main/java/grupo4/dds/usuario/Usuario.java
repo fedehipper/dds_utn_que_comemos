@@ -92,10 +92,8 @@ public class Usuario {
 		return receta.esValida() & todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
 	}
 
-	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado,
-			List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, String preparacion,
-			List<Receta> subRecetas) {
+	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes, 
+			List<Ingrediente> condimentos, String preparacion, List<Receta> subRecetas) {
 		try {
 			receta.modificarReceta(this, encabezado, ingredientes, condimentos, preparacion, subRecetas);
 		} catch (NoSePuedeModificarLaReceta e) {
@@ -110,8 +108,8 @@ public class Usuario {
 
 	/* Servicios internos */
 	private boolean tieneCamposObligatorios() {
-		return (this.nombre != null) & (this.peso != 0) & (this.altura != 0)
-				& (this.fechaNacimiento != null) & (this.rutina != null);
+		return (this.nombre != null) & (this.peso != 0) & (this.altura != 0) & (this.fechaNacimiento != null)
+									 & (this.rutina != null);
 	}
 
 	private boolean todasLasCondicionesCumplen(Predicate<Condicion> predicado) {
