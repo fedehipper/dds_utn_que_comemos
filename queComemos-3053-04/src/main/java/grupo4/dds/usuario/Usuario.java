@@ -125,7 +125,7 @@ public class Usuario {
 	}
 	
 	public boolean sugerirReceta(Receta unaReceta) {
-		return (!  (unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) & (this.esAdecuada(unaReceta)));			
+		return (!(unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) & (this.esAdecuada(unaReceta)));			
 	}
 	
 	/* Accessors and Mutators */
