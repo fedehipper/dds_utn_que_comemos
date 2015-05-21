@@ -21,7 +21,6 @@ public class RecetaPublica extends Receta {
 	}
 
 	/* Servicios */
-
 	public boolean puedeSerVistaPor(Usuario unUsuario) {
 		return true;
 	}
@@ -43,8 +42,7 @@ public class RecetaPublica extends Receta {
 			throw new NoSePuedeModificarLaReceta();
 		
 		Receta receta = convertirEnPrivada(usuario);
-		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos,
-				preparacion, subRecetas);
+		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos, preparacion, subRecetas);
 		
 		try {
 		usuario.agregarReceta(receta);

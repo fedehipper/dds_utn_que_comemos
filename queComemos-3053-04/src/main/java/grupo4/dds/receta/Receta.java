@@ -137,10 +137,6 @@ public class Receta {
 		subrecetas.add(subreceta);
 	}
 
-	public void agregarIngredientes(List<Ingrediente> ingredientes) {
-		ingredientes.addAll(ingredientes);
-	}
-
 	public String getNombreDelPlato() {
 		return encabezado.getNombreDelPlato();
 	}

@@ -14,11 +14,8 @@ public class Vegano implements Condicion {
 		return usuario.leGusta("fruta");
 	}
 
-	
 	public boolean esRecomendable(Receta receta) {
-		
-		return receta.getIngredientes().stream().allMatch(i -> !i.getEsCarne());
-
+		return receta.getIngredientesRecetaYSubReceta().stream().allMatch(i -> !i.getEsCarne());
 	}
 	
 }
