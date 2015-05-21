@@ -10,8 +10,7 @@ public class EncabezadoDeReceta {
 	public EncabezadoDeReceta() {
 	}
 
-	public EncabezadoDeReceta(String nombreDelPlato, Temporada temporada,
-			String dificultad) {
+	public EncabezadoDeReceta(String nombreDelPlato, Temporada temporada, String dificultad) {
 		this.nombreDelPlato = nombreDelPlato;
 		this.temporada = temporada;
 		this.dificultad = dificultad;

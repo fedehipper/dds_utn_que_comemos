@@ -48,7 +48,7 @@ public class Receta {
 	/* Servicios */
 	public boolean esValida() {
 		int totalCalorias = getTotalCalorias();
-		return !ingredientes.isEmpty() & 10 <= totalCalorias & totalCalorias <= 5000;
+		return !ingredientes.isEmpty() && 10 <= totalCalorias && totalCalorias <= 5000;
 	}
 
 	public boolean tieneIngrediente(String unIngrediente) {
