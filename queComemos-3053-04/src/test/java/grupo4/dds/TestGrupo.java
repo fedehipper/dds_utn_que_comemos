@@ -1,6 +1,10 @@
 package grupo4.dds;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Grupo;
 import grupo4.dds.usuario.Ingrediente;
@@ -42,36 +46,29 @@ public class TestGrupo {
 		elPanadero.agregarCondicion(diabetico);
 		
 		grupo.agregarPalabrasClave(chori);
-		
 	}
 
 	@Test
 	public void testAgregarUsuarioAGrupo() {
 		grupo.agregarUsuario(fecheSena);
 	     assertTrue(grupo.getUsuarios().contains(fecheSena));
-		
 	}
 	
 	@Test
 	public void testAgregarPalabraClave(){
-		
 		grupo.agregarPalabrasClave(carne);
 		assertTrue(grupo.getPalabrasClave().contains(carne));
 	}
 	
 	@Test
 	public void testNoSePuedeSugerirRecetaAGrupoGrosos(){
-	
 		receta.agregarIngrediente(carne);
-		
 		fecheSena.agregarPreferenciaAlimenticia(fruta);
-	
 		assertFalse(grupo.sugerirReceta(receta));
 	}
 	
 	@Test
 	public void testSePuedeSugerirRecetaAGrupoGrosos(){
-		
 		receta.agregarIngrediente(azucar);
 		receta.agregarIngrediente(fruta);
 		
@@ -79,12 +76,37 @@ public class TestGrupo {
 		sub1.agregarIngrediente(carne);
 		
 		receta.agregarSubreceta(sub1);
-		
+	
 		fecheSena.agregarPreferenciaAlimenticia(fruta);
 		grupo.agregarPalabrasClave(azucar);
 			
 		assertTrue(grupo.sugerirReceta(receta));
 	}
+	
+	@Test 
+	public void testSiVariosGruposAgreganUnUsuarioEntoncesElUsuarioContieneEsosGruposEnSuColeccion() {
+		Grupo grupo1 = new Grupo("grupo1");
+		Grupo grupo2 = new Grupo("grupo2");
+		Grupo grupo3 = new Grupo("grupo3");
+		Grupo grupo4 = new Grupo("grupo4");
+		
+		grupo1.agregarUsuario(fecheSena);
+		grupo2.agregarUsuario(fecheSena);
+		grupo3.agregarUsuario(fecheSena);
+		grupo4.agregarUsuario(fecheSena);
+		
+		List<Grupo> aux = new ArrayList<>();
+		
+		aux.add(grupo1);
+		aux.add(grupo3);
+		aux.add(grupo2);
+		aux.add(grupo1);
+		
+		assertTrue(fecheSena.getGrupos().containsAll(aux));			
+	}
+	
+	
+	
 	
 	
 

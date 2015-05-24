@@ -188,5 +188,9 @@ public class Usuario {
 	public void agregarGrupo(Grupo grupo) {
 		this.grupos.add(grupo);		
 	}
+	
+	public List<Grupo> getGrupos() {
+		return this.grupos;
+	}
 
 }
