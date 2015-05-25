@@ -7,7 +7,6 @@ import java.util.List;
 
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
 import org.junit.Test;
