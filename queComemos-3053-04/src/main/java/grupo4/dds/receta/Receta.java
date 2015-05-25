@@ -6,7 +6,7 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Receta {
@@ -23,12 +23,9 @@ public class Receta {
 	protected String preparacion;
 
 	/* Constructores */
+	
 	public Receta(){}
 
-	public Receta(Usuario creador) {
-		this.creador = creador;
-	}// Creado para testear por ahora
-	
 	//TODO: lanzar excepción cuando no se especifica el creador
 	public Receta(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
 		this.creador = creador;
@@ -46,21 +43,23 @@ public class Receta {
 	}
 
 	/* Servicios */
+	
 	public boolean esValida() {
 		int totalCalorias = getTotalCalorias();
 		return !ingredientes.isEmpty() && 10 <= totalCalorias && totalCalorias <= 5000;
 	}
 
-	public boolean tieneIngrediente(String unIngrediente) {
-		return this.getIngredientesRecetaYSubReceta().stream().anyMatch(i -> i.getNombre() == unIngrediente);
+	public boolean tieneIngrediente(String nombreIngrediente) {
+		return _tiene(getIngredientes(), nombreIngrediente);
 	}
 
-	public boolean tieneCondimento(String condimento) {
-		return this.getCondimentosRecetaYSubReceta().stream().anyMatch(c -> c.getNombre() == condimento);
+	public boolean tieneCondimento(String nombreCondimento) {
+		return _tiene(getCondimentos(), nombreCondimento);
 	}
 
-	public Float cantidadCondimento(String nombreCondimento) {
-		 return this.getCondimentosRecetaYSubReceta().stream().filter(c -> c.getNombre() == nombreCondimento).findFirst().get().getCantidad();  					
+	public float cantidadCondimento(String nombreCondimento) {
+		int index = getCondimentos().indexOf(Ingrediente.ingrediente(nombreCondimento));
+		return getCondimentos().get(index).getCantidad();  					
 	}
 	
 	public boolean puedeSerVistaPor(Usuario usuario) {
@@ -103,20 +102,44 @@ public class Receta {
 		
 		return String.join("", preparacion, preparacionDeSubrecetas);
 	}
-		
+	
 	public List<Ingrediente> getIngredientes() {
-		return this.ingredientes;
+		return getConSubrecetas((Receta receta) -> {return receta.ingredientes;}, ingredientes);
 	}
 	
 	public List<Ingrediente> getCondimentos() {
-		return this.condimentos;
+		return getConSubrecetas((Receta receta) -> {return receta.condimentos;}, condimentos);
 	}
 	
 	public boolean compartenPalabrasClave(List<Ingrediente> palabrasClaveGrupo) {
-		return this.getIngredientesRecetaYSubReceta().stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
+		return this.getIngredientes().stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
 	}
+	
+	public boolean tieneCarne() {
+		return getIngredientes().stream().anyMatch(i -> i.esCarne());
+	}
+	
+	/* Servicios privados */
+	
+	private boolean _tiene(List<Ingrediente> lista, String nombre) {
+		return lista.contains(Ingrediente.ingrediente(nombre));
+	}
+	
+	//TODO mejorar para llegar a algo más cercano a fold/reduct
+	private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
 		
+		List<Ingrediente> acum = new ArrayList<Ingrediente>(seed);
+		
+		for (Receta elem : subrecetas) {	
+			acum.addAll(f.apply(elem));
+		}
+		
+		return acum;
+		
+	}
+	
 	/* Accessors and Mutators */
+	
 	public int getTotalCalorias() {
 		return encabezado.getTotalCalorias();
 	}
@@ -148,37 +171,7 @@ public class Receta {
 	public String getDificultad() {
 		return encabezado.getDificultad();
 	}
-	
-	public List<Receta> getSubRecetas() {
-		return this.subrecetas;
-	}
-	
-	/* retorna el total de ingredientes de la receta mas los de las subrecetas */
-	public List<Ingrediente> getIngredientesRecetaYSubReceta() {		
-				
-		List<Ingrediente> totalIngredientes = new ArrayList<>();
-		ListIterator<Receta> r =  subrecetas.listIterator(); 
 		
-		while(r.hasNext())
-			totalIngredientes.addAll(r.next().getIngredientes());
-	
-		totalIngredientes.addAll(ingredientes);
-		return totalIngredientes;  
-	}
-	
-	/* retorna el total de condimentos de la receta mas los de las subrecetas */
-	public List<Ingrediente> getCondimentosRecetaYSubReceta() {		
-		
-		List<Ingrediente> totalCondimentos = new ArrayList<>();
-		ListIterator<Receta> r =  subrecetas.listIterator(); 
-		
-		while(r.hasNext())
-			totalCondimentos.addAll(r.next().getCondimentos());
-	
-		totalCondimentos.addAll(condimentos);
-		return totalCondimentos;  
-	}
-	
 }
 
 

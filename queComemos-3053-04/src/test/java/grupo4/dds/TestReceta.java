@@ -183,7 +183,7 @@ public class TestReceta {
 		receta.agregarSubreceta(sub1);
 		receta.agregarSubreceta(sub2);
 		
-		assertTrue(receta.getIngredientesRecetaYSubReceta().containsAll(expected));
+		assertTrue(receta.getIngredientes().containsAll(expected));
 	}
 	
 	@Test
@@ -212,7 +212,7 @@ public class TestReceta {
 		receta.agregarSubreceta(sub1);
 		receta.agregarSubreceta(sub2);
 	
-		assertTrue(receta.getCondimentosRecetaYSubReceta().containsAll(expected));
+		assertTrue(receta.getCondimentos().containsAll(expected));
 	}
 	
 }

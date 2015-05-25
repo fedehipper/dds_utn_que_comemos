@@ -12,15 +12,14 @@ public class RecetaPublica extends Receta {
 
 	/* Constructores */
 
-	public RecetaPublica() {
-		super(null);
-	};// Creado para testear por ahora
+	public RecetaPublica() {}
 
 	public RecetaPublica(EncabezadoDeReceta encabezado, String preparacion) {
 		super(null, encabezado, preparacion);
 	}
 
 	/* Servicios */
+	
 	public boolean puedeSerVistaPor(Usuario unUsuario) {
 		return true;
 	}

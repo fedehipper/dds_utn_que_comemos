@@ -39,13 +39,13 @@ public class TestCondiciones {
 	@Test 
 	public void testEsCarne() {
 		Ingrediente carne = new Ingrediente("carne", 0f);
-		assertTrue(carne.getEsCarne());
+		assertTrue(carne.esCarne());
 	}
 	
 	@Test
 	public void noEsCarne() {
 		Ingrediente fruta = new Ingrediente("fruta", 0f);
-		assertFalse(fruta.getEsCarne());
+		assertFalse(fruta.esCarne());
 	}
 	
 	@Test

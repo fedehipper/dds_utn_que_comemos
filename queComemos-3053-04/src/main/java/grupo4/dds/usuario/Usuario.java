@@ -2,14 +2,12 @@ package grupo4.dds.usuario;
 
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
-
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Condicion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -62,8 +60,12 @@ public class Usuario {
 		return 18 < imc && imc < 30 && subsanaTodasLasCondiciones();
 	}
 
-	public boolean leGusta(String alimento) {
-		return this.preferenciasAlimenticias.stream().anyMatch(a -> a.getNombre() == alimento);
+	public boolean tienePreferenciasAlimenticias() {
+		return !preferenciasAlimenticias.isEmpty();
+	}
+	
+	public boolean leGusta(String nombreAlimento) {
+		return preferenciasAlimenticias.contains(Ingrediente.ingrediente(nombreAlimento));
 	}
 
 	public void agregarReceta(Receta receta) {
@@ -128,7 +130,12 @@ public class Usuario {
 		return !(unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) && (this.esAdecuada(unaReceta));			
 	}
 	
+	public boolean leGustaLaCarne() {
+		return preferenciasAlimenticias.stream().anyMatch(a -> a.esCarne());
+	}
+	
 	/* Accessors and Mutators */
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -149,24 +156,8 @@ public class Usuario {
 		return peso;
 	}
 
-	public List<Ingrediente> getPreferenciasAlimenticias() {
-		return preferenciasAlimenticias;
-	}
-
-	public List<Ingrediente> getComidasQueLeDisgustan() {
-		return comidasQueLeDisgustan;
-	}
-
-	public List<Condicion> getCondiciones() {
-		return condiciones;
-	}
-
 	public Rutina getRutina() {
 		return rutina;
-	}
-
-	public Collection<Receta> getRecetas() {
-		return recetas;
 	}
 
 	public void agregarCondicion(Condicion condicion) {
@@ -179,10 +170,6 @@ public class Usuario {
 
 	public void agregarComidaQueLeDisgusta(Ingrediente alimento) {
 		this.comidasQueLeDisgustan.add(alimento);
-	}
-
-	public void setPreferenciasAlimenticias(List<Ingrediente> preferenciasAlimenticias) {
-		this.preferenciasAlimenticias = preferenciasAlimenticias;
 	}
 
 	public void agregarGrupo(Grupo grupo) {

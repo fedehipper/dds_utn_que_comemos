@@ -7,7 +7,7 @@ import grupo4.dds.usuario.Usuario;
 public class Diabetico implements Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {
-		return usuario.getSexo() != null && !usuario.getPreferenciasAlimenticias().isEmpty();
+		return usuario.getSexo() != null && usuario.tienePreferenciasAlimenticias();
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {
@@ -16,8 +16,7 @@ public class Diabetico implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		Float cantAzucar = receta.cantidadCondimento("azucar");
-		return cantAzucar != null && cantAzucar <= 100;
+		return receta.cantidadCondimento("azucar") <= 100;
 	}
 	
 }
