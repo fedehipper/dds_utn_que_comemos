@@ -1,7 +1,11 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.usuario.Usuario;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class RepositorioDeRecetas {
 
@@ -17,7 +21,22 @@ public class RepositorioDeRecetas {
 		this.recetas.remove(unaReceta);
 	}
 	
-	public List<Receta> listarTodas() {
+	public void listarRecetasParaUnUsuario(Usuario unUsuario) {
+		
+		// busco las recetas que tienen su nomnbre
+		// busco las recetas que son publicas
+		// busco las recetas que son creadas por miembros de su grupo
+	
+	}
+	
+	
+	public List<Receta> listarRecetasPublicas() {
+		return recetas.stream().filter(r -> r.getCreador() == null).collect(Collectors.toList());
+	}
+	
+		
+	
+	public List<Receta> getRecetas() {
 		return this.recetas;
 	}
 	

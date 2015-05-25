@@ -171,6 +171,10 @@ public class Receta {
 	public String getDificultad() {
 		return encabezado.getDificultad();
 	}
+	
+	public Usuario getCreador() {
+		return this.creador;
+	}
 		
 }
 

@@ -9,10 +9,10 @@ import grupo4.dds.usuario.Usuario;
 import java.util.List;
 
 public class RecetaPublica extends Receta {
-
+	
 	/* Constructores */
-
-	public RecetaPublica() {}
+	public RecetaPublica() {
+	}
 
 	public RecetaPublica(EncabezadoDeReceta encabezado, String preparacion) {
 		super(null, encabezado, preparacion);
