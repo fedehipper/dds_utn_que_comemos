@@ -3,3 +3,10 @@ lista que conoce al grupo de usuarios, ademas, los atributos que tiene el grupo 
 palabrasClave que es una lista de ingredientes y una variable que contiene el nombre, 
 cuando un grupo agrega a un usuario, el usuario tambien agrega al grupo a su lista de 
 grupos
+
+Para obtener el listado de todas las recetas que tiene acceso un usuario, 
+creamos una clase "RepositorioDeRecetas", en la cual creamos un metodo que 
+realiza esta funcionalidad.
+Fue extensible la inclusion de las nuevas condiciones para que un usuario
+pueda ver las recetas, solo tuvimos que incluir un codigo en un metodo, 
+y hacer anyMatch con los grupos
