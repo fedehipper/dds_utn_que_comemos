@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Grupo;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
@@ -92,19 +93,20 @@ public class TestGrupo {
 		Grupo grupo1 = new Grupo("grupo1");
 		Grupo grupo2 = new Grupo("grupo2");
 		Grupo grupo3 = new Grupo("grupo3");
-		Grupo grupo4 = new Grupo("grupo4");
 		
 		grupo1.agregarUsuario(fecheSena);
 		grupo2.agregarUsuario(fecheSena);
 		grupo3.agregarUsuario(fecheSena);
-		grupo4.agregarUsuario(fecheSena);
 	
+		fecheSena.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo2);
+		fecheSena.agregarGrupo(grupo3);
+		
 		List<Grupo> aux = new ArrayList<>();
 		
 		aux.add(grupo1);
 		aux.add(grupo3);
 		aux.add(grupo2);
-		aux.add(grupo1);
 		
 		assertTrue(fecheSena.getGrupos().containsAll(aux));			
 	}
@@ -134,6 +136,17 @@ public class TestGrupo {
 		assertFalse(grupo.puedenVerLaReceta(receta));
 	}
 	
+	@Test
+	public void todosLosMiembrosDelGrupoConocenUnaRecetaPublica() {
+		RecetaPublica recetaPublica = new RecetaPublica();
+		
+		grupo = new Grupo("grupo");
+		
+		grupo.agregarUsuario(fecheSena);
+		grupo.agregarUsuario(ariel);
+		
+		assertTrue(grupo.puedenVerLaReceta(recetaPublica));
+	}
 	
 	
 	

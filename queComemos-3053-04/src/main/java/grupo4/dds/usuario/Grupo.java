@@ -23,7 +23,6 @@ public class Grupo {
 	
 	public void agregarUsuario(Usuario usuario) {
 		usuarios.add(usuario);
-		usuario.agregarGrupo(this);
 	}
 	
 	public void agregarPalabrasClave(Ingrediente palabraClave) {

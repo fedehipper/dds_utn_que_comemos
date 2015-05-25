@@ -10,6 +10,7 @@ import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.usuario.Grupo;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
@@ -17,6 +18,7 @@ import grupo4.dds.usuario.condicion.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 import org.junit.Before;
@@ -42,6 +44,8 @@ public class TestUsuario {
 		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
 		arielFolino = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
 		matiasMartino = new Usuario("Matías Martino", null, 1.74f, 79.0f, null);
+		federicoHipper = new Usuario("Federico Hipperdinger", null, 1.91f, 99.0f, null);
+		cristianMaldonado = new Usuario("Cristian Maldonado", null, 1.34f, 87.0f, null);
 	}
 	
 	/* Test: @indiceDeMasaCorporal/0 */
@@ -437,6 +441,58 @@ public class TestUsuario {
 		assertTrue(usuario.sugerirReceta(receta));
 	}
 	
+	@Test
+	public void testUnUsuarioPuedeVerLaRecetaSiEsElCreadorOSiAlguienDeSusGruposLaCreo() {
+		receta = new Receta(fecheSena, null, null);
+		
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+
+		Grupo grupo2 = new Grupo("grupo2");
+		
+		grupo2.agregarUsuario(federicoHipper);
+		grupo2.agregarUsuario(cristianMaldonado);
+		grupo2.agregarUsuario(arielFolino);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo2);
+		fecheSena.agregarGrupo(grupo1);
+		
+		federicoHipper.agregarGrupo(grupo2);
+		cristianMaldonado.agregarGrupo(grupo2);
+	
+		assertTrue(arielFolino.puedeVer(receta));
+	}
+	
+	@Test 
+	public void testUnUsuarioNoPuedeVerLaRecetaSiNoEsElCreadorOSiAlguienDeSusGrupoTampocoLaCreo() {
+		receta = new Receta(fecheSena, null, null);
+		
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+
+		Grupo grupo2 = new Grupo("grupo2");
+		
+		grupo2.agregarUsuario(federicoHipper);
+		grupo2.agregarUsuario(cristianMaldonado);
+		grupo2.agregarUsuario(arielFolino);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo2);
+		fecheSena.agregarGrupo(grupo1);
+		
+		federicoHipper.agregarGrupo(grupo2);
+		cristianMaldonado.agregarGrupo(grupo2);
+	
+		assertFalse(arielFolino.puedeVer(receta));
+	}
 	
 	
 	
