@@ -22,14 +22,12 @@ public class TestRepositorioDeRecetas {
 	
 	private  RepositorioDeRecetas repositorio;
 	private  List<Receta> aux;
-	private Receta receta;
 	private Usuario fecheSena;
 	private Usuario arielFolino;
 	private Usuario matiasMartino;
 	private Usuario federicoHipper;
 	private Usuario cristianMaldonado;
 
-	
 	@Before
 	public void setUp() {
 		repositorio = new RepositorioDeRecetas();
@@ -72,14 +70,7 @@ public class TestRepositorioDeRecetas {
 		
 		assertEquals(repositorio.getRecetas(), aux);	
 	}
-	
-	/*	// entrega 2, punto 2
-	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {
-		return recetas.stream().filter(r -> unUsuario.puedeVer(r)).collect(Collectors.toList());
-	}
-	*/
-	
-	
+		
 	@Test
 	public void testListarRecetasQuePuedeVerUnUsuarioTodasPublicas() {
 		RecetaPublica r1 = new RecetaPublica();
