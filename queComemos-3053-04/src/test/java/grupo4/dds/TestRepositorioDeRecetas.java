@@ -39,7 +39,7 @@ public class TestRepositorioDeRecetas {
 		repositorio.agregarReceta(r1);
 		repositorio.agregarReceta(r2);
 		repositorio.agregarReceta(r3);
-		List<Receta> aux = Stream.of(r1, r2, r3).collect(Collectors.toList());
+		aux = Stream.of(r1, r2, r3).collect(Collectors.toList());
 		
 		assertTrue(repositorio.getRecetas().containsAll(aux));
 	}
@@ -79,6 +79,26 @@ public class TestRepositorioDeRecetas {
 		assertTrue(repositorio.listarRecetasPublicas().size() == 2);
 	}
 
+	@Test
+	public void testListarTodasLasRecetasCreadasPorElUsuario() {
+		RecetaPublica r1 = new RecetaPublica();
+		RecetaPublica r2 = new RecetaPublica();
+		Receta r3 = new Receta(fecheSena, null, null);
+		Receta r4 = new Receta(fecheSena, null, null);
+		Receta r5 = new Receta(fecheSena, null, null);
+	
+		
+		repositorio.agregarReceta(r1);
+		repositorio.agregarReceta(r2);
+		repositorio.agregarReceta(r3);
+		repositorio.agregarReceta(r4);
+		repositorio.agregarReceta(r5);
+		
+		aux = Stream.of(r3, r4, r5).collect(Collectors.toList());
+
+		assertTrue(repositorio.listarRecetasPropias(fecheSena).equals(aux));
+	
+	}
 	
 
 }
