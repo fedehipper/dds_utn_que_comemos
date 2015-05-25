@@ -29,8 +29,7 @@ public class Grupo {
 		palabrasClave.add(palabraClave);
 	}
 	
-	// punto 2,  el grupo pregunta si alguno es el dueño, no si la puede ver porqeu agarra por el preguntar a todos 
-	// los grupos nuevamente
+	// entrega 2, punto 2
 	public boolean puedenVerLaReceta(Receta receta) {
 		return usuarios.stream().anyMatch(u -> u.esElDuenio(receta));
 	}

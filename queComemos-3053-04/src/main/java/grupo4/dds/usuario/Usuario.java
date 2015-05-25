@@ -87,7 +87,7 @@ public class Usuario {
 		return receta.puedeSerVistaPor(this);
 	}
 	
-	// punto 2
+	// entrega 2, punto 2
 	public boolean puedeVer(Receta receta) {
 		return this.esElDuenio(receta) || grupos.stream().anyMatch(g -> g.puedenVerLaReceta(receta));
 	}
