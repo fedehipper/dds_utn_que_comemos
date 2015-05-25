@@ -133,7 +133,7 @@ public class Usuario {
 	public boolean leGustaLaCarne() {
 		return preferenciasAlimenticias.stream().anyMatch(a -> a.esCarne());
 	}
-	
+		
 	/* Accessors and Mutators */
 	
 	public String getNombre() {

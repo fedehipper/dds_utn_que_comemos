@@ -18,12 +18,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class TestUsuario {
+
 
 	private Usuario usuario;
 	private Receta receta;
@@ -434,4 +436,9 @@ public class TestUsuario {
 		
 		assertTrue(usuario.sugerirReceta(receta));
 	}
+	
+	
+	
+	
+	
 }

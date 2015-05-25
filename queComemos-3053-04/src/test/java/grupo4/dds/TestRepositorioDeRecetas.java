@@ -10,9 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +19,13 @@ public class TestRepositorioDeRecetas {
 	
 	private  RepositorioDeRecetas repositorio;
 	private  List<Receta> aux;
-	private  Usuario fecheSena;
+
 	
 	@Before
 	public void setUp() {
 		repositorio = new RepositorioDeRecetas();
 		aux = new ArrayList<>();
-		fecheSena = new Usuario();
+
 	}
 	
 	@Test
@@ -62,40 +60,11 @@ public class TestRepositorioDeRecetas {
 		assertEquals(repositorio.getRecetas(), aux);	
 	}
 	
-	@Test
-	public void testListarTodasLasRecetasPublicas() {
-		RecetaPublica r1 = new RecetaPublica();
-		RecetaPublica r2 = new RecetaPublica();
-		Receta r3 = new Receta(fecheSena, null, null);
-		
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r3);
-		
-		aux.add(r1);
-		aux.add(r2);
-	
-		assertTrue(repositorio.listarRecetasPublicas().equals(aux));
-	}
 
-	@Test
-	public void testListarTodasLasRecetasCreadasPorElUsuario() {
-		RecetaPublica r1 = new RecetaPublica();
-		RecetaPublica r2 = new RecetaPublica();
-		Receta r3 = new Receta(fecheSena, null, null);
-		Receta r4 = new Receta(fecheSena, null, null);
-		Receta r5 = new Receta(fecheSena, null, null);
 	
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r3);
-		repositorio.agregarReceta(r4);
-		repositorio.agregarReceta(r5);
-		
-		aux = Stream.of(r3, r4, r5).collect(Collectors.toList());
-
-		assertTrue(repositorio.listarRecetasPropias(fecheSena).equals(aux));
-	}
+	
+	
+	
 	
 	
 	

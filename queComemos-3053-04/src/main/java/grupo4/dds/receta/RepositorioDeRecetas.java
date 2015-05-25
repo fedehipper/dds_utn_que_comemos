@@ -4,7 +4,6 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class RepositorioDeRecetas {
@@ -23,15 +22,6 @@ public class RepositorioDeRecetas {
 	
 	public void listarRecetasParaUnUsuario(Usuario unUsuario) {
 		
-	}
-	
-	// todas estas las puede ver cualquier usuario
-	public List<Receta> listarRecetasPublicas() {
-		return recetas.stream().filter(r -> r.getCreador() == null).collect(Collectors.toList());
-	}
-	
-	public List<Receta> listarRecetasPropias(Usuario unUsuario) {
-		return recetas.stream().filter(r -> r.getCreador() == unUsuario).collect(Collectors.toList());
 	}
 	
 	
