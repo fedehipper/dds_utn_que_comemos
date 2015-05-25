@@ -29,7 +29,13 @@ public class Grupo {
 	public void agregarPalabrasClave(Ingrediente palabraClave) {
 		palabrasClave.add(palabraClave);
 	}
-
+	
+	// punto 2,  el grupo pregunta si alguno es el dueño, no si la puede ver porqeu agarra por el preguntar a todos 
+	// los grupos nuevamente
+	public boolean puedenVerLaReceta(Receta receta) {
+		return usuarios.stream().anyMatch(u -> u.esElDuenio(receta));
+	}
+	
 	/* getters and setters*/
 	public List<Usuario> getUsuarios() {
 		return usuarios;

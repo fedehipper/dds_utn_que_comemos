@@ -4,6 +4,7 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class RepositorioDeRecetas {
@@ -20,8 +21,9 @@ public class RepositorioDeRecetas {
 		this.recetas.remove(unaReceta);
 	}
 	
-	public void listarRecetasParaUnUsuario(Usuario unUsuario) {
-		
+	// punto 2
+	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {
+		return recetas.stream().filter(r -> unUsuario.puedeVer(r)).collect(Collectors.toList());
 	}
 	
 	
