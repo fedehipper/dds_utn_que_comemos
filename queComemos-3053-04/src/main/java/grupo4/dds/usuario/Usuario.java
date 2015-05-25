@@ -89,16 +89,16 @@ public class Usuario {
 	}
 	
 	// entrega 2, punto 2
-	public boolean puedeVer(Receta receta) {
-		return this.esElDuenio(receta) || this.grupoPuedeVer(receta);
-	}
-	
-	public boolean grupoPuedeVer(Receta receta) {
+	public boolean gruposPuedenVer(Receta receta) {
 		return this.grupos.stream().anyMatch(g -> g.puedenVerLaReceta(receta));
 	}
-
+	
+	public boolean puedeVer(Receta receta) {
+		return this.esElDuenio(receta) || this.gruposPuedenVer(receta);
+	}
+	
 	public boolean puedeModificar(Receta receta) {
-		return receta.puedeSerModificadaPor(this) || this.grupoPuedeVer(receta);
+		return receta.puedeSerModificadaPor(this) || this.gruposPuedenVer(receta);
 	}
 
 	public boolean esAdecuada(Receta receta) {
