@@ -23,18 +23,17 @@ public class RepositorioDeRecetas {
 	
 	public void listarRecetasParaUnUsuario(Usuario unUsuario) {
 		
-		// busco las recetas que tienen su nomnbre
-		// busco las recetas que son publicas
-		// busco las recetas que son creadas por miembros de su grupo
-	
 	}
 	
-	
+	// todas estas las puede ver cualquier usuario
 	public List<Receta> listarRecetasPublicas() {
 		return recetas.stream().filter(r -> r.getCreador() == null).collect(Collectors.toList());
 	}
 	
-		
+	public List<Receta> listarRecetasPropias(Usuario unUsuario) {
+		return recetas.stream().filter(r -> r.getCreador() == unUsuario).collect(Collectors.toList());
+	}
+	
 	
 	public List<Receta> getRecetas() {
 		return this.recetas;
