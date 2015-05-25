@@ -21,7 +21,7 @@ public class RepositorioDeRecetas {
 		this.recetas.remove(unaReceta);
 	}
 	
-	// punto 2
+	// entrega 2, punto 2
 	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {
 		return recetas.stream().filter(r -> unUsuario.puedeVer(r)).collect(Collectors.toList());
 	}
