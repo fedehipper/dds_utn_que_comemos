@@ -148,10 +148,31 @@ public class TestRepositorioDeRecetas {
 		assertTrue(repositorio.listarRecetasParaUnUsuario(arielFolino).containsAll(aux));
 	}
 	
+	@Test
+	public void testElUsuarioNoPuedeVerNingunaReceta() {
+		
+		Receta r1 = new Receta(fecheSena, null, null);
+		Receta r2 = new Receta(cristianMaldonado, null, null);
+		Receta r4 = new Receta(federicoHipper, null, null);
+		
+		repositorio.agregarReceta(r1);
+		repositorio.agregarReceta(r2);
+		repositorio.agregarReceta(r4);
+		
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		
+		Grupo grupo2 = new Grupo("grupo2");
+		
+		grupo2.agregarUsuario(cristianMaldonado);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		cristianMaldonado.agregarGrupo(grupo2);
 	
+		assertTrue(repositorio.listarRecetasParaUnUsuario(arielFolino).isEmpty());
+	}
 	
-	
-	
-	
-
 }
