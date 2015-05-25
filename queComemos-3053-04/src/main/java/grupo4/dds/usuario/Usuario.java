@@ -28,6 +28,7 @@ public class Usuario {
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
+	private List<Grupo> grupos = new ArrayList<>();
 
 	/* Constructores */
 	public Usuario(){};
@@ -160,15 +161,23 @@ public class Usuario {
 	}
 
 	public void agregarCondicion(Condicion condicion) {
-		condiciones.add(condicion);
+		this.condiciones.add(condicion);
 	}
 
 	public void agregarPreferenciaAlimenticia(Ingrediente alimento) {
-		preferenciasAlimenticias.add(alimento);
+		this.preferenciasAlimenticias.add(alimento);
 	}
 
 	public void agregarComidaQueLeDisgusta(Ingrediente alimento) {
-		comidasQueLeDisgustan.add(alimento);
+		this.comidasQueLeDisgustan.add(alimento);
+	}
+
+	public void agregarGrupo(Grupo grupo) {
+		this.grupos.add(grupo);		
+	}
+	
+	public List<Grupo> getGrupos() {
+		return this.grupos;
 	}
 
 }
