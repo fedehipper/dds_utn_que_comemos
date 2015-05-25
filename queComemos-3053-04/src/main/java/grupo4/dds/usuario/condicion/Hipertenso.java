@@ -7,7 +7,7 @@ import grupo4.dds.usuario.Usuario;
 public class Hipertenso implements Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {
-		return !usuario.getPreferenciasAlimenticias().isEmpty();
+		return usuario.tienePreferenciasAlimenticias();
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {

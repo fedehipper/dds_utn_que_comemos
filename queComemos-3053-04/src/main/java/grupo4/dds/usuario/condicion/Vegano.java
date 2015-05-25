@@ -7,7 +7,7 @@ public class Vegano implements Condicion {
 
 	
 	public boolean esValidaCon(Usuario usuario) {
-		return (usuario.getPreferenciasAlimenticias().stream().allMatch(a -> !a.getEsCarne()));
+		return (!usuario.leGustaLaCarne());
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {
@@ -15,7 +15,7 @@ public class Vegano implements Condicion {
 	}
 
 	public boolean esRecomendable(Receta receta) {
-		return receta.getIngredientesRecetaYSubReceta().stream().allMatch(i -> !i.getEsCarne());
+		return !receta.tieneCarne();
 	}
 	
 }
