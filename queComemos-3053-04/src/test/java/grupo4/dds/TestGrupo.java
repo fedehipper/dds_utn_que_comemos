@@ -21,6 +21,8 @@ public class TestGrupo {
 	private Grupo grupo;
 	private Usuario fecheSena;
 	private Usuario elPanadero;
+	private Usuario ariel;
+	private Usuario matias;
 	private Receta receta;
 	private Ingrediente carne;
 	private Ingrediente fruta;
@@ -34,6 +36,8 @@ public class TestGrupo {
 		grupo = new Grupo("grosos");
 		fecheSena = new Usuario();
 		elPanadero = new Usuario();
+		matias = new Usuario();
+		ariel = new Usuario();
 		fruta = new Ingrediente("fruta", 0f);
 		chori = new Ingrediente("chori", 0f);
 		azucar = new Ingrediente("azucar", 90f);
@@ -94,7 +98,7 @@ public class TestGrupo {
 		grupo2.agregarUsuario(fecheSena);
 		grupo3.agregarUsuario(fecheSena);
 		grupo4.agregarUsuario(fecheSena);
-		
+	
 		List<Grupo> aux = new ArrayList<>();
 		
 		aux.add(grupo1);
@@ -104,6 +108,32 @@ public class TestGrupo {
 		
 		assertTrue(fecheSena.getGrupos().containsAll(aux));			
 	}
+	
+	@Test
+	public void testSiHayUnMiembroQueCreoLaRecetaTodosLaPuedenVer() {
+		receta = new Receta(fecheSena, null, null);
+		
+		grupo = new Grupo("grupo");
+		
+		grupo.agregarUsuario(matias);
+		grupo.agregarUsuario(ariel);
+		grupo.agregarUsuario(fecheSena);
+
+		assertTrue(grupo.puedenVerLaReceta(receta));
+	}
+	
+	@Test
+	public void testSiNoHayUnMiembroQueCreoLaRecetaNingunoLaPuedeVer() {
+		receta = new Receta(fecheSena, null, null);
+		
+		grupo = new Grupo("grupo");
+		
+		grupo.agregarUsuario(matias);
+		grupo.agregarUsuario(ariel);
+
+		assertFalse(grupo.puedenVerLaReceta(receta));
+	}
+	
 	
 	
 	

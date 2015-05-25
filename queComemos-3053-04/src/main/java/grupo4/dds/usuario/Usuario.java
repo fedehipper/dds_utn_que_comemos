@@ -83,8 +83,13 @@ public class Usuario {
 		return recetas.contains(receta);
 	}
 
-	public boolean puedeVer(Receta receta) {
+	public boolean esElDuenio(Receta receta) {
 		return receta.puedeSerVistaPor(this);
+	}
+	
+	// punto 2
+	public boolean puedeVer(Receta receta) {
+		return this.esElDuenio(receta) || grupos.stream().anyMatch(g -> g.puedenVerLaReceta(receta));
 	}
 
 	public boolean puedeModificar(Receta receta) {
