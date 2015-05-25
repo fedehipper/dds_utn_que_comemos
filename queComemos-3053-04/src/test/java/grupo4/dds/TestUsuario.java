@@ -494,7 +494,32 @@ public class TestUsuario {
 		assertFalse(arielFolino.puedeVer(receta));
 	}
 	
+	@Test
+	public void testSiUnUsuarioPerteneceAUnGrupoDondeEstaSuCreadorPuedeModificarla() {
+		receta = new Receta(fecheSena, null, null);
+		
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+
+		Grupo grupo2 = new Grupo("grupo2");
+		
+		grupo2.agregarUsuario(federicoHipper);
+		grupo2.agregarUsuario(cristianMaldonado);
+		grupo2.agregarUsuario(arielFolino);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo2);
+		fecheSena.agregarGrupo(grupo1);
+		
+		federicoHipper.agregarGrupo(grupo2);
+		cristianMaldonado.agregarGrupo(grupo2);
 	
+		assertTrue(arielFolino.puedeModificar(receta));
+	}
 	
 	
 }

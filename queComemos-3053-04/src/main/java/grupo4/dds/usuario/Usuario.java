@@ -31,7 +31,8 @@ public class Usuario {
 	private List<Grupo> grupos = new ArrayList<>();
 
 	/* Constructores */
-	public Usuario(){};
+	public Usuario(){
+	};
 	
 	public Usuario(String nombre, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
 		this.nombre = nombre;
@@ -89,11 +90,15 @@ public class Usuario {
 	
 	// entrega 2, punto 2
 	public boolean puedeVer(Receta receta) {
-		return this.esElDuenio(receta) || grupos.stream().anyMatch(g -> g.puedenVerLaReceta(receta));
+		return this.esElDuenio(receta) || this.grupoPuedeVer(receta);
+	}
+	
+	public boolean grupoPuedeVer(Receta receta) {
+		return this.grupos.stream().anyMatch(g -> g.puedenVerLaReceta(receta));
 	}
 
 	public boolean puedeModificar(Receta receta) {
-		return receta.puedeSerModificadaPor(this);
+		return receta.puedeSerModificadaPor(this) || this.grupoPuedeVer(receta);
 	}
 
 	public boolean esAdecuada(Receta receta) {
