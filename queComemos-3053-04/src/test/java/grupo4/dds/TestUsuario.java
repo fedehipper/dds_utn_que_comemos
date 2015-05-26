@@ -23,6 +23,9 @@ import java.util.List;
 
 
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -565,6 +568,19 @@ public class TestUsuario {
 		fecheSena.agregarGrupo(grupo1);
 
 		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(r2));
+	}
+	
+	@Test 
+	public void testAgregarUnaRecetaAlHistorial() {
+		receta = new Receta(arielFolino, null, null);
+		RecetaPublica rPublica = new RecetaPublica();
+		
+		arielFolino.agregarRecetaAlHistorial(rPublica);
+		arielFolino.agregarRecetaAlHistorial(receta);
+		
+		List<Receta> aux = Stream.of(rPublica, receta).collect(Collectors.toList());
+		
+		assertTrue(arielFolino.getHistorioal().containsAll(aux));
 	}
 	
 	

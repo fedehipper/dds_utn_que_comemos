@@ -96,7 +96,7 @@ public class Usuario {
 		return repositorio.listarRecetasParaUnUsuario(this);
 	}
 	
-	// entrega 2, punto 3
+	// entrega 2, punto 3 
 	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
 		return this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList()).get(0);
 	}
@@ -213,6 +213,10 @@ public class Usuario {
 	
 	public List<Grupo> getGrupos() {
 		return this.grupos;
+	}
+	
+	public List<Receta> getHistorioal() {
+		return this.historial;
 	}
 
 }
