@@ -4,6 +4,7 @@ import static grupo4.dds.usuario.Rutina.*;
 import static grupo4.dds.usuario.Sexo.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
@@ -627,6 +628,23 @@ public class TestUsuario {
 
 		assertTrue(fecheSena.buscarUnaReceta("sopaDeVerdura", repositorio).equals(rPublica2));
 	}
+	
+	@Test
+	public void testBuscarUnaRecetaQueNoEsteEnElRepositorioDeRecetas() {
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
+		
+		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
+		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
+		
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		
+		repositorio.agregarReceta(rPublica1);
+		repositorio.agregarReceta(rPublica2);
+		
+		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
+	}
+	
 	
 	
 	
