@@ -119,7 +119,7 @@ public class Usuario {
 	public void buscarYAgregarAlHistorial(String nombre, RepositorioDeRecetas repositorio) {
 		Receta recetaEncontrada = this.buscarUnaReceta(nombre, repositorio);
 		if (!recetaEncontrada.equals(null))
-			this.agregarRecetaAlHistorial(recetaEncontrada);
+			this.historial.add(recetaEncontrada);
 	}
 	
 	// entrega 2, punto 2
