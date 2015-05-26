@@ -10,6 +10,7 @@ import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.Grupo;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
@@ -18,6 +19,7 @@ import grupo4.dds.usuario.condicion.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 
@@ -520,6 +522,52 @@ public class TestUsuario {
 	
 		assertTrue(arielFolino.puedeModificar(receta));
 	}
+	
+	@Test 
+	public void testRecetasQuePuedeVerDelRepositorio() {
+		receta = new Receta(fecheSena, null, null);
+		Receta r2 = new Receta(cristianMaldonado, null, null);
+		
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta);
+		repositorio.agregarReceta(r2);
+		
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+
+		assertTrue(arielFolino.recetasQuePuedeVer(repositorio).contains(receta));
+	}
+	
+	@Test 
+	public void testRecetasQueNoPuedeVerDelRepositorio() {
+		receta = new Receta(fecheSena, null, null);
+		Receta r2 = new Receta(cristianMaldonado, null, null);
+		
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta);
+		repositorio.agregarReceta(r2);
+		
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+
+		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(r2));
+	}
+	
+	
 	
 	
 }
