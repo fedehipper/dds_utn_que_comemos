@@ -583,6 +583,73 @@ public class TestUsuario {
 		assertTrue(arielFolino.getHistorioal().containsAll(aux));
 	}
 	
+	@Test
+	public void testBuscarUnaRecetaQueEsteEnElRepositorioDeRecetas() {
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
+		receta = new Receta(arielFolino, encabezado1, null);
+		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
+		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		
+		repositorio.agregarReceta(receta);
+		repositorio.agregarReceta(rPublica1);
+		repositorio.agregarReceta(rPublica2);
+
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		
+		assertTrue(fecheSena.buscarUnaReceta("fideos", repositorio).equals(receta));
+	}
+	
+	
+	@Test
+	public void testBuscarUnaRecetaPublicaQueEsteEnElRepositorioDeRecetas() {
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
+		receta = new Receta(arielFolino, encabezado1, null);
+		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
+		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		
+		repositorio.agregarReceta(receta);
+		repositorio.agregarReceta(rPublica1);
+		repositorio.agregarReceta(rPublica2);
+
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		
+		assertTrue(fecheSena.buscarUnaReceta("sopaDeVerdura", repositorio).equals(rPublica2));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
