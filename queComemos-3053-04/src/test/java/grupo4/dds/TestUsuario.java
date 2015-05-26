@@ -35,9 +35,9 @@ public class TestUsuario {
 
 
 	private Usuario usuario;
-	private static Receta receta;
-	private static Usuario fecheSena;
-	private static Usuario arielFolino;
+	private Receta receta;
+	private Usuario fecheSena;
+	private Usuario arielFolino;
 	private Usuario matiasMartino;
 	private Usuario federicoHipper;
 	private Usuario cristianMaldonado;
@@ -629,23 +629,6 @@ public class TestUsuario {
 	}
 	
 	
-	
-	public static void main(String[] args) {
-		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
-		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
-		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
-		
-		receta = new Receta(arielFolino, encabezado1, null);
-		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
-		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
-		
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		repositorio.agregarReceta(rPublica1);
-		repositorio.agregarReceta(rPublica2);
-		
-		System.out.println(fecheSena.buscarUnaReceta("fideos", repositorio));
-	}
 	
 	
 	

@@ -96,16 +96,9 @@ public class Usuario {
 		return repositorio.listarRecetasParaUnUsuario(this);
 	}
 	
-	// entrega 2, punto 3 
+	// entrega 2, punto 3 TESTEAR SI QUIERE BUSCAR UNA RECETA QUE NO ESTE EN EL REPOSITORIO
 	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
-	
-		List<Receta> recetaEncontrada = new ArrayList<>();
-		recetaEncontrada = this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList());
-			
-		if (!recetaEncontrada.isEmpty())
-			return recetaEncontrada.get(0);
-		else
-			return null;	
+		return this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList()).get(0);
 	}
 	
 	// entrega 2, punto 3
