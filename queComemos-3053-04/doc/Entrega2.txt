@@ -10,3 +10,7 @@ realiza esta funcionalidad.
 Fue extensible la inclusion de las nuevas condiciones para que un usuario
 pueda ver las recetas, solo tuvimos que incluir un codigo en un metodo, 
 y hacer anyMatch con los grupos
+
+En el punto 3, agregamos a la coleccion historial, una receta que puede
+ser vista por el usuario, aplicando busqueda, o agregarla sin realizar la 
+busqueda
