@@ -678,16 +678,74 @@ public class TestUsuario {
 		receta = new Receta(fecheSena, null, null);
 
 		Grupo grupo1 = new Grupo("grupo1");
-		
 		grupo1.agregarUsuario(matiasMartino);
 		grupo1.agregarUsuario(arielFolino);
 		arielFolino.agregarGrupo(grupo1);
 		
 		arielFolino.agregarRecetaAlHistorial(receta);
 		assertTrue(arielFolino.getHistorioal().isEmpty());
-	
 	}
 	
+	@Test
+	public void testBuscarYAgregarRecetaEnElHistorial() {
+		
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
+		receta = new Receta(arielFolino, encabezado1, null);
+		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
+		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		
+		repositorio.agregarReceta(receta);
+		repositorio.agregarReceta(rPublica1);
+		repositorio.agregarReceta(rPublica2);
+
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		
+		fecheSena.buscarYAgregarAlHistorial("fideos", repositorio);
+		
+		
+		assertTrue(fecheSena.getHistorioal().contains(receta));
+		
+
+	}
+	
+	@Test(expected = NoSeEncontroLaReceta.class)
+	public void testBuscarYAgregarPeroComoNoLaEncuentraNoLaAgrega() {
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
+		receta = new Receta(arielFolino, encabezado1, null);
+		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
+		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		
+		repositorio.agregarReceta(receta);
+		repositorio.agregarReceta(rPublica1);
+		repositorio.agregarReceta(rPublica2);
+
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(fecheSena);
+		
+		matiasMartino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		
+		fecheSena.buscarYAgregarAlHistorial("fideos", repositorio);
+		
+		
+		assertTrue(fecheSena.getHistorioal().contains(receta));
+	}
 	
 	
 	

@@ -102,10 +102,10 @@ public class Usuario {
 	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
 		List<Receta> encontrada = new ArrayList<>();
 		encontrada = this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList());
-		if (encontrada.isEmpty())
-			throw new NoSeEncontroLaReceta();
-		else
+		if (!encontrada.isEmpty())
 			return encontrada.get(0);
+		else
+			throw new NoSeEncontroLaReceta();
 	}
 	
 	// entrega 2, punto 3
@@ -118,9 +118,7 @@ public class Usuario {
 	
 	// entrega 2, punto 3
 	public void buscarYAgregarAlHistorial(String nombre, RepositorioDeRecetas repositorio) {
-		Receta recetaEncontrada = this.buscarUnaReceta(nombre, repositorio);
-		if (!recetaEncontrada.equals(null))
-			this.historial.add(recetaEncontrada);
+		this.historial.add(this.buscarUnaReceta(nombre, repositorio));
 	}
 	
 	// entrega 2, punto 2
