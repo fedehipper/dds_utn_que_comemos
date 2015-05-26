@@ -1,5 +1,6 @@
 package grupo4.dds.usuario;
 
+import grupo4.dds.excepciones.NoSeEncontroLaReceta;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
@@ -102,7 +103,7 @@ public class Usuario {
 		List<Receta> encontrada = new ArrayList<>();
 		encontrada = this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList());
 		if (encontrada.isEmpty())
-			return null;
+			throw new NoSeEncontroLaReceta();
 		else
 			return encontrada.get(0);
 	}

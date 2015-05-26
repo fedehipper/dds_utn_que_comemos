@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import grupo4.dds.excepciones.NoSeEncontroLaReceta;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
@@ -630,7 +631,7 @@ public class TestUsuario {
 		assertTrue(fecheSena.buscarUnaReceta("sopaDeVerdura", repositorio).equals(rPublica2));
 	}
 	
-	@Test
+	@Test(expected = NoSeEncontroLaReceta.class)
 	public void testBuscarUnaRecetaQueNoEsteEnElRepositorioDeRecetas() {
 		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
 		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
@@ -646,7 +647,7 @@ public class TestUsuario {
 		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
 	}
 	
-	@Test
+	@Test(expected = NoSeEncontroLaReceta.class)
 	public void testBuscarRecetaQueNoEsPosibleVerPorElUsuario() {
 		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
 		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
