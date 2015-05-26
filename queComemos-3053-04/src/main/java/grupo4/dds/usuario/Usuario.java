@@ -4,12 +4,14 @@ import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.condicion.Condicion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Usuario {
 
@@ -29,6 +31,7 @@ public class Usuario {
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
 	private List<Grupo> grupos = new ArrayList<>();
+	private List<Receta> historial = new ArrayList<>();
 
 	/* Constructores */
 	public Usuario(){
@@ -86,6 +89,28 @@ public class Usuario {
 
 	public boolean esElDuenio(Receta receta) {
 		return receta.puedeSerVistaPor(this);
+	}
+	
+	// entrega 2, punto 3
+	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio) {
+		return repositorio.listarRecetasParaUnUsuario(this);
+	}
+	
+	// entrega 2, punto 3
+	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
+		return this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList()).get(0);
+	}
+	
+	// entrega 2, punto 3
+	public void agregarRecetaAlHistorial(Receta receta) {
+		this.historial.add(receta);
+	}
+	
+	// entrega 2, punto 3
+	public void buscarYAgregarAlHistorial(String nombre, RepositorioDeRecetas repositorio) {
+		Receta recetaEncontrada = this.buscarUnaReceta(nombre, repositorio);
+		if (!recetaEncontrada.equals(null))
+			this.agregarRecetaAlHistorial(recetaEncontrada);
 	}
 	
 	// entrega 2, punto 2

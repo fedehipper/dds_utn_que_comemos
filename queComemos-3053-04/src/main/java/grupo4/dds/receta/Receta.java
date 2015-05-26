@@ -175,6 +175,10 @@ public class Receta {
 	public Usuario getCreador() {
 		return this.creador;
 	}
+	
+	public EncabezadoDeReceta getEncabezado() {
+		return encabezado;
+	}
 		
 }
 
