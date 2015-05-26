@@ -1,6 +1,7 @@
 package grupo4.dds.usuario;
 
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
@@ -108,7 +109,10 @@ public class Usuario {
 	
 	// entrega 2, punto 3
 	public void agregarRecetaAlHistorial(Receta receta) {
-		this.historial.add(receta);
+		if (this.puedeVer(receta)) 
+			this.historial.add(receta);
+		else
+			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
 	}
 	
 	// entrega 2, punto 3

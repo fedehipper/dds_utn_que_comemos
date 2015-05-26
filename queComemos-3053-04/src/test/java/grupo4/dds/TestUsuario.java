@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.RecetaPublica;
@@ -670,7 +671,21 @@ public class TestUsuario {
 		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
 	}
 	
+	@Test(expected = NoSePuedeGuardarLaRecetaEnElHistorial.class)
+	public void testNoSePuedeAgregarRecetaAlHistoriol() {
+		
+		receta = new Receta(fecheSena, null, null);
+
+		Grupo grupo1 = new Grupo("grupo1");
+		
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		arielFolino.agregarGrupo(grupo1);
+		
+		arielFolino.agregarRecetaAlHistorial(receta);
+		assertTrue(arielFolino.getHistorioal().isEmpty());
 	
+	}
 	
 	
 	
