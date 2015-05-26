@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class RepositorioDeRecetas {
+public class RepositorioDeRecetas implements Repositorio {
 
 	private List<Receta> recetas = new ArrayList<>();
 	
