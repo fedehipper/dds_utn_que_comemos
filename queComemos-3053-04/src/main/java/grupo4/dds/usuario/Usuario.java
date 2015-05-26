@@ -98,7 +98,14 @@ public class Usuario {
 	
 	// entrega 2, punto 3 
 	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
-		return this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList()).get(0);
+	
+		List<Receta> recetaEncontrada = new ArrayList<>();
+		recetaEncontrada = this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList());
+			
+		if (!recetaEncontrada.isEmpty())
+			return recetaEncontrada.get(0);
+		else
+			return null;	
 	}
 	
 	// entrega 2, punto 3
