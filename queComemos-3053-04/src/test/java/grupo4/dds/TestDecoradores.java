@@ -14,6 +14,7 @@ import grupo4.dds.decoradores.CondicionesUsuario;
 import grupo4.dds.decoradores.DiezPrimeros;
 import grupo4.dds.decoradores.ExcesoCalorias;
 import grupo4.dds.decoradores.LeGustaAlUsuario;
+import grupo4.dds.decoradores.ResultadosPares;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -256,6 +257,25 @@ public class TestDecoradores {
 		
 		assertEquals(diezPrimeros.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
+	
+	@Test 
+	public void testProcesamientoPosteriorDevuelveRecetasPares() {
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(unRepo);
+		
+		ResultadosPares resultadosPares = new ResultadosPares(filtroLeGusta);
+
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		List<Receta> aux = Stream.of(receta3, receta5, receta7, receta9, receta11).collect(Collectors.toList());
+		
+		assertEquals(resultadosPares.listarRecetasParaUnUsuario(fecheSena), aux);
+	}
+	
 	
 	
 	
