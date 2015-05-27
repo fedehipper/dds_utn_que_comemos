@@ -19,6 +19,10 @@ public class Orden extends ProcesamientoPosterior {
 		repositorio = repo;
 	}
 	
+	public void setCriterio(CriterioOrden unCriterio) {
+		criterio = unCriterio;
+	}
+	
 	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {		
 		return  this.criterio.ordenar(this.repositorio.listarRecetasParaUnUsuario(unUsuario));
 	}

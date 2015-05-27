@@ -14,6 +14,9 @@ import grupo4.dds.decoradores.CondicionesUsuario;
 import grupo4.dds.decoradores.DiezPrimeros;
 import grupo4.dds.decoradores.ExcesoCalorias;
 import grupo4.dds.decoradores.LeGustaAlUsuario;
+import grupo4.dds.decoradores.Orden;
+import grupo4.dds.decoradores.OrdenAlfabetico;
+import grupo4.dds.decoradores.OrdenCalorias;
 import grupo4.dds.decoradores.ResultadosPares;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
@@ -56,7 +59,7 @@ public class TestDecoradores {
 		encabezado1 = new EncabezadoDeReceta("sopa", null, null, 600);
 		encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
 		encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
-		encabezado4 = new EncabezadoDeReceta("salmon", null, null, 100);
+		encabezado4 = new EncabezadoDeReceta("salmon", null, null, 200);
 		carne = new Ingrediente("carne", 0f);
 		fruta = new Ingrediente("fruta", 0f);
 		huevo = new Ingrediente("huevo" , 0f);
@@ -276,7 +279,40 @@ public class TestDecoradores {
 		assertEquals(resultadosPares.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
 	
+	@Test 
+	public void testProcesamientoPosteriorDevuelveLaListaOrdenadaPorCriterioTotalDeCalorias() {
+				
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+		
+		Orden orden = new Orden(repositorio); 
+		
+		orden.setCriterio(new OrdenCalorias());
+		
+		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());
+		
+		assertEquals(orden.listarRecetasParaUnUsuario(fecheSena), aux);
+	}
 	
+	@Test
+	public void testProcesamientoPosteriorDevuelveLaListaOrdenadaPorCriterioAlfabetico() {
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+		
+		Orden orden = new Orden(repositorio); 
+		
+		orden.setCriterio(new OrdenAlfabetico());
+		
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
+		
+		assertEquals(orden.listarRecetasParaUnUsuario(fecheSena), aux);
+	}
 	
 	
 	
