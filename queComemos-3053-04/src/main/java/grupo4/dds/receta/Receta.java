@@ -5,11 +5,12 @@ import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class Receta {
+public class Receta implements Comparator {
 
 	protected Usuario creador;
 
@@ -43,6 +44,12 @@ public class Receta {
 	}
 
 	/* Servicios */
+	
+	public int compare(Object o1, Object o2) {
+		 Receta r1 = (Receta) o1;
+		 Receta r2 = (Receta) o2;
+		 return r1.getEncabezado().getTotalCalorias() - r2.getEncabezado().getTotalCalorias();
+	}
 	
 	public boolean esValida() {
 		int totalCalorias = getTotalCalorias();
