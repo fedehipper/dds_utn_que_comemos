@@ -9,18 +9,24 @@ import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
+import grupo4.dds.decoradores.CondicionesUsuario;
 import grupo4.dds.decoradores.ExcesoCalorias;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
+import grupo4.dds.usuario.Grupo;
+import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
+import grupo4.dds.usuario.condicion.Vegano;
 
 public class TestDecoradores {
 
+	private Usuario fecheSena;
+		
 	@Before
 	public void setup() {
-		
+		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
 	}
 	
 	@Test
@@ -33,8 +39,7 @@ public class TestDecoradores {
 		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
 		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
 		
-		Usuario fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
-		
+
 		Receta r1 = new Receta(fecheSena, encabezado1, null);
 		RecetaPublica r2 = new RecetaPublica(encabezado2, null);
 		RecetaPublica r3 = new RecetaPublica(encabezado3, null);
@@ -47,6 +52,49 @@ public class TestDecoradores {
 		
 		assertEquals(exceso.listarRecetasParaUnUsuario(fecheSena), aux );
 	}
+	
+	@Test
+	public void testFiltroDeRecetasQueCumplenLasCondicionesDelUsuario() {
+		
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		
+		RepositorioDeRecetas rR = new RepositorioDeRecetas();
+		
+		CondicionesUsuario filtroCondicion = new CondicionesUsuario(rR);
+		
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("sopa", null, null, 600);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
+		
+		Receta receta1 = new Receta(fecheSena, encabezado1, null);
+		RecetaPublica receta2 = new RecetaPublica(encabezado2, null);
+		RecetaPublica receta3 = new RecetaPublica(encabezado3, null);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta);
+		receta3.agregarIngrediente(fruta);
+		
+		rR.agregarReceta(receta1);
+		rR.agregarReceta(receta2);
+		rR.agregarReceta(receta3);
+		
+		Usuario ariel = new Usuario("ariel", null, 89.0f, 78f, null);
+		Grupo grupo = new Grupo("grupo");
+		grupo.agregarUsuario(fecheSena);
+		grupo.agregarUsuario(ariel);
+		ariel.agregarGrupo(grupo);
+		fecheSena.agregarGrupo(grupo);
+		
+		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
+		
+		Vegano vegano = new Vegano();
+		ariel.agregarCondicion(vegano);
+		
+		assertEquals(filtroCondicion.listarRecetasParaUnUsuario(ariel), aux );
+		
+	}
+	
 	
 	
 	
