@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
+import grupo4.dds.decoradores.CarosEnPreparacion;
 import grupo4.dds.decoradores.CondicionesUsuario;
 import grupo4.dds.decoradores.ExcesoCalorias;
 import grupo4.dds.decoradores.LeGustaAlUsuario;
@@ -126,6 +127,47 @@ public class TestDecoradores {
 		List<Receta> aux = Stream.of(receta1, receta3).collect(Collectors.toList());
 		
 		assertEquals(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena), aux);
+	}
+	
+	@Test
+	public void testFiltroIngredientesCaronEnPreparacion() {
+		
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		Ingrediente huevo = new Ingrediente("huevo" , 0f);
+		Ingrediente salmon = new Ingrediente("salmon", 0f);
+		
+		RepositorioDeRecetas rR = new RepositorioDeRecetas();
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(rR);
+		
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("milanesasConPure", null, null, 600);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("ensaladaRusa", null, null, 300);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("EnsaladaDeRucula", null, null, 100);
+		EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("salmon", null, null, 100);
+		
+		Receta receta1 = new Receta(fecheSena, encabezado1, null);
+		RecetaPublica receta2 = new RecetaPublica(encabezado2, null);
+		RecetaPublica receta3 = new RecetaPublica(encabezado3, null);
+		RecetaPublica receta4 = new RecetaPublica(encabezado4, null);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta);
+		receta3.agregarIngrediente(huevo);
+		receta4.agregarIngrediente(salmon);
+		
+		rR.agregarReceta(receta1);
+		rR.agregarReceta(receta2);
+		rR.agregarReceta(receta3);
+		rR.agregarReceta(receta4);
+		
+		filtroCaros.setIngredienteCaro(salmon);
+		filtroCaros.setIngredienteCaro(carne);
+	
+		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
+		
+		assertEquals(filtroCaros.listarRecetasParaUnUsuario(fecheSena), aux);
+		
 	}
 	
 	
