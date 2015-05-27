@@ -50,11 +50,11 @@ public class Receta {
 	}
 
 	public boolean tieneIngrediente(String nombreIngrediente) {
-		return _tiene(getIngredientes(), nombreIngrediente);
+		return tiene(getIngredientes(), nombreIngrediente);
 	}
 
 	public boolean tieneCondimento(String nombreCondimento) {
-		return _tiene(getCondimentos(), nombreCondimento);
+		return tiene(getCondimentos(), nombreCondimento);
 	}
 
 	public float cantidadCondimento(String nombreCondimento) {
@@ -119,9 +119,19 @@ public class Receta {
 		return getIngredientes().stream().anyMatch(i -> i.esCarne());
 	}
 	
+	public boolean leGustanLosIngredientesAl(Usuario usuario) {
+		return this.interseccion(this.getIngredientes(),(usuario.getComidasQueLeDisgustan())).isEmpty(); 
+	}
+	
+	public List<Ingrediente> interseccion(List<Ingrediente> a, List<Ingrediente> b){
+		a.retainAll(b);
+	    return a;
+	}
+
+	
 	/* Servicios privados */
 	
-	private boolean _tiene(List<Ingrediente> lista, String nombre) {
+	private boolean tiene(List<Ingrediente> lista, String nombre) {
 		return lista.contains(Ingrediente.ingrediente(nombre));
 	}
 	
