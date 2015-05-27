@@ -1,6 +1,5 @@
 package grupo4.dds.decoradores;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,29 +8,14 @@ import grupo4.dds.receta.Repositorio;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
-public class ExcesoCalorias implements Repositorio {
-	
-	private List<Receta> recetas = new ArrayList<>();
-	private Repositorio repositorio;
-	
+public class ExcesoCalorias extends Filtro {
+		
 	public ExcesoCalorias(RepositorioDeRecetas repo){
 		repositorio = repo;
 	}
 	
 	public ExcesoCalorias(Repositorio repo){
 		repositorio = repo;
-	}
-	
-	public void agregarReceta(Receta unaReceta) {
-		this.recetas.add(unaReceta);
-	}
-	
-	public void quitarReceta(Receta unaReceta) {
-		this.recetas.remove(unaReceta);
-	}
-	
-	public List<Receta> getRecetas() {
-		return this.recetas;
 	}
 	
 	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {		
