@@ -15,6 +15,14 @@ public class EncabezadoDeReceta {
 		this.temporada = temporada;
 		this.dificultad = dificultad;
 	}
+	
+	public EncabezadoDeReceta(String nombreDelPlato, Temporada temporada, String dificultad, int calorias) {
+		this.nombreDelPlato = nombreDelPlato;
+		this.temporada = temporada;
+		this.dificultad = dificultad;
+		this.totalCalorias = calorias;
+	}
+	
 
 	public int getTotalCalorias() {
 		return totalCalorias;
