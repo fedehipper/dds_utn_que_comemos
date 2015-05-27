@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class ProcesamientoPosterior implements Repositorio {
 
-	private List<Receta> recetas = new ArrayList<>();
+	protected List<Receta> recetas = new ArrayList<>();
 	protected Repositorio repositorio;
 	
 	public void agregarReceta(Receta unaReceta) {
