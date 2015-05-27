@@ -20,6 +20,10 @@ public class CarosEnPreparacion implements Repositorio{
 		repositorio = repo;
 	}
 	
+	public CarosEnPreparacion(Repositorio repo){
+		repositorio = repo;
+	}
+	
 	public void agregarReceta(Receta unaReceta) {
 		this.recetas.add(unaReceta);
 	}

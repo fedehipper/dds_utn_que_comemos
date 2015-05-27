@@ -17,6 +17,10 @@ public class LeGustaAlUsuario implements Repositorio {
 		repositorio = repo;
 	}
 	
+	public LeGustaAlUsuario(Repositorio repo){
+		repositorio = repo;
+	}
+	
 	public void agregarReceta(Receta unaReceta) {
 		this.recetas.add(unaReceta);
 	}

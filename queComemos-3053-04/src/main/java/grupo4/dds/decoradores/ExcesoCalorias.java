@@ -18,6 +18,10 @@ public class ExcesoCalorias implements Repositorio {
 		repositorio = repo;
 	}
 	
+	public ExcesoCalorias(Repositorio repo){
+		repositorio = repo;
+	}
+	
 	public void agregarReceta(Receta unaReceta) {
 		this.recetas.add(unaReceta);
 	}
