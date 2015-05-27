@@ -14,3 +14,14 @@ y hacer anyMatch con los grupos
 En el punto 3, agregamos a la coleccion historial, una receta que puede
 ser vista por el usuario, aplicando busqueda, o agregarla sin realizar la 
 busqueda
+
+En el punto 4, para hacer el caso de los decoradores, tomamos la interfaz
+que nos dan en el tp, para que todas las clases implementen los mismos 
+metodos, luego creamos las clases decoradores (filtros) y cada uno
+toma el filtro de la clase repositorioDeRecetas, y le agrega un filtro mas,
+para que esto sea posible en el constructor del decorador recibe por
+parametro al repositorioDeRecetas (decorado) y finalmente para que los
+filtros sean combinables, creamos un constructor que recibe por parametro
+a otro decorador, por lo tanto un decorador se puede instanciar con otro
+decorador y asi hasta que el ultimo decorador posible tenga que recibir por
+parametro al repositorioDeRecetas
