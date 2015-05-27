@@ -226,5 +226,9 @@ public class Usuario {
 	public List<Receta> getHistorioal() {
 		return this.historial;
 	}
+	
+	public List<Ingrediente> getComidasQueLeDisgustan() {
+		return comidasQueLeDisgustan;
+	}
 
 }

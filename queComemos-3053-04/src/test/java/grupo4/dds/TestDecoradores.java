@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import grupo4.dds.decoradores.CondicionesUsuario;
 import grupo4.dds.decoradores.ExcesoCalorias;
+import grupo4.dds.decoradores.LeGustaAlUsuario;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -92,9 +93,40 @@ public class TestDecoradores {
 		ariel.agregarCondicion(vegano);
 		
 		assertEquals(filtroCondicion.listarRecetasParaUnUsuario(ariel), aux );
-		
 	}
 	
+	@Test
+	public void testFiltroNoLeGustaAlUsuarioElNombreDelPlato() {
+		Ingrediente carne = new Ingrediente("carne", 0f);
+		Ingrediente fruta = new Ingrediente("fruta", 0f);
+		Ingrediente huevo = new Ingrediente("huevo" , 0f);
+		
+		RepositorioDeRecetas rR = new RepositorioDeRecetas();
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(rR);
+		
+		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("milanesasConPure", null, null, 600);
+		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("ensaladaRusa", null, null, 300);
+		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("EnsaladaDeRucula", null, null, 100);
+		
+		Receta receta1 = new Receta(fecheSena, encabezado1, null);
+		RecetaPublica receta2 = new RecetaPublica(encabezado2, null);
+		RecetaPublica receta3 = new RecetaPublica(encabezado3, null);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta);
+		receta3.agregarIngrediente(huevo);
+		
+		rR.agregarReceta(receta1);
+		rR.agregarReceta(receta2);
+		rR.agregarReceta(receta3);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+	
+		List<Receta> aux = Stream.of(receta1, receta3).collect(Collectors.toList());
+		
+		assertEquals(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena), aux);
+	}
 	
 	
 	
