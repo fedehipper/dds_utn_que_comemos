@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import grupo4.dds.filtrosYProcesos.CarosEnPreparacion;
 import grupo4.dds.filtrosYProcesos.CondicionesUsuario;
 import grupo4.dds.filtrosYProcesos.ExcesoCalorias;
+import grupo4.dds.filtrosYProcesos.LeGustaAlUsuario;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -160,9 +162,97 @@ public class TestFiltros {
 		Vegano vegano = new Vegano();
 		ariel.agregarCondicion(vegano);
 		
-		
 		assertEquals(repo.filtrarListaDeRecetas(ariel), aux);
 	}
+	
+	@Test
+	public void testFiltroNoLeGustaAlUsuarioElNombreDelPlato() {
+	
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		repo.setFiltro(filtroLeGusta);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta);
+		receta3.agregarIngrediente(huevo);
+		
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+	
+		List<Receta> aux = Stream.of(receta1, receta3).collect(Collectors.toList());
+		
+		assertEquals(repo.filtrarListaDeRecetas(fecheSena), aux);
+	}
+	
+	@Test
+	public void testFiltroIngredientesCarosEnPreparacion() {
+		
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
+		repo.setFiltro(filtroCaros);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta);
+		receta3.agregarIngrediente(huevo);
+		receta4.agregarIngrediente(salmon);
+		
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		repo.agregarReceta(receta4);
+		
+		filtroCaros.setIngredienteCaro(salmon);
+		filtroCaros.setIngredienteCaro(carne);
+	
+		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
+		
+		assertEquals(repo.filtrarListaDeRecetas(fecheSena), aux);	
+	}
+	
+	@Test 
+	public void testCombinarFiltros() {
+		
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
+		repo.setFiltro(filtroCaros);
+		
+		LeGustaAlUsuario filtroLeGustaYCaros = new LeGustaAlUsuario();
+		repo.setFiltro(filtroLeGustaYCaros);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+		receta4.agregarIngrediente(salmon);
+		
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		repo.agregarReceta(receta4);
+		
+		filtroCaros.setIngredienteCaro(salmon);
+		filtroCaros.setIngredienteCaro(carne);
+	
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		List<Receta> aux = Stream.of(receta3).collect(Collectors.toList());
+		
+		assertEquals(repo.filtrarListaDeRecetas(fecheSena), aux);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

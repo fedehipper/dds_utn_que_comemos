@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CarosEnPreparacion {
+public class CarosEnPreparacion implements Filtro {
 
 	private List<Ingrediente> ingredientesCaros = new ArrayList<>();
 	
