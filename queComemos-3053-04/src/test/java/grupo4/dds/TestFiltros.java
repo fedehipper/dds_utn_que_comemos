@@ -11,6 +11,7 @@ import grupo4.dds.filtrosYProcesos.CondicionesUsuario;
 import grupo4.dds.filtrosYProcesos.DiezPrimeros;
 import grupo4.dds.filtrosYProcesos.ExcesoCalorias;
 import grupo4.dds.filtrosYProcesos.LeGustaAlUsuario;
+import grupo4.dds.filtrosYProcesos.ResultadosPares;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -304,6 +305,25 @@ public class TestFiltros {
 		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
 	}
 	
+	@Test 
+	public void testProcesamientoPosteriorDevuelveRecetasPares() {
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		unRepo.setFiltro(filtroLeGusta);
+		
+		ResultadosPares resultadosPares = new ResultadosPares();
+		unRepo.setProceso(resultadosPares);
+
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		List<Receta> aux = Stream.of(receta3, receta5, receta7, receta9, receta11).collect(Collectors.toList());
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+	}
 	
 	
 	
