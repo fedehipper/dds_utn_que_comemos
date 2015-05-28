@@ -11,6 +11,9 @@ import grupo4.dds.filtrosYProcesos.CondicionesUsuario;
 import grupo4.dds.filtrosYProcesos.DiezPrimeros;
 import grupo4.dds.filtrosYProcesos.ExcesoCalorias;
 import grupo4.dds.filtrosYProcesos.LeGustaAlUsuario;
+import grupo4.dds.filtrosYProcesos.Orden;
+import grupo4.dds.filtrosYProcesos.OrdenAlfabetico;
+import grupo4.dds.filtrosYProcesos.OrdenCalorias;
 import grupo4.dds.filtrosYProcesos.ResultadosPares;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
@@ -325,7 +328,42 @@ public class TestFiltros {
 		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
 	}
 	
+	@Test 
+	public void testProcesamientoPosteriorDevuelveLaListaOrdenadaPorCriterioTotalDeCalorias() {
+				
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+		
+		Orden orden = new Orden();
+		repositorio.setProceso(orden);
+		
+		orden.setCriterio(new OrdenCalorias());
+		
+		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());	
+		
+		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
+	}
 	
+	@Test
+	public void testProcesamientoPosteriorDevuelveLaListaOrdenadaPorCriterioAlfabetico() {
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+		
+		Orden orden = new Orden();
+		repositorio.setProceso(orden);
+		
+		orden.setCriterio(new OrdenAlfabetico());
+		
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
+		
+		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
+	}
 	
 	
 	
