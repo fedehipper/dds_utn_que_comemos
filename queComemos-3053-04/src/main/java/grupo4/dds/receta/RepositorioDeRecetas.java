@@ -1,6 +1,7 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.filtrosYProcesos.Filtro;
+import grupo4.dds.filtrosYProcesos.Procesamiento;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ public class RepositorioDeRecetas implements Repositorio {
 
 	private List<Filtro> filtros = new ArrayList<>();
 	private List<Receta> consultaDeRecetas = new ArrayList<>();
+	
+	private Procesamiento procesoFinal;
+	
 	
 	public void agregarReceta(Receta unaReceta) {
 		this.recetas.add(unaReceta);
@@ -42,8 +46,18 @@ public class RepositorioDeRecetas implements Repositorio {
 		return this.consultaDeRecetas;
 	}
 	
-	public void actualizarConsultaDeRecetas(List<Receta> recetaConFiltro) {
-		this.consultaDeRecetas = interseccion(this.consultaDeRecetas, recetaConFiltro);
+	//
+	public List<Receta> procesarListaDeRecetas(List<Receta> recetaConFiltros) {
+		this.procesoFinal.procesar(recetaConFiltros, this);
+		return this.consultaDeRecetas;
+	}
+	//
+	public void procesoFinalTerminado(List<Receta> recetasFinal) {
+		this.consultaDeRecetas = recetasFinal;
+	}
+	
+	public void actualizarConsultaDeRecetas(List<Receta> recetasConFiltro) {
+		this.consultaDeRecetas = interseccion(this.consultaDeRecetas, recetasConFiltro);
 	}
 	
 	public List<Receta> interseccion(List<Receta> receta1, List<Receta> receta2){
@@ -51,6 +65,8 @@ public class RepositorioDeRecetas implements Repositorio {
 	    return receta1;
 	}
 	
-	
+	public void setProceso(Procesamiento procesoFinal) {
+		this.procesoFinal = procesoFinal;
+	}
 	
 }

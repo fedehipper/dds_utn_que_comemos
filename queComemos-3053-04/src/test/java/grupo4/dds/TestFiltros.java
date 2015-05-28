@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import grupo4.dds.filtrosYProcesos.CarosEnPreparacion;
 import grupo4.dds.filtrosYProcesos.CondicionesUsuario;
+import grupo4.dds.filtrosYProcesos.DiezPrimeros;
 import grupo4.dds.filtrosYProcesos.ExcesoCalorias;
 import grupo4.dds.filtrosYProcesos.LeGustaAlUsuario;
 import grupo4.dds.receta.EncabezadoDeReceta;
@@ -244,6 +245,23 @@ public class TestFiltros {
 		
 		assertEquals(repo.filtrarListaDeRecetas(fecheSena), aux);
 	}
+	
+	@Test
+	public void testProcesamientoDevuelveLasDiezPrimerasRecetasConUnFiltro() {
+		
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta5, receta6, receta7, receta8, receta9, receta10, receta11).collect(Collectors.toList());
+		receta1.agregarIngrediente(carne);
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
+		unRepo.setFiltro(filtroCaros);
+		
+		filtroCaros.setIngredienteCaro(carne);
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+	}
+	
 	
 	
 	
