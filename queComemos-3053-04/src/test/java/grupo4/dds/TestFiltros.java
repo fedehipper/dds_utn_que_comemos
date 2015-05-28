@@ -274,6 +274,37 @@ public class TestFiltros {
 		assertEquals(unRepo.procesarListaDeRecetas(unRepo.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 	
+	@Test
+	public void testProcesamientoDevuelveLasDiezPrimerasRecetasConFiltrosCombinados() {
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
+		unRepo.setFiltro(filtroCaros);
+
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		unRepo.setFiltro(filtroLeGusta);
+		
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+		
+		unRepo.agregarReceta(receta1);
+		unRepo.agregarReceta(receta2);
+		unRepo.agregarReceta(receta3);
+		
+		filtroCaros.setIngredienteCaro(salmon);
+		filtroCaros.setIngredienteCaro(carne);
+	
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6, receta7, receta8, receta9, receta10, receta11, receta12).collect(Collectors.toList());
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+	}
+	
+	
 	
 	
 	
