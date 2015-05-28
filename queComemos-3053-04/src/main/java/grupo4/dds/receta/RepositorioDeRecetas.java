@@ -46,12 +46,12 @@ public class RepositorioDeRecetas implements Repositorio {
 		return this.consultaDeRecetas;
 	}
 	
-	//
+	
 	public List<Receta> procesarListaDeRecetas(List<Receta> recetaConFiltros) {
 		this.procesoFinal.procesar(recetaConFiltros, this);
 		return this.consultaDeRecetas;
 	}
-	//
+	
 	public void procesoFinalTerminado(List<Receta> recetasFinal) {
 		this.consultaDeRecetas = recetasFinal;
 	}
