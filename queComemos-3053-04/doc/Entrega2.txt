@@ -15,7 +15,7 @@ En el punto 3, agregamos a la coleccion historial, una receta que puede
 ser vista por el usuario, aplicando busqueda, o agregarla sin realizar la 
 busqueda
 
-En el punto 4, tomamos una coleccion de strategies para modelar todos los
+En el punto 5, tomamos una coleccion de strategies para modelar todos los
 filtros y una strategie simple para modelar el proceso final, los cuales
 pueden ser ordenar por varios criterios, tomar las diez primeras recetas, etc
 ya que el enunciado plantea que es un unico proceso final, no hicimos una
