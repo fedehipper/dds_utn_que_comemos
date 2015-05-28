@@ -34,10 +34,12 @@ public class TestFiltros {
 	private EncabezadoDeReceta encabezado2;
 	private EncabezadoDeReceta encabezado3;
 	private EncabezadoDeReceta encabezado4;
+	private EncabezadoDeReceta encabezado5;
 	private Ingrediente carne;
 	private Ingrediente fruta;
 	private Ingrediente salmon;
 	private Ingrediente huevo;
+	private Ingrediente papa;
 	private Receta receta1;
 	private RecetaPublica receta2;
 	private RecetaPublica receta3;
@@ -60,6 +62,7 @@ public class TestFiltros {
 		encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
 		encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
 		encabezado4 = new EncabezadoDeReceta("salmon", null, null, 200);
+		encabezado5 = new EncabezadoDeReceta("papa", null, null, 999);
 		carne = new Ingrediente("carne", 0f);
 		fruta = new Ingrediente("fruta", 0f);
 		huevo = new Ingrediente("huevo" , 0f);
@@ -68,7 +71,7 @@ public class TestFiltros {
 		receta2 = new RecetaPublica(encabezado2, null);
 		receta3 = new RecetaPublica(encabezado3, null);
 		receta4 = new RecetaPublica(encabezado4, null);
-		receta5 = new RecetaPublica(encabezado2, null);
+		receta5 = new RecetaPublica(encabezado5, null);
 		receta6 = new RecetaPublica(encabezado3, null);
 		receta7 = new RecetaPublica(encabezado4, null);
 		receta8 = new RecetaPublica(encabezado2, null);
@@ -363,6 +366,46 @@ public class TestFiltros {
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 		
 		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
+	}
+	
+	@Test
+	public void testCombinarFiltrosCarosConLeGustaAlUsuarioYProcesoFinalOrdenAlfabetico() {
+		
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+		
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion();
+		
+		filtroCarosEnPreparacion.setIngredienteCaro(carne);
+		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		
+		repo.setFiltro(filtroLeGusta);
+		repo.setFiltro(filtroCarosEnPreparacion);
+		
+		Orden procesoOrden = new Orden();
+		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
+		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		repo.setProceso(procesoOrden);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(huevo);
+		receta3.agregarIngrediente(fruta);
+		receta4.agregarIngrediente(salmon);
+		receta5.agregarIngrediente(papa);
+		
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		repo.agregarReceta(receta4);
+		repo.agregarReceta(receta5);
+		
+		List<Receta> aux = Stream.of(receta5, receta4).collect(Collectors.toList());
+		
+		assertEquals(repo.procesarListaDeRecetas(repo.filtrarListaDeRecetas(fecheSena)), aux);
 	}
 	
 	
