@@ -263,6 +263,19 @@ public class TestFiltros {
 	}
 	
 	
+	@Test
+	public void testProcesamientoDevuelveLasDiezPrimerasRecetasSinFiltros() {
+		
+		List<Receta> aux = Stream.of(receta1, receta2, receta3, receta4, receta5, receta6, receta7, receta8, receta9, receta10).collect(Collectors.toList());
+
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.listarRecetasParaUnUsuario(fecheSena)), aux);
+	}
+	
+	
+	
 	
 	
 	
