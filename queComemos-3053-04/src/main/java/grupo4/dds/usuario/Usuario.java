@@ -3,7 +3,6 @@ package grupo4.dds.usuario;
 import grupo4.dds.excepciones.NoSeEncontroLaReceta;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
-import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RepositorioDeRecetas;
@@ -32,7 +31,7 @@ public class Usuario {
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
-	private List<Grupo> grupos = new ArrayList<>();
+	private List<GrupoUsuarios> grupos = new ArrayList<>();
 	private List<Receta> historial = new ArrayList<>();
 
 	/* Constructores */
@@ -53,6 +52,7 @@ public class Usuario {
 	}
 
 	/* Servicios */
+	
 	public double indiceDeMasaCorporal() {
 		return peso / (altura * altura);
 	}
@@ -74,6 +74,10 @@ public class Usuario {
 		return preferenciasAlimenticias.contains(Ingrediente.ingrediente(nombreAlimento));
 	}
 
+	public boolean leGustaLaCarne() {
+		return preferenciasAlimenticias.stream().anyMatch(a -> a.esCarne());
+	}
+	
 	public void agregarReceta(Receta receta) {
 		if (esAdecuada(receta) && receta.puedeSerAgregadaPor(this))
 			recetas.add(receta);
@@ -81,6 +85,10 @@ public class Usuario {
 			throw new NoSePuedeAgregarLaReceta();
 	}
 
+	public boolean esAdecuada(Receta receta) {
+		return receta.esValida() && todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
+	}
+	
 	public boolean tieneRutina(Rutina rutina) {
 		return rutina.equals(rutina);
 	}
@@ -89,70 +97,60 @@ public class Usuario {
 		return recetas.contains(receta);
 	}
 
-	public boolean esElDuenio(Receta receta) {
-		return receta.puedeSerVistaPor(this);
+	public boolean puedeModificar(Receta receta) {
+		return puedeVer(receta);
 	}
 	
-	// entrega 2, punto 3
+	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes, 
+			List<Ingrediente> condimentos, String preparacion, List<Receta> subRecetas) {
+			receta.modificarReceta(this, encabezado, ingredientes, condimentos, preparacion, subRecetas);
+			//TODO: hacer algo con excepción NoSePuedeModificarLaReceta
+	}
+	
+	public Receta recetaMasReciente() {
+		return recetas.get(recetas.size() - 1);
+	}
+	
+	public boolean puedeSugerirse(Receta receta) {
+		return receta.noContieneNinguna(comidasQueLeDisgustan) && esAdecuada(receta);	
+		//TODO: revisar si se pretendía que sea adecuado (válida y cumple condiciones) o que solo cumpla condiciones.
+	}
+	
 	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio) {
 		return repositorio.listarRecetasParaUnUsuario(this);
 	}
 	
-	// entrega 2, punto 3
+	public boolean puedeVer(Receta receta) {
+		return receta.puedeSerVistaPor(this) || algunGrupoPuedeVer(receta);
+	}
+	
+	public boolean algunGrupoPuedeVer(Receta receta) {
+		return grupos.stream().anyMatch(g -> g.puedeVer(receta));
+	}
+	
+	public void marcarFavorita(Receta receta) {
+		if(!puedeVer(receta))
+			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
+			
+		historial.add(receta);
+	}
+	
+	
 	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
 		List<Receta> encontrada = new ArrayList<>();
-		encontrada = this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getEncabezado().getNombreDelPlato().equals(nombre)).collect(Collectors.toList());
+		encontrada = this.recetasQuePuedeVer(repositorio).stream().filter(r -> r.getNombreDelPlato().equals(nombre)).collect(Collectors.toList());
 		if (!encontrada.isEmpty())
 			return encontrada.get(0);
 		else
 			throw new NoSeEncontroLaReceta();
 	}
 	
-	// entrega 2, punto 3
-	public void agregarRecetaAlHistorial(Receta receta) {
-		if (this.puedeVer(receta)) 
-			this.historial.add(receta);
-		else
-			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
-	}
-	
-	// entrega 2, punto 3
 	public void buscarYAgregarAlHistorial(String nombre, RepositorioDeRecetas repositorio) {
 		this.historial.add(this.buscarUnaReceta(nombre, repositorio));
 	}
 	
-	// entrega 2, punto 2
-	public boolean gruposPuedenVer(Receta receta) {
-		return this.grupos.stream().anyMatch(g -> g.puedenVerLaReceta(receta));
-	}
-	
-	public boolean puedeVer(Receta receta) {
-		return this.esElDuenio(receta) || this.gruposPuedenVer(receta);
-	}
-	
-	public boolean puedeModificar(Receta receta) {
-		return receta.puedeSerModificadaPor(this) || this.gruposPuedenVer(receta);
-	}
-
-	public boolean esAdecuada(Receta receta) {
-		return receta.esValida() && todasLasCondicionesCumplen(condicion -> condicion.esRecomendable(receta));
-	}
-
-	public void modificarReceta(Receta receta, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes, 
-			List<Ingrediente> condimentos, String preparacion, List<Receta> subRecetas) {
-		try {
-			receta.modificarReceta(this, encabezado, ingredientes, condimentos, preparacion, subRecetas);
-		} catch (NoSePuedeModificarLaReceta e) {
-			//TODO: hacer algo con esta excepción
-			throw e;
-		}
-	}
-	
-	public Receta recetaMasReciente() {
-		return recetas.get(recetas.size() - 1);
-	}
-
 	/* Servicios internos */
+	
 	private boolean tieneCamposObligatorios() {
 		return this.nombre != null && this.peso != 0 && this.altura != 0 && this.fechaNacimiento != null && this.rutina != null;
 	}
@@ -167,14 +165,6 @@ public class Usuario {
 
 	private boolean subsanaTodasLasCondiciones() {
 		return todasLasCondicionesCumplen(unaCondicion -> unaCondicion.subsanaCondicion(this));
-	}
-	
-	public boolean sugerirReceta(Receta unaReceta) {
-		return !(unaReceta.compartenPalabrasClave(comidasQueLeDisgustan)) && (this.esAdecuada(unaReceta));			
-	}
-	
-	public boolean leGustaLaCarne() {
-		return preferenciasAlimenticias.stream().anyMatch(a -> a.esCarne());
 	}
 		
 	/* Accessors and Mutators */
@@ -215,20 +205,25 @@ public class Usuario {
 		this.comidasQueLeDisgustan.add(alimento);
 	}
 
-	public void agregarGrupo(Grupo grupo) {
-		this.grupos.add(grupo);		
-	}
-	
-	public List<Grupo> getGrupos() {
-		return this.grupos;
+	public void agregarGrupo(GrupoUsuarios grupo) {
+		//TODO: Validar que el usuario no exista, o usar un Collection Set
+		this.grupos.add(grupo);
+		grupo.agregarUsuario(this);
 	}
 	
 	public List<Receta> getHistorioal() {
-		return this.historial;
+		return historial;
+	}
+
+	
+	
+	public List<GrupoUsuarios> getGrupos() {
+		return this.grupos;
 	}
 	
 	public List<Ingrediente> getComidasQueLeDisgustan() {
 		return comidasQueLeDisgustan;
 	}
+
 
 }

@@ -5,6 +5,7 @@ import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -65,10 +66,6 @@ public class Receta {
 	public boolean puedeSerVistaPor(Usuario usuario) {
 		return creador.equals(usuario);
 	}
-
-	public boolean puedeSerModificadaPor(Usuario usuario) {
-		return puedeSerVistaPor(usuario);
-	}
 	
 	public boolean puedeSerAgregadaPor(Usuario usuario) {
 		return puedeSerVistaPor(usuario);
@@ -79,7 +76,7 @@ public class Receta {
 			List<Ingrediente> condimentos, String preparacion,
 			List<Receta> subrecetas) {
 
-		if (!puedeSerModificadaPor(usuario))
+		if (!usuario.puedeModificar(this))
 			throw new NoSePuedeModificarLaReceta();
 
 		this.encabezado = encabezado;
@@ -111,13 +108,18 @@ public class Receta {
 		return getConSubrecetas((Receta receta) -> {return receta.condimentos;}, condimentos);
 	}
 	
-	public boolean compartenPalabrasClave(List<Ingrediente> palabrasClaveGrupo) {
-		return this.getIngredientes().stream().anyMatch(i-> palabrasClaveGrupo.contains(i));
+	public boolean contieneAlguna(List<Ingrediente> comidas) {
+		return !noContieneNinguna(comidas);
+	}
+	
+	public boolean noContieneNinguna(List<Ingrediente> comidas) {
+		return Collections.disjoint(getIngredientes(),comidas);
 	}
 	
 	public boolean tieneCarne() {
 		return getIngredientes().stream().anyMatch(i -> i.esCarne());
 	}
+	
 	
 	public boolean leGustanLosIngredientesAl(Usuario usuario) {
 		return this.interseccion(this.getIngredientes(),(usuario.getComidasQueLeDisgustan())).isEmpty(); 
@@ -182,14 +184,4 @@ public class Receta {
 		return encabezado.getDificultad();
 	}
 	
-	public Usuario getCreador() {
-		return this.creador;
-	}
-	
-	public EncabezadoDeReceta getEncabezado() {
-		return encabezado;
-	}
-		
 }
-
-

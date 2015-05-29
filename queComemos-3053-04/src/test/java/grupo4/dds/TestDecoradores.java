@@ -22,7 +22,7 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.usuario.Grupo;
+import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
@@ -125,7 +125,7 @@ public class TestDecoradores {
 		rR.agregarReceta(receta3);
 
 		Usuario ariel = new Usuario("ariel", null, 89.0f, 78f, null);
-		Grupo grupo = new Grupo("grupo");
+		GrupoUsuarios grupo = new GrupoUsuarios("grupo");
 		grupo.agregarUsuario(fecheSena);
 		grupo.agregarUsuario(ariel);
 		ariel.agregarGrupo(grupo);
