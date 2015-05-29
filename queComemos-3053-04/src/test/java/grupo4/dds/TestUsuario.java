@@ -23,9 +23,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -355,7 +352,7 @@ public class TestUsuario {
 
 	/* Test: @agregarReceta/1 */
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new Receta(fecheSena, null, null);
@@ -365,7 +362,7 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new Receta(matiasMartino, null, null);
@@ -378,7 +375,7 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new RecetaPublica();
@@ -390,7 +387,7 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia(){
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
 
@@ -399,10 +396,10 @@ public class TestUsuario {
 		
 		matiasMartino.agregarReceta(receta);
 	}
-	
+
 	/* Test: @modificarReceta/6 */
 	@Test
-	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
+	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar(){
 		
 		receta = new Receta(fecheSena, null, "Preparacion antes de modificar");
 		
@@ -419,7 +416,7 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar() throws NoSePuedeModificarLaReceta {
+	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar(){
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
 		receta = new Receta(fecheSena, null, null);
@@ -432,7 +429,7 @@ public class TestUsuario {
 	}
 	
 	@Test
-	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios() throws NoSePuedeModificarLaReceta {
+	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios(){
 		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
@@ -448,7 +445,7 @@ public class TestUsuario {
 		assertTrue(recetaPublica.getPreparacion().equals("Preparacion antes de modificar"));
 		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparacion despues de modificar"));
 	}
-		
+
 	/* Test: @puedeSugerirse/1 */
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiNoCumpleTodasSusCondiciones() {
@@ -517,8 +514,7 @@ public class TestUsuario {
 
 		assertTrue(arielFolino.recetasQuePuedeVer(repositorio).contains(receta));
 	}
-	
-	
+		
 	@Test 
 	public void testRecetasQueNoPuedeVerDelRepositorio() {
 		receta = new Receta(fecheSena, null, null);
@@ -536,8 +532,7 @@ public class TestUsuario {
 
 		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(r2));
 	}
-	
-	
+		
 	@Test 
 	public void testAgregarUnaRecetaAlHistorial() {
 		receta = new Receta(arielFolino, null, null);
@@ -550,9 +545,6 @@ public class TestUsuario {
 		
 		assertTrue(arielFolino.getHistorioal().containsAll(aux));
 	}
-	
-	
-	
 	
 	@Test
 	public void testBuscarUnaRecetaQueEsteEnElRepositorioDeRecetas() {
@@ -576,8 +568,7 @@ public class TestUsuario {
 		
 		assertTrue(fecheSena.buscarUnaReceta("fideos", repositorio).equals(receta));
 	}
-	
-		
+
 	@Test
 	public void testBuscarUnaRecetaPublicaQueEsteEnElRepositorioDeRecetas() {
 		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
@@ -595,7 +586,6 @@ public class TestUsuario {
 		assertTrue(fecheSena.buscarUnaReceta("sopaDeVerdura", repositorio).equals(rPublica2));
 	}
 	
-	
 	@Test(expected = NoSeEncontroLaReceta.class)
 	public void testBuscarUnaRecetaQueNoEsteEnElRepositorioDeRecetas() {
 		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
@@ -611,8 +601,7 @@ public class TestUsuario {
 		
 		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
 	}
-	
-	
+
 	@Test(expected = NoSeEncontroLaReceta.class)
 	public void testBuscarRecetaQueNoEsPosibleVerPorElUsuario() {
 		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
@@ -634,15 +623,13 @@ public class TestUsuario {
 		
 		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
 	}
-	
-	
+
 	@Test(expected = NoSePuedeGuardarLaRecetaEnElHistorial.class)
 	public void testNoSePuedeAgregarRecetaAlHistorial() {
 		receta = new Receta(fecheSena, null, null);
 		arielFolino.marcarFavorita(receta);
 	}
-	
-	
+
 	@Test
 	public void testBuscarYAgregarRecetaEnElHistorial() {
 		

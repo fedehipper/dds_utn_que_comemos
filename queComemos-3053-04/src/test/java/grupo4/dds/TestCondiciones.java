@@ -91,7 +91,6 @@ public class TestCondiciones {
 		
 		assertFalse(vegano.subsanaCondicion(usuario));
 	
-		// falla aca abajo
 		Ingrediente fruta = new Ingrediente("fruta", 0f);
 		usuario.agregarPreferenciaAlimenticia(fruta);
 		
