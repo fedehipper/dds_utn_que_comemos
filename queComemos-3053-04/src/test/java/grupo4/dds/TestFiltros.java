@@ -19,7 +19,7 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.usuario.Grupo;
+import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
@@ -123,7 +123,7 @@ public class TestFiltros {
 		rR.agregarReceta(receta3);
 		
 		Usuario ariel = new Usuario("ariel", null, 89.0f, 78f, null);
-		Grupo grupo = new Grupo("grupo");
+		GrupoUsuarios grupo = new GrupoUsuarios("grupo");
 		grupo.agregarUsuario(fecheSena);
 		grupo.agregarUsuario(ariel);
 		ariel.agregarGrupo(grupo);
@@ -156,7 +156,7 @@ public class TestFiltros {
 		repo.agregarReceta(receta3);
 		
 		Usuario ariel = new Usuario("ariel", null, 89.0f, 78f, null);
-		Grupo grupo = new Grupo("grupo");
+		GrupoUsuarios grupo = new GrupoUsuarios("grupo");
 		grupo.agregarUsuario(fecheSena);
 		grupo.agregarUsuario(ariel);
 		ariel.agregarGrupo(grupo);
@@ -275,7 +275,7 @@ public class TestFiltros {
 		DiezPrimeros diezPrimeros = new DiezPrimeros();
 		unRepo.setProceso(diezPrimeros);
 		
-		assertEquals(unRepo.procesarListaDeRecetas(unRepo.listarRecetasParaUnUsuario(fecheSena)), aux);
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.listarRecetasPara(fecheSena)), aux);
 	}
 	
 	@Test
@@ -344,7 +344,7 @@ public class TestFiltros {
 		
 		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());	
 		
-		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
+		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasPara(fecheSena)), aux);
 	}
 	
 	@Test
@@ -362,7 +362,7 @@ public class TestFiltros {
 		
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 		
-		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
+		assertEquals(repositorio.procesarListaDeRecetas(repositorio.listarRecetasPara(fecheSena)), aux);
 	}
 	
 	

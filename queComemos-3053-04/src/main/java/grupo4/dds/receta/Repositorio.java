@@ -10,7 +10,7 @@ public interface Repositorio {
 
 	public void quitarReceta(Receta unaReceta);
 
-	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario);
+	public List<Receta> listarRecetasPara(Usuario unUsuario);
 
 	public List<Receta> getRecetas();
 

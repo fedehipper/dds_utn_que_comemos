@@ -7,7 +7,7 @@ import java.util.List;
 
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.usuario.Grupo;
+import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Condicion;
@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class TestGrupo {
 	
-	private Grupo grupo;
+	private GrupoUsuarios grupo;
 	private Usuario fecheSena;
 	private Usuario elPanadero;
 	private Usuario ariel;
@@ -34,7 +34,7 @@ public class TestGrupo {
 
 	@Before
 	public void setUp() {
-		grupo = new Grupo("grosos");
+		grupo = new GrupoUsuarios("grosos");
 		fecheSena = new Usuario();
 		elPanadero = new Usuario();
 		matias = new Usuario();
@@ -50,26 +50,26 @@ public class TestGrupo {
 		fecheSena.agregarCondicion(vegano);
 		elPanadero.agregarCondicion(diabetico);
 		
-		grupo.agregarPalabrasClave(chori);
+		grupo.agregarPreferencia(chori);
 	}
 
 	@Test
 	public void testAgregarUsuarioAGrupo() {
 		grupo.agregarUsuario(fecheSena);
-	     assertTrue(grupo.getUsuarios().contains(fecheSena));
+	     assertTrue(grupo.esMiembro(fecheSena));
 	}
 	
 	@Test
 	public void testAgregarPalabraClave(){
-		grupo.agregarPalabrasClave(carne);
-		assertTrue(grupo.getPalabrasClave().contains(carne));
+		grupo.agregarPreferencia(carne);
+		assertTrue(grupo.getPreferenciasAlimenticias().contains(carne));
 	}
 	
 	@Test
 	public void testNoSePuedeSugerirRecetaAGrupoGrosos(){
 		receta.agregarIngrediente(carne);
 		fecheSena.agregarPreferenciaAlimenticia(fruta);
-		assertFalse(grupo.sugerirReceta(receta));
+		assertFalse(grupo.puedeSugerirse(receta));
 	}
 	
 	@Test
@@ -83,16 +83,16 @@ public class TestGrupo {
 		receta.agregarSubreceta(sub1);
 	
 		fecheSena.agregarPreferenciaAlimenticia(fruta);
-		grupo.agregarPalabrasClave(azucar);
+		grupo.agregarPreferencia(azucar);
 			
-		assertTrue(grupo.sugerirReceta(receta));
+		assertTrue(grupo.puedeSugerirse(receta));
 	}
 	
 	@Test 
 	public void testSiVariosGruposAgreganUnUsuarioEntoncesElUsuarioContieneEsosGruposEnSuColeccion() {
-		Grupo grupo1 = new Grupo("grupo1");
-		Grupo grupo2 = new Grupo("grupo2");
-		Grupo grupo3 = new Grupo("grupo3");
+		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
+		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
+		GrupoUsuarios grupo3 = new GrupoUsuarios("grupo3");
 		
 		grupo1.agregarUsuario(fecheSena);
 		grupo2.agregarUsuario(fecheSena);
@@ -102,7 +102,7 @@ public class TestGrupo {
 		fecheSena.agregarGrupo(grupo2);
 		fecheSena.agregarGrupo(grupo3);
 		
-		List<Grupo> aux = new ArrayList<>();
+		List<GrupoUsuarios> aux = new ArrayList<>();
 		
 		aux.add(grupo1);
 		aux.add(grupo3);
@@ -115,37 +115,37 @@ public class TestGrupo {
 	public void testSiHayUnMiembroQueCreoLaRecetaTodosLaPuedenVer() {
 		receta = new Receta(fecheSena, null, null);
 		
-		grupo = new Grupo("grupo");
+		grupo = new GrupoUsuarios("grupo");
 		
 		grupo.agregarUsuario(matias);
 		grupo.agregarUsuario(ariel);
 		grupo.agregarUsuario(fecheSena);
 
-		assertTrue(grupo.puedenVerLaReceta(receta));
+		assertTrue(grupo.puedeVer(receta));
 	}
 	
 	@Test
 	public void testSiNoHayUnMiembroQueCreoLaRecetaNingunoLaPuedeVer() {
 		receta = new Receta(fecheSena, null, null);
 		
-		grupo = new Grupo("grupo");
+		grupo = new GrupoUsuarios("grupo");
 		
 		grupo.agregarUsuario(matias);
 		grupo.agregarUsuario(ariel);
 
-		assertFalse(grupo.puedenVerLaReceta(receta));
+		assertFalse(grupo.puedeVer(receta));
 	}
 	
 	@Test
 	public void todosLosMiembrosDelGrupoConocenUnaRecetaPublica() {
 		RecetaPublica recetaPublica = new RecetaPublica();
 		
-		grupo = new Grupo("grupo");
+		grupo = new GrupoUsuarios("grupo");
 		
 		grupo.agregarUsuario(fecheSena);
 		grupo.agregarUsuario(ariel);
 		
-		assertTrue(grupo.puedenVerLaReceta(recetaPublica));
+		assertTrue(grupo.puedeVer(recetaPublica));
 	}
 	
 	

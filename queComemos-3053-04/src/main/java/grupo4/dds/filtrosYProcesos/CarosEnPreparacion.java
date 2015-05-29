@@ -17,7 +17,7 @@ public class CarosEnPreparacion implements Filtro {
 		
 		List<Receta> filtroDeReceta = new ArrayList<>();
 		
-		filtroDeReceta = repoRecetas.listarRecetasParaUnUsuario(usuario).stream().filter(r -> r.interseccion(r.getIngredientes(),(this.ingredientesCaros)).isEmpty()).collect(Collectors.toList());
+		filtroDeReceta = repoRecetas.listarRecetasPara(usuario).stream().filter(r -> r.interseccion(r.getIngredientes(),(this.ingredientesCaros)).isEmpty()).collect(Collectors.toList());
 		 
 		repoRecetas.actualizarConsultaDeRecetas(filtroDeReceta);
 	}
