@@ -22,7 +22,7 @@ public class GrupoUsuarios {
 	/* Servicios */
 	
 	public boolean puedeSugerirse(Receta receta) {
-		return receta.contieneAlguna(preferenciasAlimenticias) & esApropiadaParaMiembros(receta);
+		return receta.contieneAlguna(preferenciasAlimenticias) && esAdecuadaParaMiembros(receta);
 	}
 
 	public boolean puedeVer(Receta receta) {
@@ -35,7 +35,7 @@ public class GrupoUsuarios {
 	
 	/* Servicios privados */
 	
-	private boolean esApropiadaParaMiembros(Receta receta) {
+	private boolean esAdecuadaParaMiembros(Receta receta) {
 		return usuarios.stream().allMatch(u -> u.esAdecuada(receta));
 	}
 	
@@ -46,7 +46,7 @@ public class GrupoUsuarios {
 		usuarios.add(usuario);
 	}
 	
-	public void agregarPreferencia(Ingrediente comida) {
+	public void agregarPreferenciaAlimenticia(Ingrediente comida) {
 		preferenciasAlimenticias.add(comida);
 	}
 	

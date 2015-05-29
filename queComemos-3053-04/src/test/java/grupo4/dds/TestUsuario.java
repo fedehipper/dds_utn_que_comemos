@@ -23,9 +23,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -355,8 +352,6 @@ public class TestUsuario {
 	}
 
 	/* Test: @agregarReceta/1 */
-	
-	/* Test: @agregarReceta/1 */
 	@Test
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl() throws NoSePuedeAgregarLaReceta {
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
@@ -405,9 +400,7 @@ public class TestUsuario {
 		
 		matiasMartino.agregarReceta(receta);
 	}
-	
-	/* Test: @modificarReceta/6 */
-	
+
 	/* Test: @modificarReceta/6 */
 	@Test
 	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
@@ -458,9 +451,7 @@ public class TestUsuario {
 		assertTrue(recetaPublica.getPreparacion().equals("Preparacion antes de modificar"));
 		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparacion despues de modificar"));
 	}
-	
-	/* Test: @puedeSugerirse/1 */
-		
+
 	/* Test: @puedeSugerirse/1 */
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiNoCumpleTodasSusCondiciones() {
@@ -531,8 +522,7 @@ public class TestUsuario {
 
 		assertTrue(arielFolino.recetasQuePuedeVer(repositorio).contains(receta));
 	}
-	
-	
+		
 	@Test 
 	public void testRecetasQueNoPuedeVerDelRepositorio() {
 		receta = new Receta(fecheSena, null, null);
@@ -550,8 +540,7 @@ public class TestUsuario {
 
 		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(r2));
 	}
-	
-	
+		
 	@Test 
 	public void testAgregarUnaRecetaAlHistorial() {
 		receta = new Receta(arielFolino, null, null);
@@ -564,9 +553,6 @@ public class TestUsuario {
 		
 		assertTrue(arielFolino.getHistorioal().containsAll(aux));
 	}
-	
-	
-	
 	
 	@Test
 	public void testBuscarUnaRecetaQueEsteEnElRepositorioDeRecetas() {
@@ -590,8 +576,7 @@ public class TestUsuario {
 		
 		assertTrue(fecheSena.buscarUnaReceta("fideos", repositorio).equals(receta));
 	}
-	
-		
+
 	@Test
 	public void testBuscarUnaRecetaPublicaQueEsteEnElRepositorioDeRecetas() {
 		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
@@ -609,7 +594,6 @@ public class TestUsuario {
 		assertTrue(fecheSena.buscarUnaReceta("sopaDeVerdura", repositorio).equals(rPublica2));
 	}
 	
-	
 	@Test(expected = NoSeEncontroLaReceta.class)
 	public void testBuscarUnaRecetaQueNoEsteEnElRepositorioDeRecetas() {
 		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
@@ -625,8 +609,7 @@ public class TestUsuario {
 		
 		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
 	}
-	
-	
+
 	@Test(expected = NoSeEncontroLaReceta.class)
 	public void testBuscarRecetaQueNoEsPosibleVerPorElUsuario() {
 		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
@@ -648,15 +631,13 @@ public class TestUsuario {
 		
 		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
 	}
-	
-	
+
 	@Test(expected = NoSePuedeGuardarLaRecetaEnElHistorial.class)
 	public void testNoSePuedeAgregarRecetaAlHistorial() {
 		receta = new Receta(fecheSena, null, null);
 		arielFolino.marcarFavorita(receta);
 	}
-	
-	
+
 	@Test
 	public void testBuscarYAgregarRecetaEnElHistorial() {
 		
