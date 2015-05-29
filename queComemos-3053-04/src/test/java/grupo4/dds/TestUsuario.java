@@ -353,7 +353,7 @@ public class TestUsuario {
 
 	/* Test: @agregarReceta/1 */
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new Receta(fecheSena, null, null);
@@ -364,7 +364,7 @@ public class TestUsuario {
 	
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new Receta(matiasMartino, null, null);
@@ -378,7 +378,7 @@ public class TestUsuario {
 	
 	
 	@Test
-	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
 		receta = new RecetaPublica();
@@ -391,7 +391,7 @@ public class TestUsuario {
 	
 	
 	@Test
-	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia() throws NoSePuedeAgregarLaReceta {
+	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia(){
 		receta = new Receta(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
 
@@ -403,7 +403,7 @@ public class TestUsuario {
 
 	/* Test: @modificarReceta/6 */
 	@Test
-	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar() throws NoSePuedeModificarLaReceta {
+	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar(){
 		
 		receta = new Receta(fecheSena, null, "Preparacion antes de modificar");
 		
@@ -421,7 +421,7 @@ public class TestUsuario {
 	
 	
 	@Test
-	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar() throws NoSePuedeModificarLaReceta {
+	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar(){
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
 		receta = new Receta(fecheSena, null, null);
@@ -435,7 +435,7 @@ public class TestUsuario {
 	
 	
 	@Test
-	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios() throws NoSePuedeModificarLaReceta {
+	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios(){
 		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
