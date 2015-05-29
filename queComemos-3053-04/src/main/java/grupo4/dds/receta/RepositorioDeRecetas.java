@@ -19,11 +19,11 @@ public class RepositorioDeRecetas implements Repositorio {
 	/* Servicios */
 	
 	public List<Receta> listarRecetasPara(Usuario usuario) {
-		this.consultaDeRecetas = this.recetas;//TODO: revisar esto
 		return recetas.stream().filter(r -> usuario.puedeVer(r)).collect(Collectors.toList());
 	}
 	
 	public List<Receta> filtrarListaDeRecetas(Usuario usuario) {
+		this.consultaDeRecetas = this.recetas;
 		this.filtros.forEach(f -> f.filtrar(usuario, this));
 		return this.consultaDeRecetas;
 	}
