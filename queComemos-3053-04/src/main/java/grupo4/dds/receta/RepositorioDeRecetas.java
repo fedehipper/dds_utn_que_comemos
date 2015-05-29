@@ -8,50 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public class RepositorioDeRecetas implements Repositorio {
 
 	private List<Receta> recetas = new ArrayList<>();
-
 	private List<Filtro> filtros = new ArrayList<>();
 	private List<Receta> consultaDeRecetas = new ArrayList<>();
-	
 	private Procesamiento procesoFinal;
 	
 	
-	public void agregarReceta(Receta unaReceta) {
-		this.recetas.add(unaReceta);
-	}
+	/* Servicios */
 	
-	public void quitarReceta(Receta unaReceta) {
-		this.recetas.remove(unaReceta);
-	}
-	
-	// entrega 2, punto 2
-	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {
-		this.consultaDeRecetas = this.recetas;
-		return recetas.stream().filter(r -> unUsuario.puedeVer(r)).collect(Collectors.toList());
-	}
-	
-	public List<Receta> getRecetas() {
-		return this.recetas;
-	}
-	
-	public void setFiltro(Filtro filtro) {
-		this.filtros.add(filtro);
+	public List<Receta> listarRecetasPara(Usuario usuario) {
+		this.consultaDeRecetas = this.recetas;//TODO: revisar esto
+		return recetas.stream().filter(r -> usuario.puedeVer(r)).collect(Collectors.toList());
 	}
 	
 	public List<Receta> filtrarListaDeRecetas(Usuario usuario) {
 		this.filtros.forEach(f -> f.filtrar(usuario, this));
 		return this.consultaDeRecetas;
 	}
-	
-	
+
 	public List<Receta> procesarListaDeRecetas(List<Receta> recetaConFiltros) {
 		this.procesoFinal.procesar(recetaConFiltros, this);
 		return this.consultaDeRecetas;
 	}
-	
+
 	public void procesoFinalTerminado(List<Receta> recetasFinal) {
 		this.consultaDeRecetas = recetasFinal;
 	}
@@ -64,9 +45,26 @@ public class RepositorioDeRecetas implements Repositorio {
 		receta1.retainAll(receta2);
 	    return receta1;
 	}
+
+	/* Accesors and Mutators */
+	
+	public void agregarReceta(Receta unaReceta) {
+		this.recetas.add(unaReceta);
+	}
+	
+	public void quitarReceta(Receta unaReceta) {
+		this.recetas.remove(unaReceta);
+	}
+
+	public List<Receta> getRecetas() {
+		return this.recetas;
+	}
+	
+	public void setFiltro(Filtro filtro) {
+		this.filtros.add(filtro);
+	}
 	
 	public void setProceso(Procesamiento procesoFinal) {
 		this.procesoFinal = procesoFinal;
-	}
-	
+	}	
 }

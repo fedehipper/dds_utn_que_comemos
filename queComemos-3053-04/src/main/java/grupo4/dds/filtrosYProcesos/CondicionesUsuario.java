@@ -14,7 +14,7 @@ public class CondicionesUsuario implements Filtro{
 		
 		List<Receta> filtroDeReceta = new ArrayList<>();
 		
-		filtroDeReceta = repoRecetas.listarRecetasParaUnUsuario(usuario).stream().filter(r -> usuario.esAdecuada(r)).collect(Collectors.toList());
+		filtroDeReceta = repoRecetas.listarRecetasPara(usuario).stream().filter(r -> usuario.esAdecuada(r)).collect(Collectors.toList());
 		
 		repoRecetas.actualizarConsultaDeRecetas(filtroDeReceta);
 	}

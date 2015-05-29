@@ -14,7 +14,7 @@ public class LeGustaAlUsuario implements Filtro {
 		
 		List<Receta> filtroDeReceta = new ArrayList<>();
 		
-		filtroDeReceta = repoRecetas.listarRecetasParaUnUsuario(usuario).stream().filter(r -> r.leGustanLosIngredientesAl(usuario)).collect(Collectors.toList());
+		filtroDeReceta = repoRecetas.listarRecetasPara(usuario).stream().filter(r -> r.leGustanLosIngredientesAl(usuario)).collect(Collectors.toList());
 		 
 		repoRecetas.actualizarConsultaDeRecetas(filtroDeReceta);
 	}
