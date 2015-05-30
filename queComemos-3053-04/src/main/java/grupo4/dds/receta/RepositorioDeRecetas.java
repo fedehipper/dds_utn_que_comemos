@@ -13,17 +13,15 @@ public class RepositorioDeRecetas implements Repositorio {
 	private boolean procesoFinalizado = false;
 	
 	/* Servicios */
-	public RepositorioDeRecetas(){
-		if (procesoFinalizado)
-			throw new NoSePuedeAgregarFiltro();
-			
-	}
-	
 	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {
-		return recetas.stream().filter(r -> unUsuario.puedeVer(r))
-				.collect(Collectors.toList());
+		if (!this.procesoFinalizado) {
+			this.procesoFinalizado = true;
+			return recetas.stream().filter(r -> unUsuario.puedeVer(r)).collect(Collectors.toList());
+		}
+		else 
+			throw new NoSePuedeAgregarFiltro();
 	}
-	
+
 	/* Accesors and Mutators */
 	
 	public void agregarReceta(Receta unaReceta) {

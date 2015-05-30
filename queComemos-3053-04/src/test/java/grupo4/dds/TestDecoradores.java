@@ -18,6 +18,7 @@ import grupo4.dds.decoradores.Orden;
 import grupo4.dds.decoradores.OrdenAlfabetico;
 import grupo4.dds.decoradores.OrdenCalorias;
 import grupo4.dds.decoradores.ResultadosPares;
+import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -103,8 +104,7 @@ public class TestDecoradores {
 		rR.agregarReceta(receta2);
 		rR.agregarReceta(receta3);
 
-		List<Receta> aux = Stream.of(receta2, receta3).collect(
-				Collectors.toList());
+		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
 
 		assertEquals(exceso.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -131,8 +131,7 @@ public class TestDecoradores {
 		ariel.agregarGrupo(grupo);
 		fecheSena.agregarGrupo(grupo);
 
-		List<Receta> aux = Stream.of(receta2, receta3).collect(
-				Collectors.toList());
+		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
 
 		Vegano vegano = new Vegano();
 		ariel.agregarCondicion(vegano);
@@ -157,8 +156,7 @@ public class TestDecoradores {
 
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 
-		List<Receta> aux = Stream.of(receta1, receta3).collect(
-				Collectors.toList());
+		List<Receta> aux = Stream.of(receta1, receta3).collect(Collectors.toList());
 
 		assertEquals(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -183,8 +181,7 @@ public class TestDecoradores {
 		filtroCaros.setIngredienteCaro(salmon);
 		filtroCaros.setIngredienteCaro(carne);
 
-		List<Receta> aux = Stream.of(receta2, receta3).collect(
-				Collectors.toList());
+		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
 
 		assertEquals(filtroCaros.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -214,16 +211,13 @@ public class TestDecoradores {
 
 		List<Receta> aux = Stream.of(receta3).collect(Collectors.toList());
 
-		assertEquals(filtroLeGustaYCaros.listarRecetasParaUnUsuario(fecheSena),
-				aux);
+		assertEquals(filtroLeGustaYCaros.listarRecetasParaUnUsuario(fecheSena),aux);
 	}
 
 	@Test
 	public void testProcesamientoDevuelveLasDiezPrimerasRecetasConUnFiltro() {
 
-		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta5,
-				receta6, receta7, receta8, receta9, receta10, receta11)
-				.collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta5,receta6, receta7, receta8, receta9, receta10, receta11).collect(Collectors.toList());
 		receta1.agregarIngrediente(carne);
 
 		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(unRepo);
@@ -236,9 +230,7 @@ public class TestDecoradores {
 	@Test
 	public void testProcesamientoDevuelveLasDiezPrimerasRecetasSinFiltros() {
 
-		List<Receta> aux = Stream.of(receta1, receta2, receta3, receta4,
-				receta5, receta6, receta7, receta8, receta9, receta10).collect(
-				Collectors.toList());
+		List<Receta> aux = Stream.of(receta1, receta2, receta3, receta4,receta5, receta6, receta7, receta8, receta9, receta10).collect(Collectors.toList());
 
 		DiezPrimeros diezPrimeros = new DiezPrimeros(unRepo);
 
@@ -267,9 +259,7 @@ public class TestDecoradores {
 
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 
-		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6,
-				receta7, receta8, receta9, receta10, receta11, receta12)
-				.collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6,receta7, receta8, receta9, receta10, receta11, receta12).collect(Collectors.toList());
 
 		assertEquals(diezPrimeros.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -287,8 +277,7 @@ public class TestDecoradores {
 
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 
-		List<Receta> aux = Stream.of(receta3, receta5, receta7, receta9,
-				receta11).collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta3, receta5, receta7, receta9,receta11).collect(Collectors.toList());
 
 		assertEquals(resultadosPares.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -306,8 +295,7 @@ public class TestDecoradores {
 
 		orden.setCriterio(new OrdenCalorias());
 
-		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1)
-				.collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());
 
 		assertEquals(orden.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -324,8 +312,7 @@ public class TestDecoradores {
 
 		orden.setCriterio(new OrdenAlfabetico());
 
-		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1)
-				.collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 
 		assertEquals(orden.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
@@ -335,14 +322,12 @@ public class TestDecoradores {
 
 		RepositorioDeRecetas repo = new RepositorioDeRecetas();
 
-		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion(
-				repo);
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion(repo);
 
 		filtroCarosEnPreparacion.setIngredienteCaro(carne);
 		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
 
-		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(
-				filtroCarosEnPreparacion);
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
 
 		Orden procesoOrden = new Orden(filtroLeGusta);
 		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
@@ -362,11 +347,38 @@ public class TestDecoradores {
 		repo.agregarReceta(receta4);
 		repo.agregarReceta(receta5);
 
-		List<Receta> aux = Stream.of(receta5, receta4).collect(
-				Collectors.toList());
+		List<Receta> aux = Stream.of(receta5, receta4).collect(Collectors.toList());
 
 		assertEquals(procesoOrden.listarRecetasParaUnUsuario(fecheSena), aux);
 
 	}
+	
+	@Test (expected = NoSePuedeAgregarFiltro.class)
+	public void testProcesamientoPosteriorSinFiltrosNoSeLePuedenAgregarFiltrosLuegoDeLaConsulta() {
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+			
+		Orden orden = new Orden(repositorio);
+			
+		orden.setCriterio(new OrdenAlfabetico());
+		orden.listarRecetasParaUnUsuario(fecheSena);
+			
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
+			
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(orden);
+		filtroCaros.setIngredienteCaro(carne);
+		filtroCaros.setIngredienteCaro(huevo);
+		
+		assertEquals(filtroCaros.listarRecetasParaUnUsuario(fecheSena) , aux);
+	}
+	
+	
+	
+	
+	
+	
 
 }
