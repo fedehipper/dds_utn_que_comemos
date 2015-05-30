@@ -20,11 +20,11 @@ import grupo4.dds.decoradores.OrdenCalorias;
 import grupo4.dds.decoradores.ResultadosPares;
 import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
 import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.GrupoUsuarios;
-import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
 

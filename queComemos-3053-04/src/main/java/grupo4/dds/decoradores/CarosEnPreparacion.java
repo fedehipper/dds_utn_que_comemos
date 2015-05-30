@@ -1,9 +1,9 @@
 package grupo4.dds.decoradores;
 
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.Repositorio;
 import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
