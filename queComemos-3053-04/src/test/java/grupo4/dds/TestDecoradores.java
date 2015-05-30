@@ -375,6 +375,37 @@ public class TestDecoradores {
 		assertEquals(filtroCaros.listarRecetasParaUnUsuario(fecheSena) , aux);
 	}
 	
+	@Test (expected = NoSePuedeAgregarFiltro.class)
+		public void testNoSePuedenAgregarFiltrosDespuesDelProcesoFinal() {
+			
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(unRepo);
+			
+		DiezPrimeros diezPrimeros = new DiezPrimeros(filtroCaros);
+			
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+			
+		unRepo.agregarReceta(receta1);
+		unRepo.agregarReceta(receta2);
+		unRepo.agregarReceta(receta3);
+			
+		filtroCaros.setIngredienteCaro(salmon);
+		filtroCaros.setIngredienteCaro(carne);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+			
+		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6, receta7, receta8, receta9, receta10, receta11, receta12).collect(Collectors.toList());
+			
+		diezPrimeros.listarRecetasParaUnUsuario(fecheSena);
+			
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(diezPrimeros);
+			
+		assertEquals(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena), aux);
+			
+	}
+	
+	
 	
 	
 	
