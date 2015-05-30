@@ -1,5 +1,6 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
 import grupo4.dds.filtrosYProcesos.Filtro;
 import grupo4.dds.filtrosYProcesos.Procesamiento;
 import grupo4.dds.usuario.Usuario;
@@ -15,13 +16,12 @@ public class RepositorioDeRecetas implements Repositorio {
 	private List<Receta> consultaDeRecetas = new ArrayList<>();
 	private Procesamiento procesoFinal;
 	
-	
 	/* Servicios */
 	
 	public List<Receta> listarRecetasPara(Usuario usuario) {
 		return recetas.stream().filter(r -> usuario.puedeVer(r)).collect(Collectors.toList());
 	}
-	
+
 	public List<Receta> filtrarListaDeRecetas(Usuario usuario) {
 		this.consultaDeRecetas = this.recetas;
 		this.filtros.forEach(f -> f.filtrar(usuario, this));
@@ -61,7 +61,10 @@ public class RepositorioDeRecetas implements Repositorio {
 	}
 	
 	public void setFiltro(Filtro filtro) {
-		this.filtros.add(filtro);
+		if (this.consultaDeRecetas.isEmpty()) 
+			this.filtros.add(filtro);
+		else 
+			throw new NoSePuedeAgregarFiltro();
 	}
 	
 	public void setProceso(Procesamiento procesoFinal) {

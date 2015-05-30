@@ -495,16 +495,6 @@ public class TestUsuario {
 		assertTrue(usuario.puedeSugerirse(receta));
 	}
 	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
 	@Test 
 	public void testRecetasQuePuedeVerDelRepositorio() {
 		receta = new Receta(fecheSena, null, null);

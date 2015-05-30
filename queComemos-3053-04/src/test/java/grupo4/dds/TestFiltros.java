@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
 import grupo4.dds.filtrosYProcesos.CarosEnPreparacion;
 import grupo4.dds.filtrosYProcesos.CondicionesUsuario;
 import grupo4.dds.filtrosYProcesos.DiezPrimeros;
@@ -329,6 +330,39 @@ public class TestFiltros {
 		List<Receta> aux = Stream.of(receta3, receta5, receta7, receta9, receta11).collect(Collectors.toList());
 		
 		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+	}
+	
+	@Test (expected = NoSePuedeAgregarFiltro.class)
+	public void testNoSePuedenAgregarFiltrosDespuesDelProcesoFinal() {
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
+		unRepo.setFiltro(filtroCaros);
+		
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+		
+		unRepo.agregarReceta(receta1);
+		unRepo.agregarReceta(receta2);
+		unRepo.agregarReceta(receta3);
+		
+		filtroCaros.setIngredienteCaro(salmon);
+		filtroCaros.setIngredienteCaro(carne);
+	
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6, receta7, receta8, receta9, receta10, receta11, receta12).collect(Collectors.toList());
+		
+		unRepo.filtrarListaDeRecetas(fecheSena);
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		unRepo.setFiltro(filtroLeGusta);
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+		
 	}
 	
 	@Test 
