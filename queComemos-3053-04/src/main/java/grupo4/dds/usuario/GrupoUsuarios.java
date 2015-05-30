@@ -1,6 +1,7 @@
 package grupo4.dds.usuario;
 
 
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 
 import java.util.ArrayList;

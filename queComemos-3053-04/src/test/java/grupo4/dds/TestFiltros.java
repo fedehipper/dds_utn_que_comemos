@@ -18,11 +18,11 @@ import grupo4.dds.filtrosYProcesos.OrdenAlfabetico;
 import grupo4.dds.filtrosYProcesos.OrdenCalorias;
 import grupo4.dds.filtrosYProcesos.ResultadosPares;
 import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.GrupoUsuarios;
-import grupo4.dds.usuario.Ingrediente;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
 
@@ -59,7 +59,7 @@ public class TestFiltros {
 		
 	@Before
 	public void setup() {
-		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
+		fecheSena = new Usuario("Feche Sena", null, 1.70f, 70.0f, null);
 		encabezado1 = new EncabezadoDeReceta("sopa", null, null, 600);
 		encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
 		encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
@@ -106,6 +106,7 @@ public class TestFiltros {
 		repo.agregarReceta(receta1);
 		repo.agregarReceta(receta2);
 		repo.agregarReceta(receta3);
+		
 		
 		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
 		
