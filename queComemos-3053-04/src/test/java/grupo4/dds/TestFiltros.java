@@ -1,6 +1,7 @@
 package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -464,6 +465,80 @@ public class TestFiltros {
 		
 		assertEquals(repositorio.procesarListaDeRecetas(repositorio.filtrarListaDeRecetas(fecheSena)), aux);
 	}
+	
+	@Test 
+	public void testFiltroDevuelveUnaConsultaVacia() {
+		
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+		
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion();
+		
+		filtroCarosEnPreparacion.setIngredienteCaro(carne);
+		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		
+		repo.setFiltro(filtroLeGusta);
+		repo.setFiltro(filtroCarosEnPreparacion);
+		
+		Orden procesoOrden = new Orden();
+		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
+		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		repo.setProceso(procesoOrden);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(huevo);
+		receta3.agregarIngrediente(fruta);
+
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		
+		assertTrue(repo.procesarListaDeRecetas(repo.filtrarListaDeRecetas(fecheSena)).isEmpty());
+	}
+	
+	@Test (expected = NoSePuedeAgregarFiltro.class)
+	public void testFiltroDevuelveUnaConsultaVaciaYNoSeLePuedenSeguirAgregandoFiltros() {
+		
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+		
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion();
+		
+		filtroCarosEnPreparacion.setIngredienteCaro(carne);
+		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		
+		repo.setFiltro(filtroLeGusta);
+		repo.setFiltro(filtroCarosEnPreparacion);
+		
+		Orden procesoOrden = new Orden();
+		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
+		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		repo.setProceso(procesoOrden);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(huevo);
+		receta3.agregarIngrediente(fruta);
+
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		
+		repo.filtrarListaDeRecetas(fecheSena);
+		
+		CondicionesUsuario filtroCondicion = new CondicionesUsuario();
+		repo.setFiltro(filtroCondicion);
+		
+		assertTrue(repo.procesarListaDeRecetas(repo.filtrarListaDeRecetas(fecheSena)).isEmpty());
+	}
+	
 	
 	
 	
