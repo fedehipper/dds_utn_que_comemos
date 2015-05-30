@@ -15,16 +15,23 @@ public class RepositorioDeRecetas implements Repositorio {
 	private List<Filtro> filtros = new ArrayList<>();
 	private List<Receta> consultaDeRecetas = new ArrayList<>();
 	private Procesamiento procesoFinal;
+	private boolean consultaFinalizada;
 	
 	/* Servicios */
 	
 	public List<Receta> listarRecetasPara(Usuario usuario) {
 		return recetas.stream().filter(r -> usuario.puedeVer(r)).collect(Collectors.toList());
 	}
+	
+	public void inicializarConsulta() {
+		this.consultaDeRecetas = this.recetas;
+		this.consultaFinalizada = false;
+	}
 
 	public List<Receta> filtrarListaDeRecetas(Usuario usuario) {
-		this.consultaDeRecetas = this.recetas;
+		this.inicializarConsulta();
 		this.filtros.forEach(f -> f.filtrar(usuario, this));
+		this.consultaFinalizada = true;
 		return this.consultaDeRecetas;
 	}
 
@@ -61,7 +68,7 @@ public class RepositorioDeRecetas implements Repositorio {
 	}
 	
 	public void setFiltro(Filtro filtro) {
-		if (this.consultaDeRecetas.isEmpty()) 
+		if (!this.consultaFinalizada) 
 			this.filtros.add(filtro);
 		else 
 			throw new NoSePuedeAgregarFiltro();
