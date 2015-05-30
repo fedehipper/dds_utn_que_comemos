@@ -31,7 +31,7 @@ public class RepositorioDeRecetas implements Repositorio {
 	public List<Receta> filtrarListaDeRecetas(Usuario usuario) {
 		this.inicializarConsulta();
 		this.filtros.forEach(f -> f.filtrar(usuario, this));
-		this.consultaFinalizada = true;
+		
 		return this.consultaDeRecetas;
 	}
 

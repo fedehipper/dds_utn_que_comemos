@@ -333,7 +333,7 @@ public class TestFiltros {
 		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
 	}
 	
-	@Test (expected = NoSePuedeAgregarFiltro.class)
+	@Test 
 	public void testNoSePuedenAgregarFiltrosDespuesDelProcesoFinal() {
 		
 		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
@@ -500,7 +500,7 @@ public class TestFiltros {
 		assertTrue(repo.procesarListaDeRecetas(repo.filtrarListaDeRecetas(fecheSena)).isEmpty());
 	}
 	
-	@Test (expected = NoSePuedeAgregarFiltro.class)
+	@Test 
 	public void testFiltroDevuelveUnaConsultaVaciaYNoSeLePuedenSeguirAgregandoFiltros() {
 		
 		RepositorioDeRecetas repo = new RepositorioDeRecetas();
@@ -540,8 +540,7 @@ public class TestFiltros {
 	}
 	
 	
-	
-	
+
 	
 	
 	
