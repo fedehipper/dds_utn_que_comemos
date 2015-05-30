@@ -466,6 +466,43 @@ public class TestDecoradores {
 		assertTrue(filtroCondicion.listarRecetasParaUnUsuario(fecheSena).isEmpty());
 	}
 		
+	@Test
+	public void testAplicarMasDeUnaVezUnFiltroNoCambiaElResultadoFinal() {
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion(repo);
+
+		filtroCarosEnPreparacion.setIngredienteCaro(carne);
+		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
+
+		CarosEnPreparacion nuevoFiltroCaros = new CarosEnPreparacion(filtroLeGusta);
+		nuevoFiltroCaros.setIngredienteCaro(carne);
+		nuevoFiltroCaros.setIngredienteCaro(huevo);
+		
+		Orden procesoOrden = new Orden(nuevoFiltroCaros);
+		procesoOrden.setCriterio(new OrdenAlfabetico());
+
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(huevo);
+		receta3.agregarIngrediente(fruta);
+		receta4.agregarIngrediente(salmon);
+		receta5.agregarIngrediente(papa);
+
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+		repo.agregarReceta(receta4);
+		repo.agregarReceta(receta5);
+
+		List<Receta> aux = Stream.of(receta5, receta4).collect(Collectors.toList());
+
+		assertEquals(procesoOrden.listarRecetasParaUnUsuario(fecheSena), aux);
+	}
+
 	
 	
 	
