@@ -405,8 +405,67 @@ public class TestDecoradores {
 			
 	}
 	
+	@Test 
+	public void testFiltroDevuelveUnaConsultaVacia() {
+			
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+			
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion(repo);
+			
+		filtroCarosEnPreparacion.setIngredienteCaro(carne);
+		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
+			
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
+			
+		Orden procesoOrden = new Orden(filtroLeGusta);
+		
+		procesoOrden.setCriterio(new OrdenAlfabetico());
+			
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+			
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(huevo);
+		receta3.agregarIngrediente(fruta);
 	
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+			
+		assertTrue(procesoOrden.listarRecetasParaUnUsuario(fecheSena).isEmpty());
+	}
 	
+	@Test (expected = NoSePuedeAgregarFiltro.class)
+	public void testFiltroDevuelveUnaConsultaVaciaYNoSeLePuedenSeguirAgregandoFiltros() {
+			
+		RepositorioDeRecetas repo = new RepositorioDeRecetas();
+			
+		CarosEnPreparacion filtroCarosEnPreparacion = new CarosEnPreparacion(repo);
+			
+		filtroCarosEnPreparacion.setIngredienteCaro(carne);
+		filtroCarosEnPreparacion.setIngredienteCaro(huevo);
+			
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
+			
+		Orden procesoOrden = new Orden(filtroLeGusta);
+		procesoOrden.setCriterio( new OrdenAlfabetico());
+					
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+			
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(huevo);
+		receta3.agregarIngrediente(fruta);
+	
+		repo.agregarReceta(receta1);
+		repo.agregarReceta(receta2);
+		repo.agregarReceta(receta3);
+			
+		procesoOrden.listarRecetasParaUnUsuario(fecheSena);
+			
+		CondicionesUsuario filtroCondicion = new CondicionesUsuario(procesoOrden);
+			
+		assertTrue(filtroCondicion.listarRecetasParaUnUsuario(fecheSena).isEmpty());
+	}
+		
 	
 	
 	
