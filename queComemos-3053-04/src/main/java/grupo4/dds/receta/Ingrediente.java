@@ -1,4 +1,4 @@
-package grupo4.dds.usuario;
+package grupo4.dds.receta;
 
 public class Ingrediente {
 	
