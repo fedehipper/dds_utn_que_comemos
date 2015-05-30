@@ -442,8 +442,28 @@ public class TestFiltros {
 		assertEquals(repo.procesarListaDeRecetas(repo.filtrarListaDeRecetas(fecheSena)), aux);
 	}
 	
-	
-	
+	@Test (expected = NoSePuedeAgregarFiltro.class)
+	public void testProcesamientoPosteriorSinFiltrosNoSeLePuedenAgregarFiltrosLuegoDeLaConsulta() {
+		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+		
+		Orden orden = new Orden();
+		repositorio.setProceso(orden);
+		
+		orden.setCriterio(new OrdenAlfabetico());
+		
+		repositorio.procesarListaDeRecetas(repositorio.listarRecetasPara(fecheSena));
+		
+		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
+		
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion();
+		repositorio.setFiltro(filtroCaros);
+		
+		assertEquals(repositorio.procesarListaDeRecetas(repositorio.filtrarListaDeRecetas(fecheSena)), aux);
+	}
 	
 	
 	

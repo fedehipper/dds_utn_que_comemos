@@ -37,6 +37,7 @@ public class RepositorioDeRecetas implements Repositorio {
 
 	public List<Receta> procesarListaDeRecetas(List<Receta> recetaConFiltros) {
 		this.procesoFinal.procesar(recetaConFiltros, this);
+		this.consultaFinalizada = true;
 		return this.consultaDeRecetas;
 	}
 
