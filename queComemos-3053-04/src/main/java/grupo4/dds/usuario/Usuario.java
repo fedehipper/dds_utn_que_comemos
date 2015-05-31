@@ -115,7 +115,6 @@ public class Usuario {
 	
 	public boolean puedeSugerirse(Receta receta) {
 		return receta.noContieneNinguna(comidasQueLeDisgustan) && esAdecuada(receta);	
-		//TODO: revisar si se pretendía que sea adecuado (válida y cumple condiciones) o que solo cumpla condiciones.
 	}
 	
 	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio) {
@@ -136,7 +135,6 @@ public class Usuario {
 			
 		historial.add(receta);
 	}
-	
 	
 	public Receta buscarUnaReceta(String nombre, RepositorioDeRecetas repositorio) {
 		List<Receta> encontrada = new ArrayList<>();
@@ -220,8 +218,6 @@ public class Usuario {
 		return historial;
 	}
 
-	
-	
 	public List<GrupoUsuarios> getGrupos() {
 		return this.grupos;
 	}
