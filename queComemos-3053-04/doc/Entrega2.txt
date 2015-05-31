@@ -1,23 +1,62 @@
-Para modelar el grupo, creamos una clase grupo, con una variable de instancia de tipo
+1) Para modelar el grupo, creamos una clase grupo, con una variable de instancia de tipo
 lista que conoce al grupo de usuarios, ademas, los atributos que tiene el grupo son
 palabrasClave que es una lista de ingredientes y una variable que contiene el nombre, 
-cuando un grupo agrega a un usuario, el usuario tambien agrega al grupo a su lista de 
-grupos
+cuando un usuario agrega un grupo, el grupo también agrega al usuario.
 
-Para obtener el listado de todas las recetas que tiene acceso un usuario, 
-creamos una clase "RepositorioDeRecetas", en la cual creamos un metodo que 
+Un usuario puede estar en muchos grupos, y un grupo tiene uno o mas usuarios, la doble referencia
+es porque necesitamos que se conozcan en el punto de listarRecetasParaUnUsuario, en donde un usuario
+recibe una receta por parámetro y se pregunta si la puede ver, ( si el el creador o es publica) y también 
+nos preguntamos si alguno de sus compañeros de algún grupo la creo, para esto el grupo realiza esta tarea
+preguntando por cada uno de sus miembros, si alguno la puede ver con las condiciones anteriores.
+
+
+2) Para obtener el listado de todas las recetas que tiene acceso un usuario, 
+creamos una clase "RepositorioDeRecetas", en la cual creamos un método que 
 realiza esta funcionalidad.
-Fue extensible la inclusion de las nuevas condiciones para que un usuario
-pueda ver las recetas, solo tuvimos que incluir un codigo en un metodo, 
+Fue extensible la inclusión de las nuevas condiciones para que un usuario
+pueda ver las recetas, solo tuvimos que incluir un código en un método, 
 y hacer anyMatch con los grupos
 
-En el punto 3, agregamos a la coleccion historial, una receta que puede
-ser vista por el usuario, aplicando busqueda, o agregarla sin realizar la 
+Consideramos incluir todas las recetas (publicas y privadas) en la colección del repositorioDeRecetas, ya que 
+el usuario tiene el método puedeVer, el cual es invocado en listarRecetasPara(usuario) donde se muestran todas
+las recetas publicas y las privadas que el mismo creó.
+
+3) agregamos a la colección historial, una receta que puede
+ser vista por el usuario, aplicando búsqueda, o agregarla sin realizar la 
 busqueda
 
-En el punto 5, tomamos una coleccion de strategies para modelar todos los
+4) para hacer el caso de los decoradores, tomamos la interfaz
+que nos dan en el tp, para que todas las clases implementen los mismos 
+métodos, luego creamos las clases decoradores (filtros) y cada uno
+toma el filtro de la clase repositorioDeRecetas, y le agrega un filtro mas,
+para que esto sea posible en el constructor del decorador recibe por
+parámetro al repositorioDeRecetas (decorado) y finalmente para que los
+filtros sean combinables, creamos un constructor que recibe por parámetro
+a otro decorador, por lo tanto un decorador se puede instanciar con otro
+decorador y así hasta que el ultimo decorador posible tenga que recibir por
+parametro al repositorioDeRecetas
+
+5) tomamos una colección de strategies para modelar todos los
 filtros y una strategie simple para modelar el proceso final, los cuales
 pueden ser ordenar por varios criterios, tomar las diez primeras recetas, etc
-ya que el enunciado plantea que es un unico proceso final, no hicimos una
-coleccion con dichos procesos.
+ya que el enunciado plantea que es un único proceso final, no hicimos una
+colección con dichos procesos.
+
+
+Decidimos decorar a la clase RepositorioDeRecetas, ya que cada filtro es una funcionalidad que agregamos a esta clase
+ya que esta clase es la encargada de devolver las recetas que un usuario puede ver, con o sin filtros.
+
+Cambiamos el modelo de proceso final por una strategie para resolver el problema de aplicar el proceso una única vez
+
+
+---- ELECCION DE BRANCH O SOLUCION ----
+
+
+
+
+
+
+
+
+
 
