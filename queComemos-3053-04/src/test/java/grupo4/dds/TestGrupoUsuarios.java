@@ -8,6 +8,7 @@ import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Vegano;
+import grupo4.dds.excepciones.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +39,14 @@ public class TestGrupoUsuarios {
 		
 		grupo.agregarPreferenciaAlimenticia(new Ingrediente("fruta",0f));
 		assertFalse(grupo.puedeSugerirse(receta));
+	}
+	
+	@Test (expected = ElUsuarioYaExiste.class)
+	public void testSiUnUsuarioYaExisteEnElGrupoNoLoAgrega() {
+		
+		grupo.agregarUsuario(ariel);
+		grupo.agregarUsuario(fecheSena);
+		grupo.agregarUsuario(ariel);
 	}
 	
 	@Test
