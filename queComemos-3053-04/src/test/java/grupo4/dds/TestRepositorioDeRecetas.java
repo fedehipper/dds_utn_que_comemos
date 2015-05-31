@@ -85,14 +85,9 @@ public class TestRepositorioDeRecetas {
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
 		
-		grupo1.agregarUsuario(matiasMartino);
-		grupo1.agregarUsuario(arielFolino);
 
 		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
 		
-		grupo2.agregarUsuario(federicoHipper);
-		grupo2.agregarUsuario(cristianMaldonado);
-		grupo2.agregarUsuario(arielFolino);
 		
 		matiasMartino.agregarGrupo(grupo1);
 		arielFolino.agregarGrupo(grupo1);
@@ -121,14 +116,8 @@ public class TestRepositorioDeRecetas {
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
 		
-		grupo1.agregarUsuario(matiasMartino);
-		grupo1.agregarUsuario(arielFolino);
-		grupo1.agregarUsuario(fecheSena);
 
 		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
-		
-		grupo2.agregarUsuario(cristianMaldonado);
-		grupo2.agregarUsuario(arielFolino);
 		
 		matiasMartino.agregarGrupo(grupo1);
 		arielFolino.agregarGrupo(grupo1);
@@ -152,12 +141,9 @@ public class TestRepositorioDeRecetas {
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
 		
-		grupo1.agregarUsuario(matiasMartino);
-		grupo1.agregarUsuario(arielFolino);
 		
 		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
 		
-		grupo2.agregarUsuario(cristianMaldonado);
 		
 		matiasMartino.agregarGrupo(grupo1);
 		fecheSena.agregarGrupo(grupo1);
