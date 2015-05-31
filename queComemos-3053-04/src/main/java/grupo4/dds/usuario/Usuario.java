@@ -1,5 +1,6 @@
 package grupo4.dds.usuario;
 
+import grupo4.dds.excepciones.ElUsuarioYaExiste;
 import grupo4.dds.excepciones.NoSeEncontroLaReceta;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
@@ -207,9 +208,12 @@ public class Usuario {
 	}
 
 	public void agregarGrupo(GrupoUsuarios grupo) {
-		//TODO: Validar que el usuario no exista, o usar un Collection Set
-		this.grupos.add(grupo);
-		grupo.agregarUsuario(this);
+		if (!grupo.esMiembro(this)) {
+			this.grupos.add(grupo);
+			grupo.agregarUsuario(this);
+		}
+		else 
+			throw new ElUsuarioYaExiste();
 	}
 	
 	public List<Receta> getHistorioal() {

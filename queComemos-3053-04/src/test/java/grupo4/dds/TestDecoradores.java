@@ -126,8 +126,7 @@ public class TestDecoradores {
 
 		Usuario ariel = new Usuario("ariel", null, 89.0f, 78f, null);
 		GrupoUsuarios grupo = new GrupoUsuarios("grupo");
-		grupo.agregarUsuario(fecheSena);
-		grupo.agregarUsuario(ariel);
+
 		ariel.agregarGrupo(grupo);
 		fecheSena.agregarGrupo(grupo);
 
