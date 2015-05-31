@@ -1,0 +1,30 @@
+Para poder desarrollar el TP se utilizó una clase general Usuario, que representa a la persona en cuanto a condiciones y gustos,
+una clase Receta para modelar cada receta y para ciertos datos creamos también una clase denominada EncabezadoDeReceta que representa justamente 
+el encabezado pedido de la receta.
+Luego para la distinción de las recetas públicas de las privadas, utilizamos una herencia teniendo como clase padre a Receta y como clase hija a
+RecetaPublica (que representa la pública) para poder hacer las validaciones y los métodos correspondientes a sobre si puede ser vista, modificada, etc.
+Las Rutinas y Temporadas las modelamos como Enum ya que no tienen comportamiento en cuanto a lo pedido.
+También implementamos una interfaz denominada Condición que representa cada una de las condiciones preexistentes que puede tener cada usuario, en el presente TP
+se explicitan cuatro condiciones. Por lo tanto, hemos creado las clases Celíaco, Vegano, Hipertenso y Diabético que representan a las dichas condiciones.
+En Condición utilizamos polimorfismo para poder lograr que todas las condiciones entiendan los mismos mensajes (esValidaCon (unUsuario) por ejemplo) y realicen
+las acciones correspondientes.
+
+En cuanto al diseño elegido de la solución, creamos la interfaz Condición por lo mencionado anteriormente para modelar cada una de las condiciones haciendo uso del
+polimorfismo y poder hacer así más extensible esta característica ya que en un futuro será más fácil agregar más condiciones preexistentes.
+Las recetas las modelamos con la herencia para diferenciar las recetas del usuario de las recetas del sistema. En un principio teníamos todo un constructor
+con los atributos correspondientes, pero luego de ver que recibía muchos parámetros y de notar un long parameter list, creamos la abstracción de encabezado de receta.
+Con la herencia modelada podemos tener tanto una receta de un usuario que sería privada, como una receta publica que hereda de la privada y nos sirvió para modelar
+el permiso o no de quién puede acceder o modificar una receta. Además de contar con la ventaja de la reusabilidad de código en ciertos métodos, ya que ambas recetas
+si bien se comportan diferente serían similares en ciertos aspectos.
+Los ingredientes inicialmente los pensamos como strings y luego como hashMap pensando en la idea de que no tenían comportamiento alguno. Pero terminamos de 
+modelarlos como una clase Ingrediente para poder reconocer cual es carne y cuál no, para usarlos en los métodos que solicitaban cierta restricción con esa cuestión.
+En cuanto a los tests, hicimos tests unitarios y algunos integradores separándolos por receta, usuario y condición.
+
+
+
+
+
+
+ 
+
+
