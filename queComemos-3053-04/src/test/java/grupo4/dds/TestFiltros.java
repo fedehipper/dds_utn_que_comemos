@@ -14,8 +14,6 @@ import grupo4.dds.filtrosYProcesos.DiezPrimeros;
 import grupo4.dds.filtrosYProcesos.ExcesoCalorias;
 import grupo4.dds.filtrosYProcesos.LeGustaAlUsuario;
 import grupo4.dds.filtrosYProcesos.Orden;
-import grupo4.dds.filtrosYProcesos.OrdenAlfabetico;
-import grupo4.dds.filtrosYProcesos.OrdenCalorias;
 import grupo4.dds.filtrosYProcesos.ResultadosPares;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
@@ -59,7 +57,7 @@ public class TestFiltros {
 		
 	@Before
 	public void setup() {
-		fecheSena = new Usuario("Feche Sena", null, 1.70f, 70.0f, null);
+		fecheSena = new Usuario("Feche Sena", null, 1.70f, 75.0f, null);
 		encabezado1 = new EncabezadoDeReceta("sopa", null, null, 600);
 		encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
 		encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
@@ -108,7 +106,7 @@ public class TestFiltros {
 		repo.agregarReceta(receta3);
 		
 		
-		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta1).collect(Collectors.toList());
 		
 		assertEquals(repo.filtrarListaDeRecetas(fecheSena), aux );
 	}
@@ -161,14 +159,14 @@ public class TestFiltros {
 		repo.agregarReceta(receta2);
 		repo.agregarReceta(receta3);
 		
-		Usuario ariel = new Usuario("ariel", null, 89.0f, 78f, null);
+		Usuario ariel = new Usuario("ariel", null, 1.70f, 80f, null);
 		GrupoUsuarios grupo = new GrupoUsuarios("grupo");
 		grupo.agregarUsuario(fecheSena);
 		grupo.agregarUsuario(ariel);
 		ariel.agregarGrupo(grupo);
 		fecheSena.agregarGrupo(grupo);
 		
-		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
+		List<Receta> aux = Stream.of(receta1).collect(Collectors.toList());
 		
 		Vegano vegano = new Vegano();
 		ariel.agregarCondicion(vegano);
@@ -379,7 +377,7 @@ public class TestFiltros {
 		Orden orden = new Orden();
 		repositorio.setProceso(orden);
 		
-		orden.setCriterio(new OrdenCalorias());
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getTotalCalorias() - r2.getTotalCalorias());
 		
 		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());	
 		
@@ -397,7 +395,7 @@ public class TestFiltros {
 		Orden orden = new Orden();
 		repositorio.setProceso(orden);
 		
-		orden.setCriterio(new OrdenAlfabetico());
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 		
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 		
@@ -420,8 +418,8 @@ public class TestFiltros {
 		repo.setFiltro(filtroCarosEnPreparacion);
 		
 		Orden procesoOrden = new Orden();
-		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
-		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 		
 		repo.setProceso(procesoOrden);
 		
@@ -455,7 +453,7 @@ public class TestFiltros {
 		Orden orden = new Orden();
 		repositorio.setProceso(orden);
 		
-		orden.setCriterio(new OrdenAlfabetico());
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 		
 		repositorio.procesarListaDeRecetas(repositorio.listarRecetasPara(fecheSena));
 		
@@ -483,8 +481,8 @@ public class TestFiltros {
 		repo.setFiltro(filtroCarosEnPreparacion);
 		
 		Orden procesoOrden = new Orden();
-		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
-		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 		
 		repo.setProceso(procesoOrden);
 		
@@ -517,8 +515,8 @@ public class TestFiltros {
 		repo.setFiltro(filtroCarosEnPreparacion);
 		
 		Orden procesoOrden = new Orden();
-		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
-		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 		
 		repo.setProceso(procesoOrden);
 		

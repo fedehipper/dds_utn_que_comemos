@@ -14,7 +14,7 @@ public class ExcesoCalorias implements Filtro {
 		
 		List<Receta> filtroDeReceta = new ArrayList<>();
 		
-		filtroDeReceta = repoRecetas.listarRecetasPara(usuario).stream().filter(r -> (r.getTotalCalorias() <= 500) && (usuario.indiceDeMasaCorporal()<= 500)).collect(Collectors.toList());
+		filtroDeReceta = repoRecetas.listarRecetasPara(usuario).stream().filter(r -> (r.getTotalCalorias() > 500) && (usuario.indiceDeMasaCorporal() > 25)).collect(Collectors.toList());
 	
 		repoRecetas.actualizarConsultaDeRecetas(filtroDeReceta);
 	}
