@@ -19,7 +19,7 @@ public class ExcesoCalorias extends Filtro {
 	}
 	
 	public List<Receta> listarRecetasParaUnUsuario(Usuario unUsuario) {		
-	 	  return this.repositorio.listarRecetasParaUnUsuario(unUsuario).stream().filter(r -> r.getTotalCalorias() <= 500 && unUsuario.indiceDeMasaCorporal()<=500).collect(Collectors.toList());
+	 	  return this.repositorio.listarRecetasParaUnUsuario(unUsuario).stream().filter(r -> r.getTotalCalorias() > 500 && unUsuario.indiceDeMasaCorporal() > 25).collect(Collectors.toList());
 	}
 	
 

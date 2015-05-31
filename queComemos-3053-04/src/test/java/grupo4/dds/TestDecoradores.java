@@ -15,8 +15,6 @@ import grupo4.dds.decoradores.DiezPrimeros;
 import grupo4.dds.decoradores.ExcesoCalorias;
 import grupo4.dds.decoradores.LeGustaAlUsuario;
 import grupo4.dds.decoradores.Orden;
-import grupo4.dds.decoradores.OrdenAlfabetico;
-import grupo4.dds.decoradores.OrdenCalorias;
 import grupo4.dds.decoradores.ResultadosPares;
 import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
 import grupo4.dds.receta.EncabezadoDeReceta;
@@ -57,7 +55,7 @@ public class TestDecoradores {
 
 	@Before
 	public void setup() {
-		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
+		fecheSena = new Usuario("Feche Sena", null, 1.70f, 75.0f, null);
 		encabezado1 = new EncabezadoDeReceta("sopa", null, null, 600);
 		encabezado2 = new EncabezadoDeReceta("pollo", null, null, 300);
 		encabezado3 = new EncabezadoDeReceta("pure", null, null, 100);
@@ -104,8 +102,8 @@ public class TestDecoradores {
 		rR.agregarReceta(receta2);
 		rR.agregarReceta(receta3);
 
-		List<Receta> aux = Stream.of(receta2, receta3).collect(Collectors.toList());
-
+		List<Receta> aux = Stream.of(receta1).collect(Collectors.toList());
+         
 		assertEquals(exceso.listarRecetasParaUnUsuario(fecheSena), aux);
 	}
 
@@ -293,7 +291,7 @@ public class TestDecoradores {
 
 		Orden orden = new Orden(repositorio);
 
-		orden.setCriterio(new OrdenCalorias());
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getTotalCalorias() - r2.getTotalCalorias());
 
 		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());
 
@@ -310,7 +308,7 @@ public class TestDecoradores {
 
 		Orden orden = new Orden(repositorio);
 
-		orden.setCriterio(new OrdenAlfabetico());
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 
@@ -330,8 +328,8 @@ public class TestDecoradores {
 		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
 
 		Orden procesoOrden = new Orden(filtroLeGusta);
-		OrdenAlfabetico ordenAlfabetico = new OrdenAlfabetico();
-		procesoOrden.setCriterio(ordenAlfabetico);
+		
+		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 
@@ -363,7 +361,7 @@ public class TestDecoradores {
 			
 		Orden orden = new Orden(repositorio);
 			
-		orden.setCriterio(new OrdenAlfabetico());
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 		orden.listarRecetasParaUnUsuario(fecheSena);
 			
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
@@ -419,7 +417,7 @@ public class TestDecoradores {
 			
 		Orden procesoOrden = new Orden(filtroLeGusta);
 		
-		procesoOrden.setCriterio(new OrdenAlfabetico());
+		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 			
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 			
@@ -447,7 +445,7 @@ public class TestDecoradores {
 		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
 			
 		Orden procesoOrden = new Orden(filtroLeGusta);
-		procesoOrden.setCriterio( new OrdenAlfabetico());
+		procesoOrden.setCriterio( (Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 					
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 			
@@ -482,7 +480,7 @@ public class TestDecoradores {
 		nuevoFiltroCaros.setIngredienteCaro(huevo);
 		
 		Orden procesoOrden = new Orden(nuevoFiltroCaros);
-		procesoOrden.setCriterio(new OrdenAlfabetico());
+		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 
