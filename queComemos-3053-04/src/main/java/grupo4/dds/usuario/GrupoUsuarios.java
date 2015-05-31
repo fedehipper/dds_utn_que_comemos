@@ -1,6 +1,7 @@
 package grupo4.dds.usuario;
 
 
+import grupo4.dds.excepciones.ElUsuarioYaExiste;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 
@@ -43,9 +44,11 @@ public class GrupoUsuarios {
 	/* Accesors and Mutators */
 	
 	public void agregarUsuario(Usuario usuario) {
-		//TODO: Validar que el usuario no exista, o usar un Collection Set
-		usuarios.add(usuario);
-	}
+		  if (!this.usuarios.contains(usuario))
+		   usuarios.add(usuario);
+		  else
+		   throw new ElUsuarioYaExiste();
+		 }
 	
 	public void agregarPreferenciaAlimenticia(Ingrediente comida) {
 		preferenciasAlimenticias.add(comida);
