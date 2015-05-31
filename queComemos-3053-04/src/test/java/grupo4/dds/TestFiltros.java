@@ -3,11 +3,13 @@ package grupo4.dds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
+import grupo4.dds.excepciones.NoSePuedeAgregarOtroProceso;
 import grupo4.dds.filtrosYProcesos.CarosEnPreparacion;
 import grupo4.dds.filtrosYProcesos.CondicionesUsuario;
 import grupo4.dds.filtrosYProcesos.DiezPrimeros;
@@ -538,8 +540,49 @@ public class TestFiltros {
 		assertTrue(repo.procesarListaDeRecetas(repo.filtrarListaDeRecetas(fecheSena)).isEmpty());
 	}
 	
+	@Test (expected = NoSePuedeAgregarOtroProceso.class)
+	public void testNoSePuedenRealizarDosProcesosAlFinalDeLaConsulta() {
+		
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario();
+		unRepo.setFiltro(filtroLeGusta);
+		
+		ResultadosPares resultadosPares = new ResultadosPares();
+		unRepo.setProceso(resultadosPares);
+		
+		Orden orden = new Orden();
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
+		unRepo.setProceso(orden);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+		
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
 	
-
+		List<Receta> aux = new ArrayList<>();		
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+	}
+	
+	@Test (expected = NoSePuedeAgregarOtroProceso.class)
+	public void testNoSePuedenRealizarDosProcesosAlFinalDeLaConsultaSinFiltros() {
+		
+		ResultadosPares resultadosPares = new ResultadosPares();
+		unRepo.setProceso(resultadosPares);
+		
+		Orden orden = new Orden();
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
+		unRepo.setProceso(orden);
+		
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+	
+		List<Receta> aux = new ArrayList<>();
+		
+		assertEquals(unRepo.procesarListaDeRecetas(unRepo.filtrarListaDeRecetas(fecheSena)), aux);
+	}
+	
 	
 	
 	
