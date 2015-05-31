@@ -1,21 +1,21 @@
-Para modelar el grupo, creamos una clase grupo, con una variable de instancia de tipo
+1) Para modelar el grupo, creamos una clase grupo, con una variable de instancia de tipo
 lista que conoce al grupo de usuarios, ademas, los atributos que tiene el grupo son
 palabrasClave que es una lista de ingredientes y una variable que contiene el nombre, 
 cuando un grupo agrega a un usuario, el usuario tambien agrega al grupo a su lista de 
 grupos
 
-Para obtener el listado de todas las recetas que tiene acceso un usuario, 
+2) Para obtener el listado de todas las recetas que tiene acceso un usuario, 
 creamos una clase "RepositorioDeRecetas", en la cual creamos un metodo que 
 realiza esta funcionalidad.
 Fue extensible la inclusion de las nuevas condiciones para que un usuario
 pueda ver las recetas, solo tuvimos que incluir un codigo en un metodo, 
 y hacer anyMatch con los grupos
 
-En el punto 3, agregamos a la coleccion historial, una receta que puede
+3) agregamos a la coleccion historial, una receta que puede
 ser vista por el usuario, aplicando busqueda, o agregarla sin realizar la 
 busqueda
 
-En el punto 4, para hacer el caso de los decoradores, tomamos la interfaz
+4) para hacer el caso de los decoradores, tomamos la interfaz
 que nos dan en el tp, para que todas las clases implementen los mismos 
 metodos, luego creamos las clases decoradores (filtros) y cada uno
 toma el filtro de la clase repositorioDeRecetas, y le agrega un filtro mas,
@@ -25,3 +25,4 @@ filtros sean combinables, creamos un constructor que recibe por parametro
 a otro decorador, por lo tanto un decorador se puede instanciar con otro
 decorador y asi hasta que el ultimo decorador posible tenga que recibir por
 parametro al repositorioDeRecetas
+
