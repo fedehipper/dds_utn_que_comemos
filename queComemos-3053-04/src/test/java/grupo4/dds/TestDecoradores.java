@@ -2,6 +2,7 @@ package grupo4.dds;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,6 +18,7 @@ import grupo4.dds.decoradores.LeGustaAlUsuario;
 import grupo4.dds.decoradores.Orden;
 import grupo4.dds.decoradores.ResultadosPares;
 import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
+import grupo4.dds.excepciones.NoSePuedeAgregarOtroProceso;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -220,9 +222,10 @@ public class TestDecoradores {
 
 		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(unRepo);
 		filtroCaros.setIngredienteCaro(carne);
-		DiezPrimeros diezPrimeros = new DiezPrimeros(filtroCaros);
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
 
-		assertEquals(diezPrimeros.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(unRepo.aplicarProceso(filtroCaros.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
 	@Test
@@ -230,9 +233,10 @@ public class TestDecoradores {
 
 		List<Receta> aux = Stream.of(receta1, receta2, receta3, receta4,receta5, receta6, receta7, receta8, receta9, receta10).collect(Collectors.toList());
 
-		DiezPrimeros diezPrimeros = new DiezPrimeros(unRepo);
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
 
-		assertEquals(diezPrimeros.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(unRepo.aplicarProceso(unRepo.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
 	@Test
@@ -242,7 +246,8 @@ public class TestDecoradores {
 
 		LeGustaAlUsuario filtroLeGustaYCaros = new LeGustaAlUsuario(filtroCaros);
 
-		DiezPrimeros diezPrimeros = new DiezPrimeros(filtroLeGustaYCaros);
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
 
 		receta1.agregarIngrediente(carne);
 		receta2.agregarIngrediente(fruta);
@@ -259,7 +264,7 @@ public class TestDecoradores {
 
 		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6,receta7, receta8, receta9, receta10, receta11, receta12).collect(Collectors.toList());
 
-		assertEquals(diezPrimeros.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(unRepo.aplicarProceso(filtroLeGustaYCaros.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
 	@Test
@@ -267,7 +272,8 @@ public class TestDecoradores {
 
 		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(unRepo);
 
-		ResultadosPares resultadosPares = new ResultadosPares(filtroLeGusta);
+		ResultadosPares resultadosPares = new ResultadosPares();
+		unRepo.setProceso(resultadosPares);
 
 		receta1.agregarIngrediente(carne);
 		receta2.agregarIngrediente(fruta);
@@ -277,7 +283,7 @@ public class TestDecoradores {
 
 		List<Receta> aux = Stream.of(receta3, receta5, receta7, receta9,receta11).collect(Collectors.toList());
 
-		assertEquals(resultadosPares.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(unRepo.aplicarProceso(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
 	@Test
@@ -289,13 +295,14 @@ public class TestDecoradores {
 		repositorio.agregarReceta(receta3);
 		repositorio.agregarReceta(receta4);
 
-		Orden orden = new Orden(repositorio);
+		Orden orden = new Orden();
+		repositorio.setProceso(orden);
 
 		orden.setCriterio((Receta r1, Receta r2) -> r1.getTotalCalorias() - r2.getTotalCalorias());
 
 		List<Receta> aux = Stream.of(receta3, receta4, receta2, receta1).collect(Collectors.toList());
 
-		assertEquals(orden.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(repositorio.aplicarProceso(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
 	@Test
@@ -306,13 +313,14 @@ public class TestDecoradores {
 		repositorio.agregarReceta(receta3);
 		repositorio.agregarReceta(receta4);
 
-		Orden orden = new Orden(repositorio);
+		Orden orden = new Orden();
+		repositorio.setProceso(orden);
 
 		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 
-		assertEquals(orden.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(repositorio.aplicarProceso(repositorio.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
 	@Test
@@ -327,7 +335,8 @@ public class TestDecoradores {
 
 		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
 
-		Orden procesoOrden = new Orden(filtroLeGusta);
+		Orden procesoOrden = new Orden();
+		repo.setProceso(procesoOrden);
 		
 		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 
@@ -347,7 +356,7 @@ public class TestDecoradores {
 
 		List<Receta> aux = Stream.of(receta5, receta4).collect(Collectors.toList());
 
-		assertEquals(procesoOrden.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(repo.aplicarProceso(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena)), aux);
 
 	}
 	
@@ -359,18 +368,19 @@ public class TestDecoradores {
 		repositorio.agregarReceta(receta3);
 		repositorio.agregarReceta(receta4);
 			
-		Orden orden = new Orden(repositorio);
+		Orden orden = new Orden();
+		repositorio.setProceso(orden);
 			
 		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
-		orden.listarRecetasParaUnUsuario(fecheSena);
+		repositorio.aplicarProceso(repositorio.listarRecetasParaUnUsuario(fecheSena));
 			
 		List<Receta> aux = Stream.of(receta2, receta3, receta4, receta1).collect(Collectors.toList());
 			
-		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(orden);
+		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(repositorio);
 		filtroCaros.setIngredienteCaro(carne);
 		filtroCaros.setIngredienteCaro(huevo);
 		
-		assertEquals(filtroCaros.listarRecetasParaUnUsuario(fecheSena) , aux);
+		assertEquals(repositorio.aplicarProceso(filtroCaros.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 	
 	@Test (expected = NoSePuedeAgregarFiltro.class)
@@ -378,7 +388,8 @@ public class TestDecoradores {
 			
 		CarosEnPreparacion filtroCaros = new CarosEnPreparacion(unRepo);
 			
-		DiezPrimeros diezPrimeros = new DiezPrimeros(filtroCaros);
+		DiezPrimeros diezPrimeros = new DiezPrimeros();
+		unRepo.setProceso(diezPrimeros);
 			
 		receta1.agregarIngrediente(carne);
 		receta2.agregarIngrediente(fruta); 
@@ -395,9 +406,9 @@ public class TestDecoradores {
 			
 		List<Receta> aux = Stream.of(receta3, receta4, receta5, receta6, receta7, receta8, receta9, receta10, receta11, receta12).collect(Collectors.toList());
 			
-		diezPrimeros.listarRecetasParaUnUsuario(fecheSena);
+		filtroCaros.listarRecetasParaUnUsuario(fecheSena);
 			
-		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(diezPrimeros);
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCaros);
 			
 		assertEquals(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena), aux);
 			
@@ -415,10 +426,12 @@ public class TestDecoradores {
 			
 		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
 			
-		Orden procesoOrden = new Orden(filtroLeGusta);
+		Orden procesoOrden = new Orden();
 		
 		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 			
+		repo.setProceso(procesoOrden);
+		
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
 			
 		receta1.agregarIngrediente(carne);
@@ -429,7 +442,7 @@ public class TestDecoradores {
 		repo.agregarReceta(receta2);
 		repo.agregarReceta(receta3);
 			
-		assertTrue(procesoOrden.listarRecetasParaUnUsuario(fecheSena).isEmpty());
+		assertTrue(repo.aplicarProceso(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena)).isEmpty());
 	}
 	
 	@Test (expected = NoSePuedeAgregarFiltro.class)
@@ -444,7 +457,8 @@ public class TestDecoradores {
 			
 		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(filtroCarosEnPreparacion);
 			
-		Orden procesoOrden = new Orden(filtroLeGusta);
+		Orden procesoOrden = new Orden();
+		repo.setProceso(procesoOrden);
 		procesoOrden.setCriterio( (Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 					
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
@@ -457,11 +471,11 @@ public class TestDecoradores {
 		repo.agregarReceta(receta2);
 		repo.agregarReceta(receta3);
 			
-		procesoOrden.listarRecetasParaUnUsuario(fecheSena);
+		filtroLeGusta.listarRecetasParaUnUsuario(fecheSena);
 			
-		CondicionesUsuario filtroCondicion = new CondicionesUsuario(procesoOrden);
+		CondicionesUsuario filtroCondicion = new CondicionesUsuario(repo);
 			
-		assertTrue(filtroCondicion.listarRecetasParaUnUsuario(fecheSena).isEmpty());
+		assertTrue(repo.aplicarProceso(filtroCondicion.listarRecetasParaUnUsuario(fecheSena)).isEmpty());
 	}
 		
 	@Test
@@ -479,7 +493,8 @@ public class TestDecoradores {
 		nuevoFiltroCaros.setIngredienteCaro(carne);
 		nuevoFiltroCaros.setIngredienteCaro(huevo);
 		
-		Orden procesoOrden = new Orden(nuevoFiltroCaros);
+		Orden procesoOrden = new Orden();
+		repo.setProceso(procesoOrden);
 		procesoOrden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
 
 		fecheSena.agregarComidaQueLeDisgusta(fruta);
@@ -498,9 +513,52 @@ public class TestDecoradores {
 
 		List<Receta> aux = Stream.of(receta5, receta4).collect(Collectors.toList());
 
-		assertEquals(procesoOrden.listarRecetasParaUnUsuario(fecheSena), aux);
+		assertEquals(repo.aplicarProceso(nuevoFiltroCaros.listarRecetasParaUnUsuario(fecheSena)), aux);
 	}
 
+	@Test (expected = NoSePuedeAgregarOtroProceso.class)
+		public void testNoSePuedenRealizarDosProcesosAlFinalDeLaConsulta() {
+	  
+		LeGustaAlUsuario filtroLeGusta = new LeGustaAlUsuario(unRepo);
+	  
+		ResultadosPares resultadosPares = new ResultadosPares();
+		unRepo.setProceso(resultadosPares);
+	  
+		Orden orden = new Orden();
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
+		unRepo.setProceso(orden);
+	  
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+	  
+		fecheSena.agregarComidaQueLeDisgusta(fruta);
+	 
+		List<Receta> aux = new ArrayList<>();  
+	  
+		assertEquals(unRepo.aplicarProceso(filtroLeGusta.listarRecetasParaUnUsuario(fecheSena)), aux);
+	}
+	 
+	@Test (expected = NoSePuedeAgregarOtroProceso.class)
+		public void testNoSePuedenRealizarDosProcesosAlFinalDeLaConsultaSinFiltros() {
+	  
+		ResultadosPares resultadosPares = new ResultadosPares();
+		unRepo.setProceso(resultadosPares);
+	  
+		Orden orden = new Orden();
+		orden.setCriterio((Receta r1, Receta r2) -> r1.getNombreDelPlato().compareTo(r2.getNombreDelPlato()));
+		unRepo.setProceso(orden);
+	  
+		receta1.agregarIngrediente(carne);
+		receta2.agregarIngrediente(fruta); 
+		receta3.agregarIngrediente(huevo);
+	 
+		List<Receta> aux = new ArrayList<>();
+	  
+		assertEquals(unRepo.aplicarProceso(unRepo.listarRecetasParaUnUsuario(fecheSena)), aux);
+	}
+	
+	
 	
 	
 	
