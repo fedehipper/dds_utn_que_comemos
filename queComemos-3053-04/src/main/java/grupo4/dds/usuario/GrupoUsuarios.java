@@ -54,10 +54,6 @@ public class GrupoUsuarios {
 		preferenciasAlimenticias.add(comida);
 	}
 	
-	public List<Ingrediente> getPreferenciasAlimenticias() {
-		return preferenciasAlimenticias;
-	}
-	
 	public String getNombre() {
 		return nombre;
 	}

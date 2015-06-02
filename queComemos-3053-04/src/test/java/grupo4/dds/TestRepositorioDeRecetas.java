@@ -1,155 +1,149 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
+import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.busqueda.filtros.FiltroExcesoCalorias;
+import grupo4.dds.receta.busqueda.filtros.FiltroNoEsAdecuada;
+import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
+import grupo4.dds.receta.busqueda.filtros.FiltroRecetasCaras;
+import grupo4.dds.receta.busqueda.postProcesamiento.Ordenar;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
+import grupo4.dds.usuario.condicion.Vegano;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestRepositorioDeRecetas {
 	
-	private  RepositorioDeRecetas repositorio;
-	private  List<Receta> aux;
 	private Usuario fecheSena;
 	private Usuario arielFolino;
 	private Usuario matiasMartino;
 	private Usuario federicoHipper;
-	private Usuario cristianMaldonado;
-
+	
+	private List<Receta> expected;
+	private List<Filtro> filtros;
+	private RepositorioDeRecetas repositorio;
+	
+	private Receta receta1;
+	private Receta receta2;
+	private Receta receta3;
+	private Receta receta4;
+	private Receta receta5;
+	private RecetaPublica receta6;
+	private RecetaPublica receta7;
+	private RecetaPublica receta8;
+	
 	@Before
 	public void setUp() {
+		
 		repositorio = new RepositorioDeRecetas();
-		aux = new ArrayList<>();
+		
+		expected = null;
+		filtros = new ArrayList<>();
+		
 		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
 		arielFolino = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
-		matiasMartino = new Usuario("Mat�as Martino", null, 1.74f, 79.0f, null);
+		matiasMartino = new Usuario("Matías Martino", null, 1.74f, 79.0f, null);
 		federicoHipper = new Usuario("Federico Hipperdinger", null, 1.91f, 99.0f, null);
-		cristianMaldonado = new Usuario("Cristian Maldonado", null, 1.34f, 87.0f, null);
-	}
-	
-	@Test
-	public void testAgregarRecetasAlRepositorio() {
-		Receta r1 = new Receta();
-		Receta r2 = new Receta();
-		Receta r3 = new Receta();
-		
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r3);
-		aux = Stream.of(r1, r2, r3).collect(Collectors.toList());
-		
-		assertTrue(repositorio.getRecetas().containsAll(aux));
-	}
-	
-	@Test
-	public void testQuitarRecetaDelRepositorio() {
-		Receta r1 = new Receta();
-		Receta r2 = new Receta();
-		Receta r3 = new Receta();
-		
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r3);
-
-		aux.add(r1);
-		
-		repositorio.quitarReceta(r2);
-		repositorio.quitarReceta(r3);
-		
-		assertEquals(repositorio.getRecetas(), aux);	
-	}
-		
-	@Test
-	public void testListarRecetasQuePuedeVerUnUsuarioTodasPublicas() {
-		RecetaPublica r1 = new RecetaPublica();
-		RecetaPublica r2 = new RecetaPublica();
-		RecetaPublica r3 = new RecetaPublica();
-		
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r3);
-		
-		aux = Stream.of(r1, r2, r3).collect(Collectors.toList());
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-		
-
 		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
 		
-		
-		matiasMartino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo2);
 		fecheSena.agregarGrupo(grupo1);
-		
 		federicoHipper.agregarGrupo(grupo2);
-		cristianMaldonado.agregarGrupo(grupo2);
-	
-		assertTrue(repositorio.listarRecetasPara(arielFolino).containsAll(aux));
-	}
-	
-	@Test
-	public void testListarRecetasQuePuedeVerUnUsuarioPrivadasYPPublicas() {
-		Receta r1 = new Receta(fecheSena, null, null);
-		Receta r2 = new Receta(cristianMaldonado, null, null);
-		RecetaPublica r3 = new RecetaPublica();
-		Receta r4 = new Receta(federicoHipper, null, null);
-		
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r3);
-		repositorio.agregarReceta(r4);
-		
-		aux = Stream.of(r1, r2, r3).collect(Collectors.toList());
-		
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-		
-
-		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
-		
-		matiasMartino.agregarGrupo(grupo1);
 		arielFolino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo2);
-		fecheSena.agregarGrupo(grupo1);
-		cristianMaldonado.agregarGrupo(grupo2);
+		matiasMartino.agregarGrupo(grupo2);
+		
+		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
+		
+		receta1 = new Receta(fecheSena, new EncabezadoDeReceta("receta1", null, null, 999), null);
+		receta2 = new Receta(federicoHipper, new EncabezadoDeReceta("receta2", null, null, 300), null);
+		receta3 = new Receta(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
+		receta4 = new Receta(arielFolino, new EncabezadoDeReceta("receta4", null, null, 100), null);
+		receta5 = new Receta(matiasMartino, new EncabezadoDeReceta("receta5", null, null, 499), null);
+		receta6 = new RecetaPublica(new EncabezadoDeReceta("receta6", null, null, 200), null);
+		receta7 = new RecetaPublica(new EncabezadoDeReceta("receta7", null, null, 300), null);
+		receta8 = new RecetaPublica(new EncabezadoDeReceta("receta8", null, null, 100), null);
+		
+		receta1.agregarIngrediente(new Ingrediente(""));
+		receta2.agregarIngrediente(new Ingrediente(""));
+		receta3.agregarIngrediente(new Ingrediente(""));
+		receta4.agregarIngrediente(new Ingrediente(""));
+		receta5.agregarIngrediente(new Ingrediente(""));
+		receta6.agregarIngrediente(new Ingrediente("carne"));
+		receta7.agregarIngrediente(new Ingrediente("lomo"));
+		receta8.agregarIngrediente(new Ingrediente("coliflor"));
+		
+		repositorio.agregarReceta(receta1);
+		repositorio.agregarReceta(receta2);
+		repositorio.agregarReceta(receta3);
+		repositorio.agregarReceta(receta4);
+		repositorio.agregarReceta(receta5);
+		repositorio.agregarReceta(receta6);
+		repositorio.agregarReceta(receta7);
+		repositorio.agregarReceta(receta8);
+	}
 	
-		assertTrue(repositorio.listarRecetasPara(arielFolino).containsAll(aux));
+	/* Test: @listarRecetasPara/1 */
+	@Test 
+	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
+		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino);
+		
+		assertFalse(recetasQuePuedeVer.contains(receta2));
+		assertFalse(recetasQuePuedeVer.contains(receta3));
+		assertFalse(recetasQuePuedeVer.contains(receta5));
+	}
+	
+	@Test 
+	public void testLasRecetasQuePuedeVerUnUsuarioSonPublicasOCompartidasEnALgunoDeSusGrupos() {
+		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
+		assertEquals(expected, repositorio.listarRecetasPara(arielFolino));
+	}	
+	
+	/* Test: @listarRecetasPara/3 */
+	@Test
+	public void testSiNoAplicoFiltrosNiPostProcesamientoObtengoTodasLasRecetasQuePuedeVerElUsuario() {
+		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
+		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
 	}
 	
 	@Test
-	public void testElUsuarioNoPuedeVerNingunaReceta() {
+	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriterios() {
 		
-		Receta r1 = new Receta(fecheSena, null, null);
-		Receta r2 = new Receta(cristianMaldonado, null, null);
-		Receta r4 = new Receta(federicoHipper, null, null);
+		FiltroRecetasCaras filtroRecetasCaras = new FiltroRecetasCaras();
+		filtroRecetasCaras.agregarIngredienteCaro(new Ingrediente("lomo"));
 		
-		repositorio.agregarReceta(r1);
-		repositorio.agregarReceta(r2);
-		repositorio.agregarReceta(r4);
+		filtros.add(new FiltroExcesoCalorias());	
+		filtros.add(new FiltroNoEsAdecuada());	
+		filtros.add(new FiltroNoLeGusta());	
+		filtros.add(filtroRecetasCaras);	
 		
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-		
-		
-		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
-		
-		
-		matiasMartino.agregarGrupo(grupo1);
-		fecheSena.agregarGrupo(grupo1);
-		cristianMaldonado.agregarGrupo(grupo2);
+		expected = Arrays.asList(receta4);
+		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, null));
+	}
 	
-		assertTrue(repositorio.listarRecetasPara(arielFolino).isEmpty());
+	@Test
+	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriteriosYOrdenadasPorCalorias() {
+		
+		filtros.add(new FiltroNoEsAdecuada());	
+		filtros.add(new FiltroNoLeGusta());	
+		
+		Ordenar procesamiento = new Ordenar((a,b) -> a.getTotalCalorias() - b.getTotalCalorias());
+		
+		expected = Arrays.asList(receta4, receta7, receta1);
+		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, procesamiento));
 	}
 	
 }

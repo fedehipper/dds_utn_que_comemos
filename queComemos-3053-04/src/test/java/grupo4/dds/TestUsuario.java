@@ -1,29 +1,30 @@
 package grupo4.dds;
 
-import static grupo4.dds.usuario.Rutina.*;
-import static grupo4.dds.usuario.Sexo.*;
+import static grupo4.dds.usuario.Rutina.ACTIVA_EJERCICIO_ADICIONAL;
+import static grupo4.dds.usuario.Rutina.SEDENTARIA_CON_EJERCICIO;
+import static grupo4.dds.usuario.Sexo.MASCULINO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import grupo4.dds.excepciones.NoSeEncontroLaReceta;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
-import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.usuario.condicion.*;
+import grupo4.dds.usuario.condicion.Celiaco;
+import grupo4.dds.usuario.condicion.Diabetico;
+import grupo4.dds.usuario.condicion.Hipertenso;
+import grupo4.dds.usuario.condicion.Vegano;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -336,7 +337,6 @@ public class TestUsuario {
 		assertTrue(arielFolino.puedeModificar(recetaPublica));
 	}
 	
-	
 	@Test
 	public void testUnUsuarioPuedeModificarUnaRecetaSiLePerteneceAAlgunMiembroDeSusGrupos() {
 		receta = new Receta(fecheSena, null, null);
@@ -361,7 +361,6 @@ public class TestUsuario {
 		fecheSena.agregarReceta(receta);
 	}
 	
-	
 	@Test
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
@@ -374,7 +373,6 @@ public class TestUsuario {
 		
 		fecheSena.agregarReceta(receta);
 	}
-	
 	
 	@Test
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica(){
@@ -418,7 +416,6 @@ public class TestUsuario {
 		assertTrue(receta.getPreparacion().equals("Preparacion despues de modificar"));
 	}
 	
-	
 	@Test
 	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar(){
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
@@ -432,9 +429,9 @@ public class TestUsuario {
 		matiasMartino.modificarReceta(receta, null, null, null, "", null);
 	}
 	
-	
 	@Test
 	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios(){
+
 		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
@@ -450,7 +447,7 @@ public class TestUsuario {
 		assertTrue(recetaPublica.getPreparacion().equals("Preparacion antes de modificar"));
 		assertTrue(fecheSena.recetaMasReciente().getPreparacion().equals("Preparacion despues de modificar"));
 	}
-
+	
 	/* Test: @puedeSugerirse/1 */
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiNoCumpleTodasSusCondiciones() {
@@ -467,7 +464,6 @@ public class TestUsuario {
 		assertFalse(usuario.puedeSugerirse(receta));
 	}
 	
-	
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiContieneComidasQueLeDisgustan() {
 		
@@ -481,7 +477,6 @@ public class TestUsuario {
 		assertFalse(usuario.puedeSugerirse(receta));
 	}
 	
-	
 	@Test
 	public void testSePuedeSugerirUnaRecetaAUnUsuario() {
 		
@@ -494,162 +489,71 @@ public class TestUsuario {
 		assertTrue(usuario.puedeSugerirse(receta));
 	}
 	
+	/* Test: @recetasQuePuedeVer/1 */
 	@Test 
-	public void testRecetasQuePuedeVerDelRepositorio() {
-		receta = new Receta(fecheSena, null, null);
-		Receta r2 = new Receta(cristianMaldonado, null, null);
+	public void testUnUsuaroNoPuedeVerLasRecetasDeUsuariosQueNoEstánEnAlgunoDeSusGrupos() {
 		
 		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		repositorio.agregarReceta(receta);
-		repositorio.agregarReceta(r2);
 		
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
+		List<Receta> expected = Arrays.asList(new Receta(arielFolino, null, null), 
+				new Receta(fecheSena, null, null), new Receta(federicoHipper, null, null));
 		
-		matiasMartino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo1);
-		fecheSena.agregarGrupo(grupo1);
-
-		assertTrue(arielFolino.recetasQuePuedeVer(repositorio).contains(receta));
+		repositorio.agregarReceta(expected.get(0));
+		repositorio.agregarReceta(expected.get(1));
+		repositorio.agregarReceta(expected.get(2));
+		
+		arielFolino.agregarGrupo(new GrupoUsuarios(null));
+		fecheSena.agregarGrupo(new GrupoUsuarios(null));
+		
+		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(expected.get(1)));
+		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(expected.get(2)));
 	}
-		
+	
 	@Test 
-	public void testRecetasQueNoPuedeVerDelRepositorio() {
-		receta = new Receta(fecheSena, null, null);
-		Receta r2 = new Receta(cristianMaldonado, null, null);
+	public void testUnUsuaroPuedeVerSusRecetasLasPublicasYLasDeSusGrupos() {
 		
+		GrupoUsuarios grupo = new GrupoUsuarios("");
 		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		repositorio.agregarReceta(receta);
-		repositorio.agregarReceta(r2);
 		
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-
-		matiasMartino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo1);
-		fecheSena.agregarGrupo(grupo1);
-
-		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(r2));
+		List<Receta> expected = Arrays.asList(new Receta(arielFolino, null, null), 
+				new Receta(fecheSena, null, null), new RecetaPublica(), new RecetaPublica());
+		
+		repositorio.agregarReceta(expected.get(0));
+		repositorio.agregarReceta(expected.get(1));
+		repositorio.agregarReceta(new Receta(federicoHipper, null, null));
+		repositorio.agregarReceta(expected.get(2));
+		repositorio.agregarReceta(expected.get(3));
+		
+		arielFolino.agregarGrupo(grupo);
+		fecheSena.agregarGrupo(grupo);
+		federicoHipper.agregarGrupo(new GrupoUsuarios(null));
+		
+		List<Receta> recetasQuePuedeVer = arielFolino.recetasQuePuedeVer(repositorio);
+		
+		assertTrue(expected.containsAll(recetasQuePuedeVer) && expected.size() == recetasQuePuedeVer.size());
 	}
-		
+	
+	/* Test: @marcarFavorita/1 */
 	@Test 
-	public void testAgregarUnaRecetaAlHistorial() {
+	public void testUnUsuarioPuedeAgregarUnaRecetaQuePuedeVerAlHistorial() {
+		
 		receta = new Receta(arielFolino, null, null);
-		RecetaPublica rPublica = new RecetaPublica();
+		RecetaPublica recetaPublica = new RecetaPublica();
 		
-		arielFolino.marcarFavorita(rPublica);
+		arielFolino.marcarFavorita(recetaPublica);
 		arielFolino.marcarFavorita(receta);
 		
-		List<Receta> aux = Stream.of(rPublica, receta).collect(Collectors.toList());
+		List<Receta> expected = Arrays.asList(recetaPublica, receta);
 		
-		assertTrue(arielFolino.getHistorioal().containsAll(aux));
+		assertTrue(arielFolino.getHistorioal().containsAll(expected));
 	}
 	
-	@Test
-	public void testBuscarUnaRecetaQueEsteEnElRepositorioDeRecetas() {
-		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
-		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
-		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
-		receta = new Receta(arielFolino, encabezado1, null);
-		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
-		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
+	@Test 
+	public void testUnUsuarioNoPuedeAgregarUnaRecetaQuePuedeVerAlHistorial() {
+		expectedExcetption.expect(NoSePuedeGuardarLaRecetaEnElHistorial.class);
 		
-		repositorio.agregarReceta(receta);
-		repositorio.agregarReceta(rPublica1);
-		repositorio.agregarReceta(rPublica2);
-
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-
-		matiasMartino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo1);
-		fecheSena.agregarGrupo(grupo1);
-		
-		assertTrue(fecheSena.buscarUnaReceta("fideos", repositorio).equals(receta));
-	}
-
-	@Test
-	public void testBuscarUnaRecetaPublicaQueEsteEnElRepositorioDeRecetas() {
-		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
-		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
-		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
-		receta = new Receta(arielFolino, encabezado1, null);
-		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
-		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		repositorio.agregarReceta(receta);
-		repositorio.agregarReceta(rPublica1);
-		repositorio.agregarReceta(rPublica2);
-
-		assertTrue(fecheSena.buscarUnaReceta("sopaDeVerdura", repositorio).equals(rPublica2));
-	}
-	
-	@Test(expected = NoSeEncontroLaReceta.class)
-	public void testBuscarUnaRecetaQueNoEsteEnElRepositorioDeRecetas() {
-		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
-		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
-		
-		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
-		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
-		
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		repositorio.agregarReceta(rPublica1);
-		repositorio.agregarReceta(rPublica2);
-		
-		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
-	}
-
-	@Test(expected = NoSeEncontroLaReceta.class)
-	public void testBuscarRecetaQueNoEsPosibleVerPorElUsuario() {
-		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
-		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
-		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
-		receta = new Receta(arielFolino, encabezado1, null);
-		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
-		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		repositorio.agregarReceta(receta);
-		repositorio.agregarReceta(rPublica1);
-		repositorio.agregarReceta(rPublica2);
-
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-			
-		matiasMartino.agregarGrupo(grupo1);
-		fecheSena.agregarGrupo(grupo1);
-		
-		assertNull(fecheSena.buscarUnaReceta("fideos", repositorio));
-	}
-
-	@Test(expected = NoSePuedeGuardarLaRecetaEnElHistorial.class)
-	public void testNoSePuedeAgregarRecetaAlHistorial() {
-		receta = new Receta(fecheSena, null, null);
+		receta = new Receta(federicoHipper, null, null);
 		arielFolino.marcarFavorita(receta);
 	}
-
-	@Test
-	public void testBuscarYAgregarRecetaEnElHistorial() {
-		
-		EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideos", null, null);
-		EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("huevosFritos", null, null);
-		EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("sopaDeVerdura", null, null);
-		receta = new Receta(arielFolino, encabezado1, null);
-		RecetaPublica rPublica1 = new RecetaPublica(encabezado2, null);
-		RecetaPublica rPublica2 = new RecetaPublica(encabezado3, null);
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		repositorio.agregarReceta(receta);
-		repositorio.agregarReceta(rPublica1);
-		repositorio.agregarReceta(rPublica2);
-
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-		
-		matiasMartino.agregarGrupo(grupo1);
-		arielFolino.agregarGrupo(grupo1);
-		fecheSena.agregarGrupo(grupo1);
-		
-		fecheSena.buscarYAgregarAlHistorial("fideos", repositorio);
-				
-		assertTrue(fecheSena.getHistorioal().contains(receta));
-	}
+	
 }

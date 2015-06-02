@@ -1,61 +1,44 @@
 package grupo4.dds.receta;
 
-import grupo4.dds.excepciones.NoSePuedeAgregarFiltro;
-import grupo4.dds.excepciones.NoSePuedeAgregarOtroProceso;
-import grupo4.dds.filtrosYProcesos.Filtro;
-import grupo4.dds.filtrosYProcesos.Procesamiento;
+import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class RepositorioDeRecetas implements Repositorio {
+public class RepositorioDeRecetas {
 
 	private List<Receta> recetas = new ArrayList<>();
-	private List<Filtro> filtros = new ArrayList<>();
-	private List<Receta> consultaDeRecetas = new ArrayList<>();
-	private Procesamiento procesoFinal;
-	private boolean consultaFinalizada;
-	private boolean procesoFinalizado;
 	
 	/* Servicios */
 	
 	public List<Receta> listarRecetasPara(Usuario usuario) {
-		return recetas.stream().filter(r -> usuario.puedeVer(r)).collect(Collectors.toList());
+		return recetasQuePuedeVer(usuario).collect(Collectors.toList());
 	}
 	
-	public void inicializarConsulta() {
-		this.consultaDeRecetas = this.recetas;
-		this.procesoFinalizado = false;
-		this.consultaFinalizada = false;
+	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
+		
+		Stream<Receta> stream = recetasQuePuedeVer(usuario);
+
+		if(filtros != null)
+			for (Filtro filtro : filtros)
+				stream = stream.filter(r -> filtro.test(usuario, r));
+		
+		List<Receta> recetasFiltradas = stream.collect(Collectors.toList());
+		
+		return postProcesamiento == null ? recetasFiltradas : postProcesamiento.procesar(recetasFiltradas);
+		
 	}
 
-	public List<Receta> filtrarListaDeRecetas(Usuario usuario) {
-		this.inicializarConsulta();
-		this.filtros.forEach(f -> f.filtrar(usuario, this));
-		return this.consultaDeRecetas;
-	}
-
-	public List<Receta> procesarListaDeRecetas(List<Receta> recetaConFiltros) {
-		this.procesoFinal.procesar(recetaConFiltros, this);
-		this.consultaFinalizada = true;
-		return this.consultaDeRecetas;
-	}
-
-	public void procesoFinalTerminado(List<Receta> recetasFinal) {
-		this.consultaDeRecetas = recetasFinal;
+	/* Servicios privados */
+	
+	protected Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
+		return recetas.stream().filter(r -> usuario.puedeVer(r));
 	}
 	
-	public void actualizarConsultaDeRecetas(List<Receta> recetasConFiltro) {
-		this.consultaDeRecetas = interseccion(this.consultaDeRecetas, recetasConFiltro);
-	}
-	
-	public List<Receta> interseccion(List<Receta> receta1, List<Receta> receta2){
-		receta1.retainAll(receta2);
-	    return receta1;
-	}
-
 	/* Accesors and Mutators */
 	
 	public void agregarReceta(Receta unaReceta) {
@@ -66,23 +49,4 @@ public class RepositorioDeRecetas implements Repositorio {
 		this.recetas.remove(unaReceta);
 	}
 
-	public List<Receta> getRecetas() {
-		return this.recetas;
-	}
-	
-	public void setFiltro(Filtro filtro) {
-		if (!this.consultaFinalizada) 
-			this.filtros.add(filtro);
-		else 
-			throw new NoSePuedeAgregarFiltro();
-	}
-	
-	public void setProceso(Procesamiento procesoFinal) {
-		if (!this.procesoFinalizado) {
-			this.procesoFinal = procesoFinal;
-			this.procesoFinalizado = true;
-		}
-		else
-			throw new NoSePuedeAgregarOtroProceso();
-	}	
 }
