@@ -1,11 +1,11 @@
 1) Para modelar el grupo, creamos una clase grupo, con una variable de instancia de tipo
-lista que conoce al grupo de usuarios, ademas, los atributos que tiene el grupo son
+lista que conoce al grupo de usuarios, además, los atributos que tiene el grupo son
 palabrasClave que es una lista de ingredientes y una variable que contiene el nombre, 
 cuando un usuario agrega un grupo, el grupo también agrega al usuario.
 
 Un usuario puede estar en muchos grupos, y un grupo tiene uno o mas usuarios, la doble referencia
 es porque necesitamos que se conozcan en el punto de listarRecetasParaUnUsuario, en donde un usuario
-recibe una receta por parámetro y se pregunta si la puede ver, ( si el el creador o es publica) y también 
+recibe una receta por parámetro y se pregunta si la puede ver, ( si el creador o es publica) y también 
 nos preguntamos si alguno de sus compañeros de algún grupo la creo, para esto el grupo realiza esta tarea
 preguntando por cada uno de sus miembros, si alguno la puede ver con las condiciones anteriores.
 
@@ -17,13 +17,13 @@ Fue extensible la inclusión de las nuevas condiciones para que un usuario
 pueda ver las recetas, solo tuvimos que incluir un código en un método, 
 y hacer anyMatch con los grupos
 
-Consideramos incluir todas las recetas (publicas y privadas) en la colección del repositorioDeRecetas, ya que 
+Consideramos incluir todas las recetas (públicas y privadas) en la colección del repositorioDeRecetas, ya que 
 el usuario tiene el método puedeVer, el cual es invocado en listarRecetasPara(usuario) donde se muestran todas
 las recetas publicas y las privadas que el mismo creó.
 
 3) agregamos a la colección historial, una receta que puede
 ser vista por el usuario, aplicando búsqueda, o agregarla sin realizar la 
-busqueda
+búsqueda
 
 4) para hacer el caso de los decoradores, tomamos la interfaz
 que nos dan en el tp, para que todas las clases implementen los mismos 
@@ -34,7 +34,14 @@ parámetro al repositorioDeRecetas (decorado) y finalmente para que los
 filtros sean combinables, creamos un constructor que recibe por parámetro
 a otro decorador, por lo tanto un decorador se puede instanciar con otro
 decorador y así hasta que el ultimo decorador posible tenga que recibir por
-parametro al repositorioDeRecetas
+parámetro al repositorioDeRecetas
+
+Decidimos decorar a la clase RepositorioDeRecetas, ya que cada filtro es una funcionalidad que agregamos a esta clase
+ya que esta clase es la encargada de devolver las recetas que un usuario puede ver, con o sin filtros.
+
+
+Cambiamos el modelo de proceso final por una strategie para resolver el problema de aplicar el proceso una única vez
+
 
 5) tomamos una colección de strategies para modelar todos los
 filtros y una strategie simple para modelar el proceso final, los cuales
@@ -43,16 +50,25 @@ ya que el enunciado plantea que es un único proceso final, no hicimos una
 colección con dichos procesos.
 
 
-Decidimos decorar a la clase RepositorioDeRecetas, ya que cada filtro es una funcionalidad que agregamos a esta clase
-ya que esta clase es la encargada de devolver las recetas que un usuario puede ver, con o sin filtros.
-
-Cambiamos el modelo de proceso final por una strategie para resolver el problema de aplicar el proceso una única vez
-
-
 ---- ELECCION DE BRANCH O SOLUCION ----
 
+elegimos dejar la solucion de strategies, ya que 
 
+- nos ahorramos la interfaz de Repositorio, ya que en decorators era necesaria para que
+los filtros que decoran al RepositorioDeReceta sean intercambiables, es decir, que 
+estén en el orden que queramos, pero en strategies esto no pasa, ya que se maneja con
+polimorfismo,  si cada filtro conoce el mismo mensaje entonces puede invocarse 
+en cualquier orden.
 
+- en el momento de instanciar varios filtros para el decorado (RepositorioDeRecetas) 
+es necesario instanciar cada uno de los filtros, y quizás en algún punto puede que 
+lleguen a haber muchos filtros con lo cual la tarea de crearlos se haría bastante 
+tediosa, en cambio en la solución de strategies es instanciar, los filtros necesarios
+y agregarlos a una lista.
+
+- en este dominio no se menciona que no se puedan agregar métodos en Repositorio, se 
+pueden agregar, por eso no estamos obligados a utilizar decorators, el cual es mas útil
+cuando ocurre esto.
 
 
 
