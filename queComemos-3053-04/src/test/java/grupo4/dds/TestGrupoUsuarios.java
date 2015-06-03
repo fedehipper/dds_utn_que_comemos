@@ -26,7 +26,7 @@ public class TestGrupoUsuarios {
 		fecheSena = new Usuario();
 		matias = new Usuario();
 		ariel = new Usuario();
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 	}
 
@@ -73,7 +73,7 @@ public class TestGrupoUsuarios {
 	/* Test: @puedeVer/1 */
 	@Test
 	public void testUnGrupoPuedeVerUnaRecetaSiAlgunoDeSusMiembrosLaVe() {
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		
 		grupo.agregarUsuario(matias);
 		grupo.agregarUsuario(ariel);
@@ -84,7 +84,7 @@ public class TestGrupoUsuarios {
 	
 	@Test
 	public void testUnGrupoNoPuedeVerUnaRecetaSiNingunoDeSusMiembrosLaVe() {
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		
 		grupo.agregarUsuario(matias);
 		grupo.agregarUsuario(ariel);

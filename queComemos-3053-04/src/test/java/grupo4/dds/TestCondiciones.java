@@ -118,7 +118,7 @@ public class TestCondiciones {
 	
 	@Test
 	public void testHipertensoEsRecomendableSiLaRecetaNoContieneSalNiCaldo() {
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		
 		Ingrediente pimienta = new Ingrediente("pimienta", 0f);
 		Ingrediente oregano = new Ingrediente("oregano", 0f);
@@ -130,12 +130,12 @@ public class TestCondiciones {
 	
 	@Test
 	public void testHipertensoNoEsRecomendableSiLaRecetaContieneSaloCaldo() {
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		Ingrediente sal = new Ingrediente("sal", 0f);
 		receta.agregarCondimento(sal);
 		assertFalse(hipertenso.esRecomendable(receta));
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		Ingrediente caldo = new Ingrediente("caldo", 0f);
 		receta.agregarCondimento(caldo);
 		assertFalse(hipertenso.esRecomendable(receta));
@@ -143,7 +143,7 @@ public class TestCondiciones {
 	
 	@Test
 	public void testVeganoEsRecomendableSiLaRecetaNoTieneCarne() {
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		
 		Ingrediente fruta = new Ingrediente("fruta", 0f);
 		Ingrediente melon = new Ingrediente("melon", 0f);
@@ -164,13 +164,13 @@ public class TestCondiciones {
 	
 	@Test
 	public void testDiabeticoEsRecomendableSiLaRecetaNoTieneMasDe100DeAzucar() {
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		Ingrediente azucar1 = new Ingrediente("azucar", 100.1f);
 		
 		receta.agregarCondimento(azucar1);
 		assertFalse(diabetico.esRecomendable(receta));
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		Ingrediente azucar2 = new Ingrediente("azucar", 99.9f);
 		
 		receta.agregarCondimento(azucar2);

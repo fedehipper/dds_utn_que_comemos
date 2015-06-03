@@ -31,7 +31,7 @@ public class TestReceta {
 	/* Test: @esValida/0 */
 	@Test
 	public void testNoEsValidaUnaRecetaSinIngredientes() {
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		
 		receta.setTotalCalorias(4500);
 		assertFalse(receta.esValida());
@@ -39,7 +39,7 @@ public class TestReceta {
 	
 	@Test
 	public void testEsValidaUnaRecetaConIngredientesY4500Calorias() {
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		
 		Ingrediente carne = new Ingrediente("carne", 0f);
 		receta.agregarIngrediente(carne);
@@ -51,7 +51,7 @@ public class TestReceta {
 	@Test
 	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() throws NoSePuedeModificarLaReceta {
 		Usuario usuario = new Usuario();		
-		receta = new Receta(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
+		receta = Receta.crearNueva(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -71,7 +71,7 @@ public class TestReceta {
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
 		Usuario usuario = new Usuario();		
-		receta = new Receta(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
+		receta = Receta.crearNueva(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -88,7 +88,7 @@ public class TestReceta {
 	@Test
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta {
 		Usuario usuario = new Usuario();
-		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparación antes de modificar");
+		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, "Preparación antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -107,16 +107,16 @@ public class TestReceta {
 	/* Test: @getPreparacion */
 	@Test
 	public void testLaPreparacionDeUnaRecetaSinSubrecetasEsLaSuya() {
-		receta = new Receta(null, null, "Preparación propia");
+		receta = Receta.crearNueva(null, null, "Preparación propia");
 		assertEquals(receta.getPreparacion(), "Preparación propia");
 	}
 	
 	@Test
 	public void testLaPreparacionDeUnaRecetaEsLaSuyaYlaDeSusSubrecetas() {
-		receta = new Receta(null, null, "Preparación propia\n");
-		receta.agregarSubreceta(new Receta(null, null, "Preparación subreceta 1\n"));
-		receta.agregarSubreceta(new Receta(null, null, null));
-		receta.agregarSubreceta(new Receta(null, null, "Preparación subreceta 2\n"));
+		receta = Receta.crearNueva(null, null, "Preparación propia\n");
+		receta.agregarSubreceta(Receta.crearNueva(null, null, "Preparación subreceta 1\n"));
+		receta.agregarSubreceta(Receta.crearNueva(null, null, null));
+		receta.agregarSubreceta(Receta.crearNueva(null, null, "Preparación subreceta 2\n"));
 		
 		assertEquals(receta.getPreparacion(), "Preparación propia\nPreparación subreceta 1\nPreparación subreceta 2\n");
 	}
@@ -124,7 +124,7 @@ public class TestReceta {
 	/* Test: @getNombreIngredientes */
 	@Test
 	public void testLosIngredientesDeUnaRecetaSinSubrecetasSonLosSuyos() {
-		receta = new Receta(null, null, null);
+		receta = Receta.crearNueva(null, null, null);
 		
 		Ingrediente carne = new Ingrediente("carne", 0f);
 		Ingrediente pollo = new Ingrediente("pollo", 0f);
@@ -142,7 +142,7 @@ public class TestReceta {
 	/* Test: @getNombreCondimentos */
 	@Test
 	public void testLosCondimentosDeUnaRecetaSinSubrecetasSonLosSuyos() {
-		receta = new Receta(null, null, null);
+		receta = Receta.crearNueva(null, null, null);
 
 		Ingrediente caldo = new Ingrediente("caldo", 0f);
 		Ingrediente sal = new Ingrediente("sal", 0f);
@@ -159,7 +159,7 @@ public class TestReceta {
 	
 	@Test
 	public void testLosIngredientesDeUnaRecetaSonLosSuyosYLosDeSusSubrecetas() {
-		receta = new Receta(null, null, null);
+		receta = Receta.crearNueva(null, null, null);
 		
 		Ingrediente carne = new Ingrediente("carne", 0f);
 		Ingrediente pollo = new Ingrediente("pollo", 0f);
@@ -175,9 +175,9 @@ public class TestReceta {
 		expected.add(chivito);
 		expected.add(chori);
 		
-		Receta sub1 = new Receta(null, null, null);
+		Receta sub1 = Receta.crearNueva(null, null, null);
 		sub1.agregarIngrediente(chivito);
-		Receta sub2 = new Receta(null, null, null);
+		Receta sub2 = Receta.crearNueva(null, null, null);
 		sub2.agregarIngrediente(chori);
 		
 		receta.agregarSubreceta(sub1);
@@ -188,7 +188,7 @@ public class TestReceta {
 	
 	@Test
 	public void testLosCondimentosDeUnaRecetaSonLosSuyosYLosDeSusSubrecetas() {
-		receta = new Receta(null, null, null);
+		receta = Receta.crearNueva(null, null, null);
 		
 		Ingrediente caldo = new Ingrediente("caldo", 0f);
 		Ingrediente sal = new Ingrediente("sal", 0f);
@@ -204,9 +204,9 @@ public class TestReceta {
 		expected.add(pimienta);
 		expected.add(azucar);
 		
-		Receta sub1 = new Receta(null, null, null);
+		Receta sub1 = Receta.crearNueva(null, null, null);
 		sub1.agregarCondimento(pimienta);
-		Receta sub2 = new Receta(null, null, null);
+		Receta sub2 = Receta.crearNueva(null, null, null);
 		sub2.agregarCondimento(azucar);
 		
 		receta.agregarSubreceta(sub1);

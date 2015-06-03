@@ -32,18 +32,18 @@ public class TestPostProcesadores {
 	@Before
 	public void setUp() {
 
-		RecetaPublica receta1 = new RecetaPublica(new EncabezadoDeReceta("sopa", null, null, 100), null);
-		RecetaPublica receta2 = new RecetaPublica(new EncabezadoDeReceta("pollo", null, null, 300), null);
-		RecetaPublica receta3 = new RecetaPublica(new EncabezadoDeReceta("pure", null, null, 600), null);
-		RecetaPublica receta4 = new RecetaPublica(new EncabezadoDeReceta("papa", null, null, 999), null);
-		RecetaPublica receta5 = new RecetaPublica(new EncabezadoDeReceta("salmon", null, null, 200), null);
-		RecetaPublica receta6 = new RecetaPublica(new EncabezadoDeReceta("milanesa", null, null, 100), null);
-		RecetaPublica receta7 = new RecetaPublica(new EncabezadoDeReceta("empanada", null, null, 300), null);
-		RecetaPublica receta8 = new RecetaPublica(new EncabezadoDeReceta("tomate", null, null, 600), null);
-		RecetaPublica receta9 = new RecetaPublica(new EncabezadoDeReceta("albondiga", null, null, 999), null);
-		RecetaPublica receta10 = new RecetaPublica(new EncabezadoDeReceta("remolacha", null, null, 200), null);
-		RecetaPublica receta11 = new RecetaPublica(new EncabezadoDeReceta("zanahoria", null, null, 100), null);
-		RecetaPublica receta12 = new RecetaPublica(new EncabezadoDeReceta("bondiola", null, null, 200), null);
+		RecetaPublica receta1 = RecetaPublica.crearNueva(new EncabezadoDeReceta("sopa", null, null, 100), null);
+		RecetaPublica receta2 = RecetaPublica.crearNueva(new EncabezadoDeReceta("pollo", null, null, 300), null);
+		RecetaPublica receta3 = RecetaPublica.crearNueva(new EncabezadoDeReceta("pure", null, null, 600), null);
+		RecetaPublica receta4 = RecetaPublica.crearNueva(new EncabezadoDeReceta("papa", null, null, 999), null);
+		RecetaPublica receta5 = RecetaPublica.crearNueva(new EncabezadoDeReceta("salmon", null, null, 200), null);
+		RecetaPublica receta6 = RecetaPublica.crearNueva(new EncabezadoDeReceta("milanesa", null, null, 100), null);
+		RecetaPublica receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("empanada", null, null, 300), null);
+		RecetaPublica receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("tomate", null, null, 600), null);
+		RecetaPublica receta9 = RecetaPublica.crearNueva(new EncabezadoDeReceta("albondiga", null, null, 999), null);
+		RecetaPublica receta10 = RecetaPublica.crearNueva(new EncabezadoDeReceta("remolacha", null, null, 200), null);
+		RecetaPublica receta11 = RecetaPublica.crearNueva(new EncabezadoDeReceta("zanahoria", null, null, 100), null);
+		RecetaPublica receta12 = RecetaPublica.crearNueva(new EncabezadoDeReceta("bondiola", null, null, 200), null);
 		
 		recetas = Arrays.asList(receta1, receta2, receta3, receta4, receta5, receta6, receta7, 
 				receta8, receta9, receta10, receta11, receta12);

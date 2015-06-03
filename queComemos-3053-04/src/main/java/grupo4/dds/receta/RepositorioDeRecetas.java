@@ -4,17 +4,25 @@ import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RepositorioDeRecetas {
 
-	private List<Receta> recetas = new ArrayList<>();
+	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
+	private Set<Receta> recetas = new HashSet<Receta>();
+	
+	public static RepositorioDeRecetas get() {
+		return self == null ? new RepositorioDeRecetas() : self;
+	}
+
+	protected RepositorioDeRecetas() {}
 	
 	/* Servicios */
-	
+
 	public List<Receta> listarRecetasPara(Usuario usuario) {
 		return recetasQuePuedeVer(usuario).collect(Collectors.toList());
 	}
@@ -35,8 +43,12 @@ public class RepositorioDeRecetas {
 
 	/* Servicios privados */
 	
-	protected Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
+	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
 		return recetas.stream().filter(r -> usuario.puedeVer(r));
+	}
+	
+	public void vaciarRepo() {
+		recetas.clear();
 	}
 	
 	/* Accesors and Mutators */

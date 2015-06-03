@@ -1,7 +1,6 @@
 package grupo4.dds;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -19,6 +18,7 @@ import grupo4.dds.usuario.condicion.Vegano;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class TestRepositorioDeRecetas {
 	
 	private List<Receta> expected;
 	private List<Filtro> filtros;
-	private RepositorioDeRecetas repositorio;
+	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
 	
 	private Receta receta1;
 	private Receta receta2;
@@ -46,11 +46,9 @@ public class TestRepositorioDeRecetas {
 	
 	@Before
 	public void setUp() {
-		
-		repositorio = new RepositorioDeRecetas();
-		
 		expected = null;
 		filtros = new ArrayList<>();
+		repositorio.vaciarRepo();
 		
 		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
 		arielFolino = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
@@ -68,14 +66,14 @@ public class TestRepositorioDeRecetas {
 		fecheSena.agregarCondicion(new Vegano());
 		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
 		
-		receta1 = new Receta(fecheSena, new EncabezadoDeReceta("receta1", null, null, 999), null);
-		receta2 = new Receta(federicoHipper, new EncabezadoDeReceta("receta2", null, null, 300), null);
-		receta3 = new Receta(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
-		receta4 = new Receta(arielFolino, new EncabezadoDeReceta("receta4", null, null, 100), null);
-		receta5 = new Receta(matiasMartino, new EncabezadoDeReceta("receta5", null, null, 499), null);
-		receta6 = new RecetaPublica(new EncabezadoDeReceta("receta6", null, null, 200), null);
-		receta7 = new RecetaPublica(new EncabezadoDeReceta("receta7", null, null, 300), null);
-		receta8 = new RecetaPublica(new EncabezadoDeReceta("receta8", null, null, 100), null);
+		receta1 = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("receta1", null, null, 999), null);
+		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, null, 300), null);
+		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
+		receta4 = Receta.crearNueva(arielFolino, new EncabezadoDeReceta("receta4", null, null, 100), null);
+		receta5 = Receta.crearNueva(matiasMartino, new EncabezadoDeReceta("receta5", null, null, 499), null);
+		receta6 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta6", null, null, 200), null);
+		receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta7", null, null, 300), null);
+		receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta8", null, null, 100), null);
 		
 		receta1.agregarIngrediente(new Ingrediente(""));
 		receta2.agregarIngrediente(new Ingrediente(""));
@@ -85,20 +83,13 @@ public class TestRepositorioDeRecetas {
 		receta6.agregarIngrediente(new Ingrediente("carne"));
 		receta7.agregarIngrediente(new Ingrediente("lomo"));
 		receta8.agregarIngrediente(new Ingrediente("coliflor"));
-		
-		repositorio.agregarReceta(receta1);
-		repositorio.agregarReceta(receta2);
-		repositorio.agregarReceta(receta3);
-		repositorio.agregarReceta(receta4);
-		repositorio.agregarReceta(receta5);
-		repositorio.agregarReceta(receta6);
-		repositorio.agregarReceta(receta7);
-		repositorio.agregarReceta(receta8);
 	}
 	
 	/* Test: @listarRecetasPara/1 */
 	@Test 
 	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
+		assertTrue(repositorio != null);
+		
 		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino);
 		
 		assertFalse(recetasQuePuedeVer.contains(receta2));
@@ -144,6 +135,10 @@ public class TestRepositorioDeRecetas {
 		
 		expected = Arrays.asList(receta4, receta7, receta1);
 		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, procesamiento));
+	}
+	
+	private boolean assertEquals(Collection<Receta> l1, Collection<Receta> l2) {
+		return l1.size() == l2.size() && l1.containsAll(l2);
 	}
 	
 }

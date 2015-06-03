@@ -1,17 +1,18 @@
 package grupo4.dds.usuario;
 
 
-import grupo4.dds.excepciones.ElUsuarioYaExiste;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GrupoUsuarios {
 	
 	private String nombre;
-	private List<Usuario> usuarios = new ArrayList<>();
+	private Set<Usuario> usuarios = new HashSet<>();
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	
 	
@@ -44,11 +45,12 @@ public class GrupoUsuarios {
 	/* Accesors and Mutators */
 	
 	public void agregarUsuario(Usuario usuario) {
-		  if (!this.usuarios.contains(usuario))
-		   usuarios.add(usuario);
-		  else
-		   throw new ElUsuarioYaExiste();
-		 }
+		
+		usuarios.add(usuario);
+		
+		if (!usuario.perteneceA(this))
+			usuario.agregarGrupo(this);
+	}
 	
 	public void agregarPreferenciaAlimenticia(Ingrediente comida) {
 		preferenciasAlimenticias.add(comida);

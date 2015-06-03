@@ -13,7 +13,6 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
@@ -201,7 +200,7 @@ public class TestUsuario {
 	@Test
 	public void testNoEsAdecuadaUnaRecetaParaUnUsuarioSiEsInvalida() {
 		usuario = new Usuario();
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		
 		assertFalse(usuario.esAdecuada(receta));
 	}
@@ -210,7 +209,7 @@ public class TestUsuario {
 	public void testEsAdecuadaUnaRecetaParaUnUsuarioSinCondiciones() {
 		usuario = new Usuario();
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 		
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -227,7 +226,7 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Hipertenso());
 		usuario.agregarCondicion(new Vegano());
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
 		Ingrediente azucar = new Ingrediente("azucar", 99.9f);
@@ -250,7 +249,7 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Hipertenso());
 		usuario.agregarCondicion(new Vegano());
 			
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 		
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -270,13 +269,13 @@ public class TestUsuario {
 	/* Test: @puedeVer/1 */
 	@Test
 	public void testUnUsuarioPuedeVerUnaRecetaSiLePertenece() {
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		assertTrue(fecheSena.puedeVer(receta));
 	}
 	
 	@Test
 	public void testUnUsuarioNoPuedeVerUnaRecetaSiNoLePerteneceAElNiANingunMiembroDeSusGrupos() {
-		receta = new Receta(matiasMartino, null, null);		
+		receta = Receta.crearNueva(matiasMartino, null, null);		
 		
 		matiasMartino.agregarGrupo(new GrupoUsuarios("grupo1"));
 		arielFolino.agregarGrupo(new GrupoUsuarios("grupo2"));
@@ -286,7 +285,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testUnUsuarioPuedeVerUnaRecetaPublica() {
-		RecetaPublica recetaPublica = new RecetaPublica();
+		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, null);
 		assertTrue(arielFolino.puedeVer(recetaPublica));
 	}
 	
@@ -299,7 +298,7 @@ public class TestUsuario {
 		arielFolino.agregarGrupo(grupo1);
 		fecheSena.agregarGrupo(grupo1);
 
-		receta = new Receta(arielFolino, null, null);
+		receta = Receta.crearNueva(arielFolino, null, null);
 		
 		assertTrue(fecheSena.puedeVer(receta));
 		assertTrue(matiasMartino.puedeVer(receta));
@@ -308,7 +307,7 @@ public class TestUsuario {
 	/* Test: @puedeModificar/1 */
 	@Test
 	public void testUnUsuarioPuedeModificarUnaRecetaSiLePertenece() {
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		receta.setTotalCalorias(4500);
 		
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -319,7 +318,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testUnUsuarioNoPuedeModificarUnaRecetaSiNoLePerteneceNiAAlgunMiembroDeSusGrupos() {
-		receta = new Receta(matiasMartino, null, null);
+		receta = Receta.crearNueva(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
 		
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -333,13 +332,13 @@ public class TestUsuario {
 	
 	@Test
 	public void testUnUsuarioPuedeModificarUnaRecetaPublica() {
-		RecetaPublica recetaPublica = new RecetaPublica();
+		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, null);
 		assertTrue(arielFolino.puedeModificar(recetaPublica));
 	}
 	
 	@Test
 	public void testUnUsuarioPuedeModificarUnaRecetaSiLePerteneceAAlgunMiembroDeSusGrupos() {
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
 		
@@ -355,7 +354,7 @@ public class TestUsuario {
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		assertFalse(fecheSena.esAdecuada(receta));
 		
 		fecheSena.agregarReceta(receta);
@@ -365,7 +364,7 @@ public class TestUsuario {
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaQueNoLePertenece(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
-		receta = new Receta(matiasMartino, null, null);
+		receta = Receta.crearNueva(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
 		
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -378,7 +377,7 @@ public class TestUsuario {
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaPublica(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
-		receta = new RecetaPublica();
+		receta = RecetaPublica.crearNueva(null, null);
 		receta.setTotalCalorias(4500);
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
 	
@@ -389,7 +388,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testUnUsuarioPuedeAgregarUnaRecetaValidaPropia(){
-		receta = new Receta(matiasMartino, null, null);
+		receta = Receta.crearNueva(matiasMartino, null, null);
 		receta.setTotalCalorias(4500);
 
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -402,7 +401,7 @@ public class TestUsuario {
 	@Test
 	public void testUnUsuarioModificaUnaRecetaQuePuedeModificar(){
 		
-		receta = new Receta(fecheSena, null, "Preparacion antes de modificar");
+		receta = Receta.crearNueva(fecheSena, null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -420,7 +419,7 @@ public class TestUsuario {
 	public void testUnUsuarioNoModificaUnaRecetaQueNoPuedeModificar(){
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
-		receta = new Receta(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, null);
 		receta.setTotalCalorias(4500);
 		
 		Ingrediente frutas = new Ingrediente("frutas", 0f);
@@ -432,7 +431,7 @@ public class TestUsuario {
 	@Test
 	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios(){
 
-		RecetaPublica recetaPublica = new RecetaPublica(null, "Preparacion antes de modificar");
+		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, "Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
@@ -456,7 +455,7 @@ public class TestUsuario {
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Vegano());
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 		receta.agregarIngrediente(new Ingrediente("carne", 0f));
 
@@ -470,7 +469,7 @@ public class TestUsuario {
 		usuario = new Usuario();
 		usuario.agregarComidaQueLeDisgusta(new Ingrediente("carne"));
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 		receta.agregarIngrediente(new Ingrediente("carne", 0f));
 
@@ -482,63 +481,19 @@ public class TestUsuario {
 		
 		usuario = new Usuario();
 		
-		receta = new Receta();
+		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 		receta.agregarIngrediente(new Ingrediente("carne", 0f));
 
 		assertTrue(usuario.puedeSugerirse(receta));
 	}
 	
-	/* Test: @recetasQuePuedeVer/1 */
-	@Test 
-	public void testUnUsuaroNoPuedeVerLasRecetasDeUsuariosQueNoEstánEnAlgunoDeSusGrupos() {
-		
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		List<Receta> expected = Arrays.asList(new Receta(arielFolino, null, null), 
-				new Receta(fecheSena, null, null), new Receta(federicoHipper, null, null));
-		
-		repositorio.agregarReceta(expected.get(0));
-		repositorio.agregarReceta(expected.get(1));
-		repositorio.agregarReceta(expected.get(2));
-		
-		arielFolino.agregarGrupo(new GrupoUsuarios(null));
-		fecheSena.agregarGrupo(new GrupoUsuarios(null));
-		
-		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(expected.get(1)));
-		assertFalse(arielFolino.recetasQuePuedeVer(repositorio).contains(expected.get(2)));
-	}
-	
-	@Test 
-	public void testUnUsuaroPuedeVerSusRecetasLasPublicasYLasDeSusGrupos() {
-		
-		GrupoUsuarios grupo = new GrupoUsuarios("");
-		RepositorioDeRecetas repositorio = new RepositorioDeRecetas();
-		
-		List<Receta> expected = Arrays.asList(new Receta(arielFolino, null, null), 
-				new Receta(fecheSena, null, null), new RecetaPublica(), new RecetaPublica());
-		
-		repositorio.agregarReceta(expected.get(0));
-		repositorio.agregarReceta(expected.get(1));
-		repositorio.agregarReceta(new Receta(federicoHipper, null, null));
-		repositorio.agregarReceta(expected.get(2));
-		repositorio.agregarReceta(expected.get(3));
-		
-		arielFolino.agregarGrupo(grupo);
-		fecheSena.agregarGrupo(grupo);
-		federicoHipper.agregarGrupo(new GrupoUsuarios(null));
-		
-		List<Receta> recetasQuePuedeVer = arielFolino.recetasQuePuedeVer(repositorio);
-		
-		assertTrue(expected.containsAll(recetasQuePuedeVer) && expected.size() == recetasQuePuedeVer.size());
-	}
-	
 	/* Test: @marcarFavorita/1 */
 	@Test 
 	public void testUnUsuarioPuedeAgregarUnaRecetaQuePuedeVerAlHistorial() {
 		
-		receta = new Receta(arielFolino, null, null);
-		RecetaPublica recetaPublica = new RecetaPublica();
+		receta = Receta.crearNueva(arielFolino, null, null);
+		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, null);
 		
 		arielFolino.marcarFavorita(recetaPublica);
 		arielFolino.marcarFavorita(receta);
@@ -552,7 +507,7 @@ public class TestUsuario {
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaQuePuedeVerAlHistorial() {
 		expectedExcetption.expect(NoSePuedeGuardarLaRecetaEnElHistorial.class);
 		
-		receta = new Receta(federicoHipper, null, null);
+		receta = Receta.crearNueva(federicoHipper, null, null);
 		arielFolino.marcarFavorita(receta);
 	}
 	

@@ -10,11 +10,17 @@ import java.util.List;
 public class RecetaPublica extends Receta {
 	
 	/* Constructores */
-	public RecetaPublica() {
+
+	public static RecetaPublica crearNueva(
+			EncabezadoDeReceta encabezado, String preparacion) {
+		RecetaPublica self = new RecetaPublica(encabezado, preparacion);
+		
+		RepositorioDeRecetas.get().agregarReceta(self);
+		return self;
 	}
 
-	public RecetaPublica(EncabezadoDeReceta encabezado, String preparacion) {
-		super(null, encabezado, preparacion);
+	private RecetaPublica(EncabezadoDeReceta encabezado, String preparacion) {
+		super(null, encabezado, null, null, null, preparacion);
 	}
 
 	/* Servicios */
@@ -51,7 +57,8 @@ public class RecetaPublica extends Receta {
 	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {
-		return new Receta(usuario, encabezado, ingredientes, condimentos, subrecetas, preparacion);
+		return Receta.crearNueva(usuario, encabezado, ingredientes, condimentos, subrecetas,
+				preparacion);
 	}
 
 }

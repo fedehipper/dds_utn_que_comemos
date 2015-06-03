@@ -48,11 +48,11 @@ public class TestFiltros {
 		expected = null;
 		filtros = new ArrayList<>();
 
-		sopa = new Receta(ariel, new EncabezadoDeReceta("sopa", null, null, 100), null);
-		pollo = new Receta(fecheSena, new EncabezadoDeReceta("pollo", null, null, 300), null);
-		pure = new RecetaPublica(new EncabezadoDeReceta("pure", null, null, 600), null);
-		milanesa = new RecetaPublica(new EncabezadoDeReceta("milanesa", null, null, 999), null);
-		salmon = new RecetaPublica(new EncabezadoDeReceta("salmon", null, null, 200), null);
+		sopa = Receta.crearNueva(ariel, new EncabezadoDeReceta("sopa", null, null, 100), null);
+		pollo = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("pollo", null, null, 300), null);
+		pure = RecetaPublica.crearNueva(new EncabezadoDeReceta("pure", null, null, 600), null);
+		milanesa = RecetaPublica.crearNueva(new EncabezadoDeReceta("milanesa", null, null, 999), null);
+		salmon = RecetaPublica.crearNueva(new EncabezadoDeReceta("salmon", null, null, 200), null);
 		
 		mockRepositorio = new RepositorioDeRecetas() {
 			

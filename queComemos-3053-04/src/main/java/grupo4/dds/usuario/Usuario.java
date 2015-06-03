@@ -1,6 +1,5 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.excepciones.ElUsuarioYaExiste;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.receta.EncabezadoDeReceta;
@@ -13,7 +12,9 @@ import grupo4.dds.usuario.condicion.Condicion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class Usuario {
@@ -33,7 +34,7 @@ public class Usuario {
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
-	private List<GrupoUsuarios> grupos = new ArrayList<>();
+	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	private List<Receta> historial = new ArrayList<>();
 
 	/* Constructores */
@@ -146,6 +147,10 @@ public class Usuario {
 		return recetas.get(recetas.size() - 1);
 	}
 	
+	public boolean perteneceA(GrupoUsuarios grupo) {
+		return grupos.contains(grupo);
+	}
+	
 	/* Servicios internos */
 	
 	private boolean tieneCamposObligatorios() {
@@ -207,13 +212,12 @@ public class Usuario {
 	}
 
 	public void agregarGrupo(GrupoUsuarios grupo) {
-		  if (!grupo.esMiembro(this)) {
-		   this.grupos.add(grupo);
+		
+		grupos.add(grupo);
+		
+		if (!grupo.esMiembro(this)) 
 		   grupo.agregarUsuario(this);
-		  }
-		  else 
-		   throw new ElUsuarioYaExiste();
-		 }
+	}
 	
 	public List<Receta> getHistorioal() {
 		//TODO: probablemente no queramos retornar el historial, revisar cuando surja nuevo comportamiento
