@@ -4,6 +4,8 @@ jdk:
 
 before_script: cd queComemos-3053-04
 
++script: mvn clean cobertura:check -B -V
+
 notifications:
   email:
     recipients:
