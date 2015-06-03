@@ -1,3 +1,18 @@
 language: java
 jdk:
   - oraclejdk8
+
+before_script: cd queComemos-3053-04
+
+notifications:
+  email:
+    recipients:
+      - folinovilardo.ariel@gmail.com
+      - federicohipper@gmail.com
+      - cris6954@gmail.com
+      - matiasfmartino@gmail.com
+      - fesena92@gmail.com
+      - jaecisneros@gmail.com
+
+    on_success: change
+    on_failure: always
