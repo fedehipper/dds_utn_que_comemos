@@ -41,6 +41,10 @@ public class Usuario {
 	public Usuario(){
 	};
 	
+	public Usuario(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public Usuario(String nombre, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
@@ -222,6 +226,10 @@ public class Usuario {
 	public List<Receta> getHistorioal() {
 		//TODO: probablemente no queramos retornar el historial, revisar cuando surja nuevo comportamiento
 		return historial;
+	}
+	
+	public List<Condicion> getCondiciones() {
+		return this.condiciones;
 	}
 
 }
