@@ -4,7 +4,7 @@ import static grupo4.dds.usuario.Rutina.*;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
-public class Diabetico implements Condicion {
+public class Diabetico extends Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {
 		return usuario.getSexo() != null && usuario.tienePreferenciasAlimenticias();

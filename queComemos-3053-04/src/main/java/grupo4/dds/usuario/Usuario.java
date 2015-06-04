@@ -105,6 +105,10 @@ public class Usuario {
 		historial.add(receta);
 	}
 		
+	public boolean cumpleTodasLasCondicionesDe(Usuario usuario) {
+		return usuario.noTieneCondiciones() ? true : this.getCondiciones().containsAll(usuario.getCondiciones());
+	}
+	
 	/* Servicios secundarios */
 
 	public boolean esValido() {
@@ -113,6 +117,10 @@ public class Usuario {
 	
 	public boolean tienePreferenciasAlimenticias() {
 		return !preferenciasAlimenticias.isEmpty();
+	}
+	
+	public boolean noTieneCondiciones() {
+		return condiciones.isEmpty();
 	}
 	
 	public boolean leGusta(String nombreComida) {
@@ -151,6 +159,10 @@ public class Usuario {
 		return grupos.contains(grupo);
 	}
 	
+	public String toString() {
+		return nombre;
+	}
+	
 	/* Servicios internos */
 	
 	private boolean tieneCamposObligatorios() {
@@ -171,6 +183,10 @@ public class Usuario {
 		
 	private boolean algunGrupoPuedeVer(Receta receta) {
 		return grupos.stream().anyMatch(g -> g.puedeVer(receta));
+	}
+	
+	private List<Condicion> getCondiciones() {
+		return condiciones;
 	}
 	
 	/* Accessors and Mutators */

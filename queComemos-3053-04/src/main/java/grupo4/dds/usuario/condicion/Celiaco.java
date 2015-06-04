@@ -3,7 +3,7 @@ package grupo4.dds.usuario.condicion;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
-public class Celiaco implements Condicion {
+public class Celiaco extends Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {
 		return true;

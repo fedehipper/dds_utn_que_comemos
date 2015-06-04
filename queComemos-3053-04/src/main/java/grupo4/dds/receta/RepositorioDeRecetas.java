@@ -16,7 +16,7 @@ public class RepositorioDeRecetas {
 	private Set<Receta> recetas = new HashSet<Receta>();
 	
 	public static RepositorioDeRecetas get() {
-		return self == null ? new RepositorioDeRecetas() : self;
+		return self;
 	}
 
 	protected RepositorioDeRecetas() {}
@@ -47,7 +47,7 @@ public class RepositorioDeRecetas {
 		return recetas.stream().filter(r -> usuario.puedeVer(r));
 	}
 	
-	public void vaciarRepo() {
+	public void vaciar() {
 		recetas.clear();
 	}
 	

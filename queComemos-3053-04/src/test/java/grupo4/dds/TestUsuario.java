@@ -511,4 +511,49 @@ public class TestUsuario {
 		arielFolino.marcarFavorita(receta);
 	}
 	
+	/* Test: @cumpleTodasLasCondicionesDe/1 */
+	@Test 
+	public void testUnUsuarioNoCumpleTodasLasCondicionesDeOtroUsuario() {
+		
+		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(new Celiaco());
+		arielFolino.agregarCondicion(new Diabetico());
+		
+		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarCondicion(new Hipertenso());
+		
+		assertFalse(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
+	}
+	
+	@Test 
+	public void testUnUsuarioCumpleTodasLasCondicionesDeOtroUsuarioSiEsteUltimoNoTieneCondiciones() {
+		assertTrue(fecheSena.noTieneCondiciones());
+		assertTrue(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
+	}
+	
+	@Test 
+	public void testUnUsuarioCumpleTodasLasCondicionesDeOtroUsuario() {
+		
+		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(new Celiaco());
+		arielFolino.agregarCondicion(new Diabetico());
+		
+		fecheSena.agregarCondicion(new Vegano());
+		
+		assertTrue(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
+	}
+	
+	@Test 
+	public void testUnUsuarioNoCumpleTodasLasCondicionesDeOtroUsuarioConDuplicados() {
+		
+		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(new Celiaco());
+		arielFolino.agregarCondicion(new Diabetico());
+		
+		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarCondicion(new Vegano());
+		
+		assertTrue(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
+	}
+	
 }

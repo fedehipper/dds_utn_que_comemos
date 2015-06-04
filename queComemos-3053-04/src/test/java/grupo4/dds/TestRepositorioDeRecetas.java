@@ -48,7 +48,7 @@ public class TestRepositorioDeRecetas {
 	public void setUp() {
 		expected = null;
 		filtros = new ArrayList<>();
-		repositorio.vaciarRepo();
+		repositorio.vaciar();
 		
 		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
 		arielFolino = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
