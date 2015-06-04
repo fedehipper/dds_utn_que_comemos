@@ -4,17 +4,18 @@ jdk:
 
 before_script: cd queComemos-3053-04
 
-+script: mvn clean cobertura:check -B -V
+install: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dcobertura.skip=true -B -V
+script: mvn clean cobertura:check -B -V
 
 notifications:
   email:
-    recipients:
-      - folinovilardo.ariel@gmail.com
-      - federicohipper@gmail.com
-      - cris6954@gmail.com
-      - matiasfmartino@gmail.com
-      - fesena92@gmail.com
-      - jaecisneros@gmail.com
+   recipients:
+    - folinovilardo.ariel@gmail.com
+    - federicohipper@gmail.com
+    - cris6954@gmail.com
+    - matiasfmartino@gmail.com
+    - fesena92@gmail.com
+    - jaecisneros@gmail.com
 
-    on_success: change
-    on_failure: always
+  on_success: change
+  on_failure: always
