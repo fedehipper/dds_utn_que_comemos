@@ -1,4 +1,7 @@
-package grupo4.dds.usuario;
+package grupo4.dds.usuario.gestionDePerfiles;
+
+import grupo4.dds.usuario.RepoUsuarios;
+import grupo4.dds.usuario.Usuario;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +19,7 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 
 	private RepositorioDeUsuarios() {}
 	
-
+//TODO: consultar si solo el administrador puede interactuar con el repo	
 	@Override
 	public void add(Usuario usuario) {
 		usuarios.put(usuario.getNombre(), usuario);

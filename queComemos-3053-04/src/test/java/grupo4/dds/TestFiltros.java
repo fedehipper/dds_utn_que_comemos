@@ -42,8 +42,8 @@ public class TestFiltros {
 
 	@Before
 	public void setUp() {
-		ariel = new Usuario("Ariel Folino", null, 1.69f, 96.0f, null);
-		fecheSena = new Usuario("Feche Sena", null, 1.70f, 65.0f, null);
+		ariel = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null);
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null);
 		
 		expected = null;
 		filtros = new ArrayList<>();

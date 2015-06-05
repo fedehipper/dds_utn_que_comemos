@@ -1,12 +1,12 @@
 package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
-import grupo4.dds.usuario.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Diabetico;
 import grupo4.dds.usuario.condicion.Hipertenso;
 import grupo4.dds.usuario.condicion.Vegano;
+import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeUsuarios;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,13 +17,13 @@ import org.junit.Test;
 
 public class TestRepositorioDeUsuarios {
 	
-	private Usuario jorgeMartin = new Usuario("Jorge Martin", null, 1, 2, null);
-	private Usuario jorgeFernandez = new Usuario("Jorge Fernandez", null, 3, 4, null);
-	private Usuario arielFolino = new Usuario("Ariel Folino", null, 6, 5, null);
-	private Usuario matiasMartin = new Usuario("Matias Martin", null, 7, 8, null);
-	private Usuario fedeHipper = new Usuario("Federico Hipper", null, 9, 10, null);
-	private Usuario fedeSenna = new Usuario("Federico Senna", null, 11, 12, null);
-	private Usuario lauraMartin = new Usuario("Laura Martin", null, 13, 14, null);
+	private Usuario jorgeMartin = Usuario.crearPerfil("Jorge Martin", null, null, 1, 2, null);
+	private Usuario jorgeFernandez = Usuario.crearPerfil("Jorge Fernandez", null, null, 3, 4, null);
+	private Usuario arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 6, 5, null);
+	private Usuario matiasMartin = Usuario.crearPerfil("Matias Martin", null, null, 7, 8, null);
+	private Usuario fedeHipper = Usuario.crearPerfil("Federico Hipper", null, null, 9, 10, null);
+	private Usuario fedeSenna = Usuario.crearPerfil("Federico Senna", null, null, 11, 12, null);
+	private Usuario lauraMartin = Usuario.crearPerfil("Laura Martin", null, null, 13, 14, null);
 
 	private RepositorioDeUsuarios repositorio = RepositorioDeUsuarios.get();
 	
@@ -53,28 +53,28 @@ public class TestRepositorioDeUsuarios {
 	/* Test: @get/1 */
 	@Test
 	public void testGsetUsuarioConElMismoNombreDelUsuarioPrototipo() {
-		assertEquals(jorgeFernandez, repositorio.get(new Usuario("Jorge Fernandez", null, 0, 0, null)));
-		assertEquals(lauraMartin, repositorio.get(new Usuario("Laura Martin", null, 0, 0, null)));
+		assertEquals(jorgeFernandez, repositorio.get(Usuario.crearPerfil("Jorge Fernandez", null, null, 0, 0, null)));
+		assertEquals(lauraMartin, repositorio.get(Usuario.crearPerfil("Laura Martin", null, null, 0, 0, null)));
 	}
 	
 	/* Test: @list/1 */
 	@Test
 	public void testListUsuarioConNombreJorge() {
 		List<Usuario> expected = Arrays.asList(jorgeFernandez, jorgeMartin);
-		assertEqualsList(expected, repositorio.list(new Usuario("Jorge", null, 0, 0, null)));
+		assertEqualsList(expected, repositorio.list(Usuario.crearPerfil("Jorge", null, null, 0, 0, null)));
 	}
 	
 	@Test
 	public void testListUsuarioQueContienenMartinEnElNombre() {
 		List<Usuario> expected = Arrays.asList(matiasMartin, lauraMartin, jorgeMartin);
-		assertEqualsList(expected, repositorio.list(new Usuario("Martin", null, 0, 0, null)));
+		assertEqualsList(expected, repositorio.list(Usuario.crearPerfil("Martin", null, null, 0, 0, null)));
 	}
 	
 	@Test
 	public void testListVeganosYCeliacos() {
 		List<Usuario> expected = Arrays.asList(matiasMartin, lauraMartin, jorgeMartin, jorgeFernandez, arielFolino);
 		
-		Usuario prototipo = new Usuario("Martin", null, 0, 0, null);
+		Usuario prototipo = Usuario.crearPerfil("Martin", null, null, 0, 0, null);
 		prototipo.agregarCondicion(new Vegano());
 		prototipo.agregarCondicion(new Celiaco());
 		
@@ -85,7 +85,7 @@ public class TestRepositorioDeUsuarios {
 	public void testListDiabeticosConMartinEnElNombre() {
 		List<Usuario> expected = Arrays.asList(matiasMartin, jorgeMartin);
 		
-		Usuario prototipo = new Usuario("Martin", null, 0, 0, null);
+		Usuario prototipo = Usuario.crearPerfil("Martin", null, null, 0, 0, null);
 		prototipo.agregarCondicion(new Diabetico());
 		
 		assertEqualsList(expected, repositorio.list(prototipo));

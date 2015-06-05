@@ -9,9 +9,11 @@ import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.condicion.Condicion;
+import grupo4.dds.usuario.gestionDePerfiles.Administrador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,19 +40,26 @@ public class Usuario {
 	private List<Receta> historial = new ArrayList<>();
 
 	/* Constructores */
-	public Usuario(){
-	};
 	
-	public Usuario(String nombre, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
+	public static Usuario crearPerfil(String nombre, Sexo sexo,
+			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
+		
+		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina);
+		Administrador.get().solicitarIncorporación(self);
+		
+		return self;
+	}
+	
+	public static Usuario crearPerfil() {
+		return crearPerfil(null, null, null, 0, 0, null);
+	}
+
+	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.altura = altura;
 		this.peso = peso;
 		this.rutina = rutina;
-	}
-
-	public Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) 
-		{this(nombre, fechaNacimiento, altura, peso, rutina);
 		this.sexo = sexo;
 	}
 
@@ -236,8 +245,15 @@ public class Usuario {
 	}
 	
 	public List<Receta> getHistorioal() {
-		//TODO: probablemente no queramos retornar el historial, revisar cuando surja nuevo comportamiento
-		return historial;
+		return Collections.unmodifiableList(historial);
+	}
+
+	public void solicitudAceptada() {
+		// TODO hacer algo
+	}
+
+	public void solicitudRechazada(String motivo) {
+		// TODO hacer algo
 	}
 
 }
