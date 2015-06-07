@@ -4,7 +4,6 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
-import java.util.ListIterator;
 
 public class CantidadDeVeganos implements Monitor {
 
@@ -12,12 +11,9 @@ public class CantidadDeVeganos implements Monitor {
 	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
 		
-		ListIterator<Receta> r =  consulta.listIterator(); 
-	
-		while(r.hasNext()) {
-			if(r.next().getDificultad() == "D" && usuarioConsultor.esVegano()) 
-				this.contadorDeVeganos = this.contadorDeVeganos + 1;
-		}
+		if(consulta.stream().anyMatch(r -> r.getDificultad() == "D") && usuarioConsultor.esVegano()) 
+			this.contadorDeVeganos = this.contadorDeVeganos + 1;
+		
 	}
 	
 	public Integer getContadorDeVeganos() {
