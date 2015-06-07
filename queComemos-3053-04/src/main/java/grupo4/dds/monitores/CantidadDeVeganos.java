@@ -20,4 +20,8 @@ public class CantidadDeVeganos implements Monitor {
 		}
 	}
 	
+	public Integer getContadorDeVeganos() {
+		return contadorDeVeganos;
+	}
+	
 }
