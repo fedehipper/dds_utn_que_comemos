@@ -1,9 +1,11 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +16,8 @@ public class RepositorioDeRecetas {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
+	private List<Receta> consulta = new ArrayList<>();
+	private Usuario usuarioConsultor;
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -37,10 +41,21 @@ public class RepositorioDeRecetas {
 		
 		List<Receta> recetasFiltradas = stream.collect(Collectors.toList());
 		
-		return postProcesamiento == null ? recetasFiltradas : postProcesamiento.procesar(recetasFiltradas);
+		usuarioConsultor = usuario;
 		
-	}
+		if (postProcesamiento == null) 
+			return consulta = recetasFiltradas;
+		else
+			return consulta = postProcesamiento.procesar(recetasFiltradas);
 
+	}
+	
+	// punto 3) observer
+	public void notificar(Monitor monitor) {
+		monitor.notificarConsulta(consulta, usuarioConsultor);
+	}
+	
+	
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {

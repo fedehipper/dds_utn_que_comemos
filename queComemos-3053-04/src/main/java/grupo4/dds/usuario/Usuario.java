@@ -9,6 +9,7 @@ import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.condicion.Condicion;
+import grupo4.dds.usuario.condicion.Vegano;
 import grupo4.dds.usuario.gestionDePerfiles.Administrador;
 
 import java.time.LocalDate;
@@ -170,6 +171,10 @@ public class Usuario {
 	
 	public String toString() {
 		return nombre;
+	}
+	
+	public boolean esVegano() {
+		return this.condiciones.contains(new Vegano());
 	}
 	
 	/* Servicios internos */
