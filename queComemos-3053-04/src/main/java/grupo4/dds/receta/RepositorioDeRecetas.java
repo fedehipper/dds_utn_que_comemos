@@ -18,6 +18,7 @@ public class RepositorioDeRecetas {
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private List<Receta> consulta = new ArrayList<>();
 	private Usuario usuarioConsultor;
+	private Set<Monitor> monitores = new HashSet<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -34,7 +35,6 @@ public class RepositorioDeRecetas {
 	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
 		
 		Stream<Receta> stream = recetasQuePuedeVer(usuario);
-
 		if(filtros != null)
 			for (Filtro filtro : filtros)
 				stream = stream.filter(r -> filtro.test(usuario, r));
@@ -44,15 +44,32 @@ public class RepositorioDeRecetas {
 		usuarioConsultor = usuario;
 		
 		if (postProcesamiento == null) 
-			return consulta = recetasFiltradas;
+			consulta = recetasFiltradas;
 		else
-			return consulta = postProcesamiento.procesar(recetasFiltradas);
+			consulta = postProcesamiento.procesar(recetasFiltradas);
 
+		notificarATodos();
+		return consulta;
 	}
 	
 	// punto 3) observer
 	public void notificar(Monitor monitor) {
 		monitor.notificarConsulta(consulta, usuarioConsultor);
+	}
+	
+	// punto 3) observer
+	public void notificarATodos() {
+		this.monitores.forEach(monitor -> this.notificar(monitor));
+	}
+	
+	/* Seters and Getters */
+	
+	public void setMonitor(Monitor monitor) {
+		this.monitores.add(monitor);
+	}
+	
+	public void removeMonitor(Monitor monitor) {
+		this.monitores.remove(monitor);
 	}
 	
 	

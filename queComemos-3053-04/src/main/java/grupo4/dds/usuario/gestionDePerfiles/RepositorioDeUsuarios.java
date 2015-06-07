@@ -1,22 +1,17 @@
 package grupo4.dds.usuario.gestionDePerfiles;
 
-import grupo4.dds.monitores.Monitor;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.RepoUsuarios;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RepositorioDeUsuarios implements RepoUsuarios {
 
 	private static final RepositorioDeUsuarios self = new RepositorioDeUsuarios();
 	private Map<String, Usuario> usuarios = new HashMap<>();
-	private Set<Monitor> monitores = new HashSet<>();
 	
 	
 	public static RepositorioDeUsuarios get() {
@@ -57,18 +52,5 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 	public void vaciar() {
 		usuarios.clear();
 	}
-	
-	// punto 3) observer
-	public void registrarConsulta(RepositorioDeRecetas repoRecetas) {
-		this.monitores.forEach(monitor -> repoRecetas.notificar(monitor));
-	}
-	
-	/* Seters AND Getters */
-	
-	public void setMonitor(Monitor monitor) {
-		this.monitores.add(monitor);
-	}
-	
-	
-	
+		
 }
