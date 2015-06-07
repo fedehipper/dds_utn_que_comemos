@@ -12,10 +12,15 @@ public class CantidadDeHoras implements Monitor {
 	private HashMap<Integer, Integer> horasDelDia = new HashMap<Integer, Integer>();
 	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
-		this.horasDelDia.put(LocalTime.now().getHour(), horasDelDia.get(LocalTime.now().getHour()) + 1);
+		
+		Integer ahora = new Integer(LocalTime.now().getHour());
+		if (horasDelDia.get(ahora) == null)
+			horasDelDia.put(ahora, 1);
+		else
+			horasDelDia.put(ahora, horasDelDia.get(ahora) + 1);
 	}
 	
-	public Integer cantidadDeConsultasPor(int unaHora) {
+	public Integer cantidadDeConsultasPor(Integer unaHora) {
 		return horasDelDia.get(unaHora);
 	}
 	
