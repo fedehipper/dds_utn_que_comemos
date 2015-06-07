@@ -2,6 +2,7 @@ package grupo4.dds;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,12 +38,12 @@ public class TestObserver {
 	
 	
 	@Test
-	public void testAumentaContadorDeHorasEnHora_2() {
+	public void testAumentaContadorDeHorasEnHoraActual() {
 		cantidadHoras.notificarConsulta(l1, u);
 		cantidadHoras.notificarConsulta(l2, u);
 		cantidadHoras.notificarConsulta(l3, u);
 		
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(2) == 3);
+		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 3);
 	}
 	
 	@Test
