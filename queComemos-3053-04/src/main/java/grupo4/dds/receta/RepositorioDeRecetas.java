@@ -5,7 +5,6 @@ import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +15,6 @@ public class RepositorioDeRecetas {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
-	private List<Receta> consulta = new ArrayList<>();
-	private Usuario usuarioConsultor;
 	private Set<Monitor> monitores = new HashSet<>();
 	
 	public static RepositorioDeRecetas get() {
@@ -40,26 +37,25 @@ public class RepositorioDeRecetas {
 				stream = stream.filter(r -> filtro.test(usuario, r));
 		
 		List<Receta> recetasFiltradas = stream.collect(Collectors.toList());
-		
-		usuarioConsultor = usuario;
+		List<Receta> consulta;
 		
 		if (postProcesamiento == null) 
 			consulta = recetasFiltradas;
 		else
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
-		notificarATodos();
+		notificarATodos(usuario, consulta);
 		return consulta;
 	}
 	
 	// punto 3) observer
-	public void notificar(Monitor monitor) {
-		monitor.notificarConsulta(consulta, usuarioConsultor);
+	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
+		monitor.notificarConsulta(consulta, usuario);
 	}
 	
 	// punto 3) observer
-	public void notificarATodos() {
-		this.monitores.forEach(monitor -> this.notificar(monitor));
+	public void notificarATodos(Usuario usuario, List<Receta> consulta) {
+		this.monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
 	}
 	
 	/* Seters and Getters */
