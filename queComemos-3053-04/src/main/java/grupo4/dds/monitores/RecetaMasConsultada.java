@@ -42,7 +42,6 @@ public class RecetaMasConsultada implements Monitor {
 			cantidadDeConsultas = unValor;
 			recetaMasConsultada = unaReceta;
 		}
-	
 	}
 	
 	public String getRecetaMasConsultada() {
