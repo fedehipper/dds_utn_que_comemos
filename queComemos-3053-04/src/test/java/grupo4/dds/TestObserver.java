@@ -127,10 +127,8 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testRepositorioRecetasNotificaARecetasMAsConsultadasYLasMasConsultadasPorSexo() {
-
+	public void testRepositorioRecetasNotificaARecetasMasConsultadas() {
 		repo.setMonitor(recetaMasConsultada);
-		repo.setMonitor(recetasPorSexo);
 
 		repo.notificarATodos(Ariel, l2);
 		repo.notificarATodos(Ariel, l1);
@@ -138,18 +136,30 @@ public class TestObserver {
 		repo.notificarATodos(u, l2);
 
 		HashMap<String, Integer> resultado1 = new HashMap<String, Integer>();
-		HashMap<String, Integer> resultado2 = new HashMap<String, Integer>();
 		resultado1.put("sopa", 4);
-		resultado2.put("sopa", 2);
+
 		assertEquals(recetaMasConsultada.recetaMasConsultada(), resultado1);
+	}
+	
+	@Test
+	public void testRepositorioRecetasNotificaARecetasMasConsultadasPorSexo() {
+		repo.setMonitor(recetasPorSexo);
+
+		repo.notificarATodos(Ariel, l2);
+		repo.notificarATodos(Ariel, l1);
+		repo.notificarATodos(u, l1);
+		repo.notificarATodos(u, l2);
+
+		HashMap<String, Integer> resultado2 = new HashMap<String, Integer>();
+		resultado2.put("sopa", 2);
+		
 		assertEquals(recetasPorSexo.recetaMasConsultada(Ariel), resultado2);
 	}
 
 	@Test
 	public void testRepositorioRecetasNotificaCantidadVeganos() {
-
-		repo.setMonitor(cantidadHoras);
 		repo.setMonitor(cantidadVeganos);
+		
 		Ariel.agregarCondicion(vegeno);
 		u.agregarCondicion(vegeno);
 		repo.notificarATodos(Ariel, l2);
@@ -162,11 +172,8 @@ public class TestObserver {
 	
 	@Test
 	public void testRepositorioRecetasNotificaCantidadHoras() {
-
 		repo.setMonitor(cantidadHoras);
-		repo.setMonitor(cantidadVeganos);
-		Ariel.agregarCondicion(vegeno);
-		u.agregarCondicion(vegeno);
+
 		repo.notificarATodos(Ariel, l2);
 		repo.notificarATodos(Ariel, l1);
 		repo.notificarATodos(u, l1);
