@@ -21,16 +21,11 @@ import grupo4.dds.usuario.condicion.Vegano;
 import org.junit.Test;
 
 public class TestObserver {
-	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",
-			null, "D");
-	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",
-			null, "D");
-	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",
-			null, "D");
-	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",
-			null, "F");
-	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",
-			null, "F");
+	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",null, "D");
+	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, "D");
+	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, "D");
+	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, "F");
+	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, "F");
 
 	private Receta r1 = Receta.crearNueva(null, encabezado1, null);
 	private Receta r2 = Receta.crearNueva(null, encabezado2, null);
@@ -40,17 +35,14 @@ public class TestObserver {
 
 	private RepositorioDeRecetas repo = RepositorioDeRecetas.get();
 	private List<Receta> l1 = Stream.of(r5, r4).collect(Collectors.toList());
-	private List<Receta> l2 = Stream.of(r1, r2, r3, r4).collect(
-			Collectors.toList());
+	private List<Receta> l2 = Stream.of(r1, r2, r3, r4).collect(Collectors.toList());
 	private List<Receta> l3 = Stream.of(r3, r5).collect(Collectors.toList());
 
-	private Usuario u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,
-			null);
+	private Usuario u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null);
 	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
 	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 	private Vegano vegeno = new Vegano();
-	private Usuario Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null,
-			0f, 0f, null);
+	private Usuario Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null);
 	private RecetaMasConsultada recetaMasConsultada = new RecetaMasConsultada();
 	private RecetasMasConsultadasPorSexo recetasPorSexo = new RecetasMasConsultadasPorSexo();
 
@@ -60,8 +52,7 @@ public class TestObserver {
 		cantidadHoras.notificarConsulta(l2, u);
 		cantidadHoras.notificarConsulta(l3, u);
 
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now()
-				.getHour()) == 3);
+		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 3);
 	}
 
 	@Test
@@ -155,7 +146,7 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testRepositorioRecetasNotificaCantidadVeganosYCantidadHoras() {
+	public void testRepositorioRecetasNotificaCantidadVeganos() {
 
 		repo.setMonitor(cantidadHoras);
 		repo.setMonitor(cantidadVeganos);
@@ -166,10 +157,33 @@ public class TestObserver {
 		repo.notificarATodos(u, l1);
 		repo.notificarATodos(u, l2);
 
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now()
-				.getHour()) == 4);
 		assertTrue(cantidadVeganos.getContadorDeVeganos() == 2);
+	}
+	
+	@Test
+	public void testRepositorioRecetasNotificaCantidadHoras() {
 
+		repo.setMonitor(cantidadHoras);
+		repo.setMonitor(cantidadVeganos);
+		Ariel.agregarCondicion(vegeno);
+		u.agregarCondicion(vegeno);
+		repo.notificarATodos(Ariel, l2);
+		repo.notificarATodos(Ariel, l1);
+		repo.notificarATodos(u, l1);
+		repo.notificarATodos(u, l2);
+
+		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 4);
+	}
+	
+	@Test
+	public void testRecetasMasConsultadasPorSexoFemenino() {
+		recetasPorSexo.notificarConsulta(l2, u);
+		recetasPorSexo.notificarConsulta(l1, u);
+
+		HashMap<String, Integer> resultado = new HashMap<String, Integer>();
+		resultado.put("sopa", 2);
+
+		assertEquals(recetasPorSexo.recetaMasConsultada(u), resultado);
 	}
 
 }
