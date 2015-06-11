@@ -1,6 +1,8 @@
 package grupo4.dds;
 
 import static org.junit.Assert.*;
+import grupo4.dds.monitores.CantidadDeHoras;
+import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -16,6 +18,7 @@ import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,6 +34,8 @@ public class TestRepositorioDeRecetas {
 	private Usuario matiasMartino;
 	private Usuario federicoHipper;
 	
+	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
+	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 	private List<Receta> expected;
 	private List<Filtro> filtros;
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
@@ -66,8 +71,8 @@ public class TestRepositorioDeRecetas {
 		fecheSena.agregarCondicion(new Vegano());
 		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
 		
-		receta1 = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("receta1", null, null, 999), null);
-		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, null, 300), null);
+		receta1 = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("receta1", null, "D", 999), null);
+		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, "D", 300), null);
 		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
 		receta4 = Receta.crearNueva(arielFolino, new EncabezadoDeReceta("receta4", null, null, 100), null);
 		receta5 = Receta.crearNueva(matiasMartino, new EncabezadoDeReceta("receta5", null, null, 499), null);
@@ -100,7 +105,7 @@ public class TestRepositorioDeRecetas {
 	@Test 
 	public void testLasRecetasQuePuedeVerUnUsuarioSonPublicasOCompartidasEnALgunoDeSusGrupos() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
-		assertEquals(expected, repositorio.listarRecetasPara(arielFolino));
+		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
 	}	
 	
 	/* Test: @listarRecetasPara/3 */
@@ -139,6 +144,28 @@ public class TestRepositorioDeRecetas {
 	
 	private boolean assertEquals(Collection<Receta> l1, Collection<Receta> l2) {
 		return l1.size() == l2.size() && l1.containsAll(l2);
+	}
+	
+	@Test
+	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
+		
+		filtros.add(new FiltroNoLeGusta());		
+		
+		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("brocoli"));
+		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
+			
+		filtros.add(new FiltroNoLeGusta());	
+		arielFolino.agregarCondicion(new Vegano());
+		
+		RepositorioDeRecetas.get().setMonitor(cantidadHoras);
+		RepositorioDeRecetas.get().setMonitor(cantidadVeganos);
+				
+		RepositorioDeRecetas.get().listarRecetasPara(arielFolino, filtros , null);
+		RepositorioDeRecetas.get().listarRecetasPara(federicoHipper, filtros , null);
+		
+		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 2);
+		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
+		
 	}
 	
 }

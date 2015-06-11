@@ -15,14 +15,10 @@ import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.monitores.RecetaMasConsultada;
 import grupo4.dds.monitores.RecetasMasConsultadasPorSexo;
 import grupo4.dds.receta.EncabezadoDeReceta;
-import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
-import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
-import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
-import grupo4.dds.receta.busqueda.postProcesamiento.TomarResultadosPares;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
@@ -226,34 +222,5 @@ public class TestObserver {
 
 		assertEquals(recetasPorSexo.recetaMasConsultada(u), resultado);
 	}
-	
-	/* no se porque no anda este test
-	@Test
-	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
-		
-		filtros.add(new FiltroNoLeGusta());		
-		
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("brocoli"));
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
-		
-		sopa.agregarIngrediente(new Ingrediente("brocoli"));
-		milanesa.agregarIngrediente(new Ingrediente("coliflor"));
-		pollo.agregarIngrediente(new Ingrediente("pollo"));
-		pure.agregarIngrediente(new Ingrediente("papa"));
-		salmon.agregarIngrediente(new Ingrediente("tomate"));
-	
-		filtros.add(new FiltroNoLeGusta());	
-		Ariel.agregarCondicion(new Vegano());
-		
-		RepositorioDeRecetas.get().setMonitor(cantidadHoras);
-		RepositorioDeRecetas.get().setMonitor(cantidadVeganos);
-				
-		RepositorioDeRecetas.get().listarRecetasPara(Ariel, filtros , null);
-		RepositorioDeRecetas.get().listarRecetasPara(fecheSena, filtros , null);
-		
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 2);
-		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
-		
-	}
-	*/
+
 }

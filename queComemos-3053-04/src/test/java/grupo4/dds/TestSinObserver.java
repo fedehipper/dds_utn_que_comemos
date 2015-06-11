@@ -69,6 +69,7 @@ public class TestSinObserver {
 
 	@Before
 	public void setup() {
+		RepositorioDeRecetas.get().vaciar();
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null);
 		Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null);
 		u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null);
