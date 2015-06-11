@@ -8,14 +8,9 @@ import grupo4.dds.monitores.Monitor;
 import grupo4.dds.monitores.RecetaMasConsultada;
 import grupo4.dds.monitores.RecetasMasConsultadasPorSexo;
 import grupo4.dds.receta.EncabezadoDeReceta;
-import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
-import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
-import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
-import grupo4.dds.receta.busqueda.postProcesamiento.TomarResultadosPares;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
@@ -57,28 +52,15 @@ public class TestSinObserver {
 	
 	private Usuario u;
 	private Usuario Ariel;
-	private Usuario fecheSena;
 	
-	private Receta sopa;
-	private Receta pollo;
-	private RecetaPublica pure;
-	private RecetaPublica milanesa;
-	private RecetaPublica salmon;
 	
 	List<Filtro> filtros = new ArrayList<>();
 
 	@Before
 	public void setup() {
 		RepositorioDeRecetas.get().vaciar();
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null);
 		Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null);
 		u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null);
-		sopa = Receta.crearNueva(Ariel, new EncabezadoDeReceta("sopa", null, null, 100), null);
-		pollo = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("pollo", null, null, 300), null);
-		pure = RecetaPublica.crearNueva(new EncabezadoDeReceta("pure", null, null, 600), null);
-		milanesa = RecetaPublica.crearNueva(new EncabezadoDeReceta("milanesa", null, null, 999), null);
-		salmon = RecetaPublica.crearNueva(new EncabezadoDeReceta("salmon", null, null, 200), null);
-
 	}
 	
 	@Test
@@ -137,33 +119,4 @@ public class TestSinObserver {
 
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 4);
 	}
-	
-	/* no se porque no anda este test
-	@Test
-	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
-		
-		filtros.add(new FiltroNoLeGusta());		
-		
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("brocoli"));
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
-		
-		sopa.agregarIngrediente(new Ingrediente("brocoli"));
-		milanesa.agregarIngrediente(new Ingrediente("coliflor"));
-		pollo.agregarIngrediente(new Ingrediente("pollo"));
-		pure.agregarIngrediente(new Ingrediente("papa"));
-		salmon.agregarIngrediente(new Ingrediente("tomate"));
-					
-		filtros.add(new FiltroNoLeGusta());
-		
-		Ariel.agregarCondicion(new Vegano());
-		
-		monitores = Arrays.asList(cantidadVeganos, cantidadHoras);
-
-		RepositorioDeRecetas.get().listarRecetasParaPunto4(Ariel, filtros , null, monitores);
-		
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 0);
-		assertTrue(cantidadVeganos.getContadorDeVeganos() == 0);
-	}
-	*/
-
 }
