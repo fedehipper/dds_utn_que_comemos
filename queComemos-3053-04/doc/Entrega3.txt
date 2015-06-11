@@ -1,0 +1,36 @@
+1) Debido a que el propósito del repositorio es centralizar el almacenamiento de los perfiles de usuario, se modeló a la
+clase RepositorioDeRecetas utilizando el patrón Singleton, garantizando la unicidad del mismo en el sistema.
+La colección de los perfiles se modeló con un diccionario, indexado por nombre de usuario, para garantizar la 
+unicidad de los nombres (condición implícita en el enunciado, que dice que el método get retorna un único usuario,
+ según su nombre) y optimizar las búsquedas, inserciones, remociones y actualizaciones de perfiles individuales. 
+Por otro lado, la búsqueda general, en base a nombre y condiciones, se modeló con una única abstracción, en la cual 
+se consulta siempre que el nombre esté contenido en el del usuario prototipo, y se delega al usuario la comprobación 
+de las condiciones, retornando true siempre que el prototipo no tenga condiciones, y en caso contrario chequea si 
+las cumple o no.
+
+Para el manejo de las solicitudes, se implementó una clase Administrador, que por el momento también está modelada con 
+el patrón Singleton (el enunciado habla de un único administrador).
+Los usuarios (o perfiles de usuario más concretamente) se instanciarán mediante un factory method, crearPerfil/0, 
+el cual se encargará de registrar al usuario recién creado con el administrador. Este cuenta con un conjunto de solicitudes 
+pendientes de aprobación (modelado con una colección de tipo Set de usuarios, para evitar solicitudes duplicadas) en el que
+se almacenarán dichas solicitudes, para ser procesadas más tarde. Además, cuenta con dos formas de procesar solicitudes: 
+rechazando/aprobando todas, o consultando el conjunto para rechazar/aprobar cada una, individualmente.
+Aceptar una solicitud consiste en agregar al perfil de usuario al Repositorio de Usuarios, y notificar al mismo mediante 
+el método de callback que este expone, solicitudAceptada/0. El rechazo se comporta de la misma manera, con la diferencia 
+que cuenta con un parámetro más, el motivo de rechazo, y que no agrega el perfil al Repositorio de Usuarios.
+
+3) para resolver los requerimientos con observer, tomamos a la clase repositorioDeRecetas ya que es en la cual se efectúa
+el evento listar, al final de listar se notifica a cada observador de lo sucedido, para ello tenemos la colección 
+monitores y dos métodos setMonitor y getMonitor, para agregar o quitar a los monitores que deseen obtener una notificación
+de cada consulta.
+
+Los Monitores necesitan tener contadores para luego mostrar cual fue la receta con mayor cantidad de consultas, según cada 
+criterio, por cantidad de horas, por veganos que la consultaron, etc, entonces cuando se las notifican a todas realizan 
+su propia operación dentro de sus responsabilidades.
+
+4) En lugar de utilizar un patrón observer, utilizamos una colección de monitores pasándola por parámetro al método listar
+el cual notifica a todos los monitores de esta colección.
+Consideramos que no es un observer, aunque se parece, porque el observer plantea que la colección sea un atributo, y que 
+existan los métodos agregar y quitar observadores de la misma
+
+
