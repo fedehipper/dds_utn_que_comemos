@@ -47,7 +47,6 @@ public class TestSinObserver {
 	private Receta r4 = Receta.crearNueva(null, encabezado4, null);
 	private Receta r5 = Receta.crearNueva(null, encabezado5, null);
 
-	private RepositorioDeRecetas repo = RepositorioDeRecetas.get();
 	private List<Receta> l1 = Stream.of(r5, r4).collect(Collectors.toList());
 	private List<Receta> l2 = Stream.of(r1, r2, r3, r4).collect(Collectors.toList());
 
@@ -67,7 +66,6 @@ public class TestSinObserver {
 	private RecetaPublica salmon;
 	
 	List<Filtro> filtros = new ArrayList<>();
-	private RepositorioDeRecetas mockRepositorio;	
 
 	@Before
 	public void setup() {
@@ -86,10 +84,10 @@ public class TestSinObserver {
 	public void testRepositorioRecetasNotificaARecetasMasConsultadas() {
 		monitores = Arrays.asList(recetaMasConsultada);
 		
-		repo.notificarATodosPunto4(Ariel, l2, monitores);
-		repo.notificarATodosPunto4(Ariel, l1, monitores);
-		repo.notificarATodosPunto4(u, l1, monitores);
-		repo.notificarATodosPunto4(u, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l2, monitores);
 
 		HashMap<String, Integer> resultado1 = new HashMap<String, Integer>();
 		resultado1.put("sopa", 4);
@@ -101,10 +99,10 @@ public class TestSinObserver {
 	public void testRepositorioRecetasNotificaARecetasMasConsultadasPorSexo() {
 		monitores = Arrays.asList(recetasPorSexo);
 		
-		repo.notificarATodosPunto4(Ariel, l2, monitores);
-		repo.notificarATodosPunto4(Ariel, l1, monitores);
-		repo.notificarATodosPunto4(u, l1, monitores);
-		repo.notificarATodosPunto4(u, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l2, monitores);
 
 		HashMap<String, Integer> resultado2 = new HashMap<String, Integer>();
 		resultado2.put("sopa", 2);
@@ -119,10 +117,10 @@ public class TestSinObserver {
 		
 		monitores = Arrays.asList(cantidadVeganos);
 		
-		repo.notificarATodosPunto4(Ariel, l2, monitores);
-		repo.notificarATodosPunto4(Ariel, l1, monitores);
-		repo.notificarATodosPunto4(u, l1, monitores);
-		repo.notificarATodosPunto4(u, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l2, monitores);
 
 		assertTrue(cantidadVeganos.getContadorDeVeganos() == 2);
 	}
@@ -131,10 +129,10 @@ public class TestSinObserver {
 	public void testRepositorioRecetasNotificaCantidadHoras() {
 		monitores = Arrays.asList(cantidadHoras);
 		
-		repo.notificarATodosPunto4(Ariel, l2, monitores);
-		repo.notificarATodosPunto4(Ariel, l1, monitores);
-		repo.notificarATodosPunto4(u, l1, monitores);
-		repo.notificarATodosPunto4(u, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l2, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(Ariel, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l1, monitores);
+		RepositorioDeRecetas.get().notificarATodosPunto4(u, l2, monitores);
 
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 4);
 	}
