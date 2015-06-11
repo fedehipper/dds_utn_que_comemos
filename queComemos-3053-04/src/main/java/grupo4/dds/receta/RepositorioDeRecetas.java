@@ -29,6 +29,7 @@ public class RepositorioDeRecetas {
 		return recetasQuePuedeVer(usuario).collect(Collectors.toList());
 	}
 	
+	// punto 3) evento 
 	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
 		
 		Stream<Receta> stream = recetasQuePuedeVer(usuario);
@@ -46,6 +47,32 @@ public class RepositorioDeRecetas {
 
 		notificarATodos(usuario, consulta);
 		return consulta;
+	}
+	
+	// punto 4) evento
+	public List<Receta> listarRecetasParaPunto4(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento, List<Monitor> monitores) {
+		
+		Stream<Receta> stream = recetasQuePuedeVer(usuario);
+		if(filtros != null)
+			for (Filtro filtro : filtros)
+				stream = stream.filter(r -> filtro.test(usuario, r));
+		
+		List<Receta> recetasFiltradas = stream.collect(Collectors.toList());
+		List<Receta> consulta;
+		
+		if (postProcesamiento == null) 
+			consulta = recetasFiltradas;
+		else
+			consulta = postProcesamiento.procesar(recetasFiltradas);
+
+		notificarATodosPunto4(usuario, consulta, monitores);
+		return consulta;
+	}
+	
+	
+	// punto 4) alternativa a observer
+	public void notificarATodosPunto4(Usuario usuario, List<Receta> consulta, List<Monitor> monitores) {
+		monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
 	}
 	
 	// punto 3) observer
@@ -83,6 +110,10 @@ public class RepositorioDeRecetas {
 	
 	public void agregarReceta(Receta unaReceta) {
 		this.recetas.add(unaReceta);
+	}
+	
+	public void agregarListaDeRecetas(List<Receta> recetas) {
+		this.recetas.addAll(recetas);
 	}
 	
 	public void quitarReceta(Receta unaReceta) {

@@ -3,21 +3,31 @@ package grupo4.dds;
 import static org.junit.Assert.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.monitores.RecetaMasConsultada;
 import grupo4.dds.monitores.RecetasMasConsultadasPorSexo;
 import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
+import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
+import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
+import grupo4.dds.receta.busqueda.postProcesamiento.TomarResultadosPares;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestObserver {
@@ -26,6 +36,8 @@ public class TestObserver {
 	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, "D");
 	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, "F");
 	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, "F");
+	
+	List<Filtro> filtros = new ArrayList<>();
 
 	private Receta r1 = Receta.crearNueva(null, encabezado1, null);
 	private Receta r2 = Receta.crearNueva(null, encabezado2, null);
@@ -41,11 +53,34 @@ public class TestObserver {
 	private Usuario u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null);
 	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
 	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
-	private Vegano vegeno = new Vegano();
-	private Usuario Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null);
+	private Usuario Ariel;
+	private Usuario fecheSena;
 	private RecetaMasConsultada recetaMasConsultada = new RecetaMasConsultada();
 	private RecetasMasConsultadasPorSexo recetasPorSexo = new RecetasMasConsultadasPorSexo();
 
+	private Receta sopa;
+	private Receta pollo;
+	private RecetaPublica pure;
+	private RecetaPublica milanesa;
+	private RecetaPublica salmon;
+	
+	private List<Receta> recetas = Arrays.asList(sopa, pollo, pure, milanesa, salmon);
+	
+	@Before
+	public void setup() {
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null);
+		Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null);
+		
+		sopa = Receta.crearNueva(Ariel, new EncabezadoDeReceta("sopa", null, null, 100), null);
+		pollo = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("pollo", null, null, 300), null);
+		pure = RecetaPublica.crearNueva(new EncabezadoDeReceta("pure", null, null, 600), null);
+		milanesa = RecetaPublica.crearNueva(new EncabezadoDeReceta("milanesa", null, null, 999), null);
+		salmon = RecetaPublica.crearNueva(new EncabezadoDeReceta("salmon", null, null, 200), null);
+		
+		RepositorioDeRecetas.get().agregarListaDeRecetas(recetas);
+	}
+	
+	
 	@Test
 	public void testAumentaContadorDeHorasEnHoraActual() {
 		cantidadHoras.notificarConsulta(l1, u);
@@ -58,7 +93,7 @@ public class TestObserver {
 	@Test
 	public void testAumentaContadorDeVeganos() {
 		cantidadVeganos.notificarConsulta(l1, Ariel);
-		Ariel.agregarCondicion(vegeno);
+		Ariel.agregarCondicion(new Vegano());
 		cantidadVeganos.notificarConsulta(l2, u);
 		cantidadVeganos.notificarConsulta(l3, Ariel);
 
@@ -160,8 +195,8 @@ public class TestObserver {
 	public void testRepositorioRecetasNotificaCantidadVeganos() {
 		repo.setMonitor(cantidadVeganos);
 		
-		Ariel.agregarCondicion(vegeno);
-		u.agregarCondicion(vegeno);
+		Ariel.agregarCondicion(new Vegano());
+		u.agregarCondicion(new Vegano());
 		repo.notificarATodos(Ariel, l2);
 		repo.notificarATodos(Ariel, l1);
 		repo.notificarATodos(u, l1);
@@ -192,5 +227,34 @@ public class TestObserver {
 
 		assertEquals(recetasPorSexo.recetaMasConsultada(u), resultado);
 	}
-
+	
+	/* no se porque no anda este test
+	@Test
+	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
+		
+		filtros.add(new FiltroNoLeGusta());		
+		
+		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("brocoli"));
+		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
+		
+		sopa.agregarIngrediente(new Ingrediente("brocoli"));
+		milanesa.agregarIngrediente(new Ingrediente("coliflor"));
+		pollo.agregarIngrediente(new Ingrediente("pollo"));
+		pure.agregarIngrediente(new Ingrediente("papa"));
+		salmon.agregarIngrediente(new Ingrediente("tomate"));
+	
+		filtros.add(new FiltroNoLeGusta());	
+		Ariel.agregarCondicion(new Vegano());
+		
+		RepositorioDeRecetas.get().setMonitor(cantidadHoras);
+		RepositorioDeRecetas.get().setMonitor(cantidadVeganos);
+				
+		RepositorioDeRecetas.get().listarRecetasPara(Ariel, filtros , null);
+		RepositorioDeRecetas.get().listarRecetasPara(fecheSena, filtros , null);
+		
+		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 2);
+		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
+		
+	}
+	*/
 }

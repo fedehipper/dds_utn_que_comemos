@@ -13,7 +13,6 @@ public class CantidadDeVeganos implements Monitor {
 		
 		if(consulta.stream().anyMatch(r -> r.getDificultad() == "D") && usuarioConsultor.esVegano()) 
 			this.contadorDeVeganos = this.contadorDeVeganos + 1;
-		
 	}
 	
 	public Integer getContadorDeVeganos() {
