@@ -34,3 +34,11 @@ Consideramos que no es un observer, aunque se parece, porque el observer plantea
 existan los métodos agregar y quitar observadores de la misma
 
 
+De las dos soluciones planteadas en este tp, elegimos la que implementa el observer ya que nos permite por un lado, registrar 
+cada uno de los monitores que tiene asociada una consulta de receta y realizar las acciones correspondientes de acuerdo a ella, 
+y por el otro tenemos mayor cohesión, permite delegar en la notificación cuando se lista la receta (consulta).
+Además esta solución permite fácilmente agregar nuevos monitores (en la otra es más tedioso porque se debería asignar una nueva 
+lista con los monitores a agregar)
+
+
+
