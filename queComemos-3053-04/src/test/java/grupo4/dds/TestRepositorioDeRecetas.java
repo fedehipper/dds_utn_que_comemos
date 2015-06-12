@@ -28,6 +28,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import queComemos.entrega3.dominio.Dificultad;
+
 public class TestRepositorioDeRecetas {
 	
 	private Usuario fecheSena;
@@ -72,8 +74,8 @@ public class TestRepositorioDeRecetas {
 		fecheSena.agregarCondicion(new Vegano());
 		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
 		
-		receta1 = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("receta1", null, "D", 999), null);
-		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, "D", 300), null);
+		receta1 = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("receta1", null, Dificultad.DIFICIL, 999), null);
+		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
 		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
 		receta4 = Receta.crearNueva(arielFolino, new EncabezadoDeReceta("receta4", null, null, 100), null);
 		receta5 = Receta.crearNueva(matiasMartino, new EncabezadoDeReceta("receta5", null, null, 499), null);

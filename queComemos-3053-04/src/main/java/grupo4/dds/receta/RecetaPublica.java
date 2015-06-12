@@ -2,7 +2,6 @@ package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.EsInadecuadaDespuesDeModificar;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
-import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
@@ -42,8 +41,9 @@ public class RecetaPublica extends Receta {
 			List<Ingrediente> condimentos, String preparacion,
 			List<Receta> subRecetas) {
 
-		if (!puedeSerModificadaPor(usuario))
-			throw new NoSePuedeModificarLaReceta();
+		//TODO: descomentar cuando sea posible que se de esta situación
+//		if (!puedeSerModificadaPor(usuario))
+//			throw new NoSePuedeModificarLaReceta();
 		
 		Receta receta = convertirEnPrivada(usuario);
 		receta.modificarReceta(usuario, encabezado, ingredientes, condimentos, preparacion, subRecetas);

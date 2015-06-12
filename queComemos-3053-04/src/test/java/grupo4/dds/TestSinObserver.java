@@ -26,15 +26,17 @@ import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
+import queComemos.entrega3.dominio.Dificultad;
+
 public class TestSinObserver {
 	
 	private List<Monitor> monitores = new ArrayList<>();
 	
-	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",null, "D");
-	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, "D");
-	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, "D");
-	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, "F");
-	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, "F");
+	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",null, Dificultad.DIFICIL);
+	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, Dificultad.DIFICIL);
+	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, Dificultad.DIFICIL);
+	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, Dificultad.FACIL);
+	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, Dificultad.FACIL);
 
 	private Receta r1 = Receta.crearNueva(null, encabezado1, null);
 	private Receta r2 = Receta.crearNueva(null, encabezado2, null);

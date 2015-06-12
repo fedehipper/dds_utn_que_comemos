@@ -1,5 +1,6 @@
 package grupo4.dds.usuario.gestionDePerfiles;
 
+import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.Collections;
@@ -29,14 +30,17 @@ public class Administrador {
 		usuario.solicitudRechazada(motivo);
 	}
 	
+	@CoberturaIgnore
 	public void aprobarTodas() {
 		procesarTodas(u -> aprobar(u));
 	}
 	
+	@CoberturaIgnore
 	public void rechazarTodas(String motivo) {
 		procesarTodas(u -> rechazar(u, motivo));
 	}
 	
+	@CoberturaIgnore
 	private void procesarTodas(Consumer<Usuario> procesador) {
 		
 		for (Usuario usuario : pendientesAprobacion) {

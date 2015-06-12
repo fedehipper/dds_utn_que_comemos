@@ -23,9 +23,9 @@ public class TestGrupoUsuarios {
 	@Before
 	public void setUp() {
 		grupo = new GrupoUsuarios("grosos");
-		fecheSena = Usuario.crearPerfil();
-		matias = Usuario.crearPerfil();
-		ariel = Usuario.crearPerfil();
+		fecheSena = Usuario.crearPerfil("fecheSena");
+		matias = Usuario.crearPerfil("matias");
+		ariel = Usuario.crearPerfil("ariel");
 		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
 	}

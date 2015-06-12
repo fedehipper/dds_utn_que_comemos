@@ -26,12 +26,14 @@ import grupo4.dds.usuario.condicion.Vegano;
 import org.junit.Before;
 import org.junit.Test;
 
+import queComemos.entrega3.dominio.Dificultad;
+
 public class TestObserver {
-	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",null, "D");
-	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, "D");
-	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, "D");
-	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, "F");
-	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, "F");
+	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",null, Dificultad.DIFICIL);
+	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, Dificultad.DIFICIL);
+	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, Dificultad.DIFICIL);
+	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, Dificultad.FACIL);
+	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, Dificultad.FACIL);
 	
 	List<Filtro> filtros = new ArrayList<>();
 

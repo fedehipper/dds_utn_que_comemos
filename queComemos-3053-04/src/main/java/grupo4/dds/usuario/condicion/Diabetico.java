@@ -11,7 +11,7 @@ public class Diabetico extends Condicion {
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {
-		return usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL) || usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
+		return usuario.tieneRutina(ACTIVA_SIN_EJERCICIO_ADICIONAL) || usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
 															   || usuario.getPeso() <= 70;
 	}
 

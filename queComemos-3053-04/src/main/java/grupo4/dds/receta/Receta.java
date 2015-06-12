@@ -1,6 +1,5 @@
 package grupo4.dds.receta;
 
-import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.usuario.Usuario;
 
@@ -9,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import queComemos.entrega3.dominio.Dificultad;
 
 public class Receta {
 
@@ -86,13 +87,14 @@ public class Receta {
 
 	public float cantidadCondimento(String nombreCondimento) {
 		int index = getCondimentos().indexOf(
-				Ingrediente.ingrediente(nombreCondimento));
+				new Ingrediente(nombreCondimento));
 		return getCondimentos().get(index).getCantidad();
 	}
 
 	public boolean puedeSerVistaPor(Usuario usuario) {
 		if(creador == null)
-			throw new NoSePuedeAgregarLaReceta();
+			return false;
+		
 		return creador.equals(usuario);
 	}
 
@@ -164,7 +166,7 @@ public class Receta {
 	/* Servicios privados */
 
 	private boolean tiene(List<Ingrediente> lista, String nombre) {
-		return lista.contains(Ingrediente.ingrediente(nombre));
+		return lista.contains(new Ingrediente(nombre));
 	}
 
 	// TODO mejorar para llegar a algo más cercano a fold/reduct
@@ -211,7 +213,7 @@ public class Receta {
 		return encabezado.getTemporada();
 	}
 
-	public String getDificultad() {
+	public Dificultad getDificultad() {
 		return encabezado.getDificultad();
 	}
 

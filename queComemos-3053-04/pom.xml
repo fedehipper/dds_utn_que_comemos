@@ -17,6 +17,16 @@
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>queComemos-repoRecetas-entrega3</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -36,7 +46,14 @@
 				<version>2.7</version>
 				<configuration>
 					<instrumentation>
+						<ignores>
+							<ignore>grupo4.dds.receta.Temporada</ignore>
+						</ignores>
+						<excludes>
+							<exclude>grupo4/dds/receta/Temporada.class</exclude>
+						</excludes>
 						<ignoreTrivial>true</ignoreTrivial>
+						<ignoreMethodAnnotation>grupo4.dds.misc.CoberturaIgnore</ignoreMethodAnnotation>
 					</instrumentation>
 					<check>
 						<branchRate>60</branchRate>

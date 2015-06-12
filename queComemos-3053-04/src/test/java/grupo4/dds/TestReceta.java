@@ -50,7 +50,7 @@ public class TestReceta {
 	/* Test: @modificarReceta/6 */
 	@Test
 	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() throws NoSePuedeModificarLaReceta {
-		Usuario usuario = Usuario.crearPerfil();		
+		Usuario usuario = Usuario.crearPerfil(null);		
 		receta = Receta.crearNueva(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
@@ -67,10 +67,10 @@ public class TestReceta {
 	}
 	
 	@Test
-	public void testNoPuedeModificarseUnaRecetaConUnUsuarioQueNoLaCreo() throws NoSePuedeModificarLaReceta {
+	public void testNoPuedeModificarseUnaRecetaConUnUsuarioQueNoLaCreo() {
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
-		Usuario usuario = Usuario.crearPerfil();		
+		Usuario usuario = Usuario.crearPerfil("unUsuario");		
 		receta = Receta.crearNueva(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
@@ -81,13 +81,13 @@ public class TestReceta {
 		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 		ingredientes.add(frutas);
 				
-		receta.modificarReceta(Usuario.crearPerfil(), encabezado, ingredientes, null, "Preparación después de modificar", null);
+		receta.modificarReceta(Usuario.crearPerfil("otroUsuario"), encabezado, ingredientes, null, "Preparación después de modificar", null);
 		assertEquals(receta.getPreparacion(), "Preparación después de modificar");
 	}
 	
 	@Test
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta {
-		Usuario usuario = Usuario.crearPerfil();
+		Usuario usuario = Usuario.crearPerfil(null);
 		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, "Preparación antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();

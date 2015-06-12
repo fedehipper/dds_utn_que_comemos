@@ -26,10 +26,12 @@ public class RepositorioDeRecetas {
 	/* Servicios */
 
 	public List<Receta> listarRecetasPara(Usuario usuario) {
-		return recetasQuePuedeVer(usuario).collect(Collectors.toList());
+		List<Receta> consulta = recetasQuePuedeVer(usuario).collect(Collectors.toList());;
+		notificarATodos(usuario, consulta);
+		
+		return consulta;
 	}
 	
-	// punto 3) evento 
 	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
 		
 		Stream<Receta> stream = recetasQuePuedeVer(usuario);
@@ -49,61 +51,35 @@ public class RepositorioDeRecetas {
 		return consulta;
 	}
 	
-	// punto 4) evento
-	public List<Receta> listarRecetasParaPunto4(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento, List<Monitor> monitores) {
-		
-		Stream<Receta> stream = recetasQuePuedeVer(usuario);
-		if(filtros != null)
-			for (Filtro filtro : filtros)
-				stream = stream.filter(r -> filtro.test(usuario, r));
-		
-		List<Receta> recetasFiltradas = stream.collect(Collectors.toList());
-		List<Receta> consulta;
-		
-		if (postProcesamiento == null) 
-			consulta = recetasFiltradas;
-		else
-			consulta = postProcesamiento.procesar(recetasFiltradas);
-
-		notificarATodosPunto4(usuario, consulta, monitores);
-		return consulta;
-	}
-	
-	
-	// punto 4) alternativa a observer
-	public void notificarATodosPunto4(Usuario usuario, List<Receta> consulta, List<Monitor> monitores) {
-		monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
-	}
-	
-	// punto 3) observer
 	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
 		monitor.notificarConsulta(consulta, usuario);
 	}
 	
-	// punto 3) observer
 	public void notificarATodos(Usuario usuario, List<Receta> consulta) {
 		this.monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
 	}
 	
-	/* Seters and Getters */
 	
-	public void setMonitor(Monitor monitor) {
-		this.monitores.add(monitor);
-	}
-	
-	public void removeMonitor(Monitor monitor) {
-		this.monitores.remove(monitor);
+	// punto 4) alternativa a observer
+	public List<Receta> listarRecetasParaPunto4(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento, List<Monitor> monitores) {
+		List<Receta> consulta = listarRecetasPara(usuario, filtros, postProcesamiento);
+		notificarATodosPunto4(usuario, consulta, monitores);
+		
+		return consulta;
+	}	
+
+	public void notificarATodosPunto4(Usuario usuario, List<Receta> consulta, List<Monitor> monitores) {
+		monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
 	}
 	
 	
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
-		return recetas.stream().filter(r -> usuario.puedeVer(r));
-	}
-	
-	public void vaciar() {
-		recetas.clear();
+		HashSet<Receta> todasLasRecetas = new HashSet<>(recetas);
+		todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
+		
+		return todasLasRecetas.stream().filter(r -> usuario.puedeVer(r));
 	}
 	
 	/* Accesors and Mutators */
@@ -120,4 +96,16 @@ public class RepositorioDeRecetas {
 		this.recetas.remove(unaReceta);
 	}
 
+	public void vaciar() {
+		recetas.clear();
+	}
+	
+	public void setMonitor(Monitor monitor) {
+		this.monitores.add(monitor);
+	}
+	
+	public void removeMonitor(Monitor monitor) {
+		this.monitores.remove(monitor);
+	}
+	
 }

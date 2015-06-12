@@ -1,4 +1,6 @@
-package grupo4.dds.usuario;
+package grupo4.dds.usuario.gestionDePerfiles;
+
+import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
 

@@ -1,13 +1,11 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.misc.CoberturaIgnore;
+
 public class Ingrediente {
 	
 	private String nombre;
 	private float cantidad;
-	
-	static public Ingrediente ingrediente(String nombre) {
-		return new Ingrediente(nombre, 0);
-	}
 	
 	public Ingrediente(String nombre, float cantidad) {
 		this.nombre = nombre;
@@ -30,10 +28,7 @@ public class Ingrediente {
 		return nombre.equals("carne") || nombre.equals("chivito") || nombre.equals("chori") || nombre.equals("pollo");
 	}
 
-	public boolean esFruta() {
-		return nombre.equals("fruta");
-	}
-
+	@CoberturaIgnore
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -41,7 +36,8 @@ public class Ingrediente {
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		return result;
 	}
-
+	
+	@CoberturaIgnore
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

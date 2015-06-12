@@ -5,13 +5,15 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
 
+import queComemos.entrega3.dominio.Dificultad;
+
 public class CantidadDeVeganos implements Monitor {
 
 	private Integer contadorDeVeganos = 0;
 	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
 		
-		if(consulta.stream().anyMatch(r -> r.getDificultad() == "D") && usuarioConsultor.esVegano()) 
+		if(consulta.stream().anyMatch(r -> r.getDificultad() == Dificultad.DIFICIL) && usuarioConsultor.esVegano()) 
 			this.contadorDeVeganos = this.contadorDeVeganos + 1;
 	}
 	

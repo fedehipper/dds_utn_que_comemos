@@ -179,7 +179,7 @@ public class TestUsuario {
 	/* Test: @leGusta/1 */
 	@Test
 	public void testLeGustaLaCarneAUnUsuario() {
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		Ingrediente carne = new Ingrediente("carne", 0f);
 		
 		usuario.agregarPreferenciaAlimenticia(carne);
@@ -188,7 +188,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testNoLeGustanLasFrutasAUnUsuario() {
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		
 		Ingrediente carne = new Ingrediente("carne", 0f);
 				
@@ -199,7 +199,7 @@ public class TestUsuario {
 	/* Test: @esAdecuada/1 */
 	@Test
 	public void testNoEsAdecuadaUnaRecetaParaUnUsuarioSiEsInvalida() {
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		receta = Receta.crearNueva();
 		
 		assertFalse(usuario.esAdecuada(receta));
@@ -207,7 +207,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testEsAdecuadaUnaRecetaParaUnUsuarioSinCondiciones() {
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		
 		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
@@ -220,7 +220,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testEsAdecuadaUnaRecetaParaUnUsuarioSiEsRecomendableParaTodasSusCondiciones() {
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
@@ -243,7 +243,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testNoEsAdecuadaUnaRecetaParaUnUsuarioSiNoEsRecomendableParaAlgunaDeSusCondiciones() {
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
@@ -451,7 +451,7 @@ public class TestUsuario {
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiNoCumpleTodasSusCondiciones() {
 		
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Vegano());
 		
@@ -466,7 +466,7 @@ public class TestUsuario {
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiContieneComidasQueLeDisgustan() {
 		
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		usuario.agregarComidaQueLeDisgusta(new Ingrediente("carne"));
 		
 		receta = Receta.crearNueva();
@@ -479,7 +479,7 @@ public class TestUsuario {
 	@Test
 	public void testSePuedeSugerirUnaRecetaAUnUsuario() {
 		
-		usuario = Usuario.crearPerfil();
+		usuario = Usuario.crearPerfil(null);
 		
 		receta = Receta.crearNueva();
 		receta.setTotalCalorias(4500);
