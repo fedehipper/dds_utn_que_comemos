@@ -15,7 +15,7 @@ public class RecetasMasConsultadasPorSexo implements Monitor {
 	private HashMap<Receta, Integer> contadorDeRecetasSexoMasculino = new HashMap<Receta, Integer>();
 	private HashMap<Receta, Integer> contadorDeRecetasSexoFemenino = new HashMap<Receta, Integer>();
 	
-
+	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuario) {
 
 		ListIterator<Receta> punteroReceta = consulta.listIterator(); 
@@ -23,7 +23,6 @@ public class RecetasMasConsultadasPorSexo implements Monitor {
 		HashMap<Receta, Integer> contador = contadorPorSexo(usuario.getSexo()); 
 		
 		while(punteroReceta.hasNext()) {
-			
 			Receta aux = punteroReceta.next();
 			
 			if (contador.containsKey(aux))
@@ -36,12 +35,10 @@ public class RecetasMasConsultadasPorSexo implements Monitor {
 	public HashMap<Receta, Integer> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
 		
 		HashMap<Receta, Integer> contador = contadorPorSexo(sexo); 
-		
 		List<Receta> recetas = contador.keySet().stream().collect(Collectors.toList());
 		
 		List<Receta> vistaRecetasPorCantidad = ordenMasConsultadas(recetas, sexo).subList(0, cantidad);
-		
-		HashMap<Receta, Integer> recetasYCantidad = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> recetasYCantidad = new HashMap<>();
 		
 		ListIterator<Receta> punteroReceta = vistaRecetasPorCantidad.listIterator();
 		
