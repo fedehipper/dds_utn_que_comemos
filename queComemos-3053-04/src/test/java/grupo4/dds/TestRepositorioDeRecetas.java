@@ -3,7 +3,6 @@ package grupo4.dds;
 import static org.junit.Assert.*;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
-import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -50,8 +49,7 @@ public class TestRepositorioDeRecetas {
 	private Receta receta5;
 	private RecetaPublica receta6;
 	private RecetaPublica receta7;
-	private RecetaPublica receta8;
-	private List<Monitor> monitores = new ArrayList<>();	
+	private RecetaPublica receta8;	
 	@Before
 	public void setUp() {
 		expected = null;
@@ -165,22 +163,5 @@ public class TestRepositorioDeRecetas {
 		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
 		
 	}
-	
-
-	@Test
-	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistradosSinObserver() {
-		
-		filtros.add(new FiltroNoLeGusta());
-		arielFolino.agregarCondicion(new Vegano());
-		
-		monitores = Arrays.asList(cantidadVeganos, cantidadHoras);
-
-		RepositorioDeRecetas.get().listarRecetasParaPunto4(arielFolino, filtros , null, monitores);
-		RepositorioDeRecetas.get().listarRecetasParaPunto4(federicoHipper, filtros , null, monitores);
-		
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 2);
-		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
-	}
-	
 	
 }

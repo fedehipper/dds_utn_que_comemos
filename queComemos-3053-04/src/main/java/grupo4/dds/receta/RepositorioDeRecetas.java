@@ -59,20 +59,6 @@ public class RepositorioDeRecetas {
 		this.monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
 	}
 	
-	
-	// punto 4) alternativa a observer
-	public List<Receta> listarRecetasParaPunto4(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento, List<Monitor> monitores) {
-		List<Receta> consulta = listarRecetasPara(usuario, filtros, postProcesamiento);
-		notificarATodosPunto4(usuario, consulta, monitores);
-		
-		return consulta;
-	}	
-
-	public void notificarATodosPunto4(Usuario usuario, List<Receta> consulta, List<Monitor> monitores) {
-		monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
-	}
-	
-	
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {

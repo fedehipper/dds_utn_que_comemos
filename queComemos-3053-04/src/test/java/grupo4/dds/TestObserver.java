@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
-import grupo4.dds.monitores.RecetaMasConsultada;
+import grupo4.dds.monitores.RecetasMasConsultadas;
 import grupo4.dds.monitores.RecetasMasConsultadasPorSexo;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
@@ -33,7 +33,7 @@ public class TestObserver {
 	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, Dificultad.DIFICIL);
 	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, Dificultad.DIFICIL);
 	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, Dificultad.FACIL);
-	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanga",null, Dificultad.FACIL);
+	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanesa",null, Dificultad.FACIL);
 	
 	List<Filtro> filtros = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class TestObserver {
 	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 	private Usuario Ariel;
 	private Usuario fecheSena;
-	private RecetaMasConsultada recetaMasConsultada = new RecetaMasConsultada();
+	private RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
 	private RecetasMasConsultadasPorSexo recetasPorSexo = new RecetasMasConsultadasPorSexo();
 
 	private Receta sopa;
@@ -76,8 +76,7 @@ public class TestObserver {
 		
 		RepositorioDeRecetas.get().agregarListaDeRecetas(recetas);
 	}
-	
-	
+
 	@Test
 	public void testAumentaContadorDeHorasEnHoraActual() {
 		cantidadHoras.notificarConsulta(l1, u);
@@ -98,27 +97,16 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testCantidadConsultasDeUnaReceta() {
-		recetaMasConsultada.guardarMaximo(10, "fideos");
-		recetaMasConsultada.guardarMaximo(1, "pescado");
-		recetaMasConsultada.guardarMaximo(2, "fideos");
-		recetaMasConsultada.guardarMaximo(9, "arroz");
-		recetaMasConsultada.guardarMaximo(4, "fideos");
-
-		assertEquals(recetaMasConsultada.getRecetaMasConsultada(), "fideos");
-	}
-
-	@Test
 	public void testDadoUnHashConRecetasYConsultasDevuelveLaMasConsultada() {
-		recetaMasConsultada.notificarConsulta(l2, Ariel);
-		recetaMasConsultada.notificarConsulta(l1, u);
-		recetaMasConsultada.notificarConsulta(l1, Ariel);
-		recetaMasConsultada.notificarConsulta(l2, u);
+		recetasMasConsultadas.notificarConsulta(l2, Ariel);
+		recetasMasConsultadas.notificarConsulta(l1, u);
+		recetasMasConsultadas.notificarConsulta(l1, Ariel);
+		recetasMasConsultadas.notificarConsulta(l2, u);
 
-		HashMap<String, Integer> resultado = new HashMap<String, Integer>();
-		resultado.put("sopa", 4);
+		HashMap<Receta, Integer> recetas = new HashMap<Receta, Integer>();
+		recetas.put(r4, 4);
 
-		assertEquals(recetaMasConsultada.recetaMasConsultada(), resultado);
+		assertEquals(recetasMasConsultadas.recetasMasConsultadas(1), recetas);
 	}
 
 	@Test
@@ -149,28 +137,34 @@ public class TestObserver {
 	@Test
 	public void testReposiorioRecetasNotificaAUnMonitor() {
 
-		RepositorioDeRecetas.get().notificar(recetaMasConsultada, Ariel, l1);
-		RepositorioDeRecetas.get().notificar(recetaMasConsultada, Ariel, l2);
-		RepositorioDeRecetas.get().notificar(recetaMasConsultada, u, l1);
-
-		HashMap<String, Integer> resultado = new HashMap<String, Integer>();
-		resultado.put("sopa", 3);
-		assertEquals(recetaMasConsultada.recetaMasConsultada(), resultado);
+		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, Ariel, l1);
+		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, Ariel, l1);
+		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, u, l2);
+	
+		HashMap<Receta, Integer> recetas = new HashMap<Receta, Integer>();
+		recetas.put(r4, 3);
+		recetas.put(r5, 2);
+		
+		assertEquals(recetasMasConsultadas.recetasMasConsultadas(2), recetas);
 	}
 
 	@Test
 	public void testRepositorioRecetasNotificaARecetasMasConsultadas() {
-		RepositorioDeRecetas.get().setMonitor(recetaMasConsultada);
+		RepositorioDeRecetas.get().setMonitor(recetasMasConsultadas);
 
 		RepositorioDeRecetas.get().notificarATodos(Ariel, l2);
 		RepositorioDeRecetas.get().notificarATodos(Ariel, l1);
 		RepositorioDeRecetas.get().notificarATodos(u, l1);
+		RepositorioDeRecetas.get().notificarATodos(u, l1);
+		RepositorioDeRecetas.get().notificarATodos(u, l3);
 		RepositorioDeRecetas.get().notificarATodos(u, l2);
-
-		HashMap<String, Integer> resultado1 = new HashMap<String, Integer>();
-		resultado1.put("sopa", 4);
-
-		assertEquals(recetaMasConsultada.recetaMasConsultada(), resultado1);
+		
+		HashMap<Receta, Integer> recetas = new HashMap<Receta, Integer>();
+		recetas.put(r4, 5);
+		recetas.put(r5, 4);
+		recetas.put(r3, 3);
+		
+		assertEquals(recetasMasConsultadas.recetasMasConsultadas(3), recetas);
 	}
 	
 	@Test
@@ -224,5 +218,5 @@ public class TestObserver {
 
 		assertEquals(recetasPorSexo.recetaMasConsultada(u), resultado);
 	}
-
+	
 }
