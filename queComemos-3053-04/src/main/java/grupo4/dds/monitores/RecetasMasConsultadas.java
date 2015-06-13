@@ -15,6 +15,8 @@ public class RecetasMasConsultadas implements Monitor {
 
 	private HashMap<Receta, Integer> contadorDeRecetas = new HashMap<Receta, Integer>();
 	
+	
+	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
 
 		ListIterator<Receta> receta = consulta.listIterator(); 
@@ -34,19 +36,17 @@ public class RecetasMasConsultadas implements Monitor {
 		
 		List<Receta> recetas = contadorDeRecetas.keySet().stream().collect(Collectors.toList());
 		
-		List<Receta> vistaRecetas = ordenMasConsultadas(recetas).subList(0, cantidad);
+		List<Receta> vistaRecetasPorCantidad = ordenMasConsultadas(recetas).subList(0, cantidad);
 		
-		HashMap<Receta, Integer> aux = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> recetasYCantidad = new HashMap<Receta, Integer>();
 		
-		ListIterator<Receta> punteroReceta = vistaRecetas.listIterator();
+		ListIterator<Receta> punteroReceta = vistaRecetasPorCantidad.listIterator();
 		
 		while(punteroReceta.hasNext()) {
-			
 			Receta unaReceta = punteroReceta.next();
-			
-			aux.put(unaReceta, contadorDeRecetas.get(unaReceta));
+			recetasYCantidad.put(unaReceta, contadorDeRecetas.get(unaReceta));
 		}
-		return aux;
+		return recetasYCantidad;
 	}
 	
 	public List<Receta> ordenMasConsultadas(List<Receta> recetas) {

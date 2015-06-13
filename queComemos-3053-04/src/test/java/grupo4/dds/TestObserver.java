@@ -110,28 +110,36 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testRecetasMasConsultadasPorSexo() {
-		recetasPorSexo.notificarConsulta(l2, Ariel);
+	public void testRecetasMasConsultadasPorSexoFemenino() {
 		recetasPorSexo.notificarConsulta(l1, Ariel);
+		recetasPorSexo.notificarConsulta(l1, Ariel);
+		recetasPorSexo.notificarConsulta(l2, Ariel);
 		recetasPorSexo.notificarConsulta(l1, u);
-		recetasPorSexo.notificarConsulta(l2, u);
+		recetasPorSexo.notificarConsulta(l3, u);
+		recetasPorSexo.notificarConsulta(l3, u);
 
-		HashMap<String, Integer> resultado = new HashMap<String, Integer>();
-		resultado.put("sopa", 2);
-
-		assertEquals(recetasPorSexo.recetaMasConsultada(Ariel), resultado);
-		assertEquals(recetasPorSexo.recetaMasConsultada(u), resultado);
+		HashMap<Receta, Integer> resultado = new HashMap<Receta, Integer>();
+		resultado.put(r5, 3);
+		resultado.put(r3, 2);		
+	
+		assertEquals(recetasPorSexo.recetasMasConsultadasPor(Sexo.FEMENINO, 2), resultado);
 	}
-
+	
 	@Test
-	public void testRecetasPorSexoMasculino() {
-		recetasPorSexo.notificarConsulta(l2, Ariel);
+	public void testRecetasMasConsultadasPorSexoMasculino() {
 		recetasPorSexo.notificarConsulta(l1, Ariel);
+		recetasPorSexo.notificarConsulta(l1, Ariel);
+		recetasPorSexo.notificarConsulta(l2, Ariel);
+		recetasPorSexo.notificarConsulta(l1, u);
+		recetasPorSexo.notificarConsulta(l3, u);
+		recetasPorSexo.notificarConsulta(l3, u);
 
-		HashMap<String, Integer> resultado = new HashMap<String, Integer>();
-		resultado.put("sopa", 2);
+		HashMap<Receta, Integer> resultado = new HashMap<Receta, Integer>();
+		resultado.put(r4, 3);
+		resultado.put(r5, 2);			
+		
+		assertEquals(recetasPorSexo.recetasMasConsultadasPor(Sexo.MASCULINO, 2), resultado);
 
-		assertEquals(recetasPorSexo.recetaMasConsultada(Ariel), resultado);
 	}
 
 	@Test
@@ -159,7 +167,7 @@ public class TestObserver {
 		RepositorioDeRecetas.get().notificarATodos(u, l3);
 		RepositorioDeRecetas.get().notificarATodos(u, l2);
 		
-		HashMap<Receta, Integer> recetas = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> recetas = new HashMap<>();
 		recetas.put(r4, 5);
 		recetas.put(r5, 4);
 		recetas.put(r3, 3);
@@ -176,10 +184,10 @@ public class TestObserver {
 		RepositorioDeRecetas.get().notificarATodos(u, l1);
 		RepositorioDeRecetas.get().notificarATodos(u, l2);
 
-		HashMap<String, Integer> resultado2 = new HashMap<String, Integer>();
-		resultado2.put("sopa", 2);
+		HashMap<Receta, Integer> resultado = new HashMap<>();
+		resultado.put(r4, 2);
 		
-		assertEquals(recetasPorSexo.recetaMasConsultada(Ariel), resultado2);
+		assertEquals(recetasPorSexo.recetasMasConsultadasPor(Sexo.MASCULINO, 1), resultado);
 	}
 
 	@Test
@@ -207,16 +215,6 @@ public class TestObserver {
 
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 4);
 	}
-	
-	@Test
-	public void testRecetasMasConsultadasPorSexoFemenino() {
-		recetasPorSexo.notificarConsulta(l2, u);
-		recetasPorSexo.notificarConsulta(l1, u);
 
-		HashMap<String, Integer> resultado = new HashMap<String, Integer>();
-		resultado.put("sopa", 2);
-
-		assertEquals(recetasPorSexo.recetaMasConsultada(u), resultado);
-	}
 	
 }

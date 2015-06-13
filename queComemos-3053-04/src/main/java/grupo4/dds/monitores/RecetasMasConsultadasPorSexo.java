@@ -7,67 +7,66 @@ import grupo4.dds.usuario.Usuario;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 
 public class RecetasMasConsultadasPorSexo implements Monitor {
 	
-	private HashMap<String, Integer> contadorDeRecetasM = new HashMap<String, Integer>();
-	private HashMap<String, Integer> contadorDeRecetasF = new HashMap<String, Integer>();
+	private HashMap<Receta, Integer> contadorDeRecetasSexoMasculino = new HashMap<Receta, Integer>();
+	private HashMap<Receta, Integer> contadorDeRecetasSexoFemenino = new HashMap<Receta, Integer>();
 	
-	private String recetaMasConsultadaM;
-	private Integer cantidadDeConsultasM = 0;
-	private String recetaMasConsultadaF;
-	private Integer cantidadDeConsultasF = 0;
-	
+
 	public void notificarConsulta(List<Receta> consulta, Usuario usuario) {
 
-		if (usuario.getSexo() == Sexo.MASCULINO) 
-			this.acumular(consulta, usuario, contadorDeRecetasM);
-		else
-			this.acumular(consulta, usuario, contadorDeRecetasF);						
-	}
-	
-	public void acumular(List<Receta> consulta, Usuario usuarioConsultor, HashMap<String, Integer> contador) {
-
-		ListIterator<Receta> r =  consulta.listIterator(); 
-				
-		while(r.hasNext()) {
-			String nom = r.next().getNombreDelPlato();
+		ListIterator<Receta> punteroReceta = consulta.listIterator(); 
+		
+		HashMap<Receta, Integer> contador = contadorPorSexo(usuario.getSexo()); 
+		
+		while(punteroReceta.hasNext()) {
 			
-			if (contador.containsKey(nom)) 
-				contador.put(nom, contador.get(nom) + 1);
+			Receta aux = punteroReceta.next();
+			
+			if (contador.containsKey(aux))
+				contador.put(aux, contador.get(aux) + 1);
 			else
-				contador.put(nom, 1);
+				contador.put(aux, 1);
 		}
-	}
-		
-	public HashMap<String, Integer> recetaMasConsultada(Usuario usuario) {
-		
-		HashMap<String, Integer> receta = new HashMap<String, Integer>();
-		
-		if (usuario.getSexo() == Sexo.MASCULINO) {
-			contadorDeRecetasM.forEach((r, v) -> guardarMaximo(v, r, usuario.getSexo()));
-			receta.put(recetaMasConsultadaM, cantidadDeConsultasM);
-		}
-		else {
-			contadorDeRecetasF.forEach((r, v) -> guardarMaximo(v, r, usuario.getSexo()));
-			receta.put(recetaMasConsultadaF, cantidadDeConsultasF);	
-		}
-		return receta;
 	}
 	
+	public HashMap<Receta, Integer> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
+		
+		HashMap<Receta, Integer> contador = contadorPorSexo(sexo); 
+		
+		List<Receta> recetas = contador.keySet().stream().collect(Collectors.toList());
+		
+		List<Receta> vistaRecetasPorCantidad = ordenMasConsultadas(recetas, sexo).subList(0, cantidad);
+		
+		HashMap<Receta, Integer> recetasYCantidad = new HashMap<Receta, Integer>();
+		
+		ListIterator<Receta> punteroReceta = vistaRecetasPorCantidad.listIterator();
+		
+		while(punteroReceta.hasNext()) {
+			Receta unaReceta = punteroReceta.next();
+			recetasYCantidad.put(unaReceta, contador.get(unaReceta));
+		}
+		return recetasYCantidad;
+	}
+	
+	public HashMap<Receta, Integer> contadorPorSexo(Sexo sexo) {
 
-	public void guardarMaximo(Integer unValor, String unaReceta, Sexo sexo) {
-		
-			if (unValor >= cantidadDeConsultasM && sexo == Sexo.MASCULINO) {
-				cantidadDeConsultasM = unValor;
-				recetaMasConsultadaM = unaReceta;
-			}
-			if (unValor >= cantidadDeConsultasF && sexo == Sexo.FEMENINO) {
-				cantidadDeConsultasF = unValor;
-				recetaMasConsultadaF = unaReceta;
-			}
+		if (sexo == Sexo.MASCULINO) 
+			return contadorDeRecetasSexoMasculino; 
+		else
+			return contadorDeRecetasSexoFemenino;
 	}
 	
+	public List<Receta> ordenMasConsultadas(List<Receta> recetas, Sexo sexo) {
+		recetas.sort((r1,r2) -> getValor(r2, sexo) - (getValor(r1, sexo)));
+		return recetas;
+	}
 	
+	public int getValor(Receta receta, Sexo sexo) {
+		return contadorPorSexo(sexo).get(receta);
+	}
+
 }
