@@ -9,18 +9,18 @@ import java.util.List;
 
 public class CantidadDeHoras implements Monitor {
 
-	private HashMap<Integer, Integer> horasDelDia = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> horasDelDia = new HashMap<>();
 	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
 		
-		Integer ahora = new Integer(LocalTime.now().getHour());
+		int ahora = new Integer(LocalTime.now().getHour());
 		if (horasDelDia.get(ahora) == null)
 			horasDelDia.put(ahora, 1);
 		else
 			horasDelDia.put(ahora, horasDelDia.get(ahora) + 1);
 	}
 	
-	public Integer cantidadDeConsultasPor(Integer unaHora) {
+	public int cantidadDeConsultasPor(int unaHora) {
 		return horasDelDia.get(unaHora);
 	}
 	

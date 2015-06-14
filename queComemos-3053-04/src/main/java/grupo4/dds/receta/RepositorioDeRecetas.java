@@ -26,7 +26,7 @@ public class RepositorioDeRecetas {
 	/* Servicios */
 
 	public List<Receta> listarRecetasPara(Usuario usuario) {
-		List<Receta> consulta = recetasQuePuedeVer(usuario).collect(Collectors.toList());;
+		List<Receta> consulta = recetasQuePuedeVer(usuario).collect(Collectors.toList());
 		notificarATodos(usuario, consulta);
 		
 		return consulta;

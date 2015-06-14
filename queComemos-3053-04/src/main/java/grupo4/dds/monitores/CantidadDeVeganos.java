@@ -9,15 +9,14 @@ import queComemos.entrega3.dominio.Dificultad;
 
 public class CantidadDeVeganos implements Monitor {
 
-	private Integer contadorDeVeganos = 0;
+	private int contadorDeVeganos = 0;
 	
-	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
-		
-		if(consulta.stream().anyMatch(r -> r.getDificultad() == Dificultad.DIFICIL) && usuarioConsultor.esVegano()) 
-			this.contadorDeVeganos = this.contadorDeVeganos + 1;
+	public void notificarConsulta(List<Receta> consulta, Usuario usuario) {
+		if(consulta.stream().anyMatch(r -> r.getDificultad() == Dificultad.DIFICIL) && usuario.esVegano()) 
+			contadorDeVeganos++;
 	}
 	
-	public Integer getContadorDeVeganos() {
+	public int getContadorDeVeganos() {
 		return contadorDeVeganos;
 	}
 	

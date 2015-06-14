@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class RecetasMasConsultadas implements Monitor {
 	
-	private HashMap<Receta, Integer> contadorRecetas = new HashMap<Receta, Integer>();
+	private HashMap<Receta, Integer> contadorRecetas = new HashMap<>();
 	
 
 	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {

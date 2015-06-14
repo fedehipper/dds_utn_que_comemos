@@ -103,7 +103,7 @@ public class TestObserver {
 		recetasMasConsultadas.notificarConsulta(l1, Ariel);
 		recetasMasConsultadas.notificarConsulta(l2, u);
 
-		HashMap<Receta, Integer> recetas = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> recetas = new HashMap<>();
 		recetas.put(r4, 4);
 
 		assertEquals(recetasMasConsultadas.recetasMasConsultadas(1), recetas);
@@ -118,7 +118,7 @@ public class TestObserver {
 		recetasPorSexo.notificarConsulta(l3, u);
 		recetasPorSexo.notificarConsulta(l3, u);
 
-		HashMap<Receta, Integer> resultado = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> resultado = new HashMap<>();
 		resultado.put(r5, 3);
 		resultado.put(r3, 2);		
 	
@@ -134,7 +134,7 @@ public class TestObserver {
 		recetasPorSexo.notificarConsulta(l3, u);
 		recetasPorSexo.notificarConsulta(l3, u);
 
-		HashMap<Receta, Integer> resultado = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> resultado = new HashMap<>();
 		resultado.put(r4, 3);
 		resultado.put(r5, 2);			
 		
@@ -149,7 +149,7 @@ public class TestObserver {
 		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, Ariel, l1);
 		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, u, l2);
 	
-		HashMap<Receta, Integer> recetas = new HashMap<Receta, Integer>();
+		HashMap<Receta, Integer> recetas = new HashMap<>();
 		recetas.put(r4, 3);
 		recetas.put(r5, 2);
 		
@@ -215,6 +215,5 @@ public class TestObserver {
 
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 4);
 	}
-
 	
 }

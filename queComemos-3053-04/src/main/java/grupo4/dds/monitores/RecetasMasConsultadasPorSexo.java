@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class RecetasMasConsultadasPorSexo implements Monitor {
 	
-	private HashMap<Receta, Integer> contadorSexoMasculino = new HashMap<Receta, Integer>();
-	private HashMap<Receta, Integer> contadorSexoFemenino = new HashMap<Receta, Integer>();
+	private HashMap<Receta, Integer> contadorSexoMasculino = new HashMap<>();
+	private HashMap<Receta, Integer> contadorSexoFemenino = new HashMap<>();
 	
 	
 	public void notificarConsulta(List<Receta> consulta, Usuario usuario) {
@@ -63,8 +63,5 @@ public class RecetasMasConsultadasPorSexo implements Monitor {
 	public int getValor(Receta receta, Sexo sexo) {
 		return contadorPor(sexo).get(receta);
 	}
-
 	
 }
-
-
