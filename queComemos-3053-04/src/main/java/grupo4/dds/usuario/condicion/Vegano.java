@@ -7,7 +7,7 @@ public class Vegano extends Condicion {
 
 	
 	public boolean esValidaCon(Usuario usuario) {
-		return (!usuario.leGustaLaCarne());
+		return !usuario.leGustaLaCarne();
 	}
 
 	public boolean subsanaCondicion(Usuario usuario) {

@@ -10,8 +10,7 @@ public class RecetaPublica extends Receta {
 	
 	/* Constructores */
 
-	public static RecetaPublica crearNueva(
-			EncabezadoDeReceta encabezado, String preparacion) {
+	public static RecetaPublica crearNueva(EncabezadoDeReceta encabezado, String preparacion) {
 		RecetaPublica self = new RecetaPublica(encabezado, preparacion);
 		
 		RepositorioDeRecetas.get().agregarReceta(self);
@@ -36,10 +35,8 @@ public class RecetaPublica extends Receta {
 		return false;
 	}
 
-	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
-			List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, String preparacion,
-			List<Receta> subRecetas) {
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
+			List<Ingrediente> condimentos, String preparacion, List<Receta> subRecetas) {
 
 		//TODO: descomentar cuando sea posible que se de esta situación
 //		if (!puedeSerModificadaPor(usuario))
@@ -57,8 +54,7 @@ public class RecetaPublica extends Receta {
 	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {
-		return Receta.crearNueva(usuario, encabezado, ingredientes, condimentos, subrecetas,
-				preparacion);
+		return Receta.crearNueva(usuario, encabezado, ingredientes, condimentos, subrecetas, preparacion);
 	}
 
 }

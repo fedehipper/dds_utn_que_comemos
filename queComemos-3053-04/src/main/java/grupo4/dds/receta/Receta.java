@@ -30,19 +30,14 @@ public class Receta {
 		return crearNueva(null, null, null);
 	}
 	
-	public static Receta crearNueva(Usuario creador,
-			EncabezadoDeReceta encabezado, String preparacion) {
-
+	public static Receta crearNueva(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
 		return crearNueva(creador, encabezado, null, null, null, preparacion);
 	}
 
-	public static Receta crearNueva(Usuario creador,
-			EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas,
-			String preparacion) {
+	public static Receta crearNueva(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
+			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
 
-		Receta self = new Receta(creador, encabezado, ingredientes,
-				condimentos, subrecetas, preparacion);
+		Receta self = new Receta(creador, encabezado, ingredientes, condimentos, subrecetas, preparacion);
 		
 		//TODO: hacer validas recetas en los test para agregar esta funcion
 		//if(creador != null)
@@ -53,9 +48,8 @@ public class Receta {
 		return self;
 	}
 
-	protected Receta(Usuario creador, EncabezadoDeReceta encabezado,
-			List<Ingrediente> ingredientes, List<Ingrediente> condimentos,
-			List<Receta> subrecetas, String preparacion) {
+	protected Receta(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
+			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
 
 		this.creador = creador;
 		this.encabezado = encabezado != null ? encabezado
@@ -73,8 +67,7 @@ public class Receta {
 
 	public boolean esValida() {
 		int totalCalorias = getTotalCalorias();
-		return !ingredientes.isEmpty() && 10 <= totalCalorias
-				&& totalCalorias <= 5000;
+		return !ingredientes.isEmpty() && 10 <= totalCalorias && totalCalorias <= 5000;
 	}
 
 	public boolean tieneIngrediente(String nombreIngrediente) {
@@ -86,15 +79,13 @@ public class Receta {
 	}
 
 	public float cantidadCondimento(String nombreCondimento) {
-		int index = getCondimentos().indexOf(
-				new Ingrediente(nombreCondimento));
+		int index = getCondimentos().indexOf(new Ingrediente(nombreCondimento));
 		return getCondimentos().get(index).getCantidad();
 	}
 
 	public boolean puedeSerVistaPor(Usuario usuario) {
 		if(creador == null)
 			return false;
-		
 		return creador.equals(usuario);
 	}
 
@@ -102,9 +93,8 @@ public class Receta {
 		return puedeSerVistaPor(usuario);
 	}
 
-	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado,
-			List<Ingrediente> ingredientes, List<Ingrediente> condimentos,
-			String preparacion, List<Receta> subrecetas) {
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
+			List<Ingrediente> condimentos, String preparacion, List<Receta> subrecetas) {
 
 		if (!usuario.puedeModificar(this))
 			throw new NoSePuedeModificarLaReceta();
@@ -135,15 +125,11 @@ public class Receta {
 	}
 
 	public List<Ingrediente> getIngredientes() {
-		return getConSubrecetas((Receta receta) -> {
-			return receta.ingredientes;
-		}, ingredientes);
+		return getConSubrecetas((Receta receta) -> { return receta.ingredientes;}, ingredientes);
 	}
 
 	public List<Ingrediente> getCondimentos() {
-		return getConSubrecetas((Receta receta) -> {
-			return receta.condimentos;
-		}, condimentos);
+		return getConSubrecetas((Receta receta) -> {return receta.condimentos;}, condimentos);
 	}
 
 	public boolean contieneAlguna(List<Ingrediente> comidas) {
@@ -170,17 +156,14 @@ public class Receta {
 	}
 
 	// TODO mejorar para llegar a algo más cercano a fold/reduct
-	private List<Ingrediente> getConSubrecetas(
-			Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
+	private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
 
 		List<Ingrediente> acum = new ArrayList<Ingrediente>(seed);
 
-		for (Receta elem : subrecetas) {
+		for (Receta elem : subrecetas) 
 			acum.addAll(f.apply(elem));
-		}
 
 		return acum;
-
 	}
 
 	/* Accessors and Mutators */

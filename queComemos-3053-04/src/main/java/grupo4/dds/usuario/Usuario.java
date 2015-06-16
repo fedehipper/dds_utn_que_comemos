@@ -113,7 +113,6 @@ public class Usuario {
 	public void marcarFavorita(Receta receta) {
 		if(!puedeVer(receta))
 			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
-			
 		historial.add(receta);
 	}
 		

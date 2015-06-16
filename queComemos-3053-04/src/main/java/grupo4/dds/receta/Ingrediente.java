@@ -28,7 +28,7 @@ public class Ingrediente {
 		return nombre.equals("carne") || nombre.equals("chivito") || nombre.equals("chori") || nombre.equals("pollo");
 	}
 
-	@CoberturaIgnore
+	@CoberturaIgnore 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -37,7 +37,7 @@ public class Ingrediente {
 		return result;
 	}
 	
-	@CoberturaIgnore
+	@CoberturaIgnore 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

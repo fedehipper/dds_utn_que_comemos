@@ -62,6 +62,7 @@ public class RepositorioDeRecetas {
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
+		
 		HashSet<Receta> todasLasRecetas = new HashSet<>(recetas);
 		todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
 		

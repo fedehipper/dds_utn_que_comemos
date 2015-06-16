@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class TomarResultadosPares implements PostProcesamiento {
 	
 	public List<Receta> procesar(List<Receta> recetas) {
-		return recetas.stream().filter( r -> esPar(recetas.indexOf(r)) ).collect(Collectors.toList());
+		return recetas.stream().filter(r -> esPar(recetas.indexOf(r))).collect(Collectors.toList());
 	}
 
 	private boolean esPar(int n) {
