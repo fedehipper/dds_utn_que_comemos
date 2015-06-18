@@ -1,7 +1,8 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.command.Command;
-import grupo4.dds.command.marcarRecetasFavoritas;
+import grupo4.dds.command.MarcarRecetasFavoritas;
+
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
@@ -35,6 +36,7 @@ public class RepositorioDeRecetas {
 	public List<Receta> listarRecetasPara(Usuario usuario) {
 		List<Receta> consulta = recetasQuePuedeVer(usuario).collect(Collectors.toList());
 		notificarATodos(usuario, consulta);
+		ejecutarAcciones(usuario,consulta);
 		return consulta;
 	}
 	
@@ -58,9 +60,13 @@ public class RepositorioDeRecetas {
 		return consulta;
 	}
 	
-	// instancio la accion con los parametros de la consulta
 	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
-		agregarAccion(new marcarRecetasFavoritas(usuario, consulta));
+		
+		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
+		ejecutar();
+	}
+	
+	public void ejecutar() {
 		acciones.forEach(a -> a.ejecutar());
 	}
 	
@@ -69,7 +75,7 @@ public class RepositorioDeRecetas {
 	}
 	
 	public void notificarATodos(Usuario usuario, List<Receta> consulta) {
-		this.monitores.forEach(monitor -> this.notificar(monitor, usuario, consulta));
+		this.monitores.forEach(monitor -> notificar(monitor, usuario, consulta));
 	}
 	
 	/* Servicios privados */
@@ -83,15 +89,15 @@ public class RepositorioDeRecetas {
 	/* Accesors and Mutators */
 	
 	public void agregarReceta(Receta unaReceta) {
-		this.recetas.add(unaReceta);
+		recetas.add(unaReceta);
 	}
 	
 	public void agregarListaDeRecetas(List<Receta> recetas) {
-		this.recetas.addAll(recetas);
+		recetas.addAll(recetas);
 	}
 	
 	public void quitarReceta(Receta unaReceta) {
-		this.recetas.remove(unaReceta);
+		recetas.remove(unaReceta);
 	}
 
 	public void vaciar() {
@@ -99,15 +105,15 @@ public class RepositorioDeRecetas {
 	}
 	
 	public void setMonitor(Monitor monitor) {
-		this.monitores.add(monitor);
+		monitores.add(monitor);
 	}
 	
 	public void removeMonitor(Monitor monitor) {
-		this.monitores.remove(monitor);
+		monitores.remove(monitor);
 	}
 	
 	public void agregarAccion(Command unaAccion) {
-		this.acciones.add(unaAccion);
+		acciones.add(unaAccion);
 	}
 	
 }

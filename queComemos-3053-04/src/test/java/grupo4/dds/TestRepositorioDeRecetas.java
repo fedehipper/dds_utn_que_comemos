@@ -91,7 +91,6 @@ public class TestRepositorioDeRecetas {
 		receta8.agregarIngrediente(new Ingrediente("coliflor"));
 	}
 	
-	/* Test: @listarRecetasPara/1 */
 	@Test 
 	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
 		assertTrue(repositorio != null);
@@ -109,7 +108,6 @@ public class TestRepositorioDeRecetas {
 		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
 	}	
 	
-	/* Test: @listarRecetasPara/3 */
 	@Test
 	public void testSiNoAplicoFiltrosNiPostProcesamientoObtengoTodasLasRecetasQuePuedeVerElUsuario() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);

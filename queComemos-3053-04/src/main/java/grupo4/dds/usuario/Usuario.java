@@ -298,7 +298,7 @@ public class Usuario {
 		   grupo.agregarUsuario(this);
 	}
 	
-	public List<Receta> getHistorioal() {
+	public List<Receta> getHistorial() {
 		return Collections.unmodifiableList(historial);
 	}
 
@@ -310,7 +310,7 @@ public class Usuario {
 		// TODO hacer algo
 	}
 
-	public boolean isMarcaFavorita() {
+	public boolean esMarcaFavorita() {
 		return marcaFavorita;
 	}
 
@@ -320,7 +320,7 @@ public class Usuario {
 
 	// punto 5 entrega 4
 	public void marcarRecetasComoFavoritas(List<Receta> consulta) {
-		consulta.forEach(r -> this.marcarFavorita(r));
+		consulta.forEach(r -> marcarFavorita(r));
 	}
 
 }

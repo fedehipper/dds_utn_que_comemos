@@ -500,7 +500,7 @@ public class TestUsuario {
 		
 		List<Receta> expected = Arrays.asList(recetaPublica, receta);
 		
-		assertTrue(arielFolino.getHistorioal().containsAll(expected));
+		assertTrue(arielFolino.getHistorial().containsAll(expected));
 	}
 	
 	@Test 
