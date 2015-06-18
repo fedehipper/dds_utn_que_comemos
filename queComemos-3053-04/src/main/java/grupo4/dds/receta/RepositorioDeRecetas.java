@@ -21,7 +21,7 @@ public class RepositorioDeRecetas {
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
-	private List<Command> accion = new ArrayList<>();
+	private List<Command> acciones = new ArrayList<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -35,7 +35,6 @@ public class RepositorioDeRecetas {
 	public List<Receta> listarRecetasPara(Usuario usuario) {
 		List<Receta> consulta = recetasQuePuedeVer(usuario).collect(Collectors.toList());
 		notificarATodos(usuario, consulta);
-		
 		return consulta;
 	}
 	
@@ -56,13 +55,13 @@ public class RepositorioDeRecetas {
 
 		notificarATodos(usuario, consulta);
 		ejecutarAcciones(usuario, consulta);
-			
 		return consulta;
 	}
 	
 	// instancio la accion con los parametros de la consulta
 	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
 		agregarAccion(new marcarRecetasFavoritas(usuario, consulta));
+		acciones.forEach(a -> a.ejecutar());
 	}
 	
 	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
@@ -76,10 +75,8 @@ public class RepositorioDeRecetas {
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
-		
 		HashSet<Receta> todasLasRecetas = new HashSet<>(recetas);
 		todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
-		
 		return todasLasRecetas.stream().filter(r -> usuario.puedeVer(r));
 	}
 	
@@ -110,7 +107,7 @@ public class RepositorioDeRecetas {
 	}
 	
 	public void agregarAccion(Command unaAccion) {
-		this.accion.add(unaAccion);
+		this.acciones.add(unaAccion);
 	}
 	
 }
