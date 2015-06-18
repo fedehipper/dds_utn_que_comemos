@@ -56,10 +56,10 @@ public class TestRepositorioDeRecetas {
 		filtros = new ArrayList<>();
 		repositorio.vaciar();
 		
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null);
-		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null);
-		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null);
-		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null);
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false);
+		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, false);
+		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false);
+		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false);
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
 		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");

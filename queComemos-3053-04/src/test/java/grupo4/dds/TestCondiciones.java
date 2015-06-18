@@ -28,7 +28,7 @@ public class TestCondiciones {
 	
 	@Test
 	public void testDiabeticoEsValidaSiElUsuarioIndicaSexoYAlgunaPreferenciaAlimenticia() {
-		usuario = Usuario.crearPerfil(null, MASCULINO, null, 0, 0, null);
+		usuario = Usuario.crearPerfil(null, MASCULINO, null, 0, 0, null, false);
 		
 		Ingrediente chivito = new Ingrediente("chivito", 0f);
 
@@ -99,22 +99,22 @@ public class TestCondiciones {
 
 	@Test
 	public void testHipertensoSubsanaCondicionSiElUsuarioTieneRuinaActivaIntensaConEjercicioAdicional() {
-		usuario = Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL);
+		usuario = Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL, false);
 		assertTrue(hipertenso.subsanaCondicion(usuario));
 	}
 
 	@Test
 	public void testDiabeticoSubsanaCondicionSiElUsuarioTieneRutinaActivaONoPesaMasDe70() {
-		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 69.9f, null)));
-		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL)));
-		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_SIN_EJERCICIO_ADICIONAL)));
-		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 71, ACTIVA_EJERCICIO_ADICIONAL)));
-		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 71, ACTIVA_SIN_EJERCICIO_ADICIONAL)));
+		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 69.9f, null, false)));
+		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL, false)));
+		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_SIN_EJERCICIO_ADICIONAL, false)));
+		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 71, ACTIVA_EJERCICIO_ADICIONAL, false)));
+		assertTrue(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 71, ACTIVA_SIN_EJERCICIO_ADICIONAL, false)));
 	}
 	
 	@Test
 	public void testDiabeticoNoSubsanaCondicionSiElUsuarioNoTieneRutinaActivaYPesaMasDe70() {
-		assertFalse(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 71, null)));
+		assertFalse(diabetico.subsanaCondicion(Usuario.crearPerfil(null, null, null, 0, 71, null, false)));
 	}
 	
 	/* Test: @esRecomendable/1 */

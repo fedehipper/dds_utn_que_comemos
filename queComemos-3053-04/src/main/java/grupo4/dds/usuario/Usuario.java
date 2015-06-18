@@ -39,23 +39,27 @@ public class Usuario {
 	private List<Receta> recetas = new ArrayList<>();
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	private List<Receta> historial = new ArrayList<>();
-
+	private boolean marcaFavorita;
+	
 	/* Constructores */
 	
 	public static Usuario crearPerfil(String nombre, Sexo sexo,
-			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
+			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita) {
 		
-		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina);
+		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita);
 		Administrador.get().solicitarIncorporación(self);
 		
 		return self;
 	}
 	
 	public static Usuario crearPerfil(String nombre) {
-		return crearPerfil(nombre, null, null, 0, 0, null);
+		return crearPerfil(nombre, null, null, 0, 0, null, false);
 	}
 
-	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso, Rutina rutina) {
+	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso,
+			Rutina rutina, boolean marcaFavorita) {
+		
+		this.setMarcaFavorita(marcaFavorita);
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaNacimiento;
 		this.altura = altura;
@@ -304,6 +308,14 @@ public class Usuario {
 
 	public void solicitudRechazada(String motivo) {
 		// TODO hacer algo
+	}
+
+	public boolean isMarcaFavorita() {
+		return marcaFavorita;
+	}
+
+	public void setMarcaFavorita(boolean marcaFavorita) {
+		this.marcaFavorita = marcaFavorita;
 	}
 
 
