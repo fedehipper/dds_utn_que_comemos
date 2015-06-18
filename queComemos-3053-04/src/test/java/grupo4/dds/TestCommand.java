@@ -2,6 +2,7 @@ package grupo4.dds;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,12 +52,15 @@ public class TestCommand {
 	@Test
 	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
 		repositorio.ejecutarAcciones(federicoHipper, consulta);
-		assertEquals(federicoHipper.getHistorial(), consulta);
+		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
-	
-	
-	
+	@Test
+	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
+		federicoHipper.marcarFavorita(receta2);
+		repositorio.ejecutarAcciones(federicoHipper, consulta);
+		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+	}
 	
 	
 

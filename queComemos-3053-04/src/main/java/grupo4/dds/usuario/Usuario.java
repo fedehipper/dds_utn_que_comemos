@@ -38,7 +38,7 @@ public class Usuario {
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
-	private List<Receta> historial = new ArrayList<>();
+	private Set<Receta> historial = new HashSet<>();
 	private boolean marcaFavorita;
 	
 	/* Constructores */
@@ -298,8 +298,8 @@ public class Usuario {
 		   grupo.agregarUsuario(this);
 	}
 	
-	public List<Receta> getHistorial() {
-		return Collections.unmodifiableList(historial);
+	public Set<Receta> getHistorial() {
+		return Collections.unmodifiableSet(historial);
 	}
 
 	public void solicitudAceptada() {
