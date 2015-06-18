@@ -56,7 +56,7 @@ public class RepositorioDeRecetas {
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
 		notificarATodos(usuario, consulta);
-		ejecutarAcciones(usuario, consulta);
+		//ejecutarAcciones(usuario, consulta);
 		return consulta;
 	}
 	
@@ -93,27 +93,27 @@ public class RepositorioDeRecetas {
 	}
 	
 	public void agregarListaDeRecetas(List<Receta> recetas) {
-		recetas.addAll(recetas);
+		this.recetas.addAll(recetas);
 	}
 	
 	public void quitarReceta(Receta unaReceta) {
-		recetas.remove(unaReceta);
+		this.recetas.remove(unaReceta);
 	}
 
 	public void vaciar() {
-		recetas.clear();
+		this.recetas.clear();
 	}
 	
 	public void setMonitor(Monitor monitor) {
-		monitores.add(monitor);
+		this.monitores.add(monitor);
 	}
 	
 	public void removeMonitor(Monitor monitor) {
-		monitores.remove(monitor);
+		this.monitores.remove(monitor);
 	}
 	
 	public void agregarAccion(Command unaAccion) {
-		acciones.add(unaAccion);
+		this.acciones.add(unaAccion);
 	}
 	
 }

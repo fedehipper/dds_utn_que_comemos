@@ -25,9 +25,7 @@ public class TestCommand {
 	List<Filtro> filtros = new ArrayList<>();
 	
 	private Usuario federicoHipper;
-	
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
-	
 	
 	private Receta receta2;
 	private Receta receta3;
@@ -46,7 +44,6 @@ public class TestCommand {
 
 		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
 		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
-
 		receta6 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta6", null, null, 200), null);
 		receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta7", null, null, 300), null);
 		receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta8", null, null, 100), null);
@@ -64,6 +61,5 @@ public class TestCommand {
 	
 	
 	
-	
-	
+
 }
