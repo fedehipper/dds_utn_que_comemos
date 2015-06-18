@@ -63,6 +63,8 @@ public class RepositorioDeRecetas {
 	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
 		
 		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
+		//agregarAccion(new EnviarMail(usuario, .......,......,...));
+		
 		ejecutar();
 	}
 	
