@@ -318,5 +318,9 @@ public class Usuario {
 		this.marcaFavorita = marcaFavorita;
 	}
 
+	// punto 5 entrega 4
+	public void marcarRecetasComoFavoritas(List<Receta> consulta) {
+		consulta.forEach(r -> this.marcarFavorita(r));
+	}
 
 }

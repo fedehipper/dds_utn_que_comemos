@@ -1,27 +1,34 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.command.Command;
+import grupo4.dds.command.marcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+
 public class RepositorioDeRecetas {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
+	private List<Command> accion = new ArrayList<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
 	}
 
-	protected RepositorioDeRecetas() {}
+	protected RepositorioDeRecetas() {
+	}
 	
 	/* Servicios */
 
@@ -48,7 +55,14 @@ public class RepositorioDeRecetas {
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
 		notificarATodos(usuario, consulta);
+		ejecutarAcciones(usuario, consulta);
+			
 		return consulta;
+	}
+	
+	// instancio la accion con los parametros de la consulta
+	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
+		agregarAccion(new marcarRecetasFavoritas(usuario, consulta));
 	}
 	
 	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
@@ -93,6 +107,10 @@ public class RepositorioDeRecetas {
 	
 	public void removeMonitor(Monitor monitor) {
 		this.monitores.remove(monitor);
+	}
+	
+	public void agregarAccion(Command unaAccion) {
+		this.accion.add(unaAccion);
 	}
 	
 }
