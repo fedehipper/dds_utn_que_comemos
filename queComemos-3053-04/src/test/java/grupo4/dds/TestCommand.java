@@ -11,7 +11,6 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
@@ -20,10 +19,7 @@ import org.junit.Test;
 import queComemos.entrega3.dominio.Dificultad;
 
 public class TestCommand {
-	
-	
-	List<Filtro> filtros = new ArrayList<>();
-	
+		
 	private Usuario federicoHipper;
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
 	
@@ -57,6 +53,8 @@ public class TestCommand {
 		repositorio.ejecutarAcciones(federicoHipper, consulta);
 		assertEquals(federicoHipper.getHistorial(), consulta);
 	}
+	
+	
 	
 	
 	

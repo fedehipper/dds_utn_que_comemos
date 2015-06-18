@@ -56,7 +56,7 @@ public class RepositorioDeRecetas {
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
 		notificarATodos(usuario, consulta);
-		//ejecutarAcciones(usuario, consulta);
+		ejecutarAcciones(usuario, consulta);
 		return consulta;
 	}
 	

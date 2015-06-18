@@ -32,6 +32,7 @@ import queComemos.entrega3.dominio.Dificultad;
 public class TestRepositorioDeRecetas {
 	
 	private Usuario fecheSena;
+	private Usuario raul;
 	private Usuario arielFolino;
 	private Usuario matiasMartino;
 	private Usuario federicoHipper;
@@ -56,8 +57,9 @@ public class TestRepositorioDeRecetas {
 		filtros = new ArrayList<>();
 		repositorio.vaciar();
 		
+		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, false);
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false);
-		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, false);
+		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, true);
 		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false);
 		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false);
 		
@@ -138,7 +140,7 @@ public class TestRepositorioDeRecetas {
 		Ordenar procesamiento = new Ordenar((a,b) -> a.getTotalCalorias() - b.getTotalCalorias());
 		
 		expected = Arrays.asList(receta4, receta7, receta1);
-		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, procesamiento));
+		assertTrue(expected.containsAll(repositorio.listarRecetasPara(fecheSena, filtros, procesamiento)));
 	}
 	
 	private boolean assertEquals(Collection<Receta> l1, Collection<Receta> l2) {
@@ -160,6 +162,15 @@ public class TestRepositorioDeRecetas {
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 2);
 		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
 		
+	}
+	
+	@Test
+	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
+	
+		expected = Arrays.asList(receta6, receta7, receta8);
+		RepositorioDeRecetas.get().listarRecetasPara(raul, null, null);
+	
+		assertEquals(expected, raul.getHistorial());
 	}
 	
 }
