@@ -50,14 +50,15 @@ public class TestRepositorioDeRecetas {
 	private Receta receta5;
 	private RecetaPublica receta6;
 	private RecetaPublica receta7;
-	private RecetaPublica receta8;	
+	private RecetaPublica receta8;
+	
 	@Before
 	public void setUp() {
 		expected = null;
 		filtros = new ArrayList<>();
 		repositorio.vaciar();
 		
-		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, false);
+		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, true);
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false);
 		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, true);
 		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false);
@@ -166,11 +167,10 @@ public class TestRepositorioDeRecetas {
 	
 	@Test
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
-	
 		expected = Arrays.asList(receta6, receta7, receta8);
 		RepositorioDeRecetas.get().listarRecetasPara(raul, null, null);
 	
-		assertEquals(expected, raul.getHistorial());
+		assertTrue(raul.getHistorial().containsAll(expected));
 	}
 	
 }
