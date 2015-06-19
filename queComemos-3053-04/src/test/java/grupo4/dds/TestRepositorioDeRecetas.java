@@ -110,7 +110,7 @@ public class TestRepositorioDeRecetas {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
 		List<Receta> recetas = repositorio.listarRecetasPara(arielFolino, null, null);
 		
-		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected));
+		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected) && recetas.size() == expected.size());
 	}	
 	
 	@Test
@@ -118,7 +118,7 @@ public class TestRepositorioDeRecetas {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
 		List<Receta> recetas = repositorio.listarRecetasPara(arielFolino, null, null);
 		
-		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected));
+		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected) && recetas.size() == expected.size());
 	}
 	
 	@Test 
@@ -133,7 +133,8 @@ public class TestRepositorioDeRecetas {
 		filtros.add(filtroRecetasCaras);	
 		
 		expected = Arrays.asList(receta4);
-		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, null));
+		List<Receta> recetas = repositorio.listarRecetasPara(fecheSena, filtros, null);
+		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected) && recetas.size() == expected.size());
 	}
 	
 	@Test 
