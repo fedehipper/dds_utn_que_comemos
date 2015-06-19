@@ -94,7 +94,7 @@ public class TestRepositorioDeRecetas {
 		receta8.agregarIngrediente(new Ingrediente("coliflor"));
 	}
 	
-	@Test // funciona bien
+	@Test
 	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
 		assertTrue(repositorio != null);
 		
@@ -105,7 +105,7 @@ public class TestRepositorioDeRecetas {
 		assertFalse(recetasQuePuedeVer.contains(receta5));
 	}
 	
-	@Test // funciona bien
+	@Test 
 	public void testLasRecetasQuePuedeVerUnUsuarioSonPublicasOCompartidasEnALgunoDeSusGrupos() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
 		List<Receta> recetas = repositorio.listarRecetasPara(arielFolino, null, null);
@@ -113,7 +113,7 @@ public class TestRepositorioDeRecetas {
 		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected));
 	}	
 	
-	@Test // funciona bien
+	@Test
 	public void testSiNoAplicoFiltrosNiPostProcesamientoObtengoTodasLasRecetasQuePuedeVerElUsuario() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
 		List<Receta> recetas = repositorio.listarRecetasPara(arielFolino, null, null);
@@ -121,7 +121,7 @@ public class TestRepositorioDeRecetas {
 		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected));
 	}
 	
-	@Test // funciona mal
+	@Test 
 	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriterios() {
 		
 		FiltroRecetasCaras filtroRecetasCaras = new FiltroRecetasCaras();
@@ -136,7 +136,7 @@ public class TestRepositorioDeRecetas {
 		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, null));
 	}
 	
-	@Test // funciona bien
+	@Test 
 	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriteriosYOrdenadasPorCalorias() {
 		
 		filtros.add(new FiltroNoEsAdecuada());	
@@ -148,7 +148,7 @@ public class TestRepositorioDeRecetas {
 		assertTrue(expected.containsAll(repositorio.listarRecetasPara(fecheSena, filtros, procesamiento)));
 	}
 	
-	@Test // funciona bien
+	@Test 
 	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
 		
 		filtros.add(new FiltroNoLeGusta());	
@@ -165,7 +165,7 @@ public class TestRepositorioDeRecetas {
 		
 	}
 	
-	@Test // funciona bien
+	@Test 
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
 		expected = Arrays.asList(receta6, receta7, receta8);
 		RepositorioDeRecetas.get().listarRecetasPara(raul, null, null);
