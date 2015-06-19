@@ -94,30 +94,30 @@ public class TestRepositorioDeRecetas {
 		receta8.agregarIngrediente(new Ingrediente("coliflor"));
 	}
 	
-	@Test 
+	@Test // funciona bien
 	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
 		assertTrue(repositorio != null);
 		
 		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino);
-		
+				
 		assertFalse(recetasQuePuedeVer.contains(receta2));
 		assertFalse(recetasQuePuedeVer.contains(receta3));
 		assertFalse(recetasQuePuedeVer.contains(receta5));
 	}
 	
-	@Test 
+	@Test // funciona mal
 	public void testLasRecetasQuePuedeVerUnUsuarioSonPublicasOCompartidasEnALgunoDeSusGrupos() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
 		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
 	}	
 	
-	@Test
+	@Test // funciona mal
 	public void testSiNoAplicoFiltrosNiPostProcesamientoObtengoTodasLasRecetasQuePuedeVerElUsuario() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
 		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
 	}
 	
-	@Test
+	@Test // funciona mal
 	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriterios() {
 		
 		FiltroRecetasCaras filtroRecetasCaras = new FiltroRecetasCaras();
@@ -132,7 +132,7 @@ public class TestRepositorioDeRecetas {
 		assertEquals(expected, repositorio.listarRecetasPara(fecheSena, filtros, null));
 	}
 	
-	@Test
+	@Test // funciona bien
 	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriteriosYOrdenadasPorCalorias() {
 		
 		filtros.add(new FiltroNoEsAdecuada());	
@@ -148,7 +148,7 @@ public class TestRepositorioDeRecetas {
 		return l1.size() == l2.size() && l1.containsAll(l2);
 	}
 	
-	@Test
+	@Test // funciona bien
 	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
 		
 		filtros.add(new FiltroNoLeGusta());	
@@ -165,7 +165,7 @@ public class TestRepositorioDeRecetas {
 		
 	}
 	
-	@Test
+	@Test // funciona bien
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
 		expected = Arrays.asList(receta6, receta7, receta8);
 		RepositorioDeRecetas.get().listarRecetasPara(raul, null, null);
