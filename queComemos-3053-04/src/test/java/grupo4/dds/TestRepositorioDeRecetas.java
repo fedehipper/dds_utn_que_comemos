@@ -105,16 +105,20 @@ public class TestRepositorioDeRecetas {
 		assertFalse(recetasQuePuedeVer.contains(receta5));
 	}
 	
-	@Test // funciona mal
+	@Test // funciona bien
 	public void testLasRecetasQuePuedeVerUnUsuarioSonPublicasOCompartidasEnALgunoDeSusGrupos() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
-		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
+		List<Receta> recetas = repositorio.listarRecetasPara(arielFolino, null, null);
+		
+		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected));
 	}	
 	
-	@Test // funciona mal
+	@Test // funciona bien
 	public void testSiNoAplicoFiltrosNiPostProcesamientoObtengoTodasLasRecetasQuePuedeVerElUsuario() {
 		expected = Arrays.asList(receta1, receta4, receta6, receta7, receta8);
-		assertEquals(expected, repositorio.listarRecetasPara(arielFolino, null, null));
+		List<Receta> recetas = repositorio.listarRecetasPara(arielFolino, null, null);
+		
+		assertTrue(expected.containsAll(recetas) && recetas.containsAll(expected));
 	}
 	
 	@Test // funciona mal
@@ -142,10 +146,6 @@ public class TestRepositorioDeRecetas {
 		
 		expected = Arrays.asList(receta4, receta7, receta1);
 		assertTrue(expected.containsAll(repositorio.listarRecetasPara(fecheSena, filtros, procesamiento)));
-	}
-	
-	private boolean assertEquals(Collection<Receta> l1, Collection<Receta> l2) {
-		return l1.size() == l2.size() && l1.containsAll(l2);
 	}
 	
 	@Test // funciona bien
