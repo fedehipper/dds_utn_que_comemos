@@ -33,13 +33,6 @@ public class RepositorioDeRecetas {
 	
 	/* Servicios */
 
-	public List<Receta> listarRecetasPara(Usuario usuario) {
-		List<Receta> consulta = recetasQuePuedeVer(usuario).collect(Collectors.toList());
-		notificarATodos(usuario, consulta);
-		ejecutarAcciones(usuario,consulta);
-		return consulta;
-	}
-	
 	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
 		
 		Stream<Receta> stream = recetasQuePuedeVer(usuario);
@@ -56,15 +49,15 @@ public class RepositorioDeRecetas {
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
 		notificarATodos(usuario, consulta);
-		ejecutarAcciones(usuario, consulta);
+		ejecutarAcciones(usuario, consulta, filtros);
 		return consulta;
 	}
 	
-	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
+	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 			
 		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
 		agregarAccion(new LoguearConsultas(consulta));
-		//agregarAccion(new EnviarMail(usuario, .......,......,...));
+		//agregarAccion(new EnviarMail(usuario, consulta, filtros));
 		
 		ejecutar();
 	}

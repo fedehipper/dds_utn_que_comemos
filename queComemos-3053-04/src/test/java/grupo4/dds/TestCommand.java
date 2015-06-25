@@ -50,14 +50,14 @@ public class TestCommand {
 
 	@Test
 	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
-		repositorio.ejecutarAcciones(federicoHipper, consulta);
+		repositorio.ejecutarAcciones(federicoHipper, consulta, null);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	@Test
 	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
 		federicoHipper.marcarFavorita(receta2);
-		repositorio.ejecutarAcciones(federicoHipper, consulta);
+		repositorio.ejecutarAcciones(federicoHipper, consulta, null);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	

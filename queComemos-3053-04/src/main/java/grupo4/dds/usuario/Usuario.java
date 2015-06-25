@@ -103,7 +103,7 @@ public class Usuario {
 	}
 	
 	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio) {
-		return repositorio.listarRecetasPara(this);
+		return repositorio.listarRecetasPara(this, null, null);
 	}
 	
 	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio, List<Filtro> filtros, PostProcesamiento postProcesamiento ) {

@@ -97,7 +97,7 @@ public class TestRepositorioDeRecetas {
 	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
 		assertTrue(repositorio != null);
 		
-		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino);
+		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino, null, null);
 				
 		assertFalse(recetasQuePuedeVer.contains(receta2));
 		assertFalse(recetasQuePuedeVer.contains(receta3));
