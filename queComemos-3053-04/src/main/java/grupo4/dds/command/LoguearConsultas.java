@@ -11,7 +11,6 @@ public class LoguearConsultas implements Command{
 	private Logger log = Logger.getLogger("ConsultasConMasDe100Resultados");
 	private List<Receta> consultas;
 
-	
 	public LoguearConsultas(List<Receta> consultas){
 		this.consultas = consultas;
 	}
@@ -19,11 +18,9 @@ public class LoguearConsultas implements Command{
 	public void ejecutar() {
 		BasicConfigurator.configure();
 		if (consultas.size() > 100){
-			if (log.isTraceEnabled()){
+			if (log.isTraceEnabled())
 				log.trace("MasDe100Resultados");				
-			}
 		}
-		
 	}
-
+	
 }
