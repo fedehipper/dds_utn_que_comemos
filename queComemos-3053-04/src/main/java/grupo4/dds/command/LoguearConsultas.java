@@ -20,7 +20,7 @@ public class LoguearConsultas implements Command{
 	private List<Filtro> filtros;
 
 	
-	public void loguearConsultas(Usuario usuario){
+	public LoguearConsultas(Usuario usuario){
 		this.usuario = usuario;
 	}
 

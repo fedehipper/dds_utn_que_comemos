@@ -1,8 +1,8 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.command.Command;
+import grupo4.dds.command.LoguearConsultas;
 import grupo4.dds.command.MarcarRecetasFavoritas;
-
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
@@ -63,6 +63,7 @@ public class RepositorioDeRecetas {
 	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
 		
 		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
+		agregarAccion(new LoguearConsultas(usuario));
 		//agregarAccion(new EnviarMail(usuario, .......,......,...));
 		
 		ejecutar();
