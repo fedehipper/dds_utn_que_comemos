@@ -15,7 +15,6 @@ public class Ordenar implements PostProcesamiento {
 		this.criterio = criterio;
 	}
 
-	@Override
 	public List<Receta> procesar(List<Receta> recetas) {
 		recetas.sort(criterio);
 		return recetas;

@@ -11,7 +11,6 @@ public class FiltroRecetasCaras implements Filtro {
 
 	private List<Ingrediente> ingredientesCaros = new ArrayList<>();
 	
-	@Override
 	public boolean test(Usuario u, Receta r) {
 		return r.noContieneNinguna(ingredientesCaros);
 	}

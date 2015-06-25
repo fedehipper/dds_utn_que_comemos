@@ -12,7 +12,7 @@ public class TomarResultadosPares implements PostProcesamiento {
 	}
 
 	private boolean esPar(int n) {
-		return n%2 == 0;
+		return n % 2 == 0;
 	}
 	
 }

@@ -42,7 +42,6 @@ public class Administrador {
 	
 	@CoberturaIgnore
 	private void procesarTodas(Consumer<Usuario> procesador) {
-		
 		for (Usuario usuario : pendientesAprobacion) {
 			pendientesAprobacion.remove(usuario);	
 			procesador.accept(usuario);
