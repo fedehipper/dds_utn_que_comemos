@@ -61,14 +61,9 @@ public class RepositorioDeRecetas {
 	}
 	
 	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta) {
-	
-		// aca cada command recibe los parametros que necesitan, no es que todos reciben los mismo y 
-		// usan los que requieren, lo que si es necesario es agregarle ese parametro en la firma de este metodo
-		// (ejecutarAcciones) por ahora solo reciben al usuario y la consulta, y son nuevas instancias de cada uno
-		// porque son nuevos usuarios por consulta
-		
+			
 		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
-		agregarAccion(new LoguearConsultas(usuario));
+		//agregarAccion(new LoguearConsultas(usuario));
 		//agregarAccion(new EnviarMail(usuario, .......,......,...));
 		
 		ejecutar();
