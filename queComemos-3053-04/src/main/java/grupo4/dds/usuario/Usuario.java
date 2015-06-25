@@ -113,13 +113,7 @@ public class Usuario {
 	public boolean puedeVer(Receta receta) {
 		return receta.puedeSerVistaPor(this) || algunGrupoPuedeVer(receta);
 	}
-	
-	public void marcarFavorita(Receta receta) {
-		if(!puedeVer(receta))
-			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
-		historial.add(receta);
-	}
-		
+			
 	public boolean cumpleTodasLasCondicionesDe(Usuario usuario) {
 		return usuario.noTieneCondiciones() ? true : this.getCondiciones().containsAll(usuario.getCondiciones());
 	}
@@ -310,14 +304,23 @@ public class Usuario {
 		// TODO hacer algo
 	}
 
+	// punto 5 entrega 4
 	public boolean esMarcaFavorita() {
 		return marcaFavorita;
 	}
 
+	// punto 5 entrega 4
 	public void setMarcaFavorita(boolean marcaFavorita) {
 		this.marcaFavorita = marcaFavorita;
 	}
 
+	// punto 5 entrega 4
+	public void marcarFavorita(Receta receta) {
+		if(!puedeVer(receta))
+			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
+		historial.add(receta);
+	}
+	
 	// punto 5 entrega 4
 	public void marcarRecetasComoFavoritas(List<Receta> consulta) {
 		consulta.forEach(r -> marcarFavorita(r));
