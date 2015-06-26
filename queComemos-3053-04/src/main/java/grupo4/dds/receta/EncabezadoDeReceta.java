@@ -34,6 +34,18 @@ public class EncabezadoDeReceta {
 		this.totalCalorias = totalCalorias;
 	}
 
+	public void setNombreDelPlato(String nombreDelPlato) {
+		this.nombreDelPlato = nombreDelPlato;
+	}
+
+	public void setTemporada(Temporada temporada) {
+		this.temporada = temporada;
+	}
+
+	public void setDificultad(Dificultad dificultad) {
+		this.dificultad = dificultad;
+	}
+
 	public String getNombreDelPlato() {
 		return nombreDelPlato;
 	}

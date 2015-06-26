@@ -25,7 +25,9 @@ public class Receta {
 	protected String preparacion;
 
 	/* Constructores */
-
+	
+	public Receta(){	}
+	
 	public static Receta crearNueva() {
 		return crearNueva(null, null, null);
 	}
@@ -200,4 +202,18 @@ public class Receta {
 		return encabezado.getDificultad();
 	}
 
+	
+	//
+	
+	public void agregarCreador(Usuario creador){this.creador=creador;}
+
+	public void agregarEncabezado(EncabezadoDeReceta encabezado){this.encabezado=encabezado;}
+	
+	public void agregarIngredientes(List<Ingrediente> ingredientes){this.ingredientes=ingredientes;}
+
+	public void agregarCondimentos(List<Ingrediente> condimentos){this.condimentos=condimentos;}
+
+	public void agregarSubrecetas(List<Receta> subrecetas){this.subrecetas=subrecetas;}
+
+	public void agregarPreparacion(String preparacion){this.preparacion=preparacion;}
 }

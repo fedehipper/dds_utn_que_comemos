@@ -10,6 +10,8 @@ public class RecetaPublica extends Receta {
 	
 	/* Constructores */
 
+	public RecetaPublica(){}
+	
 	public static RecetaPublica crearNueva(EncabezadoDeReceta encabezado, String preparacion) {
 		RecetaPublica self = new RecetaPublica(encabezado, preparacion);
 		
