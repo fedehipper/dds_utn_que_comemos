@@ -46,7 +46,7 @@ public class TestCommand {
 	
 	@Before
 	public void setUp() {
-		
+		repositorio.vaciar();
 		
 		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, true, null);
 		fecheSena = Usuario.crearPerfil("FecheSena", null, null, 1.74f, 80.0f, null, true, "fesena92@gmail.com");
