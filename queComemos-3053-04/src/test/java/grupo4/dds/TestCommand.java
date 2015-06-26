@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
-
 import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
@@ -49,6 +49,21 @@ public class TestCommand {
 	}
 	
 
+	@Test
+	public void testUnitarioMarcarComoFavoritaATodasLasRecetas() {
+		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(federicoHipper, consulta);
+		marcarFavoritas.ejecutar();
+		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+	}
+	
+	@Test
+	public void testUnitarioNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
+		federicoHipper.marcarFavorita(receta2);
+		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(federicoHipper, consulta);
+		marcarFavoritas.ejecutar();
+		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+	}
+	
 	@Test
 	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
 		repositorio.ejecutarAcciones(federicoHipper, consulta, null);
