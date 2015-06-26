@@ -9,5 +9,9 @@ public class FiltroExcesoCalorias implements Filtro {
 	public boolean test(Usuario u, Receta r) {
 		return r.getTotalCalorias() <= 500 && u.indiceDeMasaCorporal() <= 25;
 	}
+	
+	public String getNombre(){
+		return "ExcesoDeCalorias";
+	}
 
 }

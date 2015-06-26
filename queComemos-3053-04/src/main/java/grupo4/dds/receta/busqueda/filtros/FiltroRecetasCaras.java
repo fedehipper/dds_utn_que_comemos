@@ -26,4 +26,9 @@ public class FiltroRecetasCaras implements Filtro {
 		ingredientesCaros.remove(unIngrediente);
 	}
 	
+	public String getNombre(){
+		return "RecetasCaras";
+	}
+
+	
 }

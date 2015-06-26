@@ -5,6 +5,8 @@ import grupo4.dds.usuario.Usuario;
 
 public interface Filtro {
 	
-	public abstract boolean test(Usuario u, Receta r);
+	public boolean test(Usuario u, Receta r);
+	
+	public String getNombre();
 	
 }

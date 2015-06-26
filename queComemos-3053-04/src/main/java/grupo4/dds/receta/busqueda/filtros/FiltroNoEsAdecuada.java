@@ -10,4 +10,9 @@ public class FiltroNoEsAdecuada implements Filtro {
 		return u.esAdecuada(r);
 	}
 	
+	public String getNombre(){
+		return "Inadecuada";
+	}
+
+	
 }

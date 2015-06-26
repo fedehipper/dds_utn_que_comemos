@@ -40,24 +40,26 @@ public class Usuario {
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	private Set<Receta> historial = new HashSet<>();
 	private boolean marcaFavorita;
+	private String mail;
 	
 	/* Constructores */
-	
+
+
 	public static Usuario crearPerfil(String nombre, Sexo sexo,
-			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita) {
+			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita, String mail) {
 		
-		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita);
+		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
 		Administrador.get().solicitarIncorporación(self);
 		
 		return self;
 	}
 	
 	public static Usuario crearPerfil(String nombre) {
-		return crearPerfil(nombre, null, null, 0, 0, null, false);
+		return crearPerfil(nombre, null, null, 0, 0, null, false,null);
 	}
 
 	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso,
-			Rutina rutina, boolean marcaFavorita) {
+			Rutina rutina, boolean marcaFavorita, String mail) {
 		
 		this.setMarcaFavorita(marcaFavorita);
 		this.nombre = nombre;
@@ -66,6 +68,7 @@ public class Usuario {
 		this.peso = peso;
 		this.rutina = rutina;
 		this.sexo = sexo;
+		this.mail = mail;
 	}
 	
 	protected Usuario() {}
@@ -276,6 +279,10 @@ public class Usuario {
 
 	public Rutina getRutina() {
 		return rutina;
+	}
+	
+	public String getMail() {
+		return mail;
 	}
 
 	public void agregarCondicion(Condicion condicion) {

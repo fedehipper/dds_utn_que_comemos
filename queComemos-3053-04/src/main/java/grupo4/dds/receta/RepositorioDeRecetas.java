@@ -2,6 +2,7 @@ package grupo4.dds.receta;
 
 import grupo4.dds.command.Command;
 import grupo4.dds.command.LoguearConsultas;
+import grupo4.dds.command.MailSender;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -57,7 +58,7 @@ public class RepositorioDeRecetas {
 			
 		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
 		agregarAccion(new LoguearConsultas(consulta));
-		//agregarAccion(new EnviarMail(usuario, consulta, filtros));
+		agregarAccion(new MailSender(usuario, consulta, filtros));
 		
 		ejecutar();
 	}

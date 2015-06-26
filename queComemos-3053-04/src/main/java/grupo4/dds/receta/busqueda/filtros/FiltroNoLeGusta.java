@@ -9,5 +9,10 @@ public class FiltroNoLeGusta implements Filtro {
 	public boolean test(Usuario u, Receta r) {
 		return u.leGusta(r);
 	}
+	
+	public String getNombre(){
+		return "NoLeGusta";
+	}
+
 
 }

@@ -44,11 +44,11 @@ public class TestUsuario {
 	
 	@Before
 	public void setUp() {
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false);
-		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, false);
-		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false);
-		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false);
-		cristianMaldonado = Usuario.crearPerfil("Cristian Maldonado", null, null, 1.34f, 87.0f, null, false);
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
+		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, false, null);
+		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false, null);
+		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false, null);
+		cristianMaldonado = Usuario.crearPerfil("Cristian Maldonado", null, null, 1.34f, 87.0f, null, false, null);
 	}
 	
 	/* Test: @indiceDeMasaCorporal/0 */
@@ -59,7 +59,7 @@ public class TestUsuario {
 
 	@Test
 	public void testIMCConPeso102YAltura191() {
-		federicoHipper = Usuario.crearPerfil("Federico Hipper", null, null, 1.91f, 102.0f, null, false);
+		federicoHipper = Usuario.crearPerfil("Federico Hipper", null, null, 1.91f, 102.0f, null, false, null);
 		assertEquals(federicoHipper.indiceDeMasaCorporal(), 27.959, 0.001);
 	}
 
@@ -70,7 +70,7 @@ public class TestUsuario {
 
 	@Test
 	public void testIMCConPeso87YAltura181() {
-		cristianMaldonado = Usuario.crearPerfil("Cristian Maldonado", null, null, 1.81f, 87.0f, null, false);
+		cristianMaldonado = Usuario.crearPerfil("Cristian Maldonado", null, null, 1.81f, 87.0f, null, false, null);
 		assertEquals(cristianMaldonado.indiceDeMasaCorporal(), 26.555, 0.001);
 	}
 
@@ -82,43 +82,43 @@ public class TestUsuario {
 	/* Test: @esValido/0 */
 	@Test
 	public void testNoEsValidoUnUsuarioConNombreMenorA4Caracteres() {
-		usuario = Usuario.crearPerfil("Ari", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ari", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		assertFalse(usuario.esValido());
 	}
 	
 	@Test
 	public void testNoEsValidoUnUsuarioConLaFechaActualComoDiaDeNacimiento() {
-		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.now(), 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.now(), 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		assertFalse(usuario.esValido());
 	}
 	
 	@Test
 	public void testNoEsValidoUnUsuarioSinCamposObligatorios() {
-		usuario = Usuario.crearPerfil("Ariel", null, null, 0, 0, null, false);
+		usuario = Usuario.crearPerfil("Ariel", null, null, 0, 0, null, false, null);
 		assertFalse(usuario.esValido());
 		
-		usuario = Usuario.crearPerfil(null, null, LocalDate.MIN, 0, 0, null, false);
+		usuario = Usuario.crearPerfil(null, null, LocalDate.MIN, 0, 0, null, false, null);
 		assertFalse(usuario.esValido());
 
-		usuario = Usuario.crearPerfil(null, null, null, 1.7f, 0, null, false);
+		usuario = Usuario.crearPerfil(null, null, null, 1.7f, 0, null, false, null);
 		assertFalse(usuario.esValido());
 		
-		usuario = Usuario.crearPerfil(null, null, null, 0, 75, null, false);
+		usuario = Usuario.crearPerfil(null, null, null, 0, 75, null, false, null);
 		assertFalse(usuario.esValido());
 		
-		usuario = Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil(null, null, null, 0, 0, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		assertFalse(usuario.esValido());
 	}
 	
 	@Test
 	public void testEsValidoUnUsuarioSinCondiciones() {
-		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		assertTrue(usuario.esValido());
 	}
 
 	@Test
 	public void testEsValidoUnUsuarioConCondicionesValidas() {
-		usuario = Usuario.crearPerfil("Ariel", MASCULINO, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ariel", MASCULINO, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
@@ -132,7 +132,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testNoEsValidoUnUsuarioConAlgunaCondicionInvalida() {
-		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
@@ -147,13 +147,13 @@ public class TestUsuario {
 	/* Test: @sigueRutinaSaludable/0 */
 	@Test
 	public void testSigueRutinaSaludableUnUsuarioSinCondicionesConIMCEntre18Y30() {
-		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		assertTrue(usuario.esValido());
 	}
 	
 	@Test
 	public void testNoSigueRutinaSaludableUnUsuarioConCondicionesSinSubsanar() {
-		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false);
+		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 75, ACTIVA_EJERCICIO_ADICIONAL, false, null);
 		
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
@@ -164,7 +164,7 @@ public class TestUsuario {
 	
 	@Test
 	public void testSigueRutinaSaludableUnUsuarioConCondicionesSubsanadas() {
-		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 70, SEDENTARIA_CON_EJERCICIO, false);
+		usuario = Usuario.crearPerfil("Ariel", null, LocalDate.MIN, 1.7f, 70, SEDENTARIA_CON_EJERCICIO, false, null);
 		
 		usuario.agregarCondicion(new Celiaco());
 		usuario.agregarCondicion(new Hipertenso());
