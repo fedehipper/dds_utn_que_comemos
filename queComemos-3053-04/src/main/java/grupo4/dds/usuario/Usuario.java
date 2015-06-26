@@ -48,7 +48,6 @@ public class Usuario {
 		
 		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita);
 		Administrador.get().solicitarIncorporación(self);
-		
 		return self;
 	}
 	
@@ -72,12 +71,12 @@ public class Usuario {
 
 	/* Servicios */
 	
-	public double indiceDeMasaCorporal() {
+	public float indiceDeMasaCorporal() {
 		return peso / (altura * altura);
 	}
 
 	public boolean sigueRutinaSaludable() {
-		double imc = indiceDeMasaCorporal();
+		float imc = indiceDeMasaCorporal();
 		return 18 < imc && imc < 30 && subsanaTodasLasCondiciones();
 	}
 
@@ -181,8 +180,7 @@ public class Usuario {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(altura);
-		result = prime * result
-				+ ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
+		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + Float.floatToIntBits(peso);
 		result = prime * result + ((rutina == null) ? 0 : rutina.hashCode());
@@ -285,11 +283,9 @@ public class Usuario {
 	}
 
 	public void agregarGrupo(GrupoUsuarios grupo) {
-		
 		grupos.add(grupo);
-		
 		if (!grupo.esMiembro(this)) 
-		   grupo.agregarUsuario(this);
+			grupo.agregarUsuario(this);
 	}
 	
 	public Set<Receta> getHistorial() {
