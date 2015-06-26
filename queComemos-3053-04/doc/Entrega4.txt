@@ -7,3 +7,11 @@ punto 3)
 punto 4)
 
 punto 5)
+
+Para este command, cree la clase MarcarRecetasFavoritas que es en este caso una accion, la cual implementa a
+la interfaz Command que tiene el metodo ejecutar(),luego dentro de MarcarRecetasFavoritas el constructor de la misma
+guarda el estado del usuario actual junto con la consulta del mismo, para que luego en el metodo ejecutar() se use al
+usuario para marcar a las recetas de la consulta como favoritas, esto ocurre si el usuario previamente en la creacion
+de su perfil recibio como parametro un true, en marcaFavorita. Para que funcione esto en la clase Usuario, esta
+la clase marcarRecetasComoFavoritas donde hay un forEach que agrega a todas las recetas de la consulta en el historial, 
+luego para realizar esto utilize el metodo marcarFavorita que se desarrollo en entregas previas de este TP
