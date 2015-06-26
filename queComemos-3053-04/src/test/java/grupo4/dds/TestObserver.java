@@ -47,7 +47,7 @@ public class TestObserver {
 	private List<Receta> l2 = Stream.of(r1, r2, r3, r4).collect(Collectors.toList());
 	private List<Receta> l3 = Stream.of(r3, r5).collect(Collectors.toList());
 
-	private Usuario u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null, false);
+	private Usuario u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null, false, null);
 	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
 	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 	private Usuario Ariel;
@@ -65,8 +65,8 @@ public class TestObserver {
 	
 	@Before
 	public void setup() {
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false);
-		Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null, false);
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
+		Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null, false, null);
 		
 		sopa = Receta.crearNueva(Ariel, new EncabezadoDeReceta("sopa", null, null, 100), null);
 		pollo = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("pollo", null, null, 300), null);

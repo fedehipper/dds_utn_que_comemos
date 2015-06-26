@@ -11,12 +11,14 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
+
 import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import queComemos.entrega3.dominio.Dificultad;
+
 
 public class TestCommand {
 		
@@ -36,31 +38,38 @@ public class TestCommand {
 	public void setUp() {
 		repositorio.vaciar();
 		
-		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, true);
-
+		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, true, null);
 		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
 		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
 		receta6 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta6", null, null, 200), null);
 		receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta7", null, null, 300), null);
 		receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta8", null, null, 100), null);
-			
+		
 		consulta = Arrays.asList(receta2, receta3, receta6, receta7, receta8);
 	}
 	
 
 	@Test
 	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
-		repositorio.ejecutarAcciones(federicoHipper, consulta);
+		repositorio.ejecutarAcciones(federicoHipper, consulta, null);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	@Test
 	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
 		federicoHipper.marcarFavorita(receta2);
-		repositorio.ejecutarAcciones(federicoHipper, consulta);
+		repositorio.ejecutarAcciones(federicoHipper, consulta, null);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	
+	/*@Test
+	  public void testEnviarMail() {
+		Mail mail = new Mail();
+		 mail.enviarMail(fecheSena, consulta, filtros);
+	}*/
+	
+	
+
 
 }

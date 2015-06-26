@@ -21,5 +21,4 @@ public class MarcarRecetasFavoritas implements Command {
 			usuario.marcarRecetasComoFavoritas(consulta);
 	}
 	
-
 }

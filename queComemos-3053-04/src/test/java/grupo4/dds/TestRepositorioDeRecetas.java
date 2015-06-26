@@ -57,11 +57,11 @@ public class TestRepositorioDeRecetas {
 		filtros = new ArrayList<>();
 		repositorio.vaciar();
 		
-		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, true);
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false);
-		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, true);
-		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false);
-		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false);
+		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, true, null);
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
+		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, true, null);
+		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false, null);
+		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false, null);
 		
 		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
 		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
@@ -97,7 +97,7 @@ public class TestRepositorioDeRecetas {
 	public void testElListadoDeRecetasQuePuedeVerUnUsuarioNoPuedeContenerRecetasNoCompartidasEnAlgunoDeSusGrupos() {
 		assertTrue(repositorio != null);
 		
-		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino);
+		List<Receta> recetasQuePuedeVer = repositorio.listarRecetasPara(arielFolino, null, null);
 				
 		assertFalse(recetasQuePuedeVer.contains(receta2));
 		assertFalse(recetasQuePuedeVer.contains(receta3));
