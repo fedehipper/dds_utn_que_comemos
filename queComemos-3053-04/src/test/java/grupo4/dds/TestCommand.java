@@ -80,16 +80,11 @@ public class TestCommand {
 	}
 	
 	
-	/*public boolean mockEnviarMail(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) throws MessagingException {
-	   Mail mail = new Mail();
-	  mail.enviarMail(usuario, consulta, filtros);
-			return true;
-	}*/
-	@Test
-	public void testEnviarMail() {
+	/*@Test
+	  public void testEnviarMail() {
 		Mail mail = new Mail();
 		 mail.enviarMail(fecheSena, consulta, filtros);
-	}
+	}*/
 	
 	
 
