@@ -5,7 +5,10 @@ punto 2)
 punto 3)
 
 punto 4)
-
+Para este command cree la clase LoguearConsultas,elegi usar el Log4j porque es muy facil y rapido de configurar utilizando propiedades 
+del sistema o un archivo de configuraciones, teniendo en cuenta que puede que en un futuro se necesite enviar logs por mail, plasmarlos
+en archivos, etc. Decidi usar la configuracion estandar con trace,que es el que se suele utilizar en la etapa de desarrollo,
+unicamente mostraria por pantalla el mensaje "MasDe100Resultados" en caso de que una consulta devuelva mas de 100 resultados.
 punto 5)
 
 Para este command, cree la clase MarcarRecetasFavoritas que es en este caso una accion, la cual implementa a

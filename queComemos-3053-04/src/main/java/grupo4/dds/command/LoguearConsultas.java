@@ -19,7 +19,9 @@ public class LoguearConsultas implements Command{
 		BasicConfigurator.configure();
 		if (consultas.size() > 100){
 			if (log.isTraceEnabled())
-				log.trace("ConsultasConMasDe100Resultados");				
+				log.trace("ConsultasConMasDe100Resultados");	
+				log.warn("Warning");
+				log.error("Error");
 		}
 	}
 	
