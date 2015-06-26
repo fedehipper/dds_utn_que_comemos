@@ -50,7 +50,6 @@ public class Usuario {
 		
 		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
 		Administrador.get().solicitarIncorporación(self);
-		
 		return self;
 	}
 	
@@ -75,12 +74,12 @@ public class Usuario {
 
 	/* Servicios */
 	
-	public double indiceDeMasaCorporal() {
+	public float indiceDeMasaCorporal() {
 		return peso / (altura * altura);
 	}
 
 	public boolean sigueRutinaSaludable() {
-		double imc = indiceDeMasaCorporal();
+		float imc = indiceDeMasaCorporal();
 		return 18 < imc && imc < 30 && subsanaTodasLasCondiciones();
 	}
 
@@ -116,13 +115,7 @@ public class Usuario {
 	public boolean puedeVer(Receta receta) {
 		return receta.puedeSerVistaPor(this) || algunGrupoPuedeVer(receta);
 	}
-	
-	public void marcarFavorita(Receta receta) {
-		if(!puedeVer(receta))
-			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
-		historial.add(receta);
-	}
-		
+			
 	public boolean cumpleTodasLasCondicionesDe(Usuario usuario) {
 		return usuario.noTieneCondiciones() ? true : this.getCondiciones().containsAll(usuario.getCondiciones());
 	}
@@ -190,8 +183,7 @@ public class Usuario {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(altura);
-		result = prime * result
-				+ ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
+		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + Float.floatToIntBits(peso);
 		result = prime * result + ((rutina == null) ? 0 : rutina.hashCode());
@@ -298,11 +290,9 @@ public class Usuario {
 	}
 
 	public void agregarGrupo(GrupoUsuarios grupo) {
-		
 		grupos.add(grupo);
-		
 		if (!grupo.esMiembro(this)) 
-		   grupo.agregarUsuario(this);
+			grupo.agregarUsuario(this);
 	}
 	
 	public Set<Receta> getHistorial() {
@@ -317,14 +307,23 @@ public class Usuario {
 		// TODO hacer algo
 	}
 
+	// punto 5 entrega 4
 	public boolean esMarcaFavorita() {
 		return marcaFavorita;
 	}
 
+	// punto 5 entrega 4
 	public void setMarcaFavorita(boolean marcaFavorita) {
 		this.marcaFavorita = marcaFavorita;
 	}
 
+	// punto 5 entrega 4
+	public void marcarFavorita(Receta receta) {
+		if(!puedeVer(receta))
+			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
+		historial.add(receta);
+	}
+	
 	// punto 5 entrega 4
 	public void marcarRecetasComoFavoritas(List<Receta> consulta) {
 		consulta.forEach(r -> marcarFavorita(r));

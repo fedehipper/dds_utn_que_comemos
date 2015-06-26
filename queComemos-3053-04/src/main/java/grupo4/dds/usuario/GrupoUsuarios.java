@@ -45,9 +45,7 @@ public class GrupoUsuarios {
 	/* Accesors and Mutators */
 	
 	public void agregarUsuario(Usuario usuario) {
-		
 		usuarios.add(usuario);
-		
 		if (!usuario.perteneceA(this))
 			usuario.agregarGrupo(this);
 	}

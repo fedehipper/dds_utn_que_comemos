@@ -8,10 +8,9 @@ import org.apache.log4j.Logger;
 
 public class LoguearConsultas implements Command{
 
-	private Logger log = Logger.getLogger("ConsultasConMasDe100Resultados");
+	private Logger log = Logger.getLogger(LoguearConsultas.class);
 	private List<Receta> consultas;
 
-	
 	public LoguearConsultas(List<Receta> consultas){
 		this.consultas = consultas;
 	}
@@ -19,11 +18,9 @@ public class LoguearConsultas implements Command{
 	public void ejecutar() {
 		BasicConfigurator.configure();
 		if (consultas.size() > 100){
-			if (log.isTraceEnabled()){
-				log.trace("MasDe100Resultados");				
-			}
+			if (log.isTraceEnabled())
+				log.trace("ConsultasConMasDe100Resultados");				
 		}
-		
 	}
-
+	
 }

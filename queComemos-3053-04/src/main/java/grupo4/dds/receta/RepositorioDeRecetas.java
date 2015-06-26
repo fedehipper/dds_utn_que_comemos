@@ -9,7 +9,6 @@ import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +22,7 @@ public class RepositorioDeRecetas {
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
-	private List<Command> acciones = new ArrayList<>();
+	private Set<Command> acciones = new HashSet<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -61,6 +60,11 @@ public class RepositorioDeRecetas {
 		agregarAccion(new MailSender(usuario, consulta, filtros));
 		
 		ejecutar();
+		vaciarCommand();
+	}
+	
+	public void vaciarCommand() {
+		acciones.clear();
 	}
 	
 	public void ejecutar() {
