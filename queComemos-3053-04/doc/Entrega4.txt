@@ -4,14 +4,24 @@ punto 2)
 
 punto 3)
 
+
 punto 4)
+
+Para este command cree la clase LoguearConsultas,elegi usar el Log4j porque es muy facil y rapido de configurar utilizando propiedades 
+del sistema o un archivo de configuraciones, teniendo en cuenta que puede que en un futuro se necesite enviar logs por mail, plasmarlos
+en archivos, etc. Decidi usar la configuracion estandar con trace,que es el que se suele utilizar en la etapa de desarrollo,
+unicamente mostraria por pantalla el mensaje "MasDe100Resultados" en caso de que una consulta devuelva mas de 100 resultados.
+
+
+
 
 punto 5)
 
-Para este command, cree la clase MarcarRecetasFavoritas que es en este caso una accion, la cual implementa a
-la interfaz Command que tiene el metodo ejecutar(),luego dentro de MarcarRecetasFavoritas el constructor de la misma
-guarda el estado del usuario actual junto con la consulta del mismo, para que luego en el metodo ejecutar() se use al
-usuario para marcar a las recetas de la consulta como favoritas, esto ocurre si el usuario previamente en la creacion
-de su perfil recibio como parametro un true, en marcaFavorita. Para que funcione esto en la clase Usuario, esta
-la clase marcarRecetasComoFavoritas donde hay un forEach que agrega a todas las recetas de la consulta en el historial, 
-luego para realizar esto utilize el metodo marcarFavorita que se desarrollo en entregas previas de este TP
+Para el marcado de las recetas como favoritas, ósea guardar en el historial de un usuario, agregue en la creación del perfil
+el un parámetro de tipo booleano para ver si el usuario quiere marcar recetas o no.
+Para hacer el marcado de recetas de forma asincrónica cada vez que se realice una consulta la acción de marcar las recetas
+se va a guardar en una colección perteneciente al usuario que realizo la consulta, entonces en otro momento se va a ejecutar
+cada una de estas por el usuario.
+La Clase que implementa a Command y que se encarga de ejecutar, lo hace en el caso de tener un usuario con la marca de
+favorita en true, en caso de que la tenga en false no ejecuta.
+Luego de ejecutar todas las acciones dentro de la colección, elimino el contenido para que vuelva a recibir nuevas acciones
