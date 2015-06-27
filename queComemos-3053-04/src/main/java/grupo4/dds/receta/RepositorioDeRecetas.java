@@ -2,9 +2,7 @@ package grupo4.dds.receta;
 
 
 import grupo4.dds.command.CommandMailSender;
-import grupo4.dds.command.Mail;
-import grupo4.dds.command.MailSender;
-import grupo4.dds.command.MailSenderPosta;
+
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -26,7 +24,7 @@ public class RepositorioDeRecetas {
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
 	private List<CommandMailSender> mailPendientes = new ArrayList<>();
-	private List<Usuario> suscriptores = new ArrayList();
+	private List<Usuario> suscriptores = new ArrayList<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
