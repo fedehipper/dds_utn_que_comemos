@@ -17,11 +17,11 @@ unicamente mostraria por pantalla el mensaje "MasDe100Resultados" en caso de que
 
 punto 5)
 
-Para el marcado de las recetas como favoritas, osea guardar en el historial de un usuario, agregue en la creacion del parfil
-el un parametro de tipo booleano para ver si el usuario quiere marcar recetas o no.
-Para hacer el marcado de recetas de forma asincronica cada vez que se realize una consulta la accion de marcar las recetas
-se va a guardar en una coleccion perteneciente al usuario que realizo la consulta, entonces en otro momento se va a ejecutar
+Para el marcado de las recetas como favoritas, ósea guardar en el historial de un usuario, agregue en la creación del perfil
+el un parámetro de tipo booleano para ver si el usuario quiere marcar recetas o no.
+Para hacer el marcado de recetas de forma asincrónica cada vez que se realice una consulta la acción de marcar las recetas
+se va a guardar en una colección perteneciente al usuario que realizo la consulta, entonces en otro momento se va a ejecutar
 cada una de estas por el usuario.
-La Clase que implemeta a Command y que se encarga de ejecutar, lo hace en el caso de tener un usuario con la marca de
+La Clase que implementa a Command y que se encarga de ejecutar, lo hace en el caso de tener un usuario con la marca de
 favorita en true, en caso de que la tenga en false no ejecuta.
-Luego de ejecutar todas las acciones dentro de la coleccion, elimino el contenido para que vuelva a recibir nuevas acciones
+Luego de ejecutar todas las acciones dentro de la colección, elimino el contenido para que vuelva a recibir nuevas acciones
