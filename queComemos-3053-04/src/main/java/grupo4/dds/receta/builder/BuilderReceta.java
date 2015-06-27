@@ -1,73 +1,82 @@
-package grupo4.dds.receta;
+package grupo4.dds.receta.builder;
 
-import java.util.List;
-
-import queComemos.entrega3.dominio.Dificultad;
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.usuario.Usuario;
+import grupo4.dds.receta.builder.BuilderEncabezado;
+import queComemos.entrega3.dominio.Dificultad;
+import grupo4.dds.receta.Temporada;
 
 
 public class BuilderReceta {
-//Receta
-	public Receta buildRecetaPublicaTipo1(EncabezadoDeReceta encabezado, String preparacion) {
-		return build(null, encabezado, null, null, null, preparacion,new RecetaPublica());
+
+	private Receta receta;
+	private BuilderEncabezado encabezado;
+	
+	public BuilderReceta(){
+		this.receta = new Receta();
+		this.encabezado=new BuilderEncabezado();
 	}
 	
-	public Receta buildRecetaPublicaTipo2(Usuario creador, EncabezadoDeReceta encabezado,String preparacion,List<Ingrediente> ingredientes) {
-		return build(creador, encabezado,ingredientes,null,null,preparacion, new RecetaPublica());
+	public BuilderReceta setCreador(Usuario creador){
+		receta.setCreador(creador);
+		return this;
 	}
 	
-	public Receta buildRecetaPublicaTipo3(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
-		
-		return build(creador, encabezado, ingredientes, condimentos, subrecetas, preparacion, new RecetaPublica());
+	public BuilderReceta setTotalCalorias(int totalCalorias){
+		this.encabezado.setTotalCalorias(totalCalorias);
+		return this;
 	}
 	
-	public Receta buildRecetaTipo1(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
-		return buildRecetaTipo3(creador, encabezado, null, null, null, preparacion);
+	public BuilderReceta setNombreDelPlato(String nombreDelPlato){
+		this.encabezado.setNombreDelPlato(nombreDelPlato);
+		return this;
 	}
 	
-	public Receta buildRecetaTipo2(Usuario creador, EncabezadoDeReceta encabezado,String preparacion,List<Ingrediente> ingredientes){
-		return buildRecetaTipo3(creador, encabezado,ingredientes,null,null, preparacion);
+	public BuilderReceta setTemporada(Temporada temporada){
+		this.encabezado.setTemporada(temporada);
+		return this;
+	}
+
+	public BuilderReceta setDificultad(Dificultad dificultad){
+		this.encabezado.setDificultad(dificultad);
+		return this;
+	}
+
+	public BuilderReceta setIngrediente(Ingrediente unIngrediente) {
+		this.receta.agregarIngrediente(unIngrediente);
+		return this;
+	}
+
+	public BuilderReceta setCondimento(Ingrediente unCondimento) {
+		this.receta.agregarCondimento(unCondimento);
+		return this;
+	}
+
+	public BuilderReceta setSubreceta(Receta subreceta) {
+		this.receta.agregarSubreceta(subreceta);
+		return this;
+	}
+
+	public BuilderReceta setPreparacion(String preparacion) {
+		this.receta.setPreparacion(preparacion);
+		return this;
 	}
 	
-	public Receta buildRecetaTipo3(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
-		
-		return build(creador, encabezado, ingredientes, condimentos, subrecetas, preparacion, new Receta());
+	protected BuilderReceta setEncabezado(EncabezadoDeReceta encabezado) {
+		this.receta.setEncabezado(encabezado);
+		return this;
 	}
 	
-	private Receta build(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion, Receta receta)
-	{	
-		if (creador!=null){receta.agregarCreador(creador);};
-		if (encabezado != null){receta.agregarEncabezado(encabezado);};
-		if (!(ingredientes.isEmpty())){receta.agregarIngredientes(ingredientes);};
-		if (!(condimentos.isEmpty())){receta.agregarCondimentos(condimentos);};
-		if (!(subrecetas.isEmpty())){receta.agregarSubrecetas(subrecetas);};
-		if (preparacion!=null){receta.agregarPreparacion(preparacion);};
+	public Receta build(){	
+		setEncabezado(this.encabezado.build());
+
+		if (!receta.esValida()){
+			throw new RuntimeException();
+		}
 		
 		return receta;
 	}
-//Encabezado
-		
-	public EncabezadoDeReceta buildEncabezadoTipo1(String nombreDelPlato, Temporada temporada, Dificultad dificultad) {
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
-		encabezado.setNombreDelPlato(nombreDelPlato);
-		encabezado.setTemporada(temporada);
-		encabezado.setDificultad(dificultad);
-		
-		return encabezado;
-	}
 	
-	public EncabezadoDeReceta buildEncabezadoTipo2(String nombreDelPlato, Temporada temporada, Dificultad dificultad, int calorias) {
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
-		encabezado.setNombreDelPlato(nombreDelPlato);
-		encabezado.setTemporada(temporada);
-		encabezado.setDificultad(dificultad);
-		encabezado.setTotalCalorias(calorias);
-		
-		return encabezado;
-	}
 }
