@@ -332,7 +332,7 @@ public class Usuario {
 	
 	// punto 5 entrega 4
 	public void ejecutarAccionesPendientes() {
-		this.accionesMarcarRecetasFavoritas.forEach(a -> a.ejecutar());
+		this.accionesMarcarRecetasFavoritas.forEach(a -> a.ejecutar(this));
 		this.accionesMarcarRecetasFavoritas.clear();
 	}
 	

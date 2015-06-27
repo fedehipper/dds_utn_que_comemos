@@ -8,15 +8,13 @@ import java.util.List;
 
 public class MarcarRecetasFavoritas implements Command {
 	
-	private Usuario usuario;
 	private List<Receta> consulta = new ArrayList<>();
 	
-	public MarcarRecetasFavoritas(Usuario usuario ,List<Receta> consulta) {
-		this.usuario = usuario;
+	public MarcarRecetasFavoritas(List<Receta> consulta) {
 		this.consulta = consulta;
 	}
 	
-	public void ejecutar() {
+	public void ejecutar(Usuario usuario) {
 		if (usuario.marcarFavoritaEstaActivada())
 			usuario.marcarRecetasComoFavoritas(consulta);
 	}
