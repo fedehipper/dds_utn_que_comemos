@@ -2,9 +2,6 @@ package grupo4.dds.receta;
 
 
 import grupo4.dds.command.CommandMailSender;
-import grupo4.dds.command.Mail;
-import grupo4.dds.command.MailSender;
-import grupo4.dds.command.MailSenderPosta;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -60,11 +57,12 @@ public class RepositorioDeRecetas {
 	public void agregarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 			
 		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(consulta));
+		
 		//agregarAccion(new LoguearConsultas(consulta));
+		
 		if (suscriptores.stream().anyMatch(u -> u.equals(usuario)) )
 		   agregarEnvioMail(new CommandMailSender (usuario, consulta, filtros));
 		
-		// ya no ejecuta aca
 	}
 			
 	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
