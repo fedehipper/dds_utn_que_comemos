@@ -39,6 +39,7 @@ public class TestRepositorioDeRecetas {
 	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
 	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 	private List<Receta> expected;
+	private List<Receta> consulta;
 	private List<Filtro> filtros;
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
 	
@@ -55,6 +56,7 @@ public class TestRepositorioDeRecetas {
 	public void setUp() {
 		expected = null;
 		filtros = new ArrayList<>();
+		consulta = new ArrayList<>();
 		repositorio.vaciar();
 		
 		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, true, null);
@@ -167,10 +169,10 @@ public class TestRepositorioDeRecetas {
 	
 	@Test 
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
-		expected = Arrays.asList(receta6, receta7, receta8);
+		consulta = Arrays.asList(receta6, receta7, receta8);
 		RepositorioDeRecetas.get().listarRecetasPara(raul, null, null);
-		raul.ejecutarAccionesPendientes();
-		assertTrue(raul.getHistorial().containsAll(expected));
+		raul.ejecutarMarcadoPendiente();
+		assertTrue(raul.getHistorial().containsAll(consulta));
 	}
 	
 }

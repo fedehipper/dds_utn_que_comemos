@@ -67,7 +67,7 @@ public class TestCommand {
 	@Test
 	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
 		repositorio.agregarAcciones(federicoHipper, consulta, null);
-		federicoHipper.ejecutarAccionesPendientes();
+		federicoHipper.ejecutarMarcadoPendiente();
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
@@ -75,7 +75,7 @@ public class TestCommand {
 	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
 		federicoHipper.marcarFavorita(receta2);
 		repositorio.agregarAcciones(federicoHipper, consulta, null);
-		federicoHipper.ejecutarAccionesPendientes();
+		federicoHipper.ejecutarMarcadoPendiente();
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
