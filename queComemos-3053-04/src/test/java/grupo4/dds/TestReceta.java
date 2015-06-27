@@ -11,11 +11,13 @@ import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Usuario;
+import grupo4.dds.receta.builder.*;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 
 public class TestReceta {
 	
@@ -31,19 +33,16 @@ public class TestReceta {
 	/* Test: @esValida/0 */
 	@Test
 	public void testNoEsValidaUnaRecetaSinIngredientes() {
-		receta = Receta.crearNueva();
-		
-		receta.setTotalCalorias(4500);
-		assertFalse(receta.esValida());
+		try{
+		receta = new BuilderReceta().setTotalCalorias(4500).build();
+		}
+		catch(RuntimeException e){}
 	}
 	
-	@Test
+	@Test 
 	public void testEsValidaUnaRecetaConIngredientesY4500Calorias() {
-		receta = Receta.crearNueva();
+		receta = new BuilderReceta().setTotalCalorias(4500).setIngrediente(new Ingrediente("carne", 0f)).build();
 		
-		Ingrediente carne = new Ingrediente("carne", 0f);
-		receta.agregarIngrediente(carne);
-		receta.setTotalCalorias(4500);
 		assertTrue(receta.esValida());
 	}
 	
@@ -51,18 +50,14 @@ public class TestReceta {
 	@Test
 	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() throws NoSePuedeModificarLaReceta {
 		Usuario usuario = Usuario.crearPerfil(null);		
-		receta = Receta.crearNueva(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
-		
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
-		encabezado.setTotalCalorias(4500);
-		
-		Ingrediente frutas = new Ingrediente("frutas", 0f);
-		
-		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-		
-		ingredientes.add(frutas);
+
+		receta = new BuilderReceta().setCreador(usuario).
+									 setPreparacion("Preparación antes de modificar").
+									 setTotalCalorias(4500).
+									 setIngrediente(new Ingrediente("frutas", 0f)).
+									 build();
 				
-		receta.modificarReceta(usuario, encabezado, ingredientes, null, "Preparación después de modificar", null);
+		receta.modificarReceta(usuario, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
 		assertEquals(receta.getPreparacion(),"Preparación después de modificar");
 	}
 	
@@ -71,34 +66,28 @@ public class TestReceta {
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
 		Usuario usuario = Usuario.crearPerfil("unUsuario");		
-		receta = Receta.crearNueva(usuario, new EncabezadoDeReceta(), "Preparación antes de modificar");
+		Usuario usuario2 = Usuario.crearPerfil("otroUsuario");		
 		
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
-		encabezado.setTotalCalorias(4500);
-		
-		Ingrediente frutas = new Ingrediente("frutas", 0f);
-		
-		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-		ingredientes.add(frutas);
+		receta = new BuilderReceta().setCreador(usuario).
+									 setPreparacion("Preparación antes de modificar").
+									 setTotalCalorias(4500).
+									 setIngrediente(new Ingrediente("frutas", 0f)).
+									 build();
 				
-		receta.modificarReceta(Usuario.crearPerfil("otroUsuario"), encabezado, ingredientes, null, "Preparación después de modificar", null);
+		receta.modificarReceta(usuario2, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
 		assertEquals(receta.getPreparacion(), "Preparación después de modificar");
 	}
 	
 	@Test
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta {
 		Usuario usuario = Usuario.crearPerfil(null);
-		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, "Preparación antes de modificar");
+		Receta recetaPublica = new BuilderRecetaPublica().setPreparacion("Preparación antes de modificar").
+																 setTotalCalorias(400).
+																 setIngrediente(new Ingrediente("frutas", 0f)).
+																 build();
+															
 		
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
-		encabezado.setTotalCalorias(4500);
-		
-		Ingrediente frutas = new Ingrediente("frutas", 0f);
-		
-		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-		ingredientes.add(frutas);
-
-		usuario.modificarReceta(recetaPublica, encabezado, ingredientes, null, "Preparación después de modificar", null);
+		usuario.modificarReceta(recetaPublica, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
 
 		assertEquals(recetaPublica.getPreparacion(), "Preparación antes de modificar");
 		assertEquals(usuario.recetaMasReciente().getPreparacion(), "Preparación después de modificar");
@@ -107,16 +96,29 @@ public class TestReceta {
 	/* Test: @getPreparacion */
 	@Test
 	public void testLaPreparacionDeUnaRecetaSinSubrecetasEsLaSuya() {
-		receta = Receta.crearNueva(null, null, "Preparación propia");
+
+		receta = new BuilderReceta().setPreparacion("Preparación propia").
+									 setTotalCalorias(400).
+									 setIngrediente(new Ingrediente("test",0f)).
+									 build();
+
 		assertEquals(receta.getPreparacion(), "Preparación propia");
 	}
 	
 	@Test
 	public void testLaPreparacionDeUnaRecetaEsLaSuyaYlaDeSusSubrecetas() {
-		receta = Receta.crearNueva(null, null, "Preparación propia\n");
-		receta.agregarSubreceta(Receta.crearNueva(null, null, "Preparación subreceta 1\n"));
-		receta.agregarSubreceta(Receta.crearNueva(null, null, null));
-		receta.agregarSubreceta(Receta.crearNueva(null, null, "Preparación subreceta 2\n"));
+		receta = new BuilderReceta().setPreparacion("Preparación propia\n").
+									 setSubreceta(new BuilderReceta().setPreparacion("Preparación subreceta 1\n").
+											 						  setTotalCalorias(400).
+											 						  setIngrediente(new Ingrediente("test",0f)).
+											 						  build()).
+									 setSubreceta(new BuilderReceta().setPreparacion("Preparación subreceta 2\n").
+											 						  setTotalCalorias(400).
+											 						  setIngrediente(new Ingrediente("test",0f)).
+											 						  build()).
+									 setTotalCalorias(400).
+									 setIngrediente(new Ingrediente("test",0f)).
+									 build();
 		
 		assertEquals(receta.getPreparacion(), "Preparación propia\nPreparación subreceta 1\nPreparación subreceta 2\n");
 	}

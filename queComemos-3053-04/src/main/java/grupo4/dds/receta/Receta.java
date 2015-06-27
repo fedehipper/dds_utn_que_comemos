@@ -202,18 +202,40 @@ public class Receta {
 		return encabezado.getDificultad();
 	}
 
-	
-	//
-	
-	public void agregarCreador(Usuario creador){this.creador=creador;}
+	public void setCreador(Usuario creador) {
+		this.creador = creador;
+	}
 
-	public void agregarEncabezado(EncabezadoDeReceta encabezado){this.encabezado=encabezado;}
-	
-	public void agregarIngredientes(List<Ingrediente> ingredientes){this.ingredientes=ingredientes;}
+	public void setEncabezado(EncabezadoDeReceta encabezado) {
+		this.encabezado = encabezado;
+	}
 
-	public void agregarCondimentos(List<Ingrediente> condimentos){this.condimentos=condimentos;}
+	public void setIngredientes(List<Ingrediente> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
 
-	public void agregarSubrecetas(List<Receta> subrecetas){this.subrecetas=subrecetas;}
+	public void setCondimentos(List<Ingrediente> condimentos) {
+		this.condimentos = condimentos;
+	}
 
-	public void agregarPreparacion(String preparacion){this.preparacion=preparacion;}
+	public void setSubrecetas(List<Receta> subrecetas) {
+		this.subrecetas = subrecetas;
+	}
+
+	public void setPreparacion(String preparacion) {
+		this.preparacion = preparacion;
+	}
+
+	public EncabezadoDeReceta getEncabezado() {
+		return encabezado;
+	}
+
+	public Usuario getCreador() {
+		return creador;
+	}
+
+	public List<Receta> getSubrecetas() {
+		return subrecetas;
+	}
+		
 }

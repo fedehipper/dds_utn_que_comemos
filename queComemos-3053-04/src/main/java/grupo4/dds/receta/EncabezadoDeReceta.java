@@ -24,7 +24,6 @@ public class EncabezadoDeReceta {
 		this.dificultad = dificultad;
 		this.totalCalorias = calorias;
 	}
-	
 
 	public int getTotalCalorias() {
 		return totalCalorias;
