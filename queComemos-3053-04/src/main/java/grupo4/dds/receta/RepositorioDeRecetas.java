@@ -26,7 +26,7 @@ public class RepositorioDeRecetas {
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
 	private List<CommandMailSender> mailPendientes = new ArrayList<>();
-	private List<Usuario> suscriptores = new ArrayList();
+	private List<Usuario> suscriptores = new ArrayList<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
