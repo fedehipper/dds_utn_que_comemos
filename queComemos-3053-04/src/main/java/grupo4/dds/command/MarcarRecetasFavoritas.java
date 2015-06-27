@@ -17,7 +17,7 @@ public class MarcarRecetasFavoritas implements Command {
 	}
 	
 	public void ejecutar() {
-		if (usuario.esMarcaFavorita())
+		if (usuario.marcarFavoritaEstaActivada())
 			usuario.marcarRecetasComoFavoritas(consulta);
 	}
 	

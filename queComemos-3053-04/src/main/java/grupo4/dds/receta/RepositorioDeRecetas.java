@@ -1,8 +1,6 @@
 package grupo4.dds.receta;
 
-import grupo4.dds.command.Command;
-import grupo4.dds.command.LoguearConsultas;
-import grupo4.dds.command.MailSender;
+
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -22,7 +20,6 @@ public class RepositorioDeRecetas {
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
-	private Set<Command> acciones = new HashSet<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -49,28 +46,19 @@ public class RepositorioDeRecetas {
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
 		notificarATodos(usuario, consulta);
-		ejecutarAcciones(usuario, consulta, filtros);
+		agregarAcciones(usuario, consulta, filtros);
 		return consulta;
 	}
 	
-	public void ejecutarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
+	public void agregarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 			
-		agregarAccion(new MarcarRecetasFavoritas(usuario, consulta));
-		agregarAccion(new LoguearConsultas(consulta));
-		agregarAccion(new MailSender(usuario, consulta, filtros));
+		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(usuario, consulta));
+		//agregarAccion(new LoguearConsultas(consulta));	
+		//agregarAccion(new MailSender(usuario, consulta, filtros));
 		
-		ejecutar();
-		vaciarCommand();
+		// ya no ejecuta aca
 	}
-	
-	public void vaciarCommand() {
-		acciones.clear();
-	}
-	
-	public void ejecutar() {
-		acciones.forEach(a -> a.ejecutar());
-	}
-	
+			
 	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
 		monitor.notificarConsulta(consulta, usuario);
 	}
@@ -112,9 +100,5 @@ public class RepositorioDeRecetas {
 	public void removeMonitor(Monitor monitor) {
 		this.monitores.remove(monitor);
 	}
-	
-	public void agregarAccion(Command unaAccion) {
-		this.acciones.add(unaAccion);
-	}
-	
+		
 }
