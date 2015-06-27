@@ -17,10 +17,11 @@ unicamente mostraria por pantalla el mensaje "MasDe100Resultados" en caso de que
 
 punto 5)
 
-Para este Command, cree la clase MarcarRecetasFavoritas que es en este caso una acción, la cual implementa a
-la interfaz Command que tiene el método ejecutar(),luego dentro de MarcarRecetasFavoritas el constructor de la misma
-guarda el estado del usuario actual junto con la consulta del mismo, para que luego en el método ejecutar() se use al
-usuario para marcar a las recetas de la consulta como favoritas, esto ocurre si el usuario previamente en la creación
-de su perfil recibió como parámetro un true, en marcaFavorita. Para que funcione esto en la clase Usuario, esta
-la clase marcarRecetasComoFavoritas donde hay un forEach que agrega a todas las recetas de la consulta en el historial, 
-luego para realizar esto utilice el método marcarFavorita que se desarrollo en entregas previas de este TP
+Para el marcado de las recetas como favoritas, osea guardar en el historial de un usuario, agregue en la creacion del parfil
+el un parametro de tipo booleano para ver si el usuario quiere marcar recetas o no.
+Para hacer el marcado de recetas de forma asincronica cada vez que se realize una consulta la accion de marcar las recetas
+se va a guardar en una coleccion perteneciente al usuario que realizo la consulta, entonces en otro momento se va a ejecutar
+cada una de estas por el usuario.
+La Clase que implemeta a Command y que se encarga de ejecutar, lo hace en el caso de tener un usuario con la marca de
+favorita en true, en caso de que la tenga en false no ejecuta.
+Luego de ejecutar todas las acciones dentro de la coleccion, elimino el contenido para que vuelva a recibir nuevas acciones
