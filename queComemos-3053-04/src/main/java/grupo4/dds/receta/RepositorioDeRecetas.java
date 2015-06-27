@@ -58,11 +58,11 @@ public class RepositorioDeRecetas {
 	public void agregarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 			
 		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(consulta));
+		
 		//agregarAccion(new LoguearConsultas(consulta));
+		
 		if (suscriptores.stream().anyMatch(u -> u.equals(usuario)) )
 		   agregarEnvioMail(new CommandMailSender (consulta, filtros));
-		
-		// ya no ejecuta aca
 	}
 			
 	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {

@@ -331,7 +331,7 @@ public class Usuario {
 	}
 	
 	// punto 5 entrega 4
-	public void ejecutarAccionesPendientes() {
+	public void ejecutarMarcadoPendiente() {
 		this.accionesMarcarRecetasFavoritas.forEach(a -> a.ejecutar(this));
 		this.accionesMarcarRecetasFavoritas.clear();
 	}
