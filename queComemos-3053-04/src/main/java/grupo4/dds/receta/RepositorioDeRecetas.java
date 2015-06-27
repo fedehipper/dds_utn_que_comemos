@@ -1,12 +1,16 @@
 package grupo4.dds.receta;
 
 
+import grupo4.dds.command.Mail;
+import grupo4.dds.command.MailSender;
+import grupo4.dds.command.MailSenderPosta;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +24,7 @@ public class RepositorioDeRecetas {
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	private Set<Receta> recetas = new HashSet<Receta>();
 	private Set<Monitor> monitores = new HashSet<>();
+	private List<MailSender> mailPendientes = new ArrayList<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -54,7 +59,7 @@ public class RepositorioDeRecetas {
 			
 		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(consulta));
 		//agregarAccion(new LoguearConsultas(consulta));	
-		//agregarAccion(new MailSender(usuario, consulta, filtros));
+		agregarEnvioMail(new MailSenderPosta (new Mail(usuario, consulta, filtros)));
 		
 		// ya no ejecuta aca
 	}
@@ -99,6 +104,10 @@ public class RepositorioDeRecetas {
 	
 	public void removeMonitor(Monitor monitor) {
 		this.monitores.remove(monitor);
+	}
+	
+	public void agregarEnvioMail(MailSender mailSender){
+		this.mailPendientes.add(mailSender);
 	}
 		
 }
