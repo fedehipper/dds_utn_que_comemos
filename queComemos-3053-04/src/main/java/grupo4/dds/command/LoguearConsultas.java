@@ -1,6 +1,8 @@
 package grupo4.dds.command;
 
 import grupo4.dds.receta.Receta;
+import grupo4.dds.usuario.Usuario;
+
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
@@ -15,7 +17,7 @@ public class LoguearConsultas implements Command{
 		this.consultas = consultas;
 	}
 
-	public void ejecutar() {
+	public void ejecutar(Usuario usuario) {
 		BasicConfigurator.configure();
 		if (consultas.size() > 100){
 			if (log.isTraceEnabled())

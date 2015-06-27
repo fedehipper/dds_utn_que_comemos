@@ -52,7 +52,7 @@ public class RepositorioDeRecetas {
 	
 	public void agregarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 			
-		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(usuario, consulta));
+		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(consulta));
 		//agregarAccion(new LoguearConsultas(consulta));	
 		//agregarAccion(new MailSender(usuario, consulta, filtros));
 		

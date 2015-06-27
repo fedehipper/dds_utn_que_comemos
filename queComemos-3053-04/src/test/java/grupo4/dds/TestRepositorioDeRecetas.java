@@ -169,7 +169,7 @@ public class TestRepositorioDeRecetas {
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
 		expected = Arrays.asList(receta6, receta7, receta8);
 		RepositorioDeRecetas.get().listarRecetasPara(raul, null, null);
-	
+		raul.ejecutarAccionesPendientes();
 		assertTrue(raul.getHistorial().containsAll(expected));
 	}
 	

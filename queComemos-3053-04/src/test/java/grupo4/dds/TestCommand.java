@@ -51,22 +51,23 @@ public class TestCommand {
 
 	@Test
 	public void testUnitarioMarcarComoFavoritaATodasLasRecetas() {
-		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(federicoHipper, consulta);
-		marcarFavoritas.ejecutar();
+		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
+		marcarFavoritas.ejecutar(federicoHipper);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	@Test
 	public void testUnitarioNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
 		federicoHipper.marcarFavorita(receta2);
-		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(federicoHipper, consulta);
-		marcarFavoritas.ejecutar();
+		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
+		marcarFavoritas.ejecutar(federicoHipper);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	@Test
 	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
 		repositorio.agregarAcciones(federicoHipper, consulta, null);
+		federicoHipper.ejecutarAccionesPendientes();
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
@@ -74,6 +75,7 @@ public class TestCommand {
 	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
 		federicoHipper.marcarFavorita(receta2);
 		repositorio.agregarAcciones(federicoHipper, consulta, null);
+		federicoHipper.ejecutarAccionesPendientes();
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
