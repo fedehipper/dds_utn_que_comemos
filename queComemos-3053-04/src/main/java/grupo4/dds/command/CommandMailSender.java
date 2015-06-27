@@ -12,7 +12,13 @@ public class CommandMailSender implements Command {
 
   private List<Receta> consulta = new ArrayList<>();
   private List<Filtro> filtros = new ArrayList<>();
-
+  
+  public CommandMailSender(List<Receta> consulta, List<Filtro> filtros){
+	  
+  
+  this.consulta = consulta;
+  this.filtros = filtros;
+  }
 
 	public void ejecutar(Usuario usuario)  {
 		
