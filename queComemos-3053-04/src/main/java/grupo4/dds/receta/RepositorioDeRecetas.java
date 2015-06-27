@@ -62,7 +62,7 @@ public class RepositorioDeRecetas {
 		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(consulta));
 		//agregarAccion(new LoguearConsultas(consulta));
 		if (suscriptores.stream().anyMatch(u -> u.equals(usuario)) )
-		   agregarEnvioMail(new CommandMailSender (consulta, filtros));
+		   agregarEnvioMail(new CommandMailSender (usuario, consulta, filtros));
 		
 		// ya no ejecuta aca
 	}
