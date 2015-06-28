@@ -9,10 +9,9 @@ punto 4)
 
 Para este command cree la clase LoguearConsultas,elegi usar el Log4j porque es muy facil y rapido de configurar utilizando propiedades 
 del sistema o un archivo de configuraciones, teniendo en cuenta que puede que en un futuro se necesite enviar logs por mail, plasmarlos
-en archivos, etc. Como no me tomaba el archivo log4j.properties tuve que crear una carpeta aparte incluirlo en el Build Path y usar
-un Loader.getResource para que lo encontrara.En LoguarConsultas use un log.INFO para que en el caso de que una consulta devuelva mas de 100 
-resultado imprima por la consola "Consultas Con Mas De 100 Resultados" y para que sea asincronico agregue el metodo agregarLogsDeConsulta
- en RepositorioDeRecetas para agregar los logs a una coleccion de logs por medio del metodo agregarAcciones.
+en archivos, etc.En LoguarConsultas use un log.INFO para que en el caso de que una consulta devuelva mas de 100 
+resultado imprima por la consola "Consultas Con Mas De 100 Resultados" y para que sea asincronico agregue el metodo
+ agregarLogsDeConsulta en RepositorioDeRecetas para agregar los logs a una coleccion de logs por medio del metodo agregarAcciones.
 
 
 
