@@ -3,18 +3,18 @@ package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import grupo4.dds.command.LoguearConsultas;
+import grupo4.dds.command.MailSenderPosta;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
@@ -30,6 +30,7 @@ public class TestCommand {
 		
 	private Usuario federicoHipper;
 	private Usuario cristian;
+	private Usuario fecheSena;
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
 	
 	private Receta receta2;
@@ -47,7 +48,7 @@ public class TestCommand {
 	@Before
 	public void setUp() {
 		repositorio.vaciar();
-		
+		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.91f, 99.0f, null, false, "fesena92@gmail.com");
 		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, true, null);
 		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
 		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
@@ -93,6 +94,7 @@ public class TestCommand {
 		federicoHipper.ejecutarMarcadoPendiente();
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
+	
 	
 	@Test
 	public void testConsultas(){
