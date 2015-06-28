@@ -1,8 +1,24 @@
-punto 1)
+﻿punto 1)
 
 punto 2)
 
 punto 3)
+Para el command del envío de mails tuve que crear la abstracción de un mail con atributos como los datos propios que pide
+el enunciado que son los filtros, consultas y usuario.
+Para la tarea del envío de mail en particular, cree la clase CommandMailSender que es la encargada de ejecutar el envío de mail,
+recibiendo por parámetros al usuario, la consulta y los filtros y así, poder crear la instancia de un mail y realizar dicho envío
+por medio de un componente externo.
+Este componente externo lo representé con el MailSenderPosta (que es ajeno al sistema) que implementa la interfaz MailSender junto
+a CommandMailSender. Esto permite poder testear el envío correcto o no de un mail. Este componente es externo al sistema.
+En cuanto a la condición del envío de mail a ciertos usuario, hice una colección de suscriptores en la cual deberían agregarse
+a los usuario que reciben los mails cuando consulten. Esta colección la instancié en la clase RepositorioDeReceta por una cuestión
+de que esa clase es la encargada de listar (busqueda) de las recetas de un usuario, y de manera que pueda quedar esa sola instancia de
+suscriptores.
+En RepositorioDeReceta también hice una colección de mailsPendientes donde se almacenan los distintos envíos de mails que se guardan
+cada vez que un suscriptor realice una consulta. De esta manera, en toda la colección quedan registrados todos los envíos de mail
+a ejecutar posteriormente.
+
+
 
 
 punto 4)
