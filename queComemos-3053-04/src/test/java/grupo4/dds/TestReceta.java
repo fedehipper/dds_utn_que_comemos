@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
-import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.receta.builder.*;
 

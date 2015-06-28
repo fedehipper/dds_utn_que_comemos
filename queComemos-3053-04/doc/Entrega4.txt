@@ -9,19 +9,20 @@ punto 4)
 
 Para este command cree la clase LoguearConsultas,elegi usar el Log4j porque es muy facil y rapido de configurar utilizando propiedades 
 del sistema o un archivo de configuraciones, teniendo en cuenta que puede que en un futuro se necesite enviar logs por mail, plasmarlos
-en archivos, etc. Decidi usar la configuracion estandar con trace,que es el que se suele utilizar en la etapa de desarrollo,
-unicamente mostraria por pantalla el mensaje "MasDe100Resultados" en caso de que una consulta devuelva mas de 100 resultados.
-
+en archivos, etc. Como no me tomaba el archivo log4j.properties tuve que crear una carpeta aparte incluirlo en el Build Path y usar
+un Loader.getResource para que lo encontrara.En LoguarConsultas use un log.INFO para que en el caso de que una consulta devuelva mas de 100 
+resultado imprima por la consola "Consultas Con Mas De 100 Resultados" y para que sea asincronico agregue el metodo agregarLogsDeConsulta
+ en RepositorioDeRecetas para agregar los logs a una coleccion de logs por medio del metodo agregarAcciones.
 
 
 
 punto 5)
 
-Para el marcado de las recetas como favoritas, ósea guardar en el historial de un usuario, agregue en la creación del perfil
-el un parámetro de tipo booleano para ver si el usuario quiere marcar recetas o no.
-Para hacer el marcado de recetas de forma asincrónica cada vez que se realice una consulta la acción de marcar las recetas
-se va a guardar en una colección perteneciente al usuario que realizo la consulta, entonces en otro momento se va a ejecutar
+Para el marcado de las recetas como favoritas, ï¿½sea guardar en el historial de un usuario, agregue en la creaciï¿½n del perfil
+el un parï¿½metro de tipo booleano para ver si el usuario quiere marcar recetas o no.
+Para hacer el marcado de recetas de forma asincrï¿½nica cada vez que se realice una consulta la acciï¿½n de marcar las recetas
+se va a guardar en una colecciï¿½n perteneciente al usuario que realizo la consulta, entonces en otro momento se va a ejecutar
 cada una de estas por el usuario.
 La Clase que implementa a Command y que se encarga de ejecutar, lo hace en el caso de tener un usuario con la marca de
 favorita en true, en caso de que la tenga en false no ejecuta.
-Luego de ejecutar todas las acciones dentro de la colección, elimino el contenido para que vuelva a recibir nuevas acciones
+Luego de ejecutar todas las acciones dentro de la colecciï¿½n, elimino el contenido para que vuelva a recibir nuevas acciones

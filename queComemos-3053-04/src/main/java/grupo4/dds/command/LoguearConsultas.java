@@ -3,10 +3,11 @@ package grupo4.dds.command;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
+import java.net.URL;
 import java.util.List;
-
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.helpers.Loader;
 
 public class LoguearConsultas implements Command{
 
@@ -18,12 +19,12 @@ public class LoguearConsultas implements Command{
 	}
 
 	public void ejecutar(Usuario usuario) {
-		BasicConfigurator.configure();
+		URL url = Loader.getResource("log4j.properties");
+		PropertyConfigurator.configure(url);
 		if (consultas.size() > 100){
-			if (log.isTraceEnabled())
-				log.trace("ConsultasConMasDe100Resultados");	
-				log.warn("Warning");
-				log.error("Error");
+			if (log.isInfoEnabled())
+				log.info("Consultas Con Mas De 100 Resultados");	
+
 		}
 	}
 	
