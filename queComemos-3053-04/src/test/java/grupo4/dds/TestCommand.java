@@ -107,10 +107,10 @@ public class TestCommand {
         logger.addAppender(appender);
         Logger.getLogger(TestCommand.class).info("Esto es un test");
         final List<LoggingEvent> log = appender.getLog();
-        final LoggingEvent firstLogEntry = log.get(0);
-        assertEquals(firstLogEntry.getLevel(),Level.INFO);
-        assertEquals((String) firstLogEntry.getMessage(),"Esto es un test");
-        assertEquals(firstLogEntry.getLoggerName(),"grupo4.dds.TestCommand");
+        final LoggingEvent firstLog = log.get(0);
+        assertEquals(firstLog.getLevel(),Level.INFO);
+        assertEquals((String) firstLog.getMessage(),"Esto es un test");
+        assertEquals(firstLog.getLoggerName(),"grupo4.dds.TestCommand");
 
     }
     
