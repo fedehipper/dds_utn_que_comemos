@@ -8,6 +8,7 @@ import java.util.List;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
+/*import grupo4.dds.receta.RecetaPublica;*/
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.receta.builder.*;
 
@@ -76,16 +77,16 @@ public class TestReceta {
 		assertEquals(receta.getPreparacion(), "Preparación después de modificar");
 	}
 	
-	/*@Test
-	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta {
+	@Test
+	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta  {
 		Usuario usuario = Usuario.crearPerfil(null);
-		Receta recetaPublica = new BuilderReceta().setPreparacion("Preparación antes de modificar").
+		Receta recetaPublica = new BuilderRecetaPublica().setPreparacion("Preparación antes de modificar").
 																 setTotalCalorias(400).
 																 setIngrediente(new Ingrediente("frutas", 0f)).
 																 build();
 															
 		
-		usuario.modificarReceta(recetaPublica, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
+		usuario.modificarReceta(recetaPublica, recetaPublica.getEncabezado(), recetaPublica.getIngredientes(), null, "Preparación después de modificar", null);
 
 		assertEquals(recetaPublica.getPreparacion(), "Preparación antes de modificar");
 		assertEquals(usuario.recetaMasReciente().getPreparacion(), "Preparación después de modificar");
@@ -124,13 +125,10 @@ public class TestReceta {
 	/* Test: @getNombreIngredientes */
 	@Test
 	public void testLosIngredientesDeUnaRecetaSinSubrecetasSonLosSuyos() {
-		receta = Receta.crearNueva(null, null, null);
-		
 		Ingrediente carne = new Ingrediente("carne", 0f);
 		Ingrediente pollo = new Ingrediente("pollo", 0f);
 		
-		receta.agregarIngrediente(carne);
-		receta.agregarIngrediente(pollo);
+		receta = new BuilderReceta().setTotalCalorias(400).setIngrediente(carne).setIngrediente(pollo).build();
 		
 		List<Ingrediente> expected = new ArrayList<>();
 		expected.add(carne);
@@ -142,13 +140,10 @@ public class TestReceta {
 	/* Test: @getNombreCondimentos */
 	@Test
 	public void testLosCondimentosDeUnaRecetaSinSubrecetasSonLosSuyos() {
-		receta = Receta.crearNueva(null, null, null);
-
 		Ingrediente caldo = new Ingrediente("caldo", 0f);
 		Ingrediente sal = new Ingrediente("sal", 0f);
 		
-		receta.agregarCondimento(caldo);
-		receta.agregarCondimento(sal);
+		receta = new BuilderReceta().setTotalCalorias(400).setIngrediente(new Ingrediente("carne",0f)).setCondimento(caldo).setCondimento(sal).build();
 		
 		List<Ingrediente> expected = new ArrayList<>();
 		expected.add(caldo);
@@ -159,58 +154,54 @@ public class TestReceta {
 	
 	@Test
 	public void testLosIngredientesDeUnaRecetaSonLosSuyosYLosDeSusSubrecetas() {
-		receta = Receta.crearNueva(null, null, null);
-		
 		Ingrediente carne = new Ingrediente("carne", 0f);
 		Ingrediente pollo = new Ingrediente("pollo", 0f);
 		Ingrediente chivito = new Ingrediente("chivito", 0f);
 		Ingrediente chori = new Ingrediente("chori", 0f);
 		
-		receta.agregarIngrediente(carne);
-		receta.agregarIngrediente(pollo);
-		
+		receta = new BuilderReceta().setTotalCalorias(400).
+									 setIngrediente(carne).
+									 setIngrediente(pollo).
+									 setSubreceta(new BuilderReceta().setTotalCalorias(400).setIngrediente(chivito).build()).
+									 setSubreceta(new BuilderReceta().setTotalCalorias(400).setIngrediente(chori).build()).
+									 build();
+			
 		List<Ingrediente> expected = new ArrayList<>();
 		expected.add(carne);
 		expected.add(pollo);
 		expected.add(chivito);
 		expected.add(chori);
 		
-		Receta sub1 = Receta.crearNueva(null, null, null);
-		sub1.agregarIngrediente(chivito);
-		Receta sub2 = Receta.crearNueva(null, null, null);
-		sub2.agregarIngrediente(chori);
-		
-		receta.agregarSubreceta(sub1);
-		receta.agregarSubreceta(sub2);
-		
 		assertTrue(receta.getIngredientes().containsAll(expected));
 	}
 	
 	@Test
 	public void testLosCondimentosDeUnaRecetaSonLosSuyosYLosDeSusSubrecetas() {
-		receta = Receta.crearNueva(null, null, null);
+
 		
 		Ingrediente caldo = new Ingrediente("caldo", 0f);
 		Ingrediente sal = new Ingrediente("sal", 0f);
 		Ingrediente pimienta = new Ingrediente("pimienta", 0f);
 		Ingrediente azucar = new Ingrediente("azucar", 0f);
 		
-		receta.agregarCondimento(caldo);
-		receta.agregarCondimento(sal);
+		receta = new BuilderReceta().setTotalCalorias(400).
+				 setIngrediente(new Ingrediente("carne", 0f)).
+				 setCondimento(azucar).setCondimento(pimienta).
+				 setSubreceta(new BuilderReceta().setTotalCalorias(400).
+						 							setIngrediente(new Ingrediente("carne", 0f)).
+						 							setCondimento(sal).
+						 							build()).
+				 setSubreceta(new BuilderReceta().setTotalCalorias(400).
+						 							setIngrediente(new Ingrediente("carne", 0f)).
+						 							setCondimento(caldo).
+						 							build()).
+				 build();
 		
 		List<Ingrediente> expected = new ArrayList<>();
 		expected.add(caldo);
 		expected.add(sal);
 		expected.add(pimienta);
 		expected.add(azucar);
-		
-		Receta sub1 = Receta.crearNueva(null, null, null);
-		sub1.agregarCondimento(pimienta);
-		Receta sub2 = Receta.crearNueva(null, null, null);
-		sub2.agregarCondimento(azucar);
-		
-		receta.agregarSubreceta(sub1);
-		receta.agregarSubreceta(sub2);
 	
 		assertTrue(receta.getCondimentos().containsAll(expected));
 	}
