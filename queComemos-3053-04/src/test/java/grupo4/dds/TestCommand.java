@@ -3,13 +3,17 @@ package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import grupo4.dds.command.CommandMailSender;
 import grupo4.dds.command.LoguearConsultas;
+import grupo4.dds.command.Mail;
 import grupo4.dds.command.MailSenderPosta;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.RepositorioDeRecetas;
+import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -22,8 +26,12 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 import queComemos.entrega3.dominio.Dificultad;
+
 
 
 public class TestCommand {
@@ -42,8 +50,10 @@ public class TestCommand {
 	private List<Receta> mockConsultas = new ArrayList<>();
 	private Receta receta;
 	
-	private List<Receta> consulta = new ArrayList<Receta>();
+	private List<Receta> consulta= new ArrayList<Receta>();
 	
+	private List<Filtro> filtros =  new ArrayList<>();
+	private MailSenderPosta mailSender = Mockito.mock(MailSenderPosta.class);
 	
 	@Before
 	public void setUp() {
@@ -95,6 +105,56 @@ public class TestCommand {
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
+	@Test
+	public void testAgregarEnvioDeMailEnMailPendientesEnRepositorioDeReceta() {
+		CommandMailSender accionMail = new CommandMailSender(fecheSena, consulta, null);
+		repositorio.agregarEnvioMail(accionMail);
+		assertTrue(repositorio.getMailPendientes().contains(accionMail));
+	}
+	
+	/*
+	@Test 
+	public void testEnviarMailAUsuarioSuscripto(){
+		CommandMailSender accionMail = new CommandMailSender(fecheSena, consulta, null);
+		repositorio.getSuscriptores().add(fecheSena);
+		repositorio.agregarAcciones(fecheSena, consulta, null);
+		assertTrue(repositorio.getMailPendientes().contains(accionMail) );
+		
+	}*/
+	
+	@Test (expected = RuntimeException.class)
+	public void testNoCreaMensajeMailConNulos() {
+		Mail mail = new Mail(fecheSena, consulta, null);
+		mail.crearMensaje();
+		
+	}
+	
+	@Test
+	public void testCrearMensajeEnMail(){
+		filtros.add(new FiltroNoLeGusta());	
+		Mail mail = new Mail(fecheSena, consulta, filtros );
+		assertTrue(!(mail.crearMensaje().isEmpty()));
+		
+	}
+	
+	
+	/* Mockito que acciona envio de mail */
+	@Test
+	public void testEnviarMailEnMailSender(){
+		Mail otroMail = new Mail();
+		mailSender.enviarMail(otroMail);
+		verify(mailSender, times(1)).enviarMail(any(Mail.class));
+	}
+	
+	/* Mockito para preparar Mail en Mailsender*/
+	@Test 
+	public void testEnviarAMailSender(){
+		Mail otroMail = Mockito.mock(Mail.class);
+		otroMail.enviarMail(mailSender);
+		validateMockitoUsage();
+	}
+	
+	
 	
 	@Test
 	public void testConsultas(){
@@ -137,5 +197,6 @@ public class TestCommand {
             return new ArrayList<LoggingEvent>(log);
         }
     }
+ 
     
 }

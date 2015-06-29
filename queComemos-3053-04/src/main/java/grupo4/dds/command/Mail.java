@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 
 
-public class Mail {
+public class Mail  {
 
 	private Usuario usuario;
 	private List<Filtro> filtros;
@@ -26,10 +26,16 @@ public Mail(Usuario usuario, List<Receta> consulta, List<Filtro> filtros)
 	
 }
 
-public String crearMensaje (){
+public String crearMensaje () {
+	if (usuario != null && consulta != null && filtros !=null){
+		
+	
 	String consultaFiltro = filtros.stream().map(f -> f.getNombre() ).collect(Collectors.toList()).toString();
 	String consultaTexto = consulta.stream().map(c -> c.getNombreDelPlato()).collect(Collectors.toList()).toString();
 	return usuario.getNombre() + consultaTexto + consultaFiltro;
+}
+	else
+		throw new RuntimeException();
 }
 
 public void enviarMail(MailSender mailSender) {
