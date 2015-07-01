@@ -1,6 +1,9 @@
 ﻿punto 1)
 
 punto 2)
+Para el punto dos se decidio aplicar un Builder, en una clase abstracta creamos todos los metodos nesesarios para instanciar una receta de forma que esta siempre sea valida sin poder instanciar recetas que no cumplan con esta condicion, para poder aplicar estos metodos ya que la clase es abstracta se debe utilizar una de las clases BuilderReceta o BuilderRecetaPublica que son las encargadas de decidir que tipo de receta se va a crear (publica o una que tenga dueño) y utilizar los metodos de la clase padre para poder crear las recetas validas
+De esta forma siempre que instanciemos una receta la misma va a cumplir con las condiciones minimas exigidas y va a ser completamente funcional, antes de aplicar el patron esto no sucedia ya que se poidian crear recetas sin ningun atributo seteado sin contar todas las variables extra que habia que instanciar.
+
 
 punto 3)
 Para el command del envío de mails tuve que crear la abstracción de un mail con atributos como los datos propios que pide
