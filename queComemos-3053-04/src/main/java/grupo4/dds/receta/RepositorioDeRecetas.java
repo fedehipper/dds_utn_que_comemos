@@ -64,13 +64,9 @@ public class RepositorioDeRecetas {
 		   agregarEnvioMail(new CommandMailSender (usuario, consulta, filtros));
 		
 	}
-			
-	public void notificar(Monitor monitor, Usuario usuario, List<Receta> consulta) {
-		monitor.notificarConsulta(consulta, usuario);
-	}
-	
+
 	public void notificarATodos(Usuario usuario, List<Receta> consulta) {
-		this.monitores.forEach(monitor -> notificar(monitor, usuario, consulta));
+		this.monitores.forEach(monitor -> monitor.notificarConsulta(consulta, usuario));
 	}
 	
 	/* Servicios privados */

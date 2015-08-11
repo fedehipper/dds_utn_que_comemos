@@ -143,20 +143,6 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testReposiorioRecetasNotificaAUnMonitor() {
-
-		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, Ariel, l1);
-		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, Ariel, l1);
-		RepositorioDeRecetas.get().notificar(recetasMasConsultadas, u, l2);
-	
-		HashMap<Receta, Integer> recetas = new HashMap<>();
-		recetas.put(r4, 3);
-		recetas.put(r5, 2);
-		
-		assertEquals(recetasMasConsultadas.recetasMasConsultadas(2), recetas);
-	}
-
-	@Test
 	public void testRepositorioRecetasNotificaARecetasMasConsultadas() {
 		RepositorioDeRecetas.get().setMonitor(recetasMasConsultadas);
 
