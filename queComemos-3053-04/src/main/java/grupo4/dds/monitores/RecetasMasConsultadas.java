@@ -1,57 +1,33 @@
 package grupo4.dds.monitores;
 
 import grupo4.dds.receta.Receta;
-
 import grupo4.dds.usuario.Usuario;
-
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RecetasMasConsultadas implements Monitor {
-	
-	private HashMap<Receta, Integer> contadorRecetas = new HashMap<>();
-	
 
-	public void notificarConsulta(List<Receta> consulta, Usuario usuarioConsultor) {
+	private Map<Receta, Integer> contadorRecetas = new HashMap<>();
 
-		ListIterator<Receta> receta = consulta.listIterator(); 
-				
-		while(receta.hasNext()) {
-			Receta aux = receta.next();
-			if (contadorRecetas.containsKey(aux))
-				contadorRecetas.put(aux, contadorRecetas.get(aux) + 1);
-			else
-				contadorRecetas.put(aux, 1);
-		}
+	public void notificarConsulta(List<Receta> recetas, Usuario u) {
+
+		recetas.forEach((receta) -> contadorRecetas.merge(receta, 1, (cant1,
+				cant2) -> cant1 + cant2));
 	}
-	
-	public HashMap<Receta, Integer> recetasMasConsultadas(int cantidad) {
-		
-		ListIterator<Receta> punteroReceta = recetasOrdenadas(cantidad).listIterator();
-		HashMap<Receta, Integer> recetasYCantidad = new HashMap<>();
-		
-		while(punteroReceta.hasNext()) {
-			Receta unaReceta = punteroReceta.next();
-			recetasYCantidad.put(unaReceta, contadorRecetas.get(unaReceta));
-		}
-		return recetasYCantidad;
+
+	public Map<Receta, Integer> recetasMasConsultadas(int cantidad) {
+
+		return contadorRecetas.keySet().stream()
+				.sorted((r1, r2) -> getCantidad(r2) - getCantidad(r1))
+				.limit(cantidad)
+				.collect(Collectors.toMap(r -> r, r -> getCantidad(r)));
 	}
-	
-	public List<Receta> recetasOrdenadas(int cantidad) {
-		List<Receta> recetas = contadorRecetas.keySet().stream().collect(Collectors.toList());
-		return ordenMasConsultadas(recetas).subList(0, cantidad);
-	}
-	
-	public List<Receta> ordenMasConsultadas(List<Receta> recetas) {
-		recetas.sort((r1,r2) -> getValor(r2) - (getValor(r1)));
-		return recetas;
-	}
-	
-	public int getValor(Receta receta) {
+
+	private int getCantidad(Receta receta) {
 		return contadorRecetas.get(receta);
 	}
-	
+
 }
