@@ -179,6 +179,14 @@ public class Usuario {
 		return this.condiciones.contains(new Vegano());
 	}
 	
+	public boolean esHombre() {
+		return Sexo.MASCULINO.equals(sexo);
+	}
+	
+	public boolean esMujer() {
+		return Sexo.FEMENINO.equals(sexo);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
