@@ -1,6 +1,6 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.command.Command;
+import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.receta.EncabezadoDeReceta;
@@ -42,7 +42,7 @@ public class Usuario {
 	private Set<Receta> historial = new HashSet<>();
 	private boolean marcaFavorita;
 	private String mail;
-	private List<Command> accionesMarcarRecetasFavoritas = new ArrayList<>();
+	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
 	
 	/* Constructores */
 
@@ -337,7 +337,7 @@ public class Usuario {
 	}
 	
 	// punto 5 entrega 4
-	public void agregarAccionDeMarcarFavorita(Command unaAccion) {
+	public void agregarAccionDeMarcarFavorita(MarcarRecetasFavoritas unaAccion) {
 		this.accionesMarcarRecetasFavoritas.add(unaAccion);
 	}
 	
