@@ -1,5 +1,6 @@
 package grupo4.dds.receta.builder;
 
+import grupo4.dds.excepciones.RecetaInvalida;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -66,7 +67,7 @@ public abstract class Builder {
 		setEncabezado(encabezado.build());
 	
 		if (!receta.esValida()){
-			throw new RuntimeException();
+			throw new RecetaInvalida();
 		}
 		
 		return receta;

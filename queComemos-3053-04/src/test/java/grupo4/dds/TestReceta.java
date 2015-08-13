@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.excepciones.RecetaInvalida;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 /*import grupo4.dds.receta.RecetaPublica;*/
@@ -35,7 +36,7 @@ public class TestReceta {
 		try{
 		receta = new BuilderReceta().setTotalCalorias(4500).build();
 		}
-		catch(RuntimeException e){}
+		catch(RecetaInvalida e){}
 	}
 	
 	@Test 
