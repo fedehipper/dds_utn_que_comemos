@@ -1,5 +1,6 @@
 package grupo4.dds.receta.busqueda.filtros;
 
+import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
@@ -9,6 +10,7 @@ public class FiltroNoEsAdecuada implements Filtro {
 		return u.esAdecuada(r);
 	}
 	
+	@CoberturaIgnore
 	public String getNombre(){
 		return "Inadecuada";
 	}

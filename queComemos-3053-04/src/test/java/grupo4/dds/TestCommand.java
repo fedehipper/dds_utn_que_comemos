@@ -76,18 +76,17 @@ public class TestCommand {
 	
 
 	@Test
-	public void testUnitarioMarcarComoFavoritaATodasLasRecetas() {
+	public void testMarcarComoFavoritaATodasLasRecetas() {
 		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
 		marcarFavoritas.ejecutar(federicoHipper);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	@Test
-	public void testUnitarioNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
-		federicoHipper.marcarFavorita(receta2);
+	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
-		marcarFavoritas.ejecutar(federicoHipper);
-		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+		marcarFavoritas.ejecutar(fecheSena);
+		assertTrue(fecheSena.getHistorial().isEmpty());
 	}
 	
 	@Test

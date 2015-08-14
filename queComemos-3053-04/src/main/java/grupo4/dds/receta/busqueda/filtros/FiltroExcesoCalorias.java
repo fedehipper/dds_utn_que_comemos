@@ -1,5 +1,6 @@
 package grupo4.dds.receta.busqueda.filtros;
 
+import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
@@ -9,6 +10,7 @@ public class FiltroExcesoCalorias implements Filtro {
 		return r.getTotalCalorias() <= 500 && u.indiceDeMasaCorporal() <= 25;
 	}
 	
+	@CoberturaIgnore
 	public String getNombre(){
 		return "ExcesoDeCalorias";
 	}

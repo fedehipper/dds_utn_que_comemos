@@ -34,7 +34,7 @@ public class TestReceta {
 	@Test
 	public void testNoEsValidaUnaRecetaSinIngredientes() {
 		try{
-		receta = new BuilderReceta().setTotalCalorias(4500).build();
+		receta = new BuilderReceta().setTotalCalorias(4500).setNombreDelPlato("Mondongo").build();
 		}
 		catch(RecetaInvalida e){}
 	}
