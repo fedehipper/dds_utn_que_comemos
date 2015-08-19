@@ -6,62 +6,20 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-
-public class RecetasMasConsultadasPorSexo implements Monitor {
+public class RecetasMasConsultadasPorSexo extends AbstractRecetasMasConsultadas {
 	
-	private HashMap<Receta, Integer> contadorSexoMasculino = new HashMap<>();
-	private HashMap<Receta, Integer> contadorSexoFemenino = new HashMap<>();
+	private Map<Receta, Integer> recetasConsultadasHombres = new HashMap<>();
+	private Map<Receta, Integer> recetasConsultadasMujeres = new HashMap<>();
 	
-	
-	public void notificarConsulta(List<Receta> consulta, Usuario usuario) {
-
-		ListIterator<Receta> punteroReceta = consulta.listIterator(); 
-		HashMap<Receta, Integer> contador = contadorPor(usuario.getSexo()); 
-		
-		while(punteroReceta.hasNext()) {
-			Receta aux = punteroReceta.next();
-			
-			if (contador.containsKey(aux))
-				contador.put(aux, contador.get(aux) + 1);
-			else
-				contador.put(aux, 1);
-		}
+	@Override
+	public void notificarConsulta(List<Receta> resultadoConsulta, Usuario usuario) {	
+		super.seRealizoUnaConsulta(usuario.esHombre() ? recetasConsultadasHombres : recetasConsultadasMujeres, resultadoConsulta);
 	}
 	
-	public HashMap<Receta, Integer> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
-				
-		ListIterator<Receta> punteroReceta = recetasOrdenadasPor(sexo, cantidad).listIterator();
-		HashMap<Receta, Integer> recetasYCantidad = new HashMap<>();
-		
-		while(punteroReceta.hasNext()) {
-			Receta unaReceta = punteroReceta.next();
-			recetasYCantidad.put(unaReceta, contadorPor(sexo).get(unaReceta));
-		}
-		return recetasYCantidad;
-	}
-	
-	public List<Receta> recetasOrdenadasPor(Sexo sexo, int cantidad) {
-		List<Receta> recetas = contadorPor(sexo).keySet().stream().collect(Collectors.toList());
-		return ordenMasConsultadas(recetas, sexo).subList(0, cantidad);
-	}
-	
-	public HashMap<Receta, Integer> contadorPor(Sexo sexo) {
-		if (sexo == Sexo.MASCULINO) 
-			return contadorSexoMasculino; 
-		else
-			return contadorSexoFemenino;
-	}
-	
-	public List<Receta> ordenMasConsultadas(List<Receta> recetas, Sexo sexo) {
-		recetas.sort((r1,r2) -> getValor(r2, sexo) - (getValor(r1, sexo)));
-		return recetas;
-	}
-	
-	public int getValor(Receta receta, Sexo sexo) {
-		return contadorPor(sexo).get(receta);
-	}
+	public Map<Receta, Integer> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
+		return super.recetasMasConsultadas(sexo.equals(Sexo.MASCULINO) ? recetasConsultadasHombres : recetasConsultadasMujeres, cantidad);
+	}	
 	
 }
