@@ -122,8 +122,22 @@ public class TestCommand {
 	}*/
 	
 	@Test (expected = RuntimeException.class)
-	public void testNoCreaMensajeMailConNulos() {
+	public void testNoCreaMensajeMailConFiltrosNulos() {
 		Mail mail = new Mail(fecheSena, consulta, null);
+		mail.crearMensaje();
+		
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void testNoCreaMensajeMailConConsultaNula() {
+		Mail mail = new Mail(fecheSena, null, filtros);
+		mail.crearMensaje();
+		
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void testNoCreaMensajeMailConUsuarioNulo() {
+		Mail mail = new Mail(null, consulta, filtros);
 		mail.crearMensaje();
 		
 	}
