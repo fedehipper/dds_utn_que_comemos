@@ -1,8 +1,12 @@
 package grupo4.dds;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.validateMockitoUsage;
+import static org.mockito.Mockito.verify;
 import grupo4.dds.command.CommandMailSender;
 import grupo4.dds.command.LoguearConsultas;
 import grupo4.dds.command.Mail;
@@ -28,8 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 import queComemos.entrega3.dominio.Dificultad;
 
 
@@ -37,7 +39,6 @@ import queComemos.entrega3.dominio.Dificultad;
 public class TestCommand {
 		
 	private Usuario federicoHipper;
-	private Usuario cristian;
 	private Usuario fecheSena;
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
 	
@@ -47,13 +48,36 @@ public class TestCommand {
 	private RecetaPublica receta7;
 	private RecetaPublica receta8;
 	
-	private List<Receta> mockConsultas = new ArrayList<>();
+	private List<Receta> respuestaCon101Recetas = new ArrayList<>();
 	private Receta receta;
 	
 	private List<Receta> consulta= new ArrayList<Receta>();
 	
 	private List<Filtro> filtros =  new ArrayList<>();
 	private MailSenderPosta mailSender = Mockito.mock(MailSenderPosta.class);
+
+	private MockLogger mockLogger;
+	
+	private class MockLogger extends Logger {
+		
+		protected MockLogger(String name) {
+			super(name);
+		}
+		
+		@Override
+		public
+		boolean isInfoEnabled() {
+			return true;			
+		}
+		
+		String logMessage = null;
+		boolean seRegistroElLog = false;
+		
+		@Override
+		public void info(Object logMessage) {
+			this.logMessage = (String) logMessage;			
+		}
+	}
 	
 	@Before
 	public void setUp() {
@@ -66,10 +90,11 @@ public class TestCommand {
 		receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta7", null, null, 300), null);
 		receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta8", null, null, 100), null);
 		
-		cristian = Usuario.crearPerfil("Cristian Maldonado", null, null, 1.81f, 87.0f, null, true, null);
 		for(int i = 0; i<110;i++){
-			mockConsultas.add(receta);
+			respuestaCon101Recetas.add(receta);
 		}
+		
+		mockLogger = new MockLogger(null);
 		
 		consulta = Arrays.asList(receta2, receta3, receta6, receta7, receta8);
 	}
@@ -111,19 +136,25 @@ public class TestCommand {
 		assertTrue(repositorio.getMailPendientes().contains(accionMail));
 	}
 	
-	/*
-	@Test 
-	public void testEnviarMailAUsuarioSuscripto(){
-		CommandMailSender accionMail = new CommandMailSender(fecheSena, consulta, null);
-		repositorio.getSuscriptores().add(fecheSena);
-		repositorio.agregarAcciones(fecheSena, consulta, null);
-		assertTrue(repositorio.getMailPendientes().contains(accionMail) );
-		
-	}*/
+
 	
 	@Test (expected = RuntimeException.class)
-	public void testNoCreaMensajeMailConNulos() {
+	public void testNoCreaMensajeMailConFiltrosNulos() {
 		Mail mail = new Mail(fecheSena, consulta, null);
+		mail.crearMensaje();
+		
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void testNoCreaMensajeMailConConsultaNula() {
+		Mail mail = new Mail(fecheSena, null, filtros);
+		mail.crearMensaje();
+		
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void testNoCreaMensajeMailConUsuarioNulo() {
+		Mail mail = new Mail(null, consulta, filtros);
 		mail.crearMensaje();
 		
 	}
@@ -133,6 +164,15 @@ public class TestCommand {
 		filtros.add(new FiltroNoLeGusta());	
 		Mail mail = new Mail(fecheSena, consulta, filtros );
 		assertTrue(!(mail.crearMensaje().isEmpty()));
+		
+	}
+	
+	@Test
+	public void testEnviarMailAMailSenderConMensaje(){
+		Mail otroMail= Mockito.mock(Mail.class);
+		otroMail.crearMensaje();
+		//otroMail.enviarMail(mailSender);
+		doNothing().when(otroMail).enviarMail(mailSender);
 		
 	}
 	
@@ -153,12 +193,33 @@ public class TestCommand {
 		validateMockitoUsage();
 	}
 	
+	@Test
+	public void testEjecutarCommandMailSender(){
+		CommandMailSender commandMail = new CommandMailSender(fecheSena, consulta, null);
+		commandMail.ejecutar(fecheSena);
+		validateMockitoUsage();
+		
+	}
 	
 	
 	@Test
-	public void testConsultas(){
-		LoguearConsultas logss = new LoguearConsultas(mockConsultas);		
-		logss.ejecutar(cristian);
+	public void testNoLoggeaConsultasConMenosDe100Resultados(){
+				
+		LoguearConsultas logs = new LoguearConsultas(respuestaCon101Recetas.subList(0, 98));		
+		logs.setLogger(mockLogger);
+		
+		logs.ejecutar(null);
+		assertFalse(mockLogger.seRegistroElLog);
+	}
+	
+	@Test
+	public void testLoggeaConsultasConMasDe100Resultados(){
+
+		LoguearConsultas logs = new LoguearConsultas(respuestaCon101Recetas);	
+		logs.setLogger(mockLogger);
+		
+		logs.ejecutar(null);
+		assertEquals("Consultas Con Mas De 100 Resultados", mockLogger.logMessage);
 	}
 
     @Test

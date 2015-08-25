@@ -146,6 +146,10 @@ public class Receta {
 		return getIngredientes().stream().anyMatch(i -> i.esCarne());
 	}
 
+	public boolean esDificil() {
+		return Dificultad.DIFICIL.equals(encabezado.dificultad);
+	}
+	
 	@Override
 	public String toString() {
 		return getNombreDelPlato();
@@ -196,10 +200,6 @@ public class Receta {
 
 	public Temporada getTemporada() {
 		return encabezado.getTemporada();
-	}
-
-	public Dificultad getDificultad() {
-		return encabezado.getDificultad();
 	}
 
 	public void setCreador(Usuario creador) {
