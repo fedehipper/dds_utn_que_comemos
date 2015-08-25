@@ -36,11 +36,8 @@ public class Mail {
 					.map(c -> c.getNombreDelPlato())
 					.collect(Collectors.toList()).toString();
 			return usuario.getNombre() + consultaTexto + consultaFiltro;
-		} else {
+		} 
+		else 
 			throw new RuntimeException();
-		}
 	}
-
-
-
 }
