@@ -8,18 +8,22 @@ import org.apache.log4j.PropertyConfigurator;
 
 public class LoguearConsultas implements Command{
 
-	private Logger log = Logger.getLogger(LoguearConsultas.class);
+	private Logger logger = Logger.getLogger(LoguearConsultas.class);
 	private List<Receta> consultas;
 
 	public LoguearConsultas(List<Receta> consultas){
 		this.consultas = consultas;
 	}
+	
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
 
 	public void ejecutar(Usuario usuario) {
 		PropertyConfigurator.configure("log4j.properties");
 		if (consultas.size() > 100){
-			if (log.isInfoEnabled())
-				log.info("Consultas Con Mas De 100 Resultados");	
+			if (logger.isInfoEnabled())
+				logger.info("Consultas Con Mas De 100 Resultados");	
 
 		}
 	}
