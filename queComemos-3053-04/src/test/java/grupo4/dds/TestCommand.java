@@ -153,6 +153,13 @@ public class TestCommand {
 		validateMockitoUsage();
 	}
 	
+	@Test
+	public void testEjecutarCommandMailSender(){
+		CommandMailSender commandMail = new CommandMailSender(fecheSena, consulta, null);
+		commandMail.ejecutar(fecheSena);
+		validateMockitoUsage();
+		
+	}
 	
 	
 	@Test
