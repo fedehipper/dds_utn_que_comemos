@@ -1,27 +1,22 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
-
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.monitores.RecetasMasConsultadas;
 import grupo4.dds.monitores.RecetasMasConsultadasPorSexo;
-import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
-import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Vegano;
+
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,177 +24,89 @@ import org.junit.Test;
 import queComemos.entrega3.dominio.Dificultad;
 
 public class TestObserver {
-	private EncabezadoDeReceta encabezado1 = new EncabezadoDeReceta("fideo",null, Dificultad.DIFICIL);
-	private EncabezadoDeReceta encabezado2 = new EncabezadoDeReceta("arroz",null, Dificultad.DIFICIL);
-	private EncabezadoDeReceta encabezado3 = new EncabezadoDeReceta("lechon",null, Dificultad.DIFICIL);
-	private EncabezadoDeReceta encabezado4 = new EncabezadoDeReceta("sopa",null, Dificultad.FACIL);
-	private EncabezadoDeReceta encabezado5 = new EncabezadoDeReceta("milanesa",null, Dificultad.FACIL);
 	
-	List<Filtro> filtros = new ArrayList<>();
-
-	private Receta r1 = Receta.crearNueva(null, encabezado1, null);
-	private Receta r2 = Receta.crearNueva(null, encabezado2, null);
-	private Receta r3 = Receta.crearNueva(null, encabezado3, null);
-	private Receta r4 = Receta.crearNueva(null, encabezado4, null);
-	private Receta r5 = Receta.crearNueva(null, encabezado5, null);
-
-	private List<Receta> l1 = Stream.of(r5, r4).collect(Collectors.toList());
-	private List<Receta> l2 = Stream.of(r1, r2, r3, r4).collect(Collectors.toList());
-	private List<Receta> l3 = Stream.of(r3, r5).collect(Collectors.toList());
-
-	private Usuario u = Usuario.crearPerfil("U", Sexo.FEMENINO, null, 0f, 0f,null, false, null);
-	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
-	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
-	private Usuario Ariel;
-	private Usuario fecheSena;
-	private RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
-	private RecetasMasConsultadasPorSexo recetasPorSexo = new RecetasMasConsultadasPorSexo();
-
 	private Receta sopa;
 	private Receta pollo;
-	private RecetaPublica pure;
-	private RecetaPublica milanesa;
-	private RecetaPublica salmon;
-	
-	private List<Receta> recetas = Arrays.asList(sopa, pollo, pure, milanesa, salmon);
+	private Usuario maria;
+	private Usuario ariel;
+	private List<Receta> consulta1;
+	private List<Receta> consulta2;
 	
 	@Before
 	public void setup() {
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
-		Ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null, false, null);
 		
-		sopa = Receta.crearNueva(Ariel, new EncabezadoDeReceta("sopa", null, null, 100), null);
-		pollo = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("pollo", null, null, 300), null);
-		pure = RecetaPublica.crearNueva(new EncabezadoDeReceta("pure", null, null, 600), null);
-		milanesa = RecetaPublica.crearNueva(new EncabezadoDeReceta("milanesa", null, null, 999), null);
-		salmon = RecetaPublica.crearNueva(new EncabezadoDeReceta("salmon", null, null, 200), null);
+		maria = Usuario.crearPerfil("Maria", Sexo.FEMENINO, null, 1.70f, 65.0f, null, false, null);
+		ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null, false, null);
 		
-		RepositorioDeRecetas.get().agregarListaDeRecetas(recetas);
+		sopa = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Sopa").setDificultad(Dificultad.FACIL).build();
+		pollo = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(maria).setNombreDelPlato("Pollo").setDificultad(Dificultad.FACIL).build();
+		Receta pure = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Pure").setDificultad(Dificultad.FACIL).build();
+		Receta milanesa = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Milanesa").setDificultad(Dificultad.FACIL).build();
+		Receta salmon = (new BuilderReceta().setTotalCalorias(150)).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Salmon").setDificultad(Dificultad.FACIL).build();
+		
+		consulta1 = Arrays.asList(sopa, sopa, pollo, pure, milanesa, pollo, sopa, salmon, pollo, pollo);
+		consulta2 = Arrays.asList(sopa, sopa, sopa, salmon, pollo, pollo);
 	}
 
 	@Test
-	public void testAumentaContadorDeHorasEnHoraActual() {
-		cantidadHoras.notificarConsulta(l1, u);
-		cantidadHoras.notificarConsulta(l2, u);
-		cantidadHoras.notificarConsulta(l3, u);
+	public void testMonitorDeConsultasPorHora() {
+		
+		CantidadDeHoras cantidadHoras = new CantidadDeHoras();
+		
+		cantidadHoras.notificarConsulta(consulta1, null);
+		cantidadHoras.notificarConsulta(consulta1, null);
+		cantidadHoras.notificarConsulta(consulta1, null);
 
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 3);
 	}
 
 	@Test
-	public void testAumentaContadorDeVeganos() {
-		cantidadVeganos.notificarConsulta(l1, Ariel);
-		Ariel.agregarCondicion(new Vegano());
-		cantidadVeganos.notificarConsulta(l2, u);
-		cantidadVeganos.notificarConsulta(l3, Ariel);
-
-		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
-	}
-
-	@Test
-	public void testDadoUnHashConRecetasYConsultasDevuelveLaMasConsultada() {
-		recetasMasConsultadas.notificarConsulta(l2, Ariel);
-		recetasMasConsultadas.notificarConsulta(l1, u);
-		recetasMasConsultadas.notificarConsulta(l1, Ariel);
-		recetasMasConsultadas.notificarConsulta(l2, u);
-
-		HashMap<Receta, Integer> recetas = new HashMap<>();
-		recetas.put(r4, 4);
-
-		assertEquals(recetasMasConsultadas.recetasMasConsultadas(1), recetas);
-	}
-
-	@Test
-	public void testRecetasMasConsultadasPorSexoFemenino() {
-		recetasPorSexo.notificarConsulta(l1, Ariel);
-		recetasPorSexo.notificarConsulta(l1, Ariel);
-		recetasPorSexo.notificarConsulta(l2, Ariel);
-		recetasPorSexo.notificarConsulta(l1, u);
-		recetasPorSexo.notificarConsulta(l3, u);
-		recetasPorSexo.notificarConsulta(l3, u);
-
-		HashMap<Receta, Integer> resultado = new HashMap<>();
-		resultado.put(r5, 3);
-		resultado.put(r3, 2);		
-	
-		assertEquals(recetasPorSexo.recetasMasConsultadasPor(Sexo.FEMENINO, 2), resultado);
-	}
-	
-	@Test
-	public void testRecetasMasConsultadasPorSexoMasculino() {
-		recetasPorSexo.notificarConsulta(l1, Ariel);
-		recetasPorSexo.notificarConsulta(l1, Ariel);
-		recetasPorSexo.notificarConsulta(l2, Ariel);
-		recetasPorSexo.notificarConsulta(l1, u);
-		recetasPorSexo.notificarConsulta(l3, u);
-		recetasPorSexo.notificarConsulta(l3, u);
-
-		HashMap<Receta, Integer> resultado = new HashMap<>();
-		resultado.put(r4, 3);
-		resultado.put(r5, 2);			
+	public void testMonitorContadorDeVeganos() {
 		
-		assertEquals(recetasPorSexo.recetasMasConsultadasPor(Sexo.MASCULINO, 2), resultado);
-
+		CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
+		List<Receta> consultaConRecetaDificil = new ArrayList<Receta>(consulta1);
+		consultaConRecetaDificil.add((new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(maria).setNombreDelPlato("Ratatouille").setDificultad(Dificultad.DIFICIL).build());
+		
+		cantidadVeganos.notificarConsulta(consulta1, ariel);
+		ariel.agregarCondicion(new Vegano());
+		cantidadVeganos.notificarConsulta(consulta1, ariel);
+		cantidadVeganos.notificarConsulta(consulta1, maria);
+		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, ariel);
+		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, ariel);
+		maria.agregarCondicion(new Vegano());
+		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, maria);
+		
+		assertEquals(3, cantidadVeganos.getContadorDeVeganos());		
 	}
 
 	@Test
-	public void testRepositorioRecetasNotificaARecetasMasConsultadas() {
-		RepositorioDeRecetas.get().setMonitor(recetasMasConsultadas);
+	public void testMonitorRecetasMasConsultadas() {
 
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l2);
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l3);
-		RepositorioDeRecetas.get().notificarATodos(u, l2);
+		RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
+		recetasMasConsultadas.notificarConsulta(consulta1, null);
 		
-		HashMap<Receta, Integer> recetas = new HashMap<>();
-		recetas.put(r4, 5);
-		recetas.put(r5, 4);
-		recetas.put(r3, 3);
+		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadas(1).keySet();
+		assertTrue(masConsultadas.contains(pollo));
+	}
+
+	@Test
+	public void testMonitorRecetasMasConsultadasPorHombres() {
 		
-		assertEquals(recetasMasConsultadas.recetasMasConsultadas(3), recetas);
+		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
+		recetasMasConsultadas.notificarConsulta(consulta1, ariel);
+
+		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.MASCULINO, 1).keySet();
+		assertTrue(masConsultadas.contains(pollo));
 	}
 	
 	@Test
-	public void testRepositorioRecetasNotificaARecetasMasConsultadasPorSexo() {
-		RepositorioDeRecetas.get().setMonitor(recetasPorSexo);
-
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l2);
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l2);
-
-		HashMap<Receta, Integer> resultado = new HashMap<>();
-		resultado.put(r4, 2);
+	public void testMonitorRecetasMasConsultadasPorMujeres() {
 		
-		assertEquals(recetasPorSexo.recetasMasConsultadasPor(Sexo.MASCULINO, 1), resultado);
-	}
-
-	@Test
-	public void testRepositorioRecetasNotificaCantidadVeganos() {
-		RepositorioDeRecetas.get().setMonitor(cantidadVeganos);
+		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
+		recetasMasConsultadas.notificarConsulta(consulta2, maria);
 		
-		Ariel.agregarCondicion(new Vegano());
-		u.agregarCondicion(new Vegano());
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l2);
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l2);
-
-		assertTrue(cantidadVeganos.getContadorDeVeganos() == 2);
-	}
-	
-	@Test
-	public void testRepositorioRecetasNotificaCantidadHoras() {
-		RepositorioDeRecetas.get().setMonitor(cantidadHoras);
-
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l2);
-		RepositorioDeRecetas.get().notificarATodos(Ariel, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l1);
-		RepositorioDeRecetas.get().notificarATodos(u, l2);
-
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 4);
+		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.FEMENINO, 1).keySet();
+		assertTrue(masConsultadas.contains(sopa));
 	}
 	
 }
