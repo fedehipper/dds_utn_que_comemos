@@ -150,6 +150,15 @@ public class TestCommand {
 		
 	}
 	
+	@Test
+	public void testEnviarMailAMailSenderConMensaje(){
+		Mail otroMail= Mockito.mock(Mail.class);
+		otroMail.crearMensaje();
+		//otroMail.enviarMail(mailSender);
+		doNothing().when(otroMail).enviarMail(mailSender);
+		
+	}
+	
 	
 	/* Mockito que acciona envio de mail */
 	@Test
