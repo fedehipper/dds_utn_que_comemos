@@ -21,7 +21,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
+import org.mongodb.morphia.annotations.Transient;
+
+@Entity
 public class Usuario {
+	
+	@Id
+	private ObjectId id;
 
 	/* Datos basicos */
 	protected String nombre;
@@ -33,13 +44,16 @@ public class Usuario {
 	private float altura;
 
 	/* Otros datos */
+	@Transient
 	private Rutina rutina;
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
+	@Reference
 	private Set<Receta> historial = new HashSet<>();
+	@Transient
 	private boolean marcaFavorita;
 	private String mail;
 	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();

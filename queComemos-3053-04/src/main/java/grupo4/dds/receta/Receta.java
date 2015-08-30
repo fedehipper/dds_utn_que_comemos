@@ -9,16 +9,29 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
+
 import queComemos.entrega3.dominio.Dificultad;
 
+@Entity
 public class Receta {
-
+	
+	@Id
+	private ObjectId id;
+	
+    @Reference
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
+    @Embedded
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
+    @Embedded
 	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
 	protected List<Receta> subrecetas = new ArrayList<Receta>();

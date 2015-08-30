@@ -1,12 +1,19 @@
 package grupo4.dds.receta;
 
+import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Transient;
+
 import queComemos.entrega3.dominio.Dificultad;
 
+@Embedded
 public class EncabezadoDeReceta {
-
+    
 	protected String nombreDelPlato;
+	@Transient
 	protected Temporada temporada;
+	@Transient
 	protected int totalCalorias;
+	
 	protected Dificultad dificultad;	
 	
 	public EncabezadoDeReceta() {
