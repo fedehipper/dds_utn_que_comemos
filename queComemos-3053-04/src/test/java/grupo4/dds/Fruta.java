@@ -1,6 +1,7 @@
 package grupo4.dds;
 
 import queComemos.entrega3.dominio.Dificultad;
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -34,6 +35,13 @@ public class Fruta {
 				 build();
 		
 		receta3 = new BuilderRecetaPublica().setNombreDelPlato("la papa").setCreador(arielFolino).setIngrediente(new Ingrediente("caca", 0f)).setTotalCalorias(500).build();
+		
+		MongoPersistor.get().dataStore().save(fecheSena);
+		MongoPersistor.get().dataStore().save(arielFolino);
+		
+		MongoPersistor.get().dataStore().save(receta);
+		MongoPersistor.get().dataStore().save(receta2);
+		MongoPersistor.get().dataStore().save(receta3);
 		
 		fecheSena.marcarFavorita(receta);
 		
