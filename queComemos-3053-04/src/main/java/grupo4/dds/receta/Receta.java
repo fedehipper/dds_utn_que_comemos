@@ -1,6 +1,7 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -54,12 +55,15 @@ public class Receta {
 
 		Receta self = new Receta(creador, encabezado, ingredientes, condimentos, subrecetas, preparacion);
 		
-		//TODO: hacer validas recetas en los test para agregar esta funcion
-		//if(creador != null)
-		//	creador.agregarReceta(self);
+		if(creador != null) {
+			//TODO: hacer validas recetas en los test para agregar esta funcion
+			//creador.agregarReceta(self);
+			MongoPersistor.get().dataStore().save(creador);			
+		}
 		
-		RepositorioDeRecetas.get().agregarReceta(self);
-
+		RepositorioDeRecetas.get().agregarReceta(self);	
+		MongoPersistor.get().dataStore().save(self);
+		
 		return self;
 	}
 

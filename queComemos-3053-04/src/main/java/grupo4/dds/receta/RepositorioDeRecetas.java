@@ -32,8 +32,8 @@ public class RepositorioDeRecetas {
 	}
 
 	protected RepositorioDeRecetas() {
-		recetas.addAll(MongoPersistor.get().dataStore().find(Receta.class).asList());
-		recetas.addAll(MongoPersistor.get().dataStore().find(RecetaPublica.class).asList());
+		//recetas.addAll(MongoPersistor.get().dataStore().find(Receta.class).asList());
+		//recetas.addAll(MongoPersistor.get().dataStore().find(RecetaPublica.class).asList());
 	}
 	
 	/* Servicios */

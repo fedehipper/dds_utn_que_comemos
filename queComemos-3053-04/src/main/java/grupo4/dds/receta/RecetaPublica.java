@@ -2,6 +2,7 @@ package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.EsInadecuadaDespuesDeModificar;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class RecetaPublica extends Receta {
 		RecetaPublica self = new RecetaPublica(encabezado, preparacion);
 		
 		RepositorioDeRecetas.get().agregarReceta(self);
+		MongoPersistor.get().dataStore().save(self);
+		
 		return self;
 	}
 

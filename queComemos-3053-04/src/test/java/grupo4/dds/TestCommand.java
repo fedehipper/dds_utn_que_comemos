@@ -1,7 +1,8 @@
 package grupo4.dds;
 
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -24,17 +25,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import queComemos.entrega3.dominio.Dificultad;
-
-
 
 public class TestCommand {
 		
@@ -221,42 +217,5 @@ public class TestCommand {
 		logs.ejecutar(null);
 		assertEquals("Consultas Con Mas De 100 Resultados", mockLogger.logMessage);
 	}
-
-    @Test
-    public void testLogs() {
-       final TestAppender appender = new TestAppender();
-       final Logger logger = Logger.getRootLogger();
-        logger.addAppender(appender);
-        Logger.getLogger(TestCommand.class).info("Esto es un test");
-        final List<LoggingEvent> log = appender.getLog();
-        final LoggingEvent firstLogEvent = log.get(0);
-        assertEquals(firstLogEvent.getLevel(),Level.INFO);
-        assertEquals((String) firstLogEvent.getMessage(),"Esto es un test");
-        assertEquals(firstLogEvent.getLoggerName(),"grupo4.dds.TestCommand");
-
-    }
-    
-    class TestAppender extends AppenderSkeleton {
-        private final List<LoggingEvent> log = new ArrayList<LoggingEvent>();
-
-        @Override
-        public boolean requiresLayout() {
-            return false;
-        }
-
-        @Override
-        protected void append(final LoggingEvent loggingEvent) {
-            log.add(loggingEvent);
-        }
-
-        @Override
-        public void close() {
-        }
-
-        public List<LoggingEvent> getLog() {
-            return new ArrayList<LoggingEvent>(log);
-        }
-    }
- 
     
 }

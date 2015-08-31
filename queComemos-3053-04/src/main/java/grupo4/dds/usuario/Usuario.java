@@ -50,6 +50,7 @@ public class Usuario {
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
 	private List<Receta> recetas = new ArrayList<>();
+	@Transient
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	@Reference
 	private Set<Receta> historial = new HashSet<>();

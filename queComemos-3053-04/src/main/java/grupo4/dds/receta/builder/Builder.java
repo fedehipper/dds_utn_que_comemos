@@ -1,6 +1,7 @@
 package grupo4.dds.receta.builder;
 
 import grupo4.dds.excepciones.RecetaInvalida;
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -69,6 +70,8 @@ public abstract class Builder {
 		if (!receta.esValida()){
 			throw new RecetaInvalida();
 		}
+		
+		MongoPersistor.get().dataStore().save(receta);
 		
 		return receta;
 	}

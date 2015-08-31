@@ -1,6 +1,7 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.receta.EncabezadoDeReceta;
