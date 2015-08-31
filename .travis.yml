@@ -2,6 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 
+services: mongodb
 before_install: cd queComemos-3053-04
 
 install: mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dcobertura.skip=true -B -V
