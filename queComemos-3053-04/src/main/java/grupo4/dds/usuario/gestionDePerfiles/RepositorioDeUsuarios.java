@@ -1,5 +1,6 @@
 package grupo4.dds.usuario.gestionDePerfiles;
 
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.HashMap;
@@ -17,7 +18,10 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 		return self;
 	}
 
-	private RepositorioDeUsuarios() {}
+	private RepositorioDeUsuarios() {
+		List<Usuario> usuariosAlmacenados = MongoPersistor.get().dataStore().find(Usuario.class).asList();
+		usuariosAlmacenados.forEach(u -> usuarios.merge(u.getNombre(), u, (u1, u2) -> u2));
+	}
 	
 //TODO: consultar si solo el administrador puede interactuar con el repo	
 	@Override

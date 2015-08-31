@@ -5,6 +5,7 @@ import grupo4.dds.command.CommandMailSender;
 import grupo4.dds.command.LoguearConsultas;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
@@ -31,6 +32,8 @@ public class RepositorioDeRecetas {
 	}
 
 	protected RepositorioDeRecetas() {
+		recetas.addAll(MongoPersistor.get().dataStore().find(Receta.class).asList());
+		recetas.addAll(MongoPersistor.get().dataStore().find(RecetaPublica.class).asList());
 	}
 	
 	/* Servicios */
