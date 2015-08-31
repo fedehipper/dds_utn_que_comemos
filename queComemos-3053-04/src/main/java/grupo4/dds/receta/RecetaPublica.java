@@ -6,6 +6,11 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
+
 public class RecetaPublica extends Receta {
 	
 	/* Constructores */

@@ -3,6 +3,7 @@ package grupo4.dds.usuario;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
+import grupo4.dds.persistor.MongoPersistor;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
@@ -345,6 +347,14 @@ public class Usuario {
 		if(!puedeVer(receta))
 			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
 		historial.add(receta);
+		MongoPersistor.get().dataStore().save(this);
+		
+	}
+	
+	public void desmarcarFavorita(Receta receta){
+		if(this.tieneReceta(receta))
+			historial.remove(receta);
+		MongoPersistor.get().dataStore().save(this);
 	}
 	
 	// punto 5 entrega 4

@@ -8,6 +8,7 @@ import queComemos.entrega3.dominio.Dificultad;
 @Embedded
 public class EncabezadoDeReceta {
     
+	@Embedded
 	protected String nombreDelPlato;
 	@Transient
 	protected Temporada temporada;
