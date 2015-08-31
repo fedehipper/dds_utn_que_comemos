@@ -49,6 +49,11 @@ public class Fruta {
 		
 		fecheSena.marcarFavorita(receta3);
 		
+		fecheSena.desmarcarFavorita(receta);
+		
+		
+		
+		
 		
 		
 	}

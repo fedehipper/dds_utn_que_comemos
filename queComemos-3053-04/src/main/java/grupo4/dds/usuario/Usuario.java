@@ -23,8 +23,6 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.Morphia;
-import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
@@ -352,9 +350,10 @@ public class Usuario {
 	}
 	
 	public void desmarcarFavorita(Receta receta){
-		if(this.tieneReceta(receta))
+		if(this.historial.contains(receta)) {
 			historial.remove(receta);
-		MongoPersistor.get().dataStore().save(this);
+			MongoPersistor.get().dataStore().save(this);
+		}
 	}
 	
 	// punto 5 entrega 4
