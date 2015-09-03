@@ -16,6 +16,9 @@ public class Ingrediente {
 		this.nombre = nombre;
 	}
 	
+	public Ingrediente() {
+	}
+	
 	public float getCantidad() {
 		return this.cantidad;
 	}

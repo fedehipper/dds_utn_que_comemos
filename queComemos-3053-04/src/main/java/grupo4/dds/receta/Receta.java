@@ -172,6 +172,46 @@ public class Receta {
 		return getNombreDelPlato();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((encabezado == null) ? 0 : encabezado.hashCode());
+		result = prime * result
+				+ ((ingredientes == null) ? 0 : ingredientes.hashCode());
+		result = prime * result
+				+ ((preparacion == null) ? 0 : preparacion.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Receta))
+			return false;
+		Receta other = (Receta) obj;
+		if (encabezado == null) {
+			if (other.encabezado != null)
+				return false;
+		} else if (!encabezado.equals(other.encabezado))
+			return false;
+		if (ingredientes == null) {
+			if (other.ingredientes != null)
+				return false;
+		} else if (!ingredientes.equals(other.ingredientes))
+			return false;
+		if (preparacion == null) {
+			if (other.preparacion != null)
+				return false;
+		} else if (!preparacion.equals(other.preparacion))
+			return false;
+		return true;
+	}
+	
 	/* Servicios privados */
 
 	private boolean tiene(List<Ingrediente> lista, String nombre) {
@@ -191,6 +231,10 @@ public class Receta {
 
 	/* Accessors and Mutators */
 
+	public ObjectId getId() {
+		return id;
+	}
+	
 	public int getTotalCalorias() {
 		return encabezado.getTotalCalorias();
 	}
@@ -214,6 +258,7 @@ public class Receta {
 	public String getNombreDelPlato() {
 		return encabezado.getNombreDelPlato();
 	}
+
 
 	public Temporada getTemporada() {
 		return encabezado.getTemporada();

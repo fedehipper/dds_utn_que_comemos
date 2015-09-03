@@ -8,13 +8,11 @@ import queComemos.entrega3.dominio.Dificultad;
 @Embedded
 public class EncabezadoDeReceta {
     
-	@Embedded
 	protected String nombreDelPlato;
 	@Transient
 	protected Temporada temporada;
 	@Transient
 	protected int totalCalorias;
-	
 	protected Dificultad dificultad;	
 	
 	public EncabezadoDeReceta() {
@@ -63,6 +61,38 @@ public class EncabezadoDeReceta {
 
 	public Dificultad getDificultad() {
 		return dificultad;
+	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dificultad == null) ? 0 : dificultad.hashCode());
+		result = prime * result
+				+ ((nombreDelPlato == null) ? 0 : nombreDelPlato.hashCode());
+		return result;
+	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof EncabezadoDeReceta))
+			return false;
+		EncabezadoDeReceta other = (EncabezadoDeReceta) obj;
+		if (dificultad != other.dificultad)
+			return false;
+		if (nombreDelPlato == null) {
+			if (other.nombreDelPlato != null)
+				return false;
+		} else if (!nombreDelPlato.equals(other.nombreDelPlato))
+			return false;
+		return true;
 	}
 	
 }

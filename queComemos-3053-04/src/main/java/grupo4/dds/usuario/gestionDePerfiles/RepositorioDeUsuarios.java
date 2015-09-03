@@ -19,8 +19,7 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 	}
 
 	private RepositorioDeUsuarios() {
-		//List<Usuario> usuariosAlmacenados = MongoPersistor.get().dataStore().find(Usuario.class).asList();
-		//usuariosAlmacenados.forEach(u -> usuarios.merge(u.getNombre(), u, (u1, u2) -> u2));
+
 	}
 	
 //TODO: consultar si solo el administrador puede interactuar con el repo	
@@ -52,6 +51,11 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 				.collect(Collectors.toList());
 	}
 
+	public void cargarUsuarios() {
+		List<Usuario> usuariosAlmacenados = MongoPersistor.get().dataStore().find(Usuario.class).asList();
+		usuariosAlmacenados.forEach(u -> usuarios.merge(u.getNombre(), u, (u1, u2) -> u2));
+	}
+	
 	public void vaciar() {
 		usuarios.clear();
 	}

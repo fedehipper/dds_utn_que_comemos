@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 public class RepositorioDeRecetas {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
@@ -32,8 +31,7 @@ public class RepositorioDeRecetas {
 	}
 
 	protected RepositorioDeRecetas() {
-		//recetas.addAll(MongoPersistor.get().dataStore().find(Receta.class).asList());
-		//recetas.addAll(MongoPersistor.get().dataStore().find(RecetaPublica.class).asList());
+
 	}
 	
 	/* Servicios */
@@ -58,6 +56,13 @@ public class RepositorioDeRecetas {
 		return consulta;
 	}
 	
+	public Set<Receta> todasLasRecetas() {
+		HashSet<Receta> todasLasRecetas = new HashSet<>(recetas);
+		todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
+		
+		return todasLasRecetas;
+	}
+
 	public void agregarAcciones(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 			
 		usuario.agregarAccionDeMarcarFavorita(new MarcarRecetasFavoritas(consulta));
@@ -75,9 +80,7 @@ public class RepositorioDeRecetas {
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
-		HashSet<Receta> todasLasRecetas = new HashSet<>(recetas);
-		todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
-		return todasLasRecetas.stream().filter(r -> usuario.puedeVer(r));
+		return todasLasRecetas().stream().filter(r -> usuario.puedeVer(r));
 	}
 	
 	/* Accesors and Mutators */
@@ -121,5 +124,10 @@ public class RepositorioDeRecetas {
 	
 	public List<Usuario> getSuscriptores(){
 		return suscriptores;
+	}
+
+	public void cargarRecetas() {
+		recetas.addAll(MongoPersistor.get().dataStore().find(Receta.class).asList());
+		recetas.addAll(MongoPersistor.get().dataStore().find(RecetaPublica.class).asList());
 	}
 }

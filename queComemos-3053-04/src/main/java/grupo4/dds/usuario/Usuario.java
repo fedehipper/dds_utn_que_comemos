@@ -46,9 +46,13 @@ public class Usuario {
 	/* Otros datos */
 	@Transient
 	private Rutina rutina;
+	@Transient
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
+	@Transient
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
+	@Transient
 	private List<Condicion> condiciones = new ArrayList<>();
+	@Transient
 	private List<Receta> recetas = new ArrayList<>();
 	@Transient
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
@@ -57,6 +61,7 @@ public class Usuario {
 	@Transient
 	private boolean marcaFavorita;
 	private String mail;
+	@Transient
 	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
 	
 	/* Constructores */
@@ -371,6 +376,10 @@ public class Usuario {
 	// punto 5 entrega 4
 	public void agregarAccionDeMarcarFavorita(MarcarRecetasFavoritas unaAccion) {
 		this.accionesMarcarRecetasFavoritas.add(unaAccion);
+	}
+
+	public ObjectId getId() {
+		return id;
 	}
 	
 }
