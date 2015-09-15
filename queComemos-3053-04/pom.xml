@@ -12,14 +12,11 @@
                
 	</properties>
 	<dependencies>
-	    <!-- JPA Persistence Dependencies -->
         <dependency>
             <groupId>org.uqbar-project</groupId>
 	        <artifactId>jpa-java8-extras</artifactId>
 	        <version>1.0-alpha-1</version>
 	    </dependency>
-    
-        <!-- driver jdbc -->
         <dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
@@ -30,7 +27,7 @@
             <artifactId>hsqldb</artifactId>
             <version>2.2.8</version>
         </dependency>
-  </dependencies>
+  
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
