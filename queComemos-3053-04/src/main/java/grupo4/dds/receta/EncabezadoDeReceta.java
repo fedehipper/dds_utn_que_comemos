@@ -1,9 +1,20 @@
 package grupo4.dds.receta;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import queComemos.entrega3.dominio.Dificultad;
 
+@Entity
 public class EncabezadoDeReceta {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "ENCABEZADO_ID")
+	private long encabezadoId;
+	
 	protected String nombreDelPlato;
 	protected Temporada temporada;
 	protected int totalCalorias;

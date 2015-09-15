@@ -9,9 +9,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class GrupoUsuarios {
 	
+	@Id
+	@GeneratedValue
+	@Column(name = "GRUPO_ID")
+	private long grupoId;
+	
 	private String nombre;
+	@OneToMany
 	private Set<Usuario> usuarios = new HashSet<>();
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	

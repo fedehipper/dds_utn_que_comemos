@@ -9,13 +9,30 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 import queComemos.entrega3.dominio.Dificultad;
 
-public class Receta {
-
+@Entity
+public class Receta implements WithGlobalEntityManager {
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "RECETA_ID")
+	private long recetaId;
+    
+	@ManyToOne
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
+	@OneToOne
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */

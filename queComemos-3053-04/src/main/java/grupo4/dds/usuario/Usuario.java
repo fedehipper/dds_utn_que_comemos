@@ -21,7 +21,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class Usuario {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+
+
+@Entity
+public class Usuario implements WithGlobalEntityManager {
 
 	/* Datos basicos */
 	protected String nombre;
@@ -31,14 +43,23 @@ public class Usuario {
 	/* Datos de la complexion */
 	private float peso;
 	private float altura;
+	
+	/* Datos de persistencia*/
+	@Id
+	@GeneratedValue
+	@Column(name = "USUARIO_ID")
+	private long usuarioId;
+	
 
 	/* Otros datos */
+	@OneToMany
+	private List<Receta> recetas = new ArrayList<>();
+	@ManyToMany
+	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	private Rutina rutina;
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	private List<Condicion> condiciones = new ArrayList<>();
-	private List<Receta> recetas = new ArrayList<>();
-	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	private Set<Receta> historial = new HashSet<>();
 	private boolean marcaFavorita;
 	private String mail;
