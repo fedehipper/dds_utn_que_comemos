@@ -27,12 +27,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 
 
 @Entity
+@Table(name = "Usuarios")
 public class Usuario implements WithGlobalEntityManager {
 
 	/* Datos basicos */
