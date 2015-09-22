@@ -1,8 +1,21 @@
 package grupo4.dds.receta;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import grupo4.dds.misc.CoberturaIgnore;
 
+@Entity
+@Table(name = "Ingredientes")
 public class Ingrediente {
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "id_ingrediente")
+	private long id;
 	
 	private String nombre;
 	private float cantidad;

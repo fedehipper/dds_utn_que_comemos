@@ -23,20 +23,25 @@ import java.util.function.Predicate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
-
 
 @Entity
 @Table(name = "Usuarios")
 public class Usuario implements WithGlobalEntityManager {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "id_usuario")
+	private long id;	
+	
 	/* Datos basicos */
 	protected String nombre;
 	private Sexo sexo;
@@ -45,26 +50,27 @@ public class Usuario implements WithGlobalEntityManager {
 	/* Datos de la complexion */
 	private float peso;
 	private float altura;
-	
-	/* Datos de persistencia*/
-	@Id
-	@GeneratedValue
-	@Column(name = "USUARIO_ID")
-	private long usuarioId;
-	
 
 	/* Otros datos */
 	@OneToMany
 	private List<Receta> recetas = new ArrayList<>();
-	@ManyToMany
+	@OneToMany
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
+	@Enumerated
 	private Rutina rutina;
+	@OneToMany
+	@JoinTable(name = "Usuarios_Comidas_Preferidas")
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
+	@OneToMany
+	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
+	@OneToMany
 	private List<Condicion> condiciones = new ArrayList<>();
+	@OneToMany
 	private Set<Receta> historial = new HashSet<>();
 	private boolean marcaFavorita;
 	private String mail;
+	@Transient
 	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
 	
 	/* Constructores */

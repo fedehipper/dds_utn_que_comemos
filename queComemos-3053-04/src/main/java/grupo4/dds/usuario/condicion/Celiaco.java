@@ -1,8 +1,13 @@
 package grupo4.dds.usuario.condicion;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
+@Entity
+@DiscriminatorValue(value = "C")
 public class Celiaco extends Condicion {
 
 	public boolean esValidaCon(Usuario usuario) {

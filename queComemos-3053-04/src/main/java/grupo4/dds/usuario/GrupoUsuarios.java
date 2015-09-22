@@ -1,6 +1,5 @@
 package grupo4.dds.usuario;
 
-
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 
@@ -13,19 +12,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Grupos")
 public class GrupoUsuarios {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "GRUPO_ID")
-	private long grupoId;
+	@Column(name = "id_grupo")
+	private long id;
 	
 	private String nombre;
 	@OneToMany
+	@JoinTable(name = "Usuarios_Grupos")
 	private Set<Usuario> usuarios = new HashSet<>();
+	@OneToMany
+	@JoinTable(name = "Grupos_Ingredientes")
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	
 	

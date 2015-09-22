@@ -10,34 +10,49 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import queComemos.entrega3.dominio.Dificultad;
 
 @Entity
+@Table(name = "Recetas")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_receta")
+@DiscriminatorValue("privada")
 public class Receta implements WithGlobalEntityManager {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "RECETA_ID")
-	private long recetaId;
-    
-	@ManyToOne
+	@Column(name = "id_receta")
+	private long id;
+    @Transient
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
-	@OneToOne
+	@Embedded
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
+	@OneToMany
 	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+	@OneToMany
+	@JoinTable(name = "Recetas_Condimentos")
 	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
+	@OneToMany
+	@JoinTable(name = "Recetas_Subrecetas")
 	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
 

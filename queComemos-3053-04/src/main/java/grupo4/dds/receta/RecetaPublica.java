@@ -6,8 +6,13 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("publica")
 public class RecetaPublica extends Receta {
-	
+
 	/* Constructores */
 
 	public RecetaPublica(){}

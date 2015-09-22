@@ -8,11 +8,17 @@
     <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
     	<class>grupo4.dds.usuario.Usuario</class>
-    	<class>grupo4.dds.receta.Receta</class>
     	<class>grupo4.dds.usuario.GrupoUsuarios</class>
-    	<class>grupo4.dds.receta.EncabezadoDeReceta</class>
+    	<class>grupo4.dds.usuario.condicion.Condicion</class>
+    	<class>grupo4.dds.usuario.condicion.Celiaco</class>
+    	<class>grupo4.dds.usuario.condicion.Vegano</class>
+    	<class>grupo4.dds.usuario.condicion.Hipertenso</class>
+    	<class>grupo4.dds.usuario.condicion.Diabetico</class>
     	
-    	
+    	<class>grupo4.dds.receta.Receta</class>
+    	<class>grupo4.dds.receta.RecetaPublica</class>
+    	<class>grupo4.dds.receta.Ingrediente</class>
+    	<class>grupo4.dds.receta.EncabezadoDeReceta</class>    	
     	 
         <properties> 
 	    <property name="hibernate.archive.autodetection" value="class"/>        
