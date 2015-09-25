@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
@@ -46,9 +47,10 @@ public class Receta implements WithGlobalEntityManager {
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Recetas_Ingredientes")
 	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Recetas_Condimentos")
 	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
 	@OneToMany
@@ -77,8 +79,12 @@ public class Receta implements WithGlobalEntityManager {
 		//if(creador != null)
 		//	creador.agregarReceta(self);
 		
-		RepositorioDeRecetas.get().agregarReceta(self);
+		self.entityManager().getTransaction().begin();
+		self.entityManager().persist(self);
+		self.entityManager().getTransaction().commit();
 
+		RepositorioDeRecetas.get().agregarReceta(self);
+		
 		return self;
 	}
 
@@ -113,7 +119,7 @@ public class Receta implements WithGlobalEntityManager {
 	}
 
 	public float cantidadCondimento(String nombreCondimento) {
-		int index = getCondimentos().indexOf(new Ingrediente(nombreCondimento));
+		int index = getCondimentos().indexOf(Ingrediente.nuevaComida(nombreCondimento));
 		return getCondimentos().get(index).getCantidad();
 	}
 
@@ -190,7 +196,7 @@ public class Receta implements WithGlobalEntityManager {
 	/* Servicios privados */
 
 	private boolean tiene(List<Ingrediente> lista, String nombre) {
-		return lista.contains(new Ingrediente(nombre));
+		return lista.contains(Ingrediente.nuevaComida(nombre));
 	}
 
 	// TODO mejorar para llegar a algo más cercano a fold/reduct
@@ -268,6 +274,10 @@ public class Receta implements WithGlobalEntityManager {
 
 	public List<Receta> getSubrecetas() {
 		return subrecetas;
+	}
+
+	public long getId() {
+		return id;
 	}
 		
 }

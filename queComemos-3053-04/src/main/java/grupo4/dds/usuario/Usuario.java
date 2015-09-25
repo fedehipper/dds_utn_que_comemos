@@ -11,7 +11,7 @@ import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
-import grupo4.dds.usuario.gestionDePerfiles.Administrador;
+import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeSolicitudes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -58,13 +60,13 @@ public class Usuario implements WithGlobalEntityManager {
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	@Enumerated
 	private Rutina rutina;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Preferidas")
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
 	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Condicion> condiciones = new ArrayList<>();
 	@OneToMany
 	private Set<Receta> historial = new HashSet<>();
@@ -79,7 +81,14 @@ public class Usuario implements WithGlobalEntityManager {
 			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita, String mail) {
 		
 		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
-		Administrador.get().solicitarIncorporación(self);
+		
+		self.entityManager().getTransaction().begin();
+		self.entityManager().persist(self);
+		self.entityManager().refresh(self);
+		self.entityManager().getTransaction().commit();
+		
+		RepositorioDeSolicitudes.get().solicitarIncorporación(self);
+		
 		return self;
 	}
 	
@@ -165,7 +174,7 @@ public class Usuario implements WithGlobalEntityManager {
 	}
 	
 	public boolean leGusta(String nombreComida) {
-		return preferenciasAlimenticias.contains(new Ingrediente(nombreComida));
+		return preferenciasAlimenticias.contains(Ingrediente.nuevaComida(nombreComida));
 	}
 	
 	public boolean leGusta(Ingrediente comida) {
@@ -337,14 +346,6 @@ public class Usuario implements WithGlobalEntityManager {
 		return Collections.unmodifiableSet(historial);
 	}
 
-	public void solicitudAceptada() {
-		// TODO hacer algo
-	}
-
-	public void solicitudRechazada(String motivo) {
-		// TODO hacer algo
-	}
-
 	// punto 5 entrega 4
 	public boolean marcarFavoritaEstaActivada() {
 		return marcaFavorita;
@@ -377,5 +378,10 @@ public class Usuario implements WithGlobalEntityManager {
 	public void agregarAccionDeMarcarFavorita(MarcarRecetasFavoritas unaAccion) {
 		this.accionesMarcarRecetasFavoritas.add(unaAccion);
 	}
+
+	public long getId() {
+		return id;
+	}
+	
 	
 }

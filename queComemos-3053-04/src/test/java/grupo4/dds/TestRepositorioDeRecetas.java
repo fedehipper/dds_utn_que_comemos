@@ -65,8 +65,8 @@ public class TestRepositorioDeRecetas {
 		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false, null);
 		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false, null);
 		
-		GrupoUsuarios grupo1 = new GrupoUsuarios("grupo1");
-		GrupoUsuarios grupo2 = new GrupoUsuarios("grupo2");
+		GrupoUsuarios grupo1 = GrupoUsuarios.crearGrupo("grupo1");
+		GrupoUsuarios grupo2 = GrupoUsuarios.crearGrupo("grupo2");
 				
 		fecheSena.agregarGrupo(grupo1);
 		federicoHipper.agregarGrupo(grupo2);
@@ -74,7 +74,7 @@ public class TestRepositorioDeRecetas {
 		matiasMartino.agregarGrupo(grupo2);
 		
 		fecheSena.agregarCondicion(new Vegano());
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
+		fecheSena.agregarComidaQueLeDisgusta(Ingrediente.nuevaComida("coliflor"));
 		
 		receta1 = Receta.crearNueva(fecheSena, new EncabezadoDeReceta("receta1", null, Dificultad.DIFICIL, 999), null);
 		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
@@ -85,14 +85,14 @@ public class TestRepositorioDeRecetas {
 		receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta7", null, null, 300), null);
 		receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta8", null, null, 100), null);
 		
-		receta1.agregarIngrediente(new Ingrediente(""));
-		receta2.agregarIngrediente(new Ingrediente(""));
-		receta3.agregarIngrediente(new Ingrediente(""));
-		receta4.agregarIngrediente(new Ingrediente(""));
-		receta5.agregarIngrediente(new Ingrediente(""));
-		receta6.agregarIngrediente(new Ingrediente("carne"));
-		receta7.agregarIngrediente(new Ingrediente("lomo"));
-		receta8.agregarIngrediente(new Ingrediente("coliflor"));
+		receta1.agregarIngrediente(Ingrediente.nuevaComida(""));
+		receta2.agregarIngrediente(Ingrediente.nuevaComida(""));
+		receta3.agregarIngrediente(Ingrediente.nuevaComida(""));
+		receta4.agregarIngrediente(Ingrediente.nuevaComida(""));
+		receta5.agregarIngrediente(Ingrediente.nuevaComida(""));
+		receta6.agregarIngrediente(Ingrediente.nuevaComida("carne"));
+		receta7.agregarIngrediente(Ingrediente.nuevaComida("lomo"));
+		receta8.agregarIngrediente(Ingrediente.nuevaComida("coliflor"));
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class TestRepositorioDeRecetas {
 	public void testListarRecetasQuePuedeVerUsuarioFiltradasPorVariosCriterios() {
 		
 		FiltroRecetasCaras filtroRecetasCaras = new FiltroRecetasCaras();
-		filtroRecetasCaras.agregarIngredienteCaro(new Ingrediente("lomo"));
+		filtroRecetasCaras.agregarIngredienteCaro(Ingrediente.nuevaComida("lomo"));
 		
 		filtros.add(new FiltroExcesoCalorias());	
 		filtros.add(new FiltroNoEsAdecuada());	

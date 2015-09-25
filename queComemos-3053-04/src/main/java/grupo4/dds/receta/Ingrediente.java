@@ -1,16 +1,18 @@
 package grupo4.dds.receta;
 
+import grupo4.dds.misc.CoberturaIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import grupo4.dds.misc.CoberturaIgnore;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 @Entity
 @Table(name = "Ingredientes")
-public class Ingrediente {
+public class Ingrediente implements WithGlobalEntityManager {
 	
 	@Id
 	@GeneratedValue
@@ -20,13 +22,22 @@ public class Ingrediente {
 	private String nombre;
 	private float cantidad;
 	
-	public Ingrediente(String nombre, float cantidad) {
-		this.nombre = nombre;
-		this.cantidad = cantidad;
+	public static Ingrediente nuevaComida(String nombre) {
+		return nuevoIngrediente(nombre, 0);
+	}
+
+	public static Ingrediente nuevoIngrediente(String nombre, float cantidad) {
+		Ingrediente self = new Ingrediente(nombre, cantidad);
+		return self;
 	}
 	
-	public Ingrediente(String nombre) {
+	public static Ingrediente nuevoCondimento(String nombre, float cantidad) {
+		return nuevoIngrediente(nombre, cantidad);
+	}
+
+	private Ingrediente(String nombre, float cantidad) {
 		this.nombre = nombre;
+		this.cantidad = cantidad;
 	}
 	
 	public float getCantidad() {

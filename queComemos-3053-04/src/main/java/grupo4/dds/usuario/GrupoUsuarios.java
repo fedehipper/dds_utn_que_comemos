@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +17,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 @Entity
 @Table(name = "Grupos")
-public class GrupoUsuarios {
-	
+public class GrupoUsuarios implements WithGlobalEntityManager {
+
 	@Id
 	@GeneratedValue
 	@Column(name = "id_grupo")
@@ -29,14 +32,25 @@ public class GrupoUsuarios {
 	@OneToMany
 	@JoinTable(name = "Usuarios_Grupos")
 	private Set<Usuario> usuarios = new HashSet<>();
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Grupos_Ingredientes")
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	
 	
 	/* Constructores */
 	
-	public GrupoUsuarios(String nombre) {
+	public static GrupoUsuarios crearGrupo(String nombre) {
+		
+		GrupoUsuarios self = new GrupoUsuarios(nombre);
+		
+		self.entityManager().getTransaction().begin();
+		self.entityManager().persist(self);
+		self.entityManager().getTransaction().commit();
+		
+		return self;
+	}
+	
+	private GrupoUsuarios(String nombre) {
 		this.nombre = nombre;
 	}
 	

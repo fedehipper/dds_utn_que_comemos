@@ -12,14 +12,12 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 	private static final RepositorioDeUsuarios self = new RepositorioDeUsuarios();
 	private Map<String, Usuario> usuarios = new HashMap<>();
 	
-	
 	public static RepositorioDeUsuarios get() {
 		return self;
 	}
 
 	private RepositorioDeUsuarios() {}
 	
-//TODO: consultar si solo el administrador puede interactuar con el repo	
 	@Override
 	public void add(Usuario usuario) {
 		usuarios.put(usuario.getNombre(), usuario);

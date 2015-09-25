@@ -46,7 +46,7 @@ public class RepositorioRecetasExterno {
 				recetaExterna.getTotalCalorias());
 		
 		List<Ingrediente> ingredientes = recetaExterna.getIngredientes()
-				.stream().map(nombre -> new Ingrediente(nombre))
+				.stream().map(nombre -> Ingrediente.nuevaComida(nombre))
 				.collect(Collectors.toList());
 		
 		Usuario usuario = RepositorioDeUsuarios.get().get(Usuario.crearPerfil(recetaExterna.getAutor()));

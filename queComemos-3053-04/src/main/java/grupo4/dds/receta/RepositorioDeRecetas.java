@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 public class RepositorioDeRecetas {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
