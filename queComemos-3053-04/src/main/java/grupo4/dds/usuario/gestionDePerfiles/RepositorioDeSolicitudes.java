@@ -19,10 +19,7 @@ public class RepositorioDeSolicitudes implements WithGlobalEntityManager {
 	public void solicitarIncorporación(Usuario usuario) {
 		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(usuario);
 		
-		entityManager().getTransaction().begin();
 		entityManager().persist(solicitud);
-		entityManager().refresh(solicitud);
-		entityManager().getTransaction().commit();
 	}
 	
 	public void aprobar(SolicitudAltaUsuario solicitud) {

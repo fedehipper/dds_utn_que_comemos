@@ -82,10 +82,7 @@ public class Usuario implements WithGlobalEntityManager {
 		
 		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
 		
-		self.entityManager().getTransaction().begin();
 		self.entityManager().persist(self);
-		self.entityManager().refresh(self);
-		self.entityManager().getTransaction().commit();
 		
 		RepositorioDeSolicitudes.get().solicitarIncorporación(self);
 		

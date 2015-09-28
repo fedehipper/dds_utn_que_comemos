@@ -13,12 +13,14 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.receta.builder.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
-public class TestReceta {
+public class TestReceta implements WithGlobalEntityManager {
 	
 	private Receta receta;
 		
@@ -26,7 +28,13 @@ public class TestReceta {
 	
 	@Before
 	public void setUp() {
-
+		entityManager().getTransaction().begin();
+	}
+	
+	@After
+	public void tierDown() {
+		
+		entityManager().getTransaction().rollback();
 	}
 	
 	/* Test: @esValida/0 */

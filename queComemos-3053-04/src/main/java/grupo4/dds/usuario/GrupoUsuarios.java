@@ -43,9 +43,7 @@ public class GrupoUsuarios implements WithGlobalEntityManager {
 		
 		GrupoUsuarios self = new GrupoUsuarios(nombre);
 		
-		self.entityManager().getTransaction().begin();
 		self.entityManager().persist(self);
-		self.entityManager().getTransaction().commit();
 		
 		return self;
 	}

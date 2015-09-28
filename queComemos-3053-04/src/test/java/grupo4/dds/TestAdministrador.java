@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -23,7 +24,13 @@ public class TestAdministrador implements WithGlobalEntityManager {
 	
 	@Before
 	public void setUp() {
+		entityManager().getTransaction().begin();
 		usuario = Usuario.crearPerfil("USUARIO");
+	}
+	
+	@After
+	public void tierDown() {
+		entityManager().getTransaction().rollback();
 		RepositorioDeUsuarios.get().vaciar();
 	}
 	
