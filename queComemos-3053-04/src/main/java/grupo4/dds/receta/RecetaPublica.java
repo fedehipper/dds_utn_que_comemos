@@ -23,8 +23,6 @@ public class RecetaPublica extends Receta {
 		
 		RepositorioDeRecetas.get().agregarReceta(self);
 		
-		self.entityManager().persist(self);
-		
 		return self;
 	}
 

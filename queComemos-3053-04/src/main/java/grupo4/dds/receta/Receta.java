@@ -79,8 +79,6 @@ public class Receta implements WithGlobalEntityManager {
 		//if(creador != null)
 		//	creador.agregarReceta(self);
 		
-		self.entityManager().persist(self);
-
 		RepositorioDeRecetas.get().agregarReceta(self);
 		
 		return self;
