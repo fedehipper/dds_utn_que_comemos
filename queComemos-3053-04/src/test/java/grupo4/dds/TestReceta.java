@@ -1,41 +1,27 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.excepciones.RecetaInvalida;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-/*import grupo4.dds.receta.RecetaPublica;*/
+import grupo4.dds.receta.builder.BuilderReceta;
+import grupo4.dds.receta.builder.BuilderRecetaPublica;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.receta.builder.*;
 
-import org.junit.After;
-import org.junit.Before;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
-public class TestReceta implements WithGlobalEntityManager {
+public class TestReceta extends BaseTest {
 	
 	private Receta receta;
 		
 	@Rule public ExpectedException expectedExcetption = ExpectedException.none();
-	
-	@Before
-	public void setUp() {
-		entityManager().getTransaction().begin();
-	}
-	
-	@After
-	public void tierDown() {
-		
-		entityManager().getTransaction().rollback();
-	}
 	
 	/* Test: @esValida/0 */
 	@Test

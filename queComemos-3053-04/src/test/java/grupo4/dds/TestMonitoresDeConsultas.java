@@ -4,18 +4,13 @@ import static org.junit.Assert.assertEquals;
 import grupo4.dds.excepciones.HoraInvalida;
 import grupo4.dds.monitores.CantidadDeHoras;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class TestMonitoresDeConsultas {
+public class TestMonitoresDeConsultas extends BaseTest {
 
 	@Rule public ExpectedException expectedExcetption = ExpectedException.none();
-	
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	@Test()
 	public void testSiNoSeRealizaronConsultasRetorna0() {

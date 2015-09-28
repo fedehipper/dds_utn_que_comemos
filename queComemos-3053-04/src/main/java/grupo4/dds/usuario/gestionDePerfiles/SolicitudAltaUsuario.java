@@ -33,6 +33,7 @@ public class SolicitudAltaUsuario {
 
 	public void aceptada() {
 		estado = true;
+		RepositorioDeUsuarios.get().add(usuario);
 	}
 
 	public void rechazada(String motivo) {

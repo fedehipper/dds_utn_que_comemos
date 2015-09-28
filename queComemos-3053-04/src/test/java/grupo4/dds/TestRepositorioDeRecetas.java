@@ -28,7 +28,7 @@ import org.junit.Test;
 
 import queComemos.entrega3.dominio.Dificultad;
 
-public class TestRepositorioDeRecetas {
+public class TestRepositorioDeRecetas extends BaseTest {
 	
 	private Usuario fecheSena;
 	private Usuario raul;
@@ -57,7 +57,6 @@ public class TestRepositorioDeRecetas {
 		expected = null;
 		filtros = new ArrayList<>();
 		consulta = new ArrayList<>();
-		repositorio.vaciar();
 		
 		raul = Usuario.crearPerfil("Raul", null, null, 1.70f, 65.0f, null, true, null);
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);

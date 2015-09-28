@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestFiltros {
+public class TestFiltros extends BaseTest {
 	
 	private Usuario ariel;
 	private Usuario fecheSena;
@@ -61,7 +61,6 @@ public class TestFiltros {
 				return recetas.stream().filter(r -> filtros.get(0).test(usuario, r)).collect(Collectors.toList());
 			}
 		};
-		
 	}
 	
 	@Test

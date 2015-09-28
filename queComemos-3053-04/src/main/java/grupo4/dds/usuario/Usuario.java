@@ -81,16 +81,24 @@ public class Usuario implements WithGlobalEntityManager {
 			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita, String mail) {
 		
 		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
-		
-		self.entityManager().persist(self);
-		
 		RepositorioDeSolicitudes.get().solicitarIncorporación(self);
 		
 		return self;
 	}
 	
 	public static Usuario crearPerfil(String nombre) {
-		return crearPerfil(nombre, null, null, 0, 0, null, false,null);
+		return crearPerfil(nombre, null, null, 0, 0, null, true, null);	
+	}
+	
+	public static Usuario prototipo(String nombre, List<Condicion> condiciones) {
+		Usuario prototipo = new Usuario();
+		prototipo.nombre = nombre;
+		if(condiciones != null) prototipo.condiciones = condiciones;
+		return prototipo;
+	}
+	
+	public static Usuario prototipo(String nombre) {
+		return prototipo(nombre, null);
 	}
 
 	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso,
@@ -220,49 +228,6 @@ public class Usuario implements WithGlobalEntityManager {
 	
 	public boolean esMujer() {
 		return Sexo.FEMENINO.equals(sexo);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(altura);
-		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + Float.floatToIntBits(peso);
-		result = prime * result + ((rutina == null) ? 0 : rutina.hashCode());
-		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Usuario))
-			return false;
-		Usuario other = (Usuario) obj;
-		if (Float.floatToIntBits(altura) != Float.floatToIntBits(other.altura))
-			return false;
-		if (fechaNacimiento == null) {
-			if (other.fechaNacimiento != null)
-				return false;
-		} else if (!fechaNacimiento.equals(other.fechaNacimiento))
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (Float.floatToIntBits(peso) != Float.floatToIntBits(other.peso))
-			return false;
-		if (rutina != other.rutina)
-			return false;
-		if (sexo != other.sexo)
-			return false;
-		return true;
 	}
 	
 	/* Servicios internos */

@@ -11,7 +11,7 @@ import grupo4.dds.usuario.condicion.*;
 
 import org.junit.Test;
 
-public class TestCondiciones {
+public class TestCondiciones extends BaseTest {
 
 	private Usuario usuario;
 	private Receta receta;

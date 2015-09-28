@@ -25,14 +25,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
-public class TestUsuario implements WithGlobalEntityManager {
+public class TestUsuario extends BaseTest {
 
 	private Usuario usuario;
 	private Receta receta;
@@ -47,19 +45,11 @@ public class TestUsuario implements WithGlobalEntityManager {
 	@Before
 	public void setUp() {
 		
-		entityManager().getTransaction().begin();
-		
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
 		arielFolino = Usuario.crearPerfil("Ariel Folino", null, null, 1.69f, 96.0f, null, false, null);
 		matiasMartino = Usuario.crearPerfil("Matías Martino", null, null, 1.74f, 79.0f, null, false, null);
 		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, false, null);
 		cristianMaldonado = Usuario.crearPerfil("Cristian Maldonado", null, null, 1.34f, 87.0f, null, false, null);
-	}
-	
-	@After
-	public void tierDown() {
-		
-		entityManager().getTransaction().rollback();
 	}
 	
 	/* Test: @indiceDeMasaCorporal/0 */

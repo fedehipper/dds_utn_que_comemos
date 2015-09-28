@@ -2,15 +2,14 @@ package grupo4.dds.usuario.gestionDePerfiles;
 
 import grupo4.dds.usuario.Usuario;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-public class RepositorioDeUsuarios implements RepoUsuarios {
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+public class RepositorioDeUsuarios implements RepoUsuarios, WithGlobalEntityManager {
 
 	private static final RepositorioDeUsuarios self = new RepositorioDeUsuarios();
-	private Map<String, Usuario> usuarios = new HashMap<>();
 	
 	public static RepositorioDeUsuarios get() {
 		return self;
@@ -20,34 +19,34 @@ public class RepositorioDeUsuarios implements RepoUsuarios {
 	
 	@Override
 	public void add(Usuario usuario) {
-		usuarios.put(usuario.getNombre(), usuario);
+		entityManager().persist(usuario);
 	}
 
 	@Override
 	public void remove(Usuario usuario) {
-		usuarios.remove(usuario.getNombre());
+		Usuario usuarioARemover = entityManager().find(Usuario.class, usuario.getId());
+		entityManager().remove(usuarioARemover);
 	}
 
 	@Override
 	public void update(Usuario usuario) {
-		add(usuario);
+		entityManager().persist(usuario);
 	}
 
 	@Override
 	public Usuario get(Usuario usuario) {
-		return usuarios.get(usuario.getNombre());
+		return listWithMatchingName(usuario).isEmpty() ? null : listWithMatchingName(usuario).get(0);
 	}
 
 	@Override
-	public List<Usuario> list(Usuario usuario) {
-		return usuarios.values()
-				.stream()
-				.filter(u -> u.getNombre().contains(usuario.getNombre()) && u.cumpleTodasLasCondicionesDe(usuario))
-				.collect(Collectors.toList());
+	public List<Usuario> list(Usuario prototipo) {
+		return listWithMatchingName(prototipo).stream().filter(u -> u.cumpleTodasLasCondicionesDe(prototipo)).
+				collect(Collectors.toList());
 	}
 
-	public void vaciar() {
-		usuarios.clear();
+	private List<Usuario> listWithMatchingName(Usuario usuario) {
+		String query = "from Usuario where nombre like '%" + usuario.getNombre() + "%'";
+		return entityManager().createQuery(query, Usuario.class).getResultList();
 	}
-		
+
 }

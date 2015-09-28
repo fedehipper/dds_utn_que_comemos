@@ -19,7 +19,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestPostProcesadores {
+public class TestPostProcesadores extends BaseTest {
 
 	private PostProcesamiento procesamiento;
 	private List<Receta> recetas;

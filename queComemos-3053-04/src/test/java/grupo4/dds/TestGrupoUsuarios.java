@@ -12,7 +12,7 @@ import grupo4.dds.usuario.condicion.Vegano;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestGrupoUsuarios {
+public class TestGrupoUsuarios extends BaseTest {
 	
 	private GrupoUsuarios grupo;
 	private Usuario fecheSena;

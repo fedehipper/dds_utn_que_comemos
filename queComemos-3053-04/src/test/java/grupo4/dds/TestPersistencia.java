@@ -1,23 +1,20 @@
 package grupo4.dds;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.receta.builder.BuilderRecetaPublica;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeUsuarios;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import queComemos.entrega3.dominio.Dificultad;
 
-public class TestPersistencia implements WithGlobalEntityManager {
+public class TestPersistencia extends BaseTest {
 
 	private Usuario maria;
 	private Usuario ariel;
@@ -25,10 +22,7 @@ public class TestPersistencia implements WithGlobalEntityManager {
 	private RecetaPublica milanesa;
 
 	@Before
-	public void setUp() throws Exception {
-
-		RepositorioDeRecetas.get().vaciar();
-		RepositorioDeUsuarios.get().vaciar();
+	public void setUp() {
 		
 		maria = Usuario.crearPerfil("Maria", Sexo.FEMENINO, null,
 				1.70f, 65.0f, null, false, null);
@@ -41,16 +35,17 @@ public class TestPersistencia implements WithGlobalEntityManager {
 		.setIngrediente(null).setCreador(maria)
 		.setNombreDelPlato("Pollo").setDificultad(Dificultad.FACIL).build();
 	}
+	
+	@Test
+	public void contextUp() {
+		assertNotNull(entityManager());
+	}
 
 	@Test
 	public void testAlCrearUnUsuarioEsPersistido() {
 		
 		assertTrue(entityManager().contains(ariel));
 		assertTrue(entityManager().contains(maria));
-		
-		
-		System.out.println(ariel.getId());
-		System.out.println(maria.getId());
 	}
 	
 	@Test
@@ -62,7 +57,6 @@ public class TestPersistencia implements WithGlobalEntityManager {
 
 	@Test
 	public void testAlCrearUnGrupoEsPersistido() {
-		
 		assertTrue(entityManager().contains(GrupoUsuarios.crearGrupo("")));
 	}
 	
