@@ -1,7 +1,9 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
+import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Diabetico;
@@ -61,23 +63,22 @@ public class TestRepositorioDeUsuarios extends BaseTest {
 	@Test
 	public void testListarUsuarioConNombreJorge() {
 		List<Usuario> expected = Arrays.asList(jorgeFernandez, jorgeMartin);
-		assertEqualsList(expected, repositorio.list(Usuario.crearPerfil("Jorge", null, null, 0, 0, null, false, null)));
+		assertEqualsList(expected, repositorio.list(Usuario.prototipo("Jorge")));
 	}
 	
 	@Test
 	public void testListarUsuariosQueContienenMartinEnElNombre() {
 		List<Usuario> expected = Arrays.asList(matiasMartin, lauraMartin, jorgeMartin);
-		assertEqualsList(expected, repositorio.list(Usuario.crearPerfil("Martin", null, null, 0, 0, null, false, null)));
+		assertEqualsList(expected, repositorio.list(Usuario.prototipo("Martin")));
 	}
 	
 	@Test
 	public void testListarVeganosYCeliacos() {
-		List<Usuario> expected = Arrays.asList(matiasMartin, lauraMartin, jorgeMartin, jorgeFernandez, arielFolino);
+		List<Usuario> expected = Arrays.asList(jorgeMartin, matiasMartin);
 		
-		Usuario prototipo = Usuario.crearPerfil("Martin", null, null, 0, 0, null, false, null);
+		Usuario prototipo = Usuario.prototipo("Martin");
 		prototipo.agregarCondicion(new Vegano());
-		prototipo.agregarCondicion(new Celiaco());
-		
+		prototipo.agregarCondicion(new Diabetico());
 		assertEqualsList(expected, repositorio.list(prototipo));
 	}
 	
@@ -85,14 +86,27 @@ public class TestRepositorioDeUsuarios extends BaseTest {
 	public void testListarDiabeticosConMartinEnElNombre() {
 		List<Usuario> expected = Arrays.asList(matiasMartin, jorgeMartin);
 		
-		Usuario prototipo = Usuario.crearPerfil("Martin", null, null, 0, 0, null, false, null);
+		Usuario prototipo = Usuario.prototipo("Martin");
 		prototipo.agregarCondicion(new Diabetico());
 		
 		assertEqualsList(expected, repositorio.list(prototipo));
 	}
+
 	
-	private boolean assertEqualsList(Collection<Usuario> l1, Collection<Usuario> l2) {
-		return l1.size() == l2.size() && l1.containsAll(l2);
+	@Test
+	public void testActualizarGrupo() {
+		entityManager().clear();
+		
+		GrupoUsuarios grupo = GrupoUsuarios.crearGrupo("");
+		jorgeMartin.agregarGrupo(grupo);
+		
+		repositorio.update(jorgeMartin);
+		
+		assertTrue(repositorio.get(jorgeMartin).perteneceA(grupo));
+	}
+	
+	private void assertEqualsList(Collection<Usuario> l1, Collection<Usuario> l2) {
+		assertTrue(l1.size() == l2.size() && l1.containsAll(l2));
 	}
 	
 }
