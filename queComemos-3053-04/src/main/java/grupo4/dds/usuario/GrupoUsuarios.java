@@ -52,6 +52,8 @@ public class GrupoUsuarios implements Persistible {
 		this.nombre = nombre;
 	}
 	
+	private GrupoUsuarios() {}
+	
 	/* Servicios */
 	
 	public boolean puedeSugerirse(Receta receta) {

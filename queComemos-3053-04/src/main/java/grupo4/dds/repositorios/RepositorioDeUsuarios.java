@@ -22,7 +22,7 @@ public class RepositorioDeUsuarios extends Repositorio {
 				collect(Collectors.toList());
 	}
 	
-	List<Usuario> listWithMatchingName(Usuario usuario) {
+	private List<Usuario> listWithMatchingName(Usuario usuario) {
 		String query = "from Usuario where nombre like '%" + usuario.getNombre() + "%'";
 		return entityManager().createQuery(query, Usuario.class).getResultList();
 	}

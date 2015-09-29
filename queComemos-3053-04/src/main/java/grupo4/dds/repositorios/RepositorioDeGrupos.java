@@ -16,7 +16,7 @@ private static final RepositorioDeGrupos self = new RepositorioDeGrupos();
 		return entityManager().find(GrupoUsuarios.class, grupo.getId());
 	}
 
-	public List<GrupoUsuarios> list(GrupoUsuarios grupo) {
+	public List<GrupoUsuarios> list() {
 		return entityManager().createQuery("from GrupoUsuarios", GrupoUsuarios.class).getResultList();
 	}
 	
