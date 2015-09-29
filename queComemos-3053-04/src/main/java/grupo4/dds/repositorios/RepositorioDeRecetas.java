@@ -1,10 +1,11 @@
-package grupo4.dds.receta;
+package grupo4.dds.repositorios;
 
 import grupo4.dds.command.Command;
 import grupo4.dds.command.CommandMailSender;
 import grupo4.dds.command.LoguearConsultas;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.monitores.Monitor;
+import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;

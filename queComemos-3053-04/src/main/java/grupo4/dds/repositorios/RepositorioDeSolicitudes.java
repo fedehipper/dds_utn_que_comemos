@@ -1,7 +1,8 @@
-package grupo4.dds.usuario.gestionDePerfiles;
+package grupo4.dds.repositorios;
 
 import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.usuario.Usuario;
+import grupo4.dds.usuario.gestionDePerfiles.SolicitudAltaUsuario;
 
 import java.util.List;
 import java.util.function.Consumer;

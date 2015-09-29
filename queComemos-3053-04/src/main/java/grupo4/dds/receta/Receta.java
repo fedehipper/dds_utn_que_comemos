@@ -1,6 +1,7 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;

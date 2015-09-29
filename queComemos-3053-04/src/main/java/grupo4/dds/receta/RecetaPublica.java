@@ -2,6 +2,7 @@ package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.EsInadecuadaDespuesDeModificar;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;

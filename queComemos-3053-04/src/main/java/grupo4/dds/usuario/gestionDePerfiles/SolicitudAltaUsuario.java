@@ -1,5 +1,6 @@
 package grupo4.dds.usuario.gestionDePerfiles;
 
+import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 
 import javax.persistence.Column;

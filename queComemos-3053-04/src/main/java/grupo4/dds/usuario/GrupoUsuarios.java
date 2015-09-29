@@ -1,7 +1,9 @@
 package grupo4.dds.usuario;
 
+import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.repositorios.RepositorioDeGrupos;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,11 +19,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
 @Entity
 @Table(name = "Grupos")
-public class GrupoUsuarios implements WithGlobalEntityManager {
+public class GrupoUsuarios implements Persistible {
 
 	@Id
 	@GeneratedValue
@@ -43,7 +43,7 @@ public class GrupoUsuarios implements WithGlobalEntityManager {
 		
 		GrupoUsuarios self = new GrupoUsuarios(nombre);
 		
-		self.entityManager().persist(self);
+		RepositorioDeGrupos.get().add(self);
 		
 		return self;
 	}
@@ -86,6 +86,16 @@ public class GrupoUsuarios implements WithGlobalEntityManager {
 	
 	public String getNombre() {
 		return nombre;
+	}
+
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 }

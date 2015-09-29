@@ -3,15 +3,16 @@ package grupo4.dds.usuario;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
+import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
+import grupo4.dds.repositorios.RepositorioDeSolicitudes;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
-import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeSolicitudes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,11 +34,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
 @Entity
 @Table(name = "Usuarios")
-public class Usuario implements WithGlobalEntityManager {
+public class Usuario implements Persistible {
 
 	@Id
 	@GeneratedValue
@@ -345,5 +344,9 @@ public class Usuario implements WithGlobalEntityManager {
 		return id;
 	}
 	
+
+	public void setId(long id) {
+		this.id = id;
+	}
 	
 }
