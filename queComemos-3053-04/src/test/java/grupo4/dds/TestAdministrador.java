@@ -3,9 +3,9 @@ package grupo4.dds;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import grupo4.dds.repositorios.RepositorioDeSolicitudes;
+import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeSolicitudes;
-import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeUsuarios;
 import grupo4.dds.usuario.gestionDePerfiles.SolicitudAltaUsuario;
 
 import java.util.Arrays;

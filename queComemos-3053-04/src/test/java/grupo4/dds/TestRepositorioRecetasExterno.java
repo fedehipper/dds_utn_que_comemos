@@ -2,7 +2,7 @@ package grupo4.dds;
 
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RepositorioRecetasExterno;
+import grupo4.dds.repositorios.RepositorioRecetasExterno;
 
 import org.junit.Test;
 

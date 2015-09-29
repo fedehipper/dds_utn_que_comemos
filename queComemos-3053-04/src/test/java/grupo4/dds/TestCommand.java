@@ -16,9 +16,9 @@ import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;

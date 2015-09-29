@@ -1,12 +1,12 @@
 package grupo4.dds;
 
 import static org.junit.Assert.*;
+import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Diabetico;
 import grupo4.dds.usuario.condicion.Hipertenso;
 import grupo4.dds.usuario.condicion.Vegano;
-import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeUsuarios;
 
 import java.util.Arrays;
 import java.util.Collection;
