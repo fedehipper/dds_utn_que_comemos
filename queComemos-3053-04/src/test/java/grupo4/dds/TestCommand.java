@@ -16,9 +16,9 @@ import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import org.mockito.Mockito;
 
 import queComemos.entrega3.dominio.Dificultad;
 
-public class TestCommand {
+public class TestCommand extends BaseTest {
 		
 	private Usuario federicoHipper;
 	private Usuario fecheSena;
@@ -77,7 +77,6 @@ public class TestCommand {
 	
 	@Before
 	public void setUp() {
-		repositorio.vaciar();
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.91f, 99.0f, null, false, "fesena92@gmail.com");
 		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, true, null);
 		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
@@ -94,7 +93,6 @@ public class TestCommand {
 		
 		consulta = Arrays.asList(receta2, receta3, receta6, receta7, receta8);
 	}
-	
 
 	@Test
 	public void testMarcarComoFavoritaATodasLasRecetas() {

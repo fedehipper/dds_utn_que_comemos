@@ -12,7 +12,7 @@ import grupo4.dds.usuario.condicion.Vegano;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestGrupoUsuarios {
+public class TestGrupoUsuarios extends BaseTest {
 	
 	private GrupoUsuarios grupo;
 	private Usuario fecheSena;
@@ -22,7 +22,8 @@ public class TestGrupoUsuarios {
 
 	@Before
 	public void setUp() {
-		grupo = new GrupoUsuarios("grosos");
+		
+		grupo = GrupoUsuarios.crearGrupo("grosos");
 		fecheSena = Usuario.crearPerfil("fecheSena");
 		matias = Usuario.crearPerfil("matias");
 		ariel = Usuario.crearPerfil("ariel");
@@ -33,39 +34,39 @@ public class TestGrupoUsuarios {
 	/* Test: @puedeSugerirse/1 */
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnGrupoSiNoContieneAlgunaDeSusPreferencias(){
-		receta.agregarIngrediente(new Ingrediente("carne",0f));
-		receta.agregarIngrediente(new Ingrediente("pescado",0f));
+		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
+		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
 		
-		grupo.agregarPreferenciaAlimenticia(new Ingrediente("fruta",0f));
+		grupo.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("fruta", 0f));
 		assertFalse(grupo.puedeSugerirse(receta));
 	}
 	
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnGrupoSiNoEsAdecuadaParaTodosSusMiembros(){
-		receta.agregarIngrediente(new Ingrediente("carne",0f));
-		receta.agregarIngrediente(new Ingrediente("pescado",0f));
+		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
+		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
 
 		ariel.agregarGrupo(grupo);
 		fecheSena.agregarGrupo(grupo);
 		ariel.agregarCondicion(new Celiaco());
 		fecheSena.agregarCondicion(new Vegano());
 		
-		grupo.agregarPreferenciaAlimenticia(new Ingrediente("carne",0f));
+		grupo.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("carne", 0f));
 		
 		assertFalse(grupo.puedeSugerirse(receta));
 	}
 	
 	@Test
 	public void testSePuedeSugerirUnaRecetaAUnGrupo(){
-		receta.agregarIngrediente(new Ingrediente("verdura",0f));
-		receta.agregarIngrediente(new Ingrediente("pescado",0f));
+		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("verdura", 0f));
+		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
 
 		ariel.agregarGrupo(grupo);
 		fecheSena.agregarGrupo(grupo);
 		ariel.agregarCondicion(new Celiaco());
 		fecheSena.agregarCondicion(new Vegano());
 		
-		grupo.agregarPreferenciaAlimenticia(new Ingrediente("pescado",0f));
+		grupo.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("pescado", 0f));
 		
 		assertTrue(grupo.puedeSugerirse(receta));
 	}
@@ -73,7 +74,7 @@ public class TestGrupoUsuarios {
 	/* Test: @puedeVer/1 */
 	@Test
 	public void testUnGrupoPuedeVerUnaRecetaSiAlgunoDeSusMiembrosLaVe() {
-		receta = Receta.crearNueva(fecheSena, null, null);
+		receta = Receta.crearNueva(fecheSena, null, "");
 		
 		grupo.agregarUsuario(matias);
 		grupo.agregarUsuario(ariel);

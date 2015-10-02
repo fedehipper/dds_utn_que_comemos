@@ -5,13 +5,13 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoEsAdecuada;
 import grupo4.dds.receta.busqueda.filtros.FiltroExcesoCalorias;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
 import grupo4.dds.receta.busqueda.filtros.FiltroRecetasCaras;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Hipertenso;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestFiltros {
+public class TestFiltros extends BaseTest {
 	
 	private Usuario ariel;
 	private Usuario fecheSena;
@@ -61,7 +61,6 @@ public class TestFiltros {
 				return recetas.stream().filter(r -> filtros.get(0).test(usuario, r)).collect(Collectors.toList());
 			}
 		};
-		
 	}
 	
 	@Test
@@ -78,14 +77,14 @@ public class TestFiltros {
 		filtros.add(new FiltroNoLeGusta());		
 		expected = Arrays.asList(pollo, pure, salmon);
 		
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("brocoli"));
-		fecheSena.agregarComidaQueLeDisgusta(new Ingrediente("coliflor"));
+		fecheSena.agregarComidaQueLeDisgusta(Ingrediente.nuevaComida("brocoli"));
+		fecheSena.agregarComidaQueLeDisgusta(Ingrediente.nuevaComida("coliflor"));
 		
-		sopa.agregarIngrediente(new Ingrediente("brocoli"));
-		milanesa.agregarIngrediente(new Ingrediente("coliflor"));
-		pollo.agregarIngrediente(new Ingrediente("pollo"));
-		pure.agregarIngrediente(new Ingrediente("papa"));
-		salmon.agregarIngrediente(new Ingrediente("tomate"));
+		sopa.agregarIngrediente(Ingrediente.nuevaComida("brocoli"));
+		milanesa.agregarIngrediente(Ingrediente.nuevaComida("coliflor"));
+		pollo.agregarIngrediente(Ingrediente.nuevaComida("pollo"));
+		pure.agregarIngrediente(Ingrediente.nuevaComida("papa"));
+		salmon.agregarIngrediente(Ingrediente.nuevaComida("tomate"));
 		
 		assertEquals(expected, mockRepositorio.listarRecetasPara(fecheSena, filtros, null));
 	}
@@ -99,13 +98,13 @@ public class TestFiltros {
 		ariel.agregarCondicion(new Hipertenso());
 		ariel.agregarCondicion(new Vegano());
 		
-		sopa.agregarIngrediente(new Ingrediente("cabellito de angel"));		
-		pollo.agregarIngrediente(new Ingrediente("pollo"));
-		sopa.agregarCondimento(new Ingrediente("ajo"));		
-		pollo.agregarCondimento(new Ingrediente("sal"));
-		pure.agregarIngrediente(new Ingrediente("carne"));
-		milanesa.agregarIngrediente(new Ingrediente("papa"));
-		salmon.agregarIngrediente(new Ingrediente("tomate"));
+		sopa.agregarIngrediente(Ingrediente.nuevaComida("cabellito de angel"));		
+		pollo.agregarIngrediente(Ingrediente.nuevaComida("pollo"));
+		sopa.agregarCondimento(Ingrediente.nuevaComida("ajo"));		
+		pollo.agregarCondimento(Ingrediente.nuevaComida("sal"));
+		pure.agregarIngrediente(Ingrediente.nuevaComida("carne"));
+		milanesa.agregarIngrediente(Ingrediente.nuevaComida("papa"));
+		salmon.agregarIngrediente(Ingrediente.nuevaComida("tomate"));
 		
 		assertEquals(expected, mockRepositorio.listarRecetasPara(ariel, filtros, null));
 	}
@@ -114,17 +113,17 @@ public class TestFiltros {
 	public void testFiltrarRecetasCaras() {
 		
 		FiltroRecetasCaras filtroCaras = new FiltroRecetasCaras();
-		filtroCaras.agregarIngredienteCaro(new Ingrediente("pollo"));
-		filtroCaras.agregarIngredienteCaro(new Ingrediente("tomate"));
+		filtroCaras.agregarIngredienteCaro(Ingrediente.nuevaComida("pollo"));
+		filtroCaras.agregarIngredienteCaro(Ingrediente.nuevaComida("tomate"));
 		filtros.add(filtroCaras);
 		
 		expected = Arrays.asList(sopa, pure, milanesa);
 		
-		sopa.agregarIngrediente(new Ingrediente("brocoli"));
-		milanesa.agregarIngrediente(new Ingrediente("coliflor"));
-		pollo.agregarIngrediente(new Ingrediente("pollo"));
-		pure.agregarIngrediente(new Ingrediente("papa"));
-		salmon.agregarIngrediente(new Ingrediente("tomate"));
+		sopa.agregarIngrediente(Ingrediente.nuevaComida("brocoli"));
+		milanesa.agregarIngrediente(Ingrediente.nuevaComida("coliflor"));
+		pollo.agregarIngrediente(Ingrediente.nuevaComida("pollo"));
+		pure.agregarIngrediente(Ingrediente.nuevaComida("papa"));
+		salmon.agregarIngrediente(Ingrediente.nuevaComida("tomate"));
 		
 		assertEquals(expected, mockRepositorio.listarRecetasPara(ariel, filtros, null));
 	}

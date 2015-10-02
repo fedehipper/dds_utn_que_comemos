@@ -1,6 +1,7 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -9,18 +10,52 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 import queComemos.entrega3.dominio.Dificultad;
 
-public class Receta {
-
+@Entity
+@Table(name = "Recetas")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_receta")
+@DiscriminatorValue("privada")
+public class Receta implements WithGlobalEntityManager {
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "id_receta")
+	private long id;
+    @Transient
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
+	@Embedded
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Recetas_Ingredientes")
 	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Recetas_Condimentos")
 	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
+	@OneToMany
+	@JoinTable(name = "Recetas_Subrecetas")
 	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
 
@@ -46,7 +81,7 @@ public class Receta {
 		//	creador.agregarReceta(self);
 		
 		RepositorioDeRecetas.get().agregarReceta(self);
-
+		
 		return self;
 	}
 
@@ -81,7 +116,7 @@ public class Receta {
 	}
 
 	public float cantidadCondimento(String nombreCondimento) {
-		int index = getCondimentos().indexOf(new Ingrediente(nombreCondimento));
+		int index = getCondimentos().indexOf(Ingrediente.nuevaComida(nombreCondimento));
 		return getCondimentos().get(index).getCantidad();
 	}
 
@@ -158,7 +193,7 @@ public class Receta {
 	/* Servicios privados */
 
 	private boolean tiene(List<Ingrediente> lista, String nombre) {
-		return lista.contains(new Ingrediente(nombre));
+		return lista.contains(Ingrediente.nuevaComida(nombre));
 	}
 
 	// TODO mejorar para llegar a algo más cercano a fold/reduct
@@ -236,6 +271,10 @@ public class Receta {
 
 	public List<Receta> getSubrecetas() {
 		return subrecetas;
+	}
+
+	public long getId() {
+		return id;
 	}
 		
 }

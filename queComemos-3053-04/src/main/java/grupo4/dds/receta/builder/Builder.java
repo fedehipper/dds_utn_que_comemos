@@ -1,5 +1,9 @@
 package grupo4.dds.receta.builder;
 
+import java.util.List;
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 import grupo4.dds.excepciones.RecetaInvalida;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
@@ -8,11 +12,18 @@ import grupo4.dds.receta.Temporada;
 import grupo4.dds.usuario.Usuario;
 import queComemos.entrega3.dominio.Dificultad;
 
-public abstract class Builder {
+public abstract class Builder implements WithGlobalEntityManager {
 
 	protected Receta receta;
-	protected BuilderEncabezado encabezado=new BuilderEncabezado();
+	protected EncabezadoDeReceta encabezado=new EncabezadoDeReceta();
 	
+	public Builder() {
+		receta = receta();
+		receta.setEncabezado(encabezado);
+	}
+	
+	protected abstract Receta receta();
+
 	public Builder setCreador(Usuario creador) {
 		receta.setCreador(creador);
 		return this;
@@ -42,6 +53,11 @@ public abstract class Builder {
 		receta.agregarIngrediente(unIngrediente);
 		return this;
 	}
+	
+	public Builder setIngredientes(List<Ingrediente> ingredientes) {
+		receta.setIngredientes(ingredientes);
+		return this;
+	}
 
 	public Builder setCondimento(Ingrediente unCondimento) {
 		receta.agregarCondimento(unCondimento);
@@ -64,11 +80,12 @@ public abstract class Builder {
 	}
 
 	public Receta build() {	
-		setEncabezado(encabezado.build());
 	
 		if (!receta.esValida()){
 			throw new RecetaInvalida();
 		}
+		
+		entityManager().persist(receta);
 		
 		return receta;
 	}

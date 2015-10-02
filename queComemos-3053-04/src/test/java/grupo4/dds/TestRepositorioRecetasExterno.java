@@ -1,17 +1,12 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RepositorioRecetasExterno;
+import grupo4.dds.repositorios.RepositorioRecetasExterno;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestRepositorioRecetasExterno {
-
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	@Test
 	public void testGetRecetasDevuelveUnaListaDeRecetasPrivadas() {

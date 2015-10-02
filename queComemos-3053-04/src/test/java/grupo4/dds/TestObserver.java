@@ -18,12 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import queComemos.entrega3.dominio.Dificultad;
 
-public class TestObserver {
+public class TestObserver implements WithGlobalEntityManager {
 	
 	private Receta sopa;
 	private Receta pollo;
@@ -34,6 +36,8 @@ public class TestObserver {
 	
 	@Before
 	public void setup() {
+		
+		entityManager().getTransaction().begin();
 		
 		maria = Usuario.crearPerfil("Maria", Sexo.FEMENINO, null, 1.70f, 65.0f, null, false, null);
 		ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null, false, null);
@@ -48,6 +52,11 @@ public class TestObserver {
 		consulta2 = Arrays.asList(sopa, sopa, sopa, salmon, pollo, pollo);
 	}
 
+	@After
+	public void tierDown() {
+		entityManager().getTransaction().rollback();
+	}
+	
 	@Test
 	public void testMonitorDeConsultasPorHora() {
 		

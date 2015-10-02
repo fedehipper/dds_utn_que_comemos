@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.Ordenar;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.receta.busqueda.postProcesamiento.TomarDiezPrimeros;
 import grupo4.dds.receta.busqueda.postProcesamiento.TomarResultadosPares;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestPostProcesadores {
+public class TestPostProcesadores extends BaseTest {
 
 	private PostProcesamiento procesamiento;
 	private List<Receta> recetas;

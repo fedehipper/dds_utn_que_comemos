@@ -1,8 +1,9 @@
 *~
-*.log
+*.log*
 .temp
 .classpath
 .project
+schema.sql
 .settings/
 target/
 bin/

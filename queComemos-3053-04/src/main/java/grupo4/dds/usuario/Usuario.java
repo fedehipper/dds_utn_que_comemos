@@ -3,15 +3,16 @@ package grupo4.dds.usuario;
 import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
+import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RepositorioDeRecetas;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
+import grupo4.dds.repositorios.RepositorioDeSolicitudes;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
-import grupo4.dds.usuario.gestionDePerfiles.Administrador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +22,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class Usuario {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+@Entity
+@Table(name = "Usuarios")
+public class Usuario implements Persistible {
+
+	@Id
+	@GeneratedValue
+	@Column(name = "id_usuario")
+	private long id;	
+	
 	/* Datos basicos */
 	protected String nombre;
 	private Sexo sexo;
@@ -33,15 +53,25 @@ public class Usuario {
 	private float altura;
 
 	/* Otros datos */
-	private Rutina rutina;
-	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
-	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
-	private List<Condicion> condiciones = new ArrayList<>();
+	@OneToMany
 	private List<Receta> recetas = new ArrayList<>();
+	@OneToMany
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
+	@Enumerated
+	private Rutina rutina;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Usuarios_Comidas_Preferidas")
+	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
+	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Condicion> condiciones = new ArrayList<>();
+	@OneToMany
 	private Set<Receta> historial = new HashSet<>();
 	private boolean marcaFavorita;
 	private String mail;
+	@Transient
 	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
 	
 	/* Constructores */
@@ -50,12 +80,24 @@ public class Usuario {
 			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita, String mail) {
 		
 		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
-		Administrador.get().solicitarIncorporación(self);
+		RepositorioDeSolicitudes.get().solicitarIncorporación(self);
+		
 		return self;
 	}
 	
 	public static Usuario crearPerfil(String nombre) {
-		return crearPerfil(nombre, null, null, 0, 0, null, false,null);
+		return crearPerfil(nombre, null, null, 0, 0, null, true, null);	
+	}
+	
+	public static Usuario prototipo(String nombre, List<Condicion> condiciones) {
+		Usuario prototipo = new Usuario();
+		prototipo.nombre = nombre;
+		if(condiciones != null) prototipo.condiciones = condiciones;
+		return prototipo;
+	}
+	
+	public static Usuario prototipo(String nombre) {
+		return prototipo(nombre, null);
 	}
 
 	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso,
@@ -136,7 +178,7 @@ public class Usuario {
 	}
 	
 	public boolean leGusta(String nombreComida) {
-		return preferenciasAlimenticias.contains(new Ingrediente(nombreComida));
+		return preferenciasAlimenticias.contains(Ingrediente.nuevaComida(nombreComida));
 	}
 	
 	public boolean leGusta(Ingrediente comida) {
@@ -185,49 +227,6 @@ public class Usuario {
 	
 	public boolean esMujer() {
 		return Sexo.FEMENINO.equals(sexo);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(altura);
-		result = prime * result + ((fechaNacimiento == null) ? 0 : fechaNacimiento.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + Float.floatToIntBits(peso);
-		result = prime * result + ((rutina == null) ? 0 : rutina.hashCode());
-		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Usuario))
-			return false;
-		Usuario other = (Usuario) obj;
-		if (Float.floatToIntBits(altura) != Float.floatToIntBits(other.altura))
-			return false;
-		if (fechaNacimiento == null) {
-			if (other.fechaNacimiento != null)
-				return false;
-		} else if (!fechaNacimiento.equals(other.fechaNacimiento))
-			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
-				return false;
-		} else if (!nombre.equals(other.nombre))
-			return false;
-		if (Float.floatToIntBits(peso) != Float.floatToIntBits(other.peso))
-			return false;
-		if (rutina != other.rutina)
-			return false;
-		if (sexo != other.sexo)
-			return false;
-		return true;
 	}
 	
 	/* Servicios internos */
@@ -308,14 +307,6 @@ public class Usuario {
 		return Collections.unmodifiableSet(historial);
 	}
 
-	public void solicitudAceptada() {
-		// TODO hacer algo
-	}
-
-	public void solicitudRechazada(String motivo) {
-		// TODO hacer algo
-	}
-
 	// punto 5 entrega 4
 	public boolean marcarFavoritaEstaActivada() {
 		return marcaFavorita;
@@ -347,6 +338,15 @@ public class Usuario {
 	// punto 5 entrega 4
 	public void agregarAccionDeMarcarFavorita(MarcarRecetasFavoritas unaAccion) {
 		this.accionesMarcarRecetasFavoritas.add(unaAccion);
+	}
+
+	public long getId() {
+		return id;
+	}
+	
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 }

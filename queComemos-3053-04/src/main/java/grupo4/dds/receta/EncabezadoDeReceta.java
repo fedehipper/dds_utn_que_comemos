@@ -1,9 +1,11 @@
 package grupo4.dds.receta;
 
+import javax.persistence.Embeddable;
 import queComemos.entrega3.dominio.Dificultad;
 
+@Embeddable
 public class EncabezadoDeReceta {
-
+	
 	protected String nombreDelPlato;
 	protected Temporada temporada;
 	protected int totalCalorias;

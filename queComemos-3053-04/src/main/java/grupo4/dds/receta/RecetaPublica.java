@@ -2,12 +2,19 @@ package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.EsInadecuadaDespuesDeModificar;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("publica")
 public class RecetaPublica extends Receta {
-	
+
 	/* Constructores */
 
 	public RecetaPublica(){}
@@ -16,6 +23,7 @@ public class RecetaPublica extends Receta {
 		RecetaPublica self = new RecetaPublica(encabezado, preparacion);
 		
 		RepositorioDeRecetas.get().agregarReceta(self);
+		
 		return self;
 	}
 
@@ -56,7 +64,10 @@ public class RecetaPublica extends Receta {
 	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {
-		return Receta.crearNueva(usuario, encabezado, ingredientes, condimentos, subrecetas, preparacion);
+		return Receta.crearNueva(usuario, encabezado, 
+				new ArrayList<Ingrediente>(ingredientes), 
+				new ArrayList<Ingrediente>(condimentos), 
+				new ArrayList<Receta>(subrecetas), preparacion);
 	}
 
 }

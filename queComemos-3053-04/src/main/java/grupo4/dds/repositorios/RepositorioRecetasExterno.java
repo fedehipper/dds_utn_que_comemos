@@ -1,7 +1,10 @@
-package grupo4.dds.receta;
+package grupo4.dds.repositorios;
 
+import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.Ingrediente;
+import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.usuario.Usuario;
-import grupo4.dds.usuario.gestionDePerfiles.RepositorioDeUsuarios;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -46,15 +49,12 @@ public class RepositorioRecetasExterno {
 				recetaExterna.getTotalCalorias());
 		
 		List<Ingrediente> ingredientes = recetaExterna.getIngredientes()
-				.stream().map(nombre -> new Ingrediente(nombre))
+				.stream().map(nombre -> Ingrediente.nuevaComida(nombre))
 				.collect(Collectors.toList());
 		
 		Usuario usuario = RepositorioDeUsuarios.get().get(Usuario.crearPerfil(recetaExterna.getAutor()));
 		
-		/*if(usuario == null)
-			Usuario.crearPerfil(recetaExterna.getAutor());*/
-
-		return new Receta(usuario, encabezado, ingredientes, null, null, "");
+		return (new BuilderReceta()).setCreador(usuario).setEncabezado(encabezado).setIngredientes(ingredientes).build();
 	}
 
 }
