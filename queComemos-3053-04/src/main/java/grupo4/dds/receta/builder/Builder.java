@@ -15,7 +15,7 @@ import queComemos.entrega3.dominio.Dificultad;
 public abstract class Builder implements WithGlobalEntityManager {
 
 	protected Receta receta;
-	protected EncabezadoDeReceta encabezado=new EncabezadoDeReceta();
+	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 	
 	public Builder() {
 		receta = receta();
@@ -24,57 +24,77 @@ public abstract class Builder implements WithGlobalEntityManager {
 	
 	protected abstract Receta receta();
 
-	public Builder setCreador(Usuario creador) {
+	public Builder creador(Usuario creador) {
 		receta.setCreador(creador);
 		return this;
 	}
 
-	public Builder setTotalCalorias(int totalCalorias) {
-		encabezado.setTotalCalorias(totalCalorias);
+	public Builder calorias(int calorias) {
+		encabezado.setTotalCalorias(calorias);
 		return this;
 	}
 
-	public Builder setNombreDelPlato(String nombreDelPlato) {
+	public Builder nombre(String nombreDelPlato) {
 		encabezado.setNombreDelPlato(nombreDelPlato);
 		return this;
 	}
 
-	public Builder setTemporada(Temporada temporada) {
+	public Builder temporada(Temporada temporada) {
 		encabezado.setTemporada(temporada);
 		return this;
 	}
 
-	public Builder setDificultad(Dificultad dificultad) {
-		encabezado.setDificultad(dificultad);
+	public Builder facil() {
+		encabezado.setDificultad(Dificultad.FACIL);
+		return this;
+	}
+	
+	public Builder mediana() {
+		encabezado.setDificultad(Dificultad.MEDIANA);
+		return this;
+	}
+	
+	public Builder dificil() {
+		encabezado.setDificultad(Dificultad.DIFICIL);
 		return this;
 	}
 
-	public Builder setIngrediente(Ingrediente unIngrediente) {
+	public Builder ingrediente(Ingrediente unIngrediente) {
 		receta.agregarIngrediente(unIngrediente);
 		return this;
 	}
 	
-	public Builder setIngredientes(List<Ingrediente> ingredientes) {
-		receta.setIngredientes(ingredientes);
+	public Builder ingredientes(List<Ingrediente> ingredientes) {
+		receta.agregarIngredientes(ingredientes);
 		return this;
 	}
 
-	public Builder setCondimento(Ingrediente unCondimento) {
+	public Builder condimento(Ingrediente unCondimento) {
 		receta.agregarCondimento(unCondimento);
 		return this;
 	}
 
-	public Builder setSubreceta(Receta subreceta) {
+	public Builder condimentos(List<Ingrediente> condimentos) {
+		receta.agregarCondimentos(condimentos);
+		return this;
+	}
+
+	public Builder subreceta(List<Receta> subrecetas) {
+		receta.agregarSubrecetas(subrecetas);
+		return this;
+	}
+
+	public Builder subreceta(Receta subreceta) {
 		receta.agregarSubreceta(subreceta);
 		return this;
 	}
 
-	public Builder setPreparacion(String preparacion) {
+	public Builder preparacion(String preparacion) {
 		receta.setPreparacion(preparacion);
 		return this;
 	}
 
-	public Builder setEncabezado(EncabezadoDeReceta encabezado) {
+	public Builder encabezado(EncabezadoDeReceta encabezado) {
 		receta.setEncabezado(encabezado);
 		return this;
 	}

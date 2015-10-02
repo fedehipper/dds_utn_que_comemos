@@ -220,13 +220,25 @@ public class Receta implements WithGlobalEntityManager {
 	public void agregarIngrediente(Ingrediente unIngrediente) {
 		ingredientes.add(unIngrediente);
 	}
+	
+	public void agregarIngredientes(List<Ingrediente> ingredientes) {
+		this.ingredientes.addAll(ingredientes);
+	}
 
 	public void agregarCondimento(Ingrediente unCondimento) {
 		condimentos.add(unCondimento);
 	}
 
+	public void agregarCondimentos(List<Ingrediente> condimentos) {
+		this.condimentos.addAll(condimentos);
+	}
+	
 	public void agregarSubreceta(Receta subreceta) {
 		subrecetas.add(subreceta);
+	}
+	
+	public void agregarSubrecetas(List<Receta> subrecetas) {
+		this.subrecetas.addAll(subrecetas);
 	}
 
 	public String getNombreDelPlato() {
@@ -243,18 +255,6 @@ public class Receta implements WithGlobalEntityManager {
 
 	public void setEncabezado(EncabezadoDeReceta encabezado) {
 		this.encabezado = encabezado;
-	}
-
-	public void setIngredientes(List<Ingrediente> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-
-	public void setCondimentos(List<Ingrediente> condimentos) {
-		this.condimentos = condimentos;
-	}
-
-	public void setSubrecetas(List<Receta> subrecetas) {
-		this.subrecetas = subrecetas;
 	}
 
 	public void setPreparacion(String preparacion) {

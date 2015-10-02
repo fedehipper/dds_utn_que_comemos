@@ -27,14 +27,14 @@ public class TestReceta extends BaseTest {
 	@Test
 	public void testNoEsValidaUnaRecetaSinIngredientes() {
 		try{
-		receta = new BuilderReceta().setTotalCalorias(4500).setNombreDelPlato("Mondongo").build();
+		receta = new BuilderReceta().calorias(4500).nombre("Mondongo").build();
 		}
 		catch(RecetaInvalida e){}
 	}
 	
 	@Test 
 	public void testEsValidaUnaRecetaConIngredientesY4500Calorias() {
-		receta = new BuilderReceta().setTotalCalorias(4500).setIngrediente(Ingrediente.nuevoIngrediente("carne", 0f)).build();
+		receta = new BuilderReceta().calorias(4500).ingrediente(Ingrediente.nuevoIngrediente("carne", 0f)).build();
 		
 		assertTrue(receta.esValida());
 	}
@@ -44,10 +44,10 @@ public class TestReceta extends BaseTest {
 	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() throws NoSePuedeModificarLaReceta {
 		Usuario usuario = Usuario.crearPerfil(null);		
 
-		receta = new BuilderReceta().setCreador(usuario).
-									 setPreparacion("Preparación antes de modificar").
-									 setTotalCalorias(4500).
-									 setIngrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
+		receta = new BuilderReceta().creador(usuario).
+									 preparacion("Preparación antes de modificar").
+									 calorias(4500).
+									 ingrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
 									 build();
 				
 		receta.modificarReceta(usuario, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
@@ -61,10 +61,10 @@ public class TestReceta extends BaseTest {
 		Usuario usuario = Usuario.crearPerfil("unUsuario");		
 		Usuario usuario2 = Usuario.crearPerfil("otroUsuario");		
 		
-		receta = new BuilderReceta().setCreador(usuario).
-									 setPreparacion("Preparación antes de modificar").
-									 setTotalCalorias(4500).
-									 setIngrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
+		receta = new BuilderReceta().creador(usuario).
+									 preparacion("Preparación antes de modificar").
+									 calorias(4500).
+									 ingrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
 									 build();
 				
 		receta.modificarReceta(usuario2, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
@@ -75,9 +75,9 @@ public class TestReceta extends BaseTest {
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta  {
 		Usuario usuario = Usuario.crearPerfil(null);
 		Receta recetaPublica = new BuilderRecetaPublica().
-				setPreparacion("Preparación antes de modificar").
-				setTotalCalorias(400).
-				setIngrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
+				preparacion("Preparación antes de modificar").
+				calorias(400).
+				ingrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
 				build();
 															
 		
@@ -91,9 +91,9 @@ public class TestReceta extends BaseTest {
 	@Test
 	public void testLaPreparacionDeUnaRecetaSinSubrecetasEsLaSuya() {
 
-		receta = new BuilderReceta().setPreparacion("Preparación propia").
-									 setTotalCalorias(400).
-									 setIngrediente(Ingrediente.nuevoIngrediente("test", 0f)).
+		receta = new BuilderReceta().preparacion("Preparación propia").
+									 calorias(400).
+									 ingrediente(Ingrediente.nuevoIngrediente("test", 0f)).
 									 build();
 
 		assertEquals(receta.getPreparacion(), "Preparación propia");
@@ -101,23 +101,23 @@ public class TestReceta extends BaseTest {
 	
 	@Test
 	public void testLaPreparacionDeUnaRecetaEsLaSuyaYlaDeSusSubrecetas() {
-		receta = new BuilderReceta().setPreparacion("Preparación propia\n").
-									 setSubreceta(new BuilderReceta().setPreparacion("Preparación subreceta 1\n").
-											 						  setTotalCalorias(400).
-											 						  setIngrediente(Ingrediente
+		receta = new BuilderReceta().preparacion("Preparación propia\n").
+									 subreceta(new BuilderReceta().preparacion("Preparación subreceta 1\n").
+											 						  calorias(400).
+											 						  ingrediente(Ingrediente
 																			.nuevoIngrediente(
 																					"test",
 																					0f)).
 											 						  build()).
-									 setSubreceta(new BuilderReceta().setPreparacion("Preparación subreceta 2\n").
-											 						  setTotalCalorias(400).
-											 						  setIngrediente(Ingrediente
+									 subreceta(new BuilderReceta().preparacion("Preparación subreceta 2\n").
+											 						  calorias(400).
+											 						  ingrediente(Ingrediente
 																			.nuevoIngrediente(
 																					"test",
 																					0f)).
 											 						  build()).
-									 setTotalCalorias(400).
-									 setIngrediente(Ingrediente.nuevoIngrediente("test", 0f)).
+									 calorias(400).
+									 ingrediente(Ingrediente.nuevoIngrediente("test", 0f)).
 									 build();
 		
 		assertEquals(receta.getPreparacion(), "Preparación propia\nPreparación subreceta 1\nPreparación subreceta 2\n");
@@ -129,7 +129,7 @@ public class TestReceta extends BaseTest {
 		Ingrediente carne = Ingrediente.nuevoIngrediente("carne", 0f);
 		Ingrediente pollo = Ingrediente.nuevoIngrediente("pollo", 0f);
 		
-		receta = new BuilderReceta().setTotalCalorias(400).setIngrediente(carne).setIngrediente(pollo).build();
+		receta = new BuilderReceta().calorias(400).ingrediente(carne).ingrediente(pollo).build();
 		
 		List<Ingrediente> expected = new ArrayList<>();
 		expected.add(carne);
@@ -144,7 +144,7 @@ public class TestReceta extends BaseTest {
 		Ingrediente caldo = Ingrediente.nuevoIngrediente("caldo", 0f);
 		Ingrediente sal = Ingrediente.nuevoIngrediente("sal", 0f);
 		
-		receta = new BuilderReceta().setTotalCalorias(400).setIngrediente(Ingrediente.nuevoIngrediente("carne", 0f)).setCondimento(caldo).setCondimento(sal).build();
+		receta = new BuilderReceta().calorias(400).ingrediente(Ingrediente.nuevoIngrediente("carne", 0f)).condimento(caldo).condimento(sal).build();
 		
 		List<Ingrediente> expected = new ArrayList<>();
 		expected.add(caldo);
@@ -160,11 +160,11 @@ public class TestReceta extends BaseTest {
 		Ingrediente chivito = Ingrediente.nuevoIngrediente("chivito", 0f);
 		Ingrediente chori = Ingrediente.nuevoIngrediente("chori", 0f);
 		
-		receta = new BuilderReceta().setTotalCalorias(400).
-									 setIngrediente(carne).
-									 setIngrediente(pollo).
-									 setSubreceta(new BuilderReceta().setTotalCalorias(400).setIngrediente(chivito).build()).
-									 setSubreceta(new BuilderReceta().setTotalCalorias(400).setIngrediente(chori).build()).
+		receta = new BuilderReceta().calorias(400).
+									 ingrediente(carne).
+									 ingrediente(pollo).
+									 subreceta(new BuilderReceta().calorias(400).ingrediente(chivito).build()).
+									 subreceta(new BuilderReceta().calorias(400).ingrediente(chori).build()).
 									 build();
 			
 		List<Ingrediente> expected = new ArrayList<>();
@@ -185,20 +185,20 @@ public class TestReceta extends BaseTest {
 		Ingrediente pimienta = Ingrediente.nuevoIngrediente("pimienta", 0f);
 		Ingrediente azucar = Ingrediente.nuevoIngrediente("azucar", 0f);
 		
-		receta = new BuilderReceta().setTotalCalorias(400).
-				 setIngrediente(Ingrediente.nuevoIngrediente("carne", 0f)).
-				 setCondimento(azucar).setCondimento(pimienta).
-				 setSubreceta(new BuilderReceta().setTotalCalorias(400).
-						 							setIngrediente(Ingrediente
+		receta = new BuilderReceta().calorias(400).
+				 ingrediente(Ingrediente.nuevoIngrediente("carne", 0f)).
+				 condimento(azucar).condimento(pimienta).
+				 subreceta(new BuilderReceta().calorias(400).
+						 							ingrediente(Ingrediente
 															.nuevoIngrediente(
 																	"carne", 0f)).
-						 							setCondimento(sal).
+						 							condimento(sal).
 						 							build()).
-				 setSubreceta(new BuilderReceta().setTotalCalorias(400).
-						 							setIngrediente(Ingrediente
+				 subreceta(new BuilderReceta().calorias(400).
+						 							ingrediente(Ingrediente
 															.nuevoIngrediente(
 																	"carne", 0f)).
-						 							setCondimento(caldo).
+						 							condimento(caldo).
 						 							build()).
 				 build();
 		
