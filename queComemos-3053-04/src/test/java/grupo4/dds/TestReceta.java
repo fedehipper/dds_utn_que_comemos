@@ -75,12 +75,8 @@ public class TestReceta extends BaseTest {
 	@Test
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta  {
 		Usuario usuario = Usuario.crearPerfil(null);
-		Receta recetaPublica = new BuilderRecetaPublica().
-				preparacion("Preparación antes de modificar").
-				calorias(400).
-				ingrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
-				build();
-															
+		Receta recetaPublica = BuilderRecetaPublica.buildRecetaValida();
+		recetaPublica.setPreparacion("Preparación antes de modificar");
 		
 		usuario.modificarReceta(recetaPublica, recetaPublica.getEncabezado(), recetaPublica.getIngredientes(), null, "Preparación después de modificar", null);
 
