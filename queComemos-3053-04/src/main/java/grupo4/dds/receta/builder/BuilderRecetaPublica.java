@@ -1,6 +1,6 @@
 package grupo4.dds.receta.builder;
 
-import grupo4.dds.excepciones.NoSePuedeSettearCreadorARecetaPublica;
+import grupo4.dds.excepciones.NoSePuedeSetearCreadorARecetaPublica;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -21,8 +21,7 @@ public class BuilderRecetaPublica extends Builder{
 	
 	@Override
 	public Builder creador(Usuario creador) {
-		new NoSePuedeSettearCreadorARecetaPublica();
-		return this;
+		throw new NoSePuedeSetearCreadorARecetaPublica();
 	}
 	
 }

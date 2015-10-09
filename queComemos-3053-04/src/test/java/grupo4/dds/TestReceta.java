@@ -3,6 +3,7 @@ package grupo4.dds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.excepciones.NoSePuedeSetearCreadorARecetaPublica;
 import grupo4.dds.excepciones.RecetaInvalida;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -211,4 +212,10 @@ public class TestReceta extends BaseTest {
 		assertTrue(receta.getCondimentos().containsAll(expected));
 	}
 	
+	@Test
+	public void testNoSePuedeSetearCreadorARecetaPublica() {
+		expectedExcetption.expect(NoSePuedeSetearCreadorARecetaPublica.class);
+
+		new BuilderRecetaPublica().creador(null);
+	}
 }
