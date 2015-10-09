@@ -10,7 +10,6 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
-import grupo4.dds.repositorios.RepositorioDeSolicitudes;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
 
@@ -45,76 +44,35 @@ public class Usuario implements Persistible {
 	
 	/* Datos basicos */
 	protected String nombre;
-	private Sexo sexo;
-	private LocalDate fechaNacimiento;
+	protected Sexo sexo;
+	protected LocalDate fechaNacimiento;
 
 	/* Datos de la complexion */
-	private float peso;
-	private float altura;
+	protected float peso;
+	protected float altura;
 
 	/* Otros datos */
 	@OneToMany
-	private List<Receta> recetas = new ArrayList<>();
+	protected List<Receta> recetas = new ArrayList<>();
 	@OneToMany
-	private Set<GrupoUsuarios> grupos = new HashSet<>();
+	protected Set<GrupoUsuarios> grupos = new HashSet<>();
 	@Enumerated
-	private Rutina rutina;
+	protected Rutina rutina;
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Preferidas")
-	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
+	protected List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
-	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
+	protected List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Condicion> condiciones = new ArrayList<>();
+	protected List<Condicion> condiciones = new ArrayList<>();
 	@OneToMany
-	private Set<Receta> historial = new HashSet<>();
-	private boolean marcaFavorita;
-	private String mail;
+	protected Set<Receta> historial = new HashSet<>();
+	protected boolean marcaFavorita;
+	protected String mail;
 	@Transient
-	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
+	protected List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
 	
-	/* Constructores */
-
-	public static Usuario crearPerfil(String nombre, Sexo sexo,
-			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita, String mail) {
-		
-		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
-		RepositorioDeSolicitudes.get().solicitarIncorporación(self);
-		
-		return self;
-	}
-	
-	public static Usuario crearPerfil(String nombre) {
-		return crearPerfil(nombre, null, null, 0, 0, null, true, null);	
-	}
-	
-	public static Usuario prototipo(String nombre, List<Condicion> condiciones) {
-		Usuario prototipo = new Usuario();
-		prototipo.nombre = nombre;
-		if(condiciones != null) prototipo.condiciones = condiciones;
-		return prototipo;
-	}
-	
-	public static Usuario prototipo(String nombre) {
-		return prototipo(nombre, null);
-	}
-
-	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso,
-			Rutina rutina, boolean marcaFavorita, String mail) {
-		
-		this.setMarcaFavorita(marcaFavorita);
-		this.nombre = nombre;
-		this.fechaNacimiento = fechaNacimiento;
-		this.altura = altura;
-		this.peso = peso;
-		this.rutina = rutina;
-		this.sexo = sexo;
-		this.mail = mail;
-	}
-	
-	protected Usuario() {}
-
 	/* Servicios */
 	
 	public float indiceDeMasaCorporal() {
