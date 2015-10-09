@@ -23,8 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
-import queComemos.entrega3.dominio.Dificultad;
-
 public class TestObserver implements WithGlobalEntityManager {
 	
 	private Receta sopa;
@@ -42,11 +40,11 @@ public class TestObserver implements WithGlobalEntityManager {
 		maria = Usuario.crearPerfil("Maria", Sexo.FEMENINO, null, 1.70f, 65.0f, null, false, null);
 		ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null, 0f, 0f, null, false, null);
 		
-		sopa = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Sopa").setDificultad(Dificultad.FACIL).build();
-		pollo = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(maria).setNombreDelPlato("Pollo").setDificultad(Dificultad.FACIL).build();
-		Receta pure = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Pure").setDificultad(Dificultad.FACIL).build();
-		Receta milanesa = (new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Milanesa").setDificultad(Dificultad.FACIL).build();
-		Receta salmon = (new BuilderReceta().setTotalCalorias(150)).setIngrediente(null).setCreador(ariel).setNombreDelPlato("Salmon").setDificultad(Dificultad.FACIL).build();
+		sopa = (new BuilderReceta()).calorias(150).ingrediente(null).creador(ariel).nombre("Sopa").facil().build();
+		pollo = (new BuilderReceta()).calorias(150).ingrediente(null).creador(maria).nombre("Pollo").facil().build();
+		Receta pure = (new BuilderReceta()).calorias(150).ingrediente(null).creador(ariel).nombre("Pure").facil().build();
+		Receta milanesa = (new BuilderReceta()).calorias(150).ingrediente(null).creador(ariel).nombre("Milanesa").facil().build();
+		Receta salmon = (new BuilderReceta().calorias(150)).ingrediente(null).creador(ariel).nombre("Salmon").facil().build();
 		
 		consulta1 = Arrays.asList(sopa, sopa, pollo, pure, milanesa, pollo, sopa, salmon, pollo, pollo);
 		consulta2 = Arrays.asList(sopa, sopa, sopa, salmon, pollo, pollo);
@@ -74,7 +72,7 @@ public class TestObserver implements WithGlobalEntityManager {
 		
 		CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 		List<Receta> consultaConRecetaDificil = new ArrayList<Receta>(consulta1);
-		consultaConRecetaDificil.add((new BuilderReceta()).setTotalCalorias(150).setIngrediente(null).setCreador(maria).setNombreDelPlato("Ratatouille").setDificultad(Dificultad.DIFICIL).build());
+		consultaConRecetaDificil.add((new BuilderReceta()).calorias(150).ingrediente(null).creador(maria).nombre("Ratatouille").dificil().build());
 		
 		cantidadVeganos.notificarConsulta(consulta1, ariel);
 		ariel.agregarCondicion(new Vegano());

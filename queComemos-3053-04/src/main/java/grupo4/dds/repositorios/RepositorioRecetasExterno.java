@@ -54,7 +54,7 @@ public class RepositorioRecetasExterno {
 		
 		Usuario usuario = RepositorioDeUsuarios.get().get(Usuario.crearPerfil(recetaExterna.getAutor()));
 		
-		return (new BuilderReceta()).setCreador(usuario).setEncabezado(encabezado).setIngredientes(ingredientes).build();
+		return (new BuilderReceta()).creador(usuario).encabezado(encabezado).ingredientes(ingredientes).build();
 	}
 
 }

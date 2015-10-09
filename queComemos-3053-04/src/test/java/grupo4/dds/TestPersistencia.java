@@ -1,6 +1,7 @@
 package grupo4.dds;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.builder.BuilderReceta;
@@ -11,8 +12,6 @@ import grupo4.dds.usuario.Usuario;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import queComemos.entrega3.dominio.Dificultad;
 
 public class TestPersistencia extends BaseTest {
 
@@ -29,11 +28,11 @@ public class TestPersistencia extends BaseTest {
 		ariel = Usuario.crearPerfil("Ariel", Sexo.MASCULINO, null,
 				0f, 0f, null, false, null);	
 		
-		milanesa = (RecetaPublica) (new BuilderRecetaPublica()).setTotalCalorias(150)
-		.setIngrediente(null).setNombreDelPlato("Sopa").setDificultad(Dificultad.FACIL).build();
-		pollo = (new BuilderReceta()).setTotalCalorias(150)
-		.setIngrediente(null).setCreador(maria)
-		.setNombreDelPlato("Pollo").setDificultad(Dificultad.FACIL).build();
+		milanesa = (RecetaPublica) (new BuilderRecetaPublica()).calorias(150)
+		.ingrediente(null).nombre("Sopa").facil().build();
+		pollo = (new BuilderReceta()).calorias(150)
+		.ingrediente(null).creador(maria)
+		.nombre("Pollo").facil().build();
 	}
 	
 	@Test
