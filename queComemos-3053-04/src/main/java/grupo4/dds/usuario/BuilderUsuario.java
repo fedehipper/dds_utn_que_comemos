@@ -9,12 +9,17 @@ import java.util.List;
 
 public class BuilderUsuario {
 
-	private Usuario usuario;
+	private Usuario usuario = new Usuario();
 	
 	public static Usuario prototipo(String nombre, List<Condicion> condiciones) {
+		
 		Usuario prototipo = new Usuario();
+		
 		prototipo.nombre = nombre;
-		if(condiciones != null) prototipo.condiciones = condiciones;
+		
+		if(condiciones != null) 
+			prototipo.condiciones = condiciones;
+		
 		return prototipo;
 	}
 	
