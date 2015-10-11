@@ -4,92 +4,72 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.usuario.GrupoUsuarios;
-import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Vegano;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestGrupoUsuarios extends BaseTest {
 	
-	private GrupoUsuarios grupo;
-	private Usuario fecheSena;
-	private Usuario ariel;
-	private Usuario matias;
-	private Receta receta;
-
-	@Before
-	public void setUp() {
-		
-		grupo = GrupoUsuarios.crearGrupo("grosos");
-		fecheSena = Usuario.crearPerfil("fecheSena");
-		matias = Usuario.crearPerfil("matias");
-		ariel = Usuario.crearPerfil("ariel");
-		receta = Receta.crearNueva();
-		receta.setTotalCalorias(4500);
-	}
-
 	/* Test: @puedeSugerirse/1 */
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnGrupoSiNoContieneAlgunaDeSusPreferencias(){
-		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
-		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
+		milanesa.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
+		milanesa.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
 		
-		grupo.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("fruta", 0f));
-		assertFalse(grupo.puedeSugerirse(receta));
+		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("fruta", 0f));
+		assertFalse(grupo1.puedeSugerirse(milanesa));
 	}
 	
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnGrupoSiNoEsAdecuadaParaTodosSusMiembros(){
-		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
-		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
+		milanesa.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
+		milanesa.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
 
-		ariel.agregarGrupo(grupo);
-		fecheSena.agregarGrupo(grupo);
-		ariel.agregarCondicion(new Celiaco());
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		arielFolino.agregarCondicion(new Celiaco());
 		fecheSena.agregarCondicion(new Vegano());
 		
-		grupo.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("carne", 0f));
+		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("carne", 0f));
 		
-		assertFalse(grupo.puedeSugerirse(receta));
+		assertFalse(grupo1.puedeSugerirse(milanesa));
 	}
 	
 	@Test
 	public void testSePuedeSugerirUnaRecetaAUnGrupo(){
-		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("verdura", 0f));
-		receta.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
+		milanesa.agregarIngrediente(Ingrediente.nuevoIngrediente("verdura", 0f));
+		milanesa.agregarIngrediente(Ingrediente.nuevoIngrediente("pescado", 0f));
 
-		ariel.agregarGrupo(grupo);
-		fecheSena.agregarGrupo(grupo);
-		ariel.agregarCondicion(new Celiaco());
+		arielFolino.agregarGrupo(grupo1);
+		fecheSena.agregarGrupo(grupo1);
+		arielFolino.agregarCondicion(new Celiaco());
 		fecheSena.agregarCondicion(new Vegano());
 		
-		grupo.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("pescado", 0f));
+		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("pescado", 0f));
 		
-		assertTrue(grupo.puedeSugerirse(receta));
+		assertTrue(grupo1.puedeSugerirse(milanesa));
 	}
 	
 	/* Test: @puedeVer/1 */
 	@Test
 	public void testUnGrupoPuedeVerUnaRecetaSiAlgunoDeSusMiembrosLaVe() {
-		receta = Receta.crearNueva(fecheSena, null, "");
+		milanesa = Receta.crearNueva(fecheSena, null, "");
 		
-		grupo.agregarUsuario(matias);
-		grupo.agregarUsuario(ariel);
-		grupo.agregarUsuario(fecheSena);
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
+		grupo1.agregarUsuario(fecheSena);
 
-		assertTrue(grupo.puedeVer(receta));
+		assertTrue(grupo1.puedeVer(milanesa));
 	}
 	
 	@Test
 	public void testUnGrupoNoPuedeVerUnaRecetaSiNingunoDeSusMiembrosLaVe() {
-		receta = Receta.crearNueva(fecheSena, null, null);
+		milanesa = Receta.crearNueva(fecheSena, null, null);
 		
-		grupo.agregarUsuario(matias);
-		grupo.agregarUsuario(ariel);
+		grupo1.agregarUsuario(matiasMartino);
+		grupo1.agregarUsuario(arielFolino);
 
-		assertFalse(grupo.puedeVer(receta));
+		assertFalse(grupo1.puedeVer(milanesa));
 	}
 }
