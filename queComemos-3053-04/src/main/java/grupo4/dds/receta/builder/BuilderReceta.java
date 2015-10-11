@@ -4,11 +4,11 @@ import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 
-public class BuilderReceta extends Builder {
+public class BuilderReceta extends Builder<Receta> {
 	
 	@CoberturaIgnore
 	static public Receta buildRecetaValida() {	
-		Builder builder = new BuilderReceta();
+		BuilderReceta builder = new BuilderReceta();
 		return builder.calorias(10).ingrediente(Ingrediente.nuevoIngrediente("", 0)).build();
 	}
 	
