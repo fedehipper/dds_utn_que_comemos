@@ -349,4 +349,8 @@ public class Usuario implements Persistible {
 		this.id = id;
 	}
 	
+	public List<Receta> getRecetas() {
+		return this.recetas;
+	}
+	
 }
