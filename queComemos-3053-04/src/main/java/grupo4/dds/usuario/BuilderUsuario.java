@@ -47,8 +47,13 @@ public class BuilderUsuario {
 		return this;
 	}
 		
-	public BuilderUsuario sexo(Sexo sexo) {
-		usuario.sexo = sexo;
+	public BuilderUsuario masculino() {
+		usuario.sexo = Sexo.MASCULINO;
+		return this;
+	}
+	
+	public BuilderUsuario femenino() {
+		usuario.sexo = Sexo.FEMENINO;
 		return this;
 	}
 		
