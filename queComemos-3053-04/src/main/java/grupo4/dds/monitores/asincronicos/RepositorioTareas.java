@@ -24,4 +24,8 @@ public class RepositorioTareas {
 		tareasPendientes.forEach(TareaPendiente::ejecutar);
 	}
 
+	public void vaciar() {
+		tareasPendientes.clear();
+	}
+	
 }

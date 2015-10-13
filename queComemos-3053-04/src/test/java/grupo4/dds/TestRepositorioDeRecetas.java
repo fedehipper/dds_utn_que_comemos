@@ -127,8 +127,6 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		
 	}
 	
-	
-	
 	@Test 
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
 		

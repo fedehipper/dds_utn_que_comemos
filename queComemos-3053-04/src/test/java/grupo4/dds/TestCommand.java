@@ -56,6 +56,8 @@ public class TestCommand extends BaseTest {
 			resultadoCon101Recetas.add(milanesa);
 		}
 		
+		repoTareas.vaciar();
+		
 		federicoHipper.setMarcaFavorita(true);
 		mockLogger = new MockLogger(null);		
 		resultadoConsulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
@@ -75,6 +77,7 @@ public class TestCommand extends BaseTest {
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 
 		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		
 		federicoHipper.setMarcaFavorita(false);
 		repoTareas.ejecutarTodas();
 		
@@ -112,19 +115,35 @@ public class TestCommand extends BaseTest {
 		assertEquals(expected.crearMensaje(), mockMailSender.ultimoMail().crearMensaje());
 	}	
 
-//	@Test
-//	public void testEnviarMailEnMailSender(){
-//		Mail otroMail = new Mail();
-//		mailSender.enviarMail(otroMail);
-//		verify(mailSender, times(1)).enviarMail(any(Mail.class));
-//	}
-//	
-//	@Test 
-//	public void testEnviarAMailSender(){
-//		Mail otroMail = Mockito.mock(Mail.class);
-//		otroMail.enviarMail(mailSender);
-//		validateMockitoUsage();
-//	}
+	@Test
+	public void testNoSeEnvianMailsAUsuarioNoSuscriptos() {
+		
+		EnvioPorMail envioPorMail = new EnvioPorMail();
+		envioPorMail.notificarConsulta(fecheSena, resultadoConsulta, parametros);
+		
+		MailSender mockMailSender = new MockMailSender();
+		EMailer.setMailSender(mockMailSender);
+		
+		repoTareas.ejecutarTodas();
+		
+		assertNull(mockMailSender.ultimoMail());
+	}	
+
+/*
+	@Test
+	public void testEnviarMailEnMailSender(){
+		Mail otroMail = new Mail();
+		mailSender.enviarMail(otroMail);
+		verify(mailSender, times(1)).enviarMail(any(Mail.class));
+	}
+	
+	@Test 
+	public void testEnviarAMailSender(){
+		Mail otroMail = Mockito.mock(Mail.class);
+		otroMail.enviarMail(mailSender);
+		validateMockitoUsage();
+	}
+*/
 	
 	@Test
 	public void testNoLoggeaConsultasConMenosDe100Resultados(){

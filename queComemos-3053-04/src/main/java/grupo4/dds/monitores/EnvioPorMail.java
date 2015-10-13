@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 public class EnvioPorMail extends MonitorAsincronico {
 	
-	private List<Usuario> suscriptos = new ArrayList<Usuario>();
+	public List<Usuario> suscriptos = new ArrayList<Usuario>();
 	
 	public void suscribir(Usuario usuario) {
 		suscriptos.add(usuario);
