@@ -41,7 +41,7 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 		cantidadHoras.notificarConsulta(null, consulta1, null);
 		cantidadHoras.notificarConsulta(null, consulta1, null);
 
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 3);
+		assertEquals(3, cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()));
 	}
 
 	@Test

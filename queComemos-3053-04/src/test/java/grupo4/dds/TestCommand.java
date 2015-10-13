@@ -2,19 +2,19 @@ package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.validateMockitoUsage;
-import static org.mockito.Mockito.verify;
+import grupo4.dds.monitores.EnvioPorMail;
 import grupo4.dds.monitores.LoggeoConsultas;
 import grupo4.dds.monitores.MarcarFavoritas;
+import grupo4.dds.monitores.asincronicos.RepositorioTareas;
+import grupo4.dds.monitores.asincronicos.mail.EMailer;
 import grupo4.dds.monitores.asincronicos.mail.Mail;
+import grupo4.dds.monitores.asincronicos.mail.MailSender;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.busqueda.filtros.FiltroExcesoCalorias;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
-import grupo4.dds.repositorios.RepositorioDeRecetas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,171 +23,135 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class TestCommand extends BaseTest {
 		
-	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
+	private RepositorioTareas repoTareas = RepositorioTareas.instance();
 	
-	private List<Receta> respuestaCon101Recetas = new ArrayList<>();
-	private List<Receta> consulta= new ArrayList<>();
-	private List<Filtro> filtros =  new ArrayList<>();
+	private List<Receta> resultadoConsulta = new ArrayList<>();
+	private List<Receta> resultadoCon101Recetas = new ArrayList<>();
+	private List<Filtro> parametros =  new ArrayList<>();
 	
-	private MailSenderPosta mailSender = Mockito.mock(MailSenderPosta.class);
 	private MockLogger mockLogger;
 	
 	private class MockLogger extends Logger {
-		
-		protected MockLogger(String name) {
-			super(name);
-		}
-		
-		@Override
-		public
-		boolean isInfoEnabled() {
-			return true;			
-		}
-		
-		String logMessage = null;
 		boolean seRegistroElLog = false;
 		
-		@Override
-		public void info(Object logMessage) {
-			this.logMessage = (String) logMessage;			
-		}
+		protected MockLogger(String name) {	super(name); }
+		public boolean isInfoEnabled() { return true; }
+		public void info(Object logMessage) { seRegistroElLog = true; }
+	}
+
+	private class MockMailSender implements MailSender {
+		Mail mail;
+		
+		public void enviarMail(Mail mail) { this.mail = mail; }
+		public Mail ultimoMail() { return mail; }
 	}
 	
 	@Before
 	public void setUp() {
 		
 		for(int i = 0; i<110;i++) {
-			respuestaCon101Recetas.add(milanesa);
+			resultadoCon101Recetas.add(milanesa);
 		}
 		
 		federicoHipper.setMarcaFavorita(true);
 		mockLogger = new MockLogger(null);		
-		consulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
+		resultadoConsulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
+		parametros = Arrays.asList(new FiltroNoLeGusta(), new FiltroExcesoCalorias());
 	}
 
 	@Test
 	public void testMarcarComoFavoritaATodasLasRecetas() {
-		MarcarFavoritas marcarFavoritas = new MarcarFavoritas(consulta);
-		marcarFavoritas.ejecutar(federicoHipper);
-		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+		
+		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		repoTareas.ejecutarTodas();
+		
+		assertTrue(federicoHipper.getHistorial().containsAll(resultadoConsulta));
 	}
 	
 	@Test
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 
-		MarcarFavoritas marcarFavoritas = new MarcarFavoritas(consulta);
-		fecheSena.setMarcaFavorita(false);
-
-		marcarFavoritas.ejecutar(fecheSena);
-		assertTrue(fecheSena.getHistorial().isEmpty());
-	}
-	
-	@Test
-	public void testEjecutarCommandMarcarComoFavoritasATodasLasRecetas() {
-		repositorio.agregarAcciones(federicoHipper, consulta, null);
-		federicoHipper.ejecutarMarcadoPendiente();
-		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		federicoHipper.setMarcaFavorita(false);
+		repoTareas.ejecutarTodas();
+		
+		assertTrue(federicoHipper.getHistorial().isEmpty());
 	}
 	
 	@Test
 	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
+		
 		federicoHipper.marcarFavorita(pollo);
-		repositorio.agregarAcciones(federicoHipper, consulta, null);
-		federicoHipper.ejecutarMarcadoPendiente();
-		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
+		
+		assertEqualsList(Arrays.asList(pollo), federicoHipper.getHistorial());
+		
+		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		repoTareas.ejecutarTodas();
+		
+		assertEqualsList(resultadoConsulta, federicoHipper.getHistorial());
 	}
 	
 	@Test
 	public void testAgregarEnvioDeMailEnMailPendientesEnRepositorioDeReceta() {
-		CommandMailSender accionMail = new CommandMailSender(fecheSena, consulta, null);
-		repositorio.agregarEnvioMail(accionMail);
-		assertTrue(repositorio.getMailPendientes().contains(accionMail));
+		
+		EnvioPorMail envioPorMail = new EnvioPorMail();
+		envioPorMail.suscribir(federicoHipper);
+		envioPorMail.notificarConsulta(federicoHipper, resultadoConsulta, parametros);
+		
+		MailSender mockMailSender = new MockMailSender();
+		EMailer.setMailSender(mockMailSender);
+		
+		assertNull(mockMailSender.ultimoMail());
+		
+		repoTareas.ejecutarTodas();
+		
+		Mail expected = new Mail(federicoHipper, resultadoConsulta, parametros);
+		assertEquals(expected.crearMensaje(), mockMailSender.ultimoMail().crearMensaje());
 	}	
 
-	
-	@Test (expected = RuntimeException.class)
-	public void testNoCreaMensajeMailConFiltrosNulos() {
-		Mail mail = new Mail(fecheSena, consulta, null);
-		mail.crearMensaje();	
-	}
-	
-	@Test (expected = RuntimeException.class)
-	public void testNoCreaMensajeMailConConsultaNula() {
-		Mail mail = new Mail(fecheSena, null, filtros);
-		mail.crearMensaje();
-		
-	}
-	
-	@Test (expected = RuntimeException.class)
-	public void testNoCreaMensajeMailConUsuarioNulo() {
-		Mail mail = new Mail(null, consulta, filtros);
-		mail.crearMensaje();
-		
-	}
-	
-	@Test
-	public void testCrearMensajeEnMail(){
-		filtros.add(new FiltroNoLeGusta());	
-		Mail mail = new Mail(fecheSena, consulta, filtros );
-		assertTrue(!(mail.crearMensaje().isEmpty()));
-		
-	}
-	
-	@Test
-	public void testEnviarMailAMailSenderConMensaje(){
-		Mail otroMail= Mockito.mock(Mail.class);
-		otroMail.crearMensaje();
-		//otroMail.enviarMail(mailSender);
-		doNothing().when(otroMail).enviarMail(mailSender);
-		
-	}	
-	
-	/* Mockito que acciona envio de mail */
-	@Test
-	public void testEnviarMailEnMailSender(){
-		Mail otroMail = new Mail();
-		mailSender.enviarMail(otroMail);
-		verify(mailSender, times(1)).enviarMail(any(Mail.class));
-	}
-	
-	/* Mockito para preparar Mail en Mailsender*/
-	@Test 
-	public void testEnviarAMailSender(){
-		Mail otroMail = Mockito.mock(Mail.class);
-		otroMail.enviarMail(mailSender);
-		validateMockitoUsage();
-	}
-	
-	@Test
-	public void testEjecutarCommandMailSender(){
-		CommandMailSender commandMail = new CommandMailSender(fecheSena, consulta, null);
-		commandMail.ejecutar(fecheSena);
-		validateMockitoUsage();
-		
-	}	
+//	@Test
+//	public void testEnviarMailEnMailSender(){
+//		Mail otroMail = new Mail();
+//		mailSender.enviarMail(otroMail);
+//		verify(mailSender, times(1)).enviarMail(any(Mail.class));
+//	}
+//	
+//	@Test 
+//	public void testEnviarAMailSender(){
+//		Mail otroMail = Mockito.mock(Mail.class);
+//		otroMail.enviarMail(mailSender);
+//		validateMockitoUsage();
+//	}
 	
 	@Test
 	public void testNoLoggeaConsultasConMenosDe100Resultados(){
 				
-		LoggeoConsultas logs = new LoggeoConsultas(respuestaCon101Recetas.subList(0, 98));		
-		logs.setLogger(mockLogger);
+		LoggeoConsultas loggeoConsultas = new LoggeoConsultas();
+		loggeoConsultas.setLogger(mockLogger);
+		loggeoConsultas.notificarConsulta(federicoHipper, resultadoCon101Recetas.subList(0, 98), null);		
 		
-		logs.ejecutar(null);
+		assertFalse(mockLogger.seRegistroElLog);
+		
+		repoTareas.ejecutarTodas();
+		
 		assertFalse(mockLogger.seRegistroElLog);
 	}
 	
 	@Test
 	public void testLoggeaConsultasConMasDe100Resultados(){
 
-		LoggeoConsultas logs = new LoggeoConsultas(respuestaCon101Recetas);	
-		logs.setLogger(mockLogger);
+		LoggeoConsultas loggeoConsultas = new LoggeoConsultas();
+		loggeoConsultas.setLogger(mockLogger);
+		loggeoConsultas.notificarConsulta(federicoHipper, resultadoCon101Recetas, null);		
 		
-		logs.ejecutar(null);
-		assertEquals("Consultas Con Mas De 100 Resultados", mockLogger.logMessage);
+		assertFalse(mockLogger.seRegistroElLog);
+		
+		repoTareas.ejecutarTodas();
+		
+		assertTrue(mockLogger.seRegistroElLog);
 	}
     
 }

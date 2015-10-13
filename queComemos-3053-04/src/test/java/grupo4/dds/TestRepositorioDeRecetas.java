@@ -3,6 +3,8 @@ package grupo4.dds;
 import static org.junit.Assert.*;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
+import grupo4.dds.monitores.MarcarFavoritas;
+import grupo4.dds.monitores.asincronicos.RepositorioTareas;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -125,14 +127,19 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		
 	}
 	
+	
+	
 	@Test 
 	public void testMarcarFavoritasLasRecetasConsultadasParaUnUsuario() {
 		
 		consulta = Arrays.asList(salmon, lomito, coliflor);
 		
+		repositorio.agregarMonitor(new MarcarFavoritas());
+		
 		maria.setMarcaFavorita(true);
 		RepositorioDeRecetas.get().listarRecetasPara(maria, null, null);
-		maria.ejecutarMarcadoPendiente();
+
+		RepositorioTareas.instance().ejecutarTodas();
 		
 		assertTrue(maria.getHistorial().containsAll(consulta));
 	}
