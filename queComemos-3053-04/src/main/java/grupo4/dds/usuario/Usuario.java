@@ -1,6 +1,5 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.command.MarcarRecetasFavoritas;
 import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
 import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
 import grupo4.dds.persistencia.Persistible;
@@ -32,7 +31,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Usuarios")
@@ -53,12 +51,16 @@ public class Usuario implements Persistible {
 	private float altura;
 
 	/* Otros datos */
+	@Enumerated
+	private Rutina rutina;
+	private String mail;
+	private boolean marcaFavorita;
+	
 	@OneToMany
 	private List<Receta> recetas = new ArrayList<>();
 	@OneToMany
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
-	@Enumerated
-	private Rutina rutina;
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Preferidas")
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
@@ -69,10 +71,6 @@ public class Usuario implements Persistible {
 	private List<Condicion> condiciones = new ArrayList<>();
 	@OneToMany
 	private Set<Receta> historial = new HashSet<>();
-	private boolean marcaFavorita;
-	private String mail;
-	@Transient
-	private List<MarcarRecetasFavoritas> accionesMarcarRecetasFavoritas = new ArrayList<>();
 	
 	/* Constructores */
 
@@ -229,6 +227,18 @@ public class Usuario implements Persistible {
 		return Sexo.FEMENINO.equals(sexo);
 	}
 	
+	public void marcarFavorita(Receta receta) {
+		
+		if(!puedeVer(receta))
+			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
+		
+		historial.add(receta);
+	}
+	
+	public void marcarFavoritas(List<Receta> consulta) {
+		consulta.forEach(r -> marcarFavorita(r));
+	}
+	
 	/* Servicios internos */
 	
 	private boolean tieneCamposObligatorios() {
@@ -285,6 +295,19 @@ public class Usuario implements Persistible {
 		return mail;
 	}
 
+	public Set<Receta> getHistorial() {
+		return Collections.unmodifiableSet(historial);
+	}
+
+	public boolean getMarcaFavorita() {
+		return marcaFavorita;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
+	
 	public void agregarCondicion(Condicion condicion) {
 		this.condiciones.add(condicion);
 	}
@@ -303,47 +326,9 @@ public class Usuario implements Persistible {
 			grupo.agregarUsuario(this);
 	}
 	
-	public Set<Receta> getHistorial() {
-		return Collections.unmodifiableSet(historial);
-	}
-
-	// punto 5 entrega 4
-	public boolean marcarFavoritaEstaActivada() {
-		return marcaFavorita;
-	}
-
-	// punto 5 entrega 4
 	public void setMarcaFavorita(boolean marcaFavorita) {
 		this.marcaFavorita = marcaFavorita;
 	}
-
-	// punto 5 entrega 4
-	public void marcarFavorita(Receta receta) {
-		if(!puedeVer(receta))
-			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
-		historial.add(receta);
-	}
-	
-	// punto 5 entrega 4
-	public void marcarRecetasComoFavoritas(List<Receta> consulta) {
-		consulta.forEach(r -> marcarFavorita(r));
-	}
-	
-	// punto 5 entrega 4
-	public void ejecutarMarcadoPendiente() {
-		this.accionesMarcarRecetasFavoritas.forEach(a -> a.ejecutar(this));
-		this.accionesMarcarRecetasFavoritas.clear();
-	}
-	
-	// punto 5 entrega 4
-	public void agregarAccionDeMarcarFavorita(MarcarRecetasFavoritas unaAccion) {
-		this.accionesMarcarRecetasFavoritas.add(unaAccion);
-	}
-
-	public long getId() {
-		return id;
-	}
-	
 
 	public void setId(long id) {
 		this.id = id;
