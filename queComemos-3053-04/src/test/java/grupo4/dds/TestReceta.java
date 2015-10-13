@@ -9,7 +9,6 @@ import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.receta.builder.BuilderRecetaPublica;
-import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,8 @@ public class TestReceta extends BaseTest {
 	/* Test: @esValida/0 */
 	@Test
 	public void testNoEsValidaUnaRecetaSinIngredientes() {
-		try{
+		expectedExcetption.expect(RecetaInvalida.class);
 		receta = new BuilderReceta().calorias(4500).nombre("Mondongo").build();
-		}
-		catch(RecetaInvalida e){}
 	}
 	
 	@Test 
@@ -42,46 +39,32 @@ public class TestReceta extends BaseTest {
 	
 	/* Test: @modificarReceta/6 */
 	@Test
-	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() throws NoSePuedeModificarLaReceta {
-		Usuario usuario = Usuario.crearPerfil(null);		
-
-		receta = new BuilderReceta().creador(usuario).
-									 preparacion("Preparación antes de modificar").
-									 calorias(4500).
-									 ingrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
-									 build();
+	public void testPuedeModificarseUnaRecetaConElUsuarioQueLaCreo() {
+		milanesa.setPreparacion("Preparación antes de modificar");
 				
-		receta.modificarReceta(usuario, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
-		assertEquals(receta.getPreparacion(),"Preparación después de modificar");
+		milanesa.modificarReceta(fecheSena, milanesa.getEncabezado(), milanesa.getIngredientes(), null, "Preparación después de modificar", null);
+		assertEquals(milanesa.getPreparacion(),"Preparación después de modificar");
 	}
 	
 	@Test
 	public void testNoPuedeModificarseUnaRecetaConUnUsuarioQueNoLaCreo() {
 		expectedExcetption.expect(NoSePuedeModificarLaReceta.class);
 		
-		Usuario usuario = Usuario.crearPerfil("unUsuario");		
-		Usuario usuario2 = Usuario.crearPerfil("otroUsuario");		
+		milanesa.setPreparacion("Preparación antes de modificar");
+		milanesa.modificarReceta(matiasMartino, milanesa.getEncabezado(), milanesa.getIngredientes(), null, "Preparación después de modificar", null);
 		
-		receta = new BuilderReceta().creador(usuario).
-									 preparacion("Preparación antes de modificar").
-									 calorias(4500).
-									 ingrediente(Ingrediente.nuevoIngrediente("frutas", 0f)).
-									 build();
-				
-		receta.modificarReceta(usuario2, receta.getEncabezado(), receta.getIngredientes(), null, "Preparación después de modificar", null);
-		assertEquals(receta.getPreparacion(), "Preparación después de modificar");
+		assertEquals(milanesa.getPreparacion(), "Preparación después de modificar");
 	}
 	
 	@Test
-	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() throws NoSePuedeModificarLaReceta  {
-		Usuario usuario = Usuario.crearPerfil(null);
+	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() {
 		Receta recetaPublica = BuilderRecetaPublica.buildRecetaValida();
 		recetaPublica.setPreparacion("Preparación antes de modificar");
 		
-		usuario.modificarReceta(recetaPublica, recetaPublica.getEncabezado(), recetaPublica.getIngredientes(), null, "Preparación después de modificar", null);
+		federicoHipper.modificarReceta(recetaPublica, recetaPublica.getEncabezado(), recetaPublica.getIngredientes(), null, "Preparación después de modificar", null);
 
 		assertEquals(recetaPublica.getPreparacion(), "Preparación antes de modificar");
-		assertEquals(usuario.recetaMasReciente().getPreparacion(), "Preparación después de modificar");
+		assertEquals(federicoHipper.recetaMasReciente().getPreparacion(), "Preparación después de modificar");
 	}
 	
 	/* Test: @getPreparacion */

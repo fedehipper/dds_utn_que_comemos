@@ -12,30 +12,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class TestAdministrador extends BaseTest {
 
-	private Usuario usuario;
-	
-	@Before
-	public void setUp() {
-		usuario = Usuario.crearPerfil("USUARIO");
-	}
-	
 	@Test
 	public void testAprobarSolicitud() {
-		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(usuario);
+		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(fecheSena);
 		
 		RepositorioDeSolicitudes.get().aprobar(solicitud);
 		assertTrue(solicitud.estado());
-		assertNotNull(RepositorioDeUsuarios.get().get(usuario));
+		assertNotNull(RepositorioDeUsuarios.get().get(fecheSena));
 	}
 
 	@Test
 	public void testRechazarSolicitud() {
-		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(usuario);
+		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(arielFolino);
 		
 		RepositorioDeSolicitudes.get().rechazar(solicitud, "por mockoso");
 		assertFalse(solicitud.estado());
@@ -43,15 +35,11 @@ public class TestAdministrador extends BaseTest {
 	
 	@Test
 	public void testVerSolicitudesPendientes() {
-		Usuario usuario1 = Usuario.crearPerfil("usuario1");
-		Usuario usuario2 = Usuario.crearPerfil("usuario2");
-		Usuario usuario3 = Usuario.crearPerfil("usuario3");
-		
-		List<Usuario> expected = Arrays.asList(usuario, usuario1, usuario2, usuario3);
+		List<Usuario> expected = Arrays.asList(maria, fecheSena, arielFolino, matiasMartino, federicoHipper, cristianMaldonado);
 		List<Usuario> solicitudesPendientes = 
 				RepositorioDeSolicitudes.get().solicitudesPendientes().stream().
 				map(s -> s.getUsuario()).collect(Collectors.toList());
-
-		assertTrue(solicitudesPendientes.containsAll(expected) && solicitudesPendientes.size() == 4);
+		
+		assertTrue(solicitudesPendientes.containsAll(expected) && solicitudesPendientes.size() == expected.size());
 	}
 }

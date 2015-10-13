@@ -4,6 +4,7 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.builder.BuilderReceta;
+import grupo4.dds.usuario.BuilderUsuario;
 import grupo4.dds.usuario.Usuario;
 
 import java.lang.reflect.Type;
@@ -52,7 +53,7 @@ public class RepositorioRecetasExterno {
 				.stream().map(nombre -> Ingrediente.nuevaComida(nombre))
 				.collect(Collectors.toList());
 		
-		Usuario usuario = RepositorioDeUsuarios.get().get(Usuario.crearPerfil(recetaExterna.getAutor()));
+		Usuario usuario = RepositorioDeUsuarios.get().get(BuilderUsuario.prototipo(recetaExterna.getAutor()));
 		
 		return (new BuilderReceta()).creador(usuario).encabezado(encabezado).ingredientes(ingredientes).build();
 	}

@@ -13,13 +13,10 @@ import grupo4.dds.command.LoguearConsultas;
 import grupo4.dds.command.Mail;
 import grupo4.dds.command.MailSenderPosta;
 import grupo4.dds.command.MarcarRecetasFavoritas;
-import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
-import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,28 +27,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import queComemos.entrega3.dominio.Dificultad;
-
 public class TestCommand extends BaseTest {
 		
-	private Usuario federicoHipper;
-	private Usuario fecheSena;
 	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
 	
-	private Receta receta2;
-	private Receta receta3;
-	private RecetaPublica receta6;
-	private RecetaPublica receta7;
-	private RecetaPublica receta8;
-	
 	private List<Receta> respuestaCon101Recetas = new ArrayList<>();
-	private Receta receta;
-	
-	private List<Receta> consulta= new ArrayList<Receta>();
-	
+	private List<Receta> consulta= new ArrayList<>();
 	private List<Filtro> filtros =  new ArrayList<>();
+	
 	private MailSenderPosta mailSender = Mockito.mock(MailSenderPosta.class);
-
 	private MockLogger mockLogger;
 	
 	private class MockLogger extends Logger {
@@ -77,21 +61,14 @@ public class TestCommand extends BaseTest {
 	
 	@Before
 	public void setUp() {
-		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.91f, 99.0f, null, false, "fesena92@gmail.com");
-		federicoHipper = Usuario.crearPerfil("Federico Hipperdinger", null, null, 1.91f, 99.0f, null, true, null);
-		receta2 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta2", null, Dificultad.DIFICIL, 300), null);
-		receta3 = Receta.crearNueva(federicoHipper, new EncabezadoDeReceta("receta3", null, null, 600), null);
-		receta6 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta6", null, null, 200), null);
-		receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta7", null, null, 300), null);
-		receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("receta8", null, null, 100), null);
 		
-		for(int i = 0; i<110;i++){
-			respuestaCon101Recetas.add(receta);
+		for(int i = 0; i<110;i++) {
+			respuestaCon101Recetas.add(milanesa);
 		}
 		
-		mockLogger = new MockLogger(null);
-		
-		consulta = Arrays.asList(receta2, receta3, receta6, receta7, receta8);
+		federicoHipper.setMarcaFavorita(true);
+		mockLogger = new MockLogger(null);		
+		consulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
 	}
 
 	@Test
@@ -104,6 +81,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
+		fecheSena.setMarcaFavorita(false);
 		marcarFavoritas.ejecutar(fecheSena);
 		assertTrue(fecheSena.getHistorial().isEmpty());
 	}
@@ -117,7 +95,7 @@ public class TestCommand extends BaseTest {
 	
 	@Test
 	public void testNoHayEfectoEnMarcarUnaRecetaQueYaEstaComoFavorita() {
-		federicoHipper.marcarFavorita(receta2);
+		federicoHipper.marcarFavorita(pollo);
 		repositorio.agregarAcciones(federicoHipper, consulta, null);
 		federicoHipper.ejecutarMarcadoPendiente();
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
