@@ -155,8 +155,8 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		filtros.add(new FiltroNoLeGusta());	
 		arielFolino.agregarCondicion(new Vegano());
 		
-		RepositorioDeRecetas.get().setMonitor(cantidadHoras);
-		RepositorioDeRecetas.get().setMonitor(cantidadVeganos);
+		RepositorioDeRecetas.get().agregarMonitor(cantidadHoras);
+		RepositorioDeRecetas.get().agregarMonitor(cantidadVeganos);
 				
 		RepositorioDeRecetas.get().listarRecetasPara(arielFolino, filtros , null);
 		RepositorioDeRecetas.get().listarRecetasPara(federicoHipper, filtros , null);

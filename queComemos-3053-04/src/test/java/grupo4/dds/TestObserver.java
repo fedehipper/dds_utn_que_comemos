@@ -60,9 +60,9 @@ public class TestObserver implements WithGlobalEntityManager {
 		
 		CantidadDeHoras cantidadHoras = new CantidadDeHoras();
 		
-		cantidadHoras.notificarConsulta(consulta1, null);
-		cantidadHoras.notificarConsulta(consulta1, null);
-		cantidadHoras.notificarConsulta(consulta1, null);
+		cantidadHoras.notificarConsulta(null, consulta1, null);
+		cantidadHoras.notificarConsulta(null, consulta1, null);
+		cantidadHoras.notificarConsulta(null, consulta1, null);
 
 		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 3);
 	}
@@ -74,14 +74,14 @@ public class TestObserver implements WithGlobalEntityManager {
 		List<Receta> consultaConRecetaDificil = new ArrayList<Receta>(consulta1);
 		consultaConRecetaDificil.add((new BuilderReceta()).calorias(150).ingrediente(null).creador(maria).nombre("Ratatouille").dificil().build());
 		
-		cantidadVeganos.notificarConsulta(consulta1, ariel);
+		cantidadVeganos.notificarConsulta(ariel, consulta1, null);
 		ariel.agregarCondicion(new Vegano());
-		cantidadVeganos.notificarConsulta(consulta1, ariel);
-		cantidadVeganos.notificarConsulta(consulta1, maria);
-		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, ariel);
-		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, ariel);
+		cantidadVeganos.notificarConsulta(ariel, consulta1, null);
+		cantidadVeganos.notificarConsulta(maria, consulta1, null);
+		cantidadVeganos.notificarConsulta(ariel, consultaConRecetaDificil, null);
+		cantidadVeganos.notificarConsulta(ariel, consultaConRecetaDificil, null);
 		maria.agregarCondicion(new Vegano());
-		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, maria);
+		cantidadVeganos.notificarConsulta(maria, consultaConRecetaDificil, null);
 		
 		assertEquals(3, cantidadVeganos.getContadorDeVeganos());		
 	}
@@ -90,7 +90,7 @@ public class TestObserver implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadas() {
 
 		RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
-		recetasMasConsultadas.notificarConsulta(consulta1, null);
+		recetasMasConsultadas.notificarConsulta(null, consulta1, null);
 		
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadas(1).keySet();
 		assertTrue(masConsultadas.contains(pollo));
@@ -100,7 +100,7 @@ public class TestObserver implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadasPorHombres() {
 		
 		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
-		recetasMasConsultadas.notificarConsulta(consulta1, ariel);
+		recetasMasConsultadas.notificarConsulta(ariel, consulta1, null);
 
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.MASCULINO, 1).keySet();
 		assertTrue(masConsultadas.contains(pollo));
@@ -110,7 +110,7 @@ public class TestObserver implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadasPorMujeres() {
 		
 		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
-		recetasMasConsultadas.notificarConsulta(consulta2, maria);
+		recetasMasConsultadas.notificarConsulta(maria, consulta2, null);
 		
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.FEMENINO, 1).keySet();
 		assertTrue(masConsultadas.contains(sopa));

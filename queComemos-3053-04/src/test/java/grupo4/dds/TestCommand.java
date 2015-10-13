@@ -9,10 +9,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
 import grupo4.dds.command.CommandMailSender;
-import grupo4.dds.command.LoguearConsultas;
-import grupo4.dds.command.Mail;
-import grupo4.dds.command.MailSenderPosta;
-import grupo4.dds.command.MarcarRecetasFavoritas;
+import grupo4.dds.monitores.LoggeoConsultas;
+import grupo4.dds.monitores.MarcarFavoritas;
+import grupo4.dds.monitores.asincronicos.mail.Mail;
+import grupo4.dds.monitores.asincronicos.mail.MailSenderPosta;
 import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
@@ -96,14 +96,14 @@ public class TestCommand extends BaseTest {
 
 	@Test
 	public void testMarcarComoFavoritaATodasLasRecetas() {
-		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
+		MarcarFavoritas marcarFavoritas = new MarcarFavoritas(consulta);
 		marcarFavoritas.ejecutar(federicoHipper);
 		assertTrue(federicoHipper.getHistorial().containsAll(consulta));
 	}
 	
 	@Test
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
-		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
+		MarcarFavoritas marcarFavoritas = new MarcarFavoritas(consulta);
 		marcarFavoritas.ejecutar(fecheSena);
 		assertTrue(fecheSena.getHistorial().isEmpty());
 	}
@@ -195,7 +195,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoLoggeaConsultasConMenosDe100Resultados(){
 				
-		LoguearConsultas logs = new LoguearConsultas(respuestaCon101Recetas.subList(0, 98));		
+		LoggeoConsultas logs = new LoggeoConsultas(respuestaCon101Recetas.subList(0, 98));		
 		logs.setLogger(mockLogger);
 		
 		logs.ejecutar(null);
@@ -205,7 +205,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testLoggeaConsultasConMasDe100Resultados(){
 
-		LoguearConsultas logs = new LoguearConsultas(respuestaCon101Recetas);	
+		LoggeoConsultas logs = new LoggeoConsultas(respuestaCon101Recetas);	
 		logs.setLogger(mockLogger);
 		
 		logs.ejecutar(null);
