@@ -53,8 +53,11 @@ public class Usuario implements Persistible {
 	private float altura;
 
 	/* Otros datos */
-	@OneToMany
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Receta> recetas = new ArrayList<>();
+	
+	
 	@OneToMany
 	private Set<GrupoUsuarios> grupos = new HashSet<>();
 	@Enumerated

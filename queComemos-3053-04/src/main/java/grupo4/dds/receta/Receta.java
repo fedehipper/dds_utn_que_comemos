@@ -43,6 +43,7 @@ public class Receta implements WithGlobalEntityManager {
     @Transient
 	protected Usuario creador;
 
+   
 	/* Encabezado de la receta */
 	@Embedded
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();

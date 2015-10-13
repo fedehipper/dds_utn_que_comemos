@@ -15,5 +15,4 @@ public abstract class BaseTest implements WithGlobalEntityManager {
 	public void baseTierDown() {
 		entityManager().getTransaction().rollback();
 	}
-	
 }
