@@ -81,6 +81,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 		MarcarRecetasFavoritas marcarFavoritas = new MarcarRecetasFavoritas(consulta);
+		fecheSena.setMarcaFavorita(false);
 		marcarFavoritas.ejecutar(fecheSena);
 		assertTrue(fecheSena.getHistorial().isEmpty());
 	}

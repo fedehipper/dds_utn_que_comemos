@@ -66,9 +66,7 @@ public class TestRepositorioDeUsuarios extends BaseTest {
 	public void testListarVeganosYCeliacos() {
 		List<Usuario> expected = Arrays.asList(jorgeMartin, matiasMartino);
 		
-		Usuario prototipo = BuilderUsuario.prototipo("Martin");
-		prototipo.agregarCondicion(new Vegano());
-		prototipo.agregarCondicion(new Diabetico());
+		Usuario prototipo = BuilderUsuario.prototipo("Martin", Arrays.asList(new Vegano(), new Diabetico()));
 		assertEqualsList(expected, repositorio.list(prototipo));
 	}
 	

@@ -1,7 +1,6 @@
 package grupo4.dds;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.receta.Ingrediente;
@@ -106,7 +105,6 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		Ordenar procesamiento = new Ordenar((a,b) -> a.getTotalCalorias() - b.getTotalCalorias());
 		
 		expected = Arrays.asList(sopa, lomito, milanesa);
-		System.out.println(repositorio.listarRecetasPara(fecheSena, filtros, procesamiento));
 		assertTrue(expected.containsAll(repositorio.listarRecetasPara(fecheSena, filtros, procesamiento)));
 	}
 	
@@ -122,8 +120,8 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		RepositorioDeRecetas.get().listarRecetasPara(arielFolino, filtros , null);
 		RepositorioDeRecetas.get().listarRecetasPara(federicoHipper, filtros , null);
 		
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 2);
-		assertTrue(cantidadVeganos.getContadorDeVeganos() == 1);
+		assertEquals(2, cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()));
+		assertEquals(1, cantidadVeganos.getContadorDeVeganos());
 		
 	}
 	
