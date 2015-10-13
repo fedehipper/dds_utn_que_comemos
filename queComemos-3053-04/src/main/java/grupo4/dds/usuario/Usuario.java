@@ -9,7 +9,6 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
-import grupo4.dds.repositorios.RepositorioDeSolicitudes;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
 
@@ -43,76 +42,35 @@ public class Usuario implements Persistible {
 	
 	/* Datos basicos */
 	protected String nombre;
-	private Sexo sexo;
-	private LocalDate fechaNacimiento;
+	protected Sexo sexo;
+	protected LocalDate fechaNacimiento;
 
 	/* Datos de la complexion */
-	private float peso;
-	private float altura;
+	protected float peso;
+	protected float altura;
 
 	/* Otros datos */
-	@Enumerated
-	private Rutina rutina;
-	private String mail;
-	private boolean marcaFavorita;
+	@Enumerated 
+	protected Rutina rutina;
+	protected String mail;
+	protected boolean marcaFavorita;
 	
 	@OneToMany
-	private List<Receta> recetas = new ArrayList<>();
+	protected List<Receta> recetas = new ArrayList<>();
 	@OneToMany
-	private Set<GrupoUsuarios> grupos = new HashSet<>();
-	
+	protected Set<GrupoUsuarios> grupos = new HashSet<>();
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Preferidas")
-	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
+	protected List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
-	private List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
+	protected List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Condicion> condiciones = new ArrayList<>();
+	protected List<Condicion> condiciones = new ArrayList<>();
 	@OneToMany
-	private Set<Receta> historial = new HashSet<>();
+	protected Set<Receta> historial = new HashSet<>();
 	
-	/* Constructores */
-
-	public static Usuario crearPerfil(String nombre, Sexo sexo,
-			LocalDate fechaNacimiento, float altura, float peso, Rutina rutina, boolean marcaFavorita, String mail) {
-		
-		Usuario self = new Usuario(nombre, sexo, fechaNacimiento, altura, peso, rutina, marcaFavorita, mail);
-		RepositorioDeSolicitudes.get().solicitarIncorporación(self);
-		
-		return self;
-	}
-	
-	public static Usuario crearPerfil(String nombre) {
-		return crearPerfil(nombre, null, null, 0, 0, null, true, null);	
-	}
-	
-	public static Usuario prototipo(String nombre, List<Condicion> condiciones) {
-		Usuario prototipo = new Usuario();
-		prototipo.nombre = nombre;
-		if(condiciones != null) prototipo.condiciones = condiciones;
-		return prototipo;
-	}
-	
-	public static Usuario prototipo(String nombre) {
-		return prototipo(nombre, null);
-	}
-
-	private Usuario(String nombre, Sexo sexo, LocalDate fechaNacimiento, float altura, float peso,
-			Rutina rutina, boolean marcaFavorita, String mail) {
-		
-		this.setMarcaFavorita(marcaFavorita);
-		this.nombre = nombre;
-		this.fechaNacimiento = fechaNacimiento;
-		this.altura = altura;
-		this.peso = peso;
-		this.rutina = rutina;
-		this.sexo = sexo;
-		this.mail = mail;
-	}
-	
-	protected Usuario() {}
-
 	/* Servicios */
 	
 	public float indiceDeMasaCorporal() {
@@ -308,30 +266,56 @@ public class Usuario implements Persistible {
 	}
 	
 	
-	public void agregarCondicion(Condicion condicion) {
-		this.condiciones.add(condicion);
-	}
-
-	public void agregarPreferenciaAlimenticia(Ingrediente alimento) {
-		this.preferenciasAlimenticias.add(alimento);
-	}
-
-	public void agregarComidaQueLeDisgusta(Ingrediente alimento) {
-		this.comidasQueLeDisgustan.add(alimento);
-	}
-
-	public void agregarGrupo(GrupoUsuarios grupo) {
-		grupos.add(grupo);
-		if (!grupo.esMiembro(this)) 
-			grupo.agregarUsuario(this);
+	public void setMarcaFavorita(boolean bool) {
+		marcaFavorita = bool;
 	}
 	
-	public void setMarcaFavorita(boolean marcaFavorita) {
-		this.marcaFavorita = marcaFavorita;
+	public Usuario setRutina(Rutina rutina) {
+		this.rutina = rutina;
+		return this;
+	}
+	
+	public Usuario agregarCondicion(Condicion condicion) {
+		this.condiciones.add(condicion);
+		return this;
 	}
 
+	public Usuario agregarCondiciones(List<Condicion> condiciones) {
+		this.condiciones.addAll(condiciones);
+		return this;
+	}
+
+	public Usuario agregarPreferenciaAlimenticia(Ingrediente comida) {
+		this.preferenciasAlimenticias.add(comida);
+		return this;
+	}
+
+	public Usuario agregarPreferenciasAlimenticias(List<Ingrediente> comidas) {
+		this.preferenciasAlimenticias.addAll(comidas);
+		return this;
+	}
+
+	public Usuario agregarComidaQueLeDisgusta(Ingrediente comida) {
+		this.comidasQueLeDisgustan.add(comida);
+		return this;
+	}
+	
+	public Usuario agregarComidasQueLeDisgustan(List<Ingrediente> comidas) {
+		this.comidasQueLeDisgustan.addAll(comidas);
+		return this;
+	}
+
+	public Usuario agregarGrupo(GrupoUsuarios grupo) {
+		grupos.add(grupo);
+		
+		if (!grupo.esMiembro(this)) 
+			grupo.agregarUsuario(this);
+		
+		return this;
+	}
+	
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 }
