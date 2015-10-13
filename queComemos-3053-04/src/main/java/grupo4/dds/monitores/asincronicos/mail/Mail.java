@@ -1,4 +1,4 @@
-package grupo4.dds.command;
+package grupo4.dds.monitores.asincronicos.mail;
 
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -13,19 +13,17 @@ public class Mail {
 	private List<Filtro> filtros;
 	private List<Receta> consulta;
 
-	public Mail() {
-	}
+	public Mail() {	}
 
 	public Mail(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
 		this.usuario = usuario;
 		this.consulta = consulta;
 		this.filtros = filtros;
-
 	}
 	
-	public void enviarMail(MailSender mailSender) {
+	public void enviarMail() {
 		this.crearMensaje();
-		mailSender.enviarMail(this);
+		EMailer.enviarMail(this);
 	}
 
 	public String crearMensaje() {

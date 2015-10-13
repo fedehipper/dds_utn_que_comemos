@@ -1,6 +1,7 @@
 package grupo4.dds.monitores;
 
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractRecetasMasConsultadas implements Monitor {
 
-	public abstract void notificarConsulta(List<Receta> resultadoConsulta, Usuario usuario);
+	public abstract void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
 
 	protected void seRealizoUnaConsulta(Map<Receta, Integer> consultasAnteriores, List<Receta> resultadoNuevaConsulta) {
 
