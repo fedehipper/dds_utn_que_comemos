@@ -37,11 +37,11 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 		
 		CantidadDeHoras cantidadHoras = new CantidadDeHoras();
 		
-		cantidadHoras.notificarConsulta(consulta1, null);
-		cantidadHoras.notificarConsulta(consulta1, null);
-		cantidadHoras.notificarConsulta(consulta1, null);
+		cantidadHoras.notificarConsulta(null, consulta1, null);
+		cantidadHoras.notificarConsulta(null, consulta1, null);
+		cantidadHoras.notificarConsulta(null, consulta1, null);
 
-		assertTrue(cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()) == 3);
+		assertEquals(3, cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()));
 	}
 
 	@Test
@@ -51,14 +51,15 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 		List<Receta> consultaConRecetaDificil = new ArrayList<Receta>(consulta1);
 		consultaConRecetaDificil.add((new BuilderReceta()).calorias(150).ingrediente(null).creador(maria).nombre("Ratatouille").dificil().build());
 		
-		cantidadVeganos.notificarConsulta(consulta1, arielFolino);
+		cantidadVeganos.notificarConsulta(arielFolino, consulta1, null);
 		arielFolino.agregarCondicion(new Vegano());
-		cantidadVeganos.notificarConsulta(consulta1, arielFolino);
-		cantidadVeganos.notificarConsulta(consulta1, maria);
-		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, arielFolino);
-		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, arielFolino);
+		cantidadVeganos.notificarConsulta(arielFolino, consulta1, null);
+		cantidadVeganos.notificarConsulta(maria, consulta1, null);
+		cantidadVeganos.notificarConsulta(arielFolino, consultaConRecetaDificil, null);
+		cantidadVeganos.notificarConsulta(arielFolino, consultaConRecetaDificil, null);
+
 		maria.agregarCondicion(new Vegano());
-		cantidadVeganos.notificarConsulta(consultaConRecetaDificil, maria);
+		cantidadVeganos.notificarConsulta(maria, consultaConRecetaDificil, null);
 		
 		assertEquals(3, cantidadVeganos.getContadorDeVeganos());		
 	}
@@ -67,7 +68,7 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadas() {
 
 		RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
-		recetasMasConsultadas.notificarConsulta(consulta1, null);
+		recetasMasConsultadas.notificarConsulta(null, consulta1, null);
 		
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadas(1).keySet();
 		assertTrue(masConsultadas.contains(bife));
@@ -77,7 +78,8 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadasPorHombres() {
 		
 		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
-		recetasMasConsultadas.notificarConsulta(consulta1, arielFolino);
+
+		recetasMasConsultadas.notificarConsulta(arielFolino, consulta1, null);
 
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.MASCULINO, 1).keySet();
 		assertTrue(masConsultadas.contains(bife));
@@ -87,7 +89,7 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadasPorMujeres() {
 		
 		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
-		recetasMasConsultadas.notificarConsulta(consulta2, maria);
+		recetasMasConsultadas.notificarConsulta(maria, consulta2, null);
 		
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.FEMENINO, 1).keySet();
 		assertTrue(masConsultadas.contains(sopa));
