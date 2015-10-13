@@ -33,10 +33,12 @@ public class TestPersistencia extends BaseTest {
 	private Usuario fecheSena;
 	private Receta receta1;
 	private Receta receta3;
+	private GrupoUsuarios grupo;
 	
 	@Before
 	public void setUp() {
 			
+		grupo = GrupoUsuarios.crearGrupo("elEscuadronSuicida");
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
 		
 		maria = Usuario.crearPerfil("Maria", Sexo.FEMENINO, null, 1.70f, 65.0f, null, false, null);
@@ -109,5 +111,27 @@ public class TestPersistencia extends BaseTest {
 		assertTrue(usuarioConsultado.getRecetas().containsAll(recetas));
 					
 	}
+	
+	
+	@Test 
+	 public void testConsultaUsuariosQuePertenecenAUnGrupo() {
+	  
+	  grupo.agregarUsuario(ariel);
+	  grupo.agregarUsuario(maria);
+	  grupo.agregarUsuario(fecheSena);
+	  
+	  entityManager().persist(grupo);
+	  
+	  TypedQuery<GrupoUsuarios> q = entityManager().createQuery("SELECT g FROM GrupoUsuarios g WHERE g.nombre = 'elEscuadronSuicida'", GrupoUsuarios.class);
+	  
+	  GrupoUsuarios grupoConsultado = q.getSingleResult();
+	  
+	  assertTrue(grupoConsultado.esMiembro(ariel));
+	  
+	 }
+	
+
+	
+	
 
 }
