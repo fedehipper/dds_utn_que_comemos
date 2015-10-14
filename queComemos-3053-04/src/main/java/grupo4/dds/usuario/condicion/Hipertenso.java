@@ -12,6 +12,14 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue(value = "H")
 public class Hipertenso extends Condicion {
 
+	private static Condicion self = new Hipertenso();
+	
+	public static Condicion instance() {
+		return self;
+	}
+
+	private Hipertenso() { id = 2; }
+	
 	public boolean esValidaCon(Usuario usuario) {
 		return usuario.tienePreferenciasAlimenticias();
 	}

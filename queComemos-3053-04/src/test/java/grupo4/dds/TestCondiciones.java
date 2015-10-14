@@ -15,10 +15,10 @@ import org.junit.Test;
 
 public class TestCondiciones extends BaseTest {
 
-	private Condicion celiaco = new Celiaco();
-	private Condicion vegano = new Vegano();
-	private Condicion diabetico = new Diabetico();
-	private Condicion hipertenso = new Hipertenso();
+	private Condicion celiaco = Celiaco.instance();
+	private Condicion vegano = Vegano.instance();
+	private Condicion diabetico = Diabetico.instance();
+	private Condicion hipertenso = Hipertenso.instance();
 	
 	private Ingrediente chivito = Ingrediente.nuevaComida("chivito");
 	private Ingrediente carne = Ingrediente.nuevaComida("carne");

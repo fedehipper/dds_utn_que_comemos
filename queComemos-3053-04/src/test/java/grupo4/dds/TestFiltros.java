@@ -75,9 +75,9 @@ public class TestFiltros extends BaseTest {
 		filtros.add(new FiltroNoEsAdecuada());		
 		expected = Arrays.asList(sopa, milanesa, salmon);
 		
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Hipertenso());
-		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		arielFolino.agregarCondicion(Hipertenso.instance());
+		arielFolino.agregarCondicion(Vegano.instance());
 		
 		sopa.agregarIngrediente(Ingrediente.nuevaComida("cabellito de angel"));		
 		pollo.agregarIngrediente(Ingrediente.nuevaComida("pollo"));

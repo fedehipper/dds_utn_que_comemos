@@ -10,6 +10,14 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue(value = "V")
 public class Vegano extends Condicion {
 	
+	private static Condicion self = new Vegano();
+	
+	public static Condicion instance() {
+		return self;
+	}
+
+	private Vegano() { id = 3; }
+	
 	public boolean esValidaCon(Usuario usuario) {
 		return !usuario.leGustaLaCarne();
 	}

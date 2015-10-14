@@ -52,13 +52,13 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 		consultaConRecetaDificil.add((new BuilderReceta()).calorias(150).ingrediente(null).creador(maria).nombre("Ratatouille").dificil().build());
 		
 		cantidadVeganos.notificarConsulta(arielFolino, consulta1, null);
-		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Vegano.instance());
 		cantidadVeganos.notificarConsulta(arielFolino, consulta1, null);
 		cantidadVeganos.notificarConsulta(maria, consulta1, null);
 		cantidadVeganos.notificarConsulta(arielFolino, consultaConRecetaDificil, null);
 		cantidadVeganos.notificarConsulta(arielFolino, consultaConRecetaDificil, null);
 
-		maria.agregarCondicion(new Vegano());
+		maria.agregarCondicion(Vegano.instance());
 		cantidadVeganos.notificarConsulta(maria, consultaConRecetaDificil, null);
 		
 		assertEquals(3, cantidadVeganos.getContadorDeVeganos());		

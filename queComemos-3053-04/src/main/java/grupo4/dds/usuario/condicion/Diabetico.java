@@ -12,6 +12,14 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue(value = "D")
 public class Diabetico extends Condicion {
 
+	private static Condicion self = new Diabetico();
+	
+	public static Condicion instance() {
+		return self;
+	}
+
+	private Diabetico() { id = 4; }
+	
 	public boolean esValidaCon(Usuario usuario) {
 		return usuario.getSexo() != null && usuario.tienePreferenciasAlimenticias();
 	}

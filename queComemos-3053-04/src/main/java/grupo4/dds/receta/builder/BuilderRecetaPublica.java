@@ -2,20 +2,14 @@ package grupo4.dds.receta.builder;
 
 import grupo4.dds.excepciones.NoSePuedeSetearCreadorARecetaPublica;
 import grupo4.dds.misc.CoberturaIgnore;
-import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.RecetaPublica;
 import grupo4.dds.usuario.Usuario;
 
 public class BuilderRecetaPublica extends Builder<RecetaPublica>{
 	
-	static public RecetaPublica buildRecetaValida() {	
-		BuilderRecetaPublica builder = new BuilderRecetaPublica();
-		return builder.calorias(10).ingrediente(Ingrediente.nuevoIngrediente("", 0)).build();
-	}
-	
 	@Override
 	@CoberturaIgnore
-	protected RecetaPublica receta(){
+	protected RecetaPublica receta() {
 		return new RecetaPublica();
 	}
 	

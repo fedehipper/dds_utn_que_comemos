@@ -1,7 +1,6 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
-import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -21,11 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import queComemos.entrega3.dominio.Dificultad;
 
@@ -34,13 +31,13 @@ import queComemos.entrega3.dominio.Dificultad;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_receta")
 @DiscriminatorValue("privada")
-public class Receta implements WithGlobalEntityManager {
+public class Receta {
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "id_receta")
 	private long id;
-    @Transient
+    @ManyToOne
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
@@ -48,57 +45,16 @@ public class Receta implements WithGlobalEntityManager {
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Recetas_Ingredientes")
 	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Recetas_Condimentos")
 	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
-	@OneToMany
+	@ManyToMany
 	@JoinTable(name = "Recetas_Subrecetas")
 	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
-
-	/* Constructores */
-	
-	public Receta(){	}
-	
-	public static Receta crearNueva() {
-		return crearNueva(null, null, null);
-	}
-	
-	public static Receta crearNueva(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
-		return crearNueva(creador, encabezado, null, null, null, preparacion);
-	}
-
-	public static Receta crearNueva(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
-
-		Receta self = new Receta(creador, encabezado, ingredientes, condimentos, subrecetas, preparacion);
-		
-		//TODO: hacer validas recetas en los test para agregar esta funcion
-		//if(creador != null)
-		//	creador.agregarReceta(self);
-		
-		RepositorioDeRecetas.get().agregarReceta(self);
-		
-		return self;
-	}
-
-	protected Receta(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
-
-		this.creador = creador;
-		this.encabezado = encabezado != null ? encabezado
-				: new EncabezadoDeReceta();
-		this.preparacion = preparacion;
-		this.ingredientes = ingredientes != null ? ingredientes
-				: new ArrayList<>();
-		this.condimentos = condimentos != null ? condimentos
-				: new ArrayList<>();
-		this.subrecetas = subrecetas != null ? subrecetas
-				: new ArrayList<Receta>();
-	}
 
 	/* Servicios */
 
@@ -117,7 +73,7 @@ public class Receta implements WithGlobalEntityManager {
 
 	public float cantidadCondimento(String nombreCondimento) {
 		int index = getCondimentos().indexOf(Ingrediente.nuevaComida(nombreCondimento));
-		return getCondimentos().get(index).getCantidad();
+		return index < 0 ? 0 : getCondimentos().get(index).getCantidad();
 	}
 
 	public boolean puedeSerVistaPor(Usuario usuario) {
@@ -196,7 +152,6 @@ public class Receta implements WithGlobalEntityManager {
 		return lista.contains(Ingrediente.nuevaComida(nombre));
 	}
 
-	// TODO mejorar para llegar a algo más cercano a fold/reduct
 	private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
 
 		List<Ingrediente> acum = new ArrayList<Ingrediente>(seed);
@@ -213,6 +168,31 @@ public class Receta implements WithGlobalEntityManager {
 		return encabezado.getTotalCalorias();
 	}
 
+	public String getNombreDelPlato() {
+		return encabezado.getNombreDelPlato();
+	}
+
+	public Temporada getTemporada() {
+		return encabezado.getTemporada();
+	}
+	
+	public EncabezadoDeReceta getEncabezado() {
+		return encabezado;
+	}
+
+	public Usuario getCreador() {
+		return creador;
+	}
+
+	public List<Receta> getSubrecetas() {
+		return subrecetas;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	
 	public void setTotalCalorias(int totalCalorias) {
 		encabezado.setTotalCalorias(totalCalorias);
 	}
@@ -241,14 +221,6 @@ public class Receta implements WithGlobalEntityManager {
 		this.subrecetas.addAll(subrecetas);
 	}
 
-	public String getNombreDelPlato() {
-		return encabezado.getNombreDelPlato();
-	}
-
-	public Temporada getTemporada() {
-		return encabezado.getTemporada();
-	}
-
 	public void setCreador(Usuario creador) {
 		this.creador = creador;
 	}
@@ -261,20 +233,8 @@ public class Receta implements WithGlobalEntityManager {
 		this.preparacion = preparacion;
 	}
 
-	public EncabezadoDeReceta getEncabezado() {
-		return encabezado;
+	public void setId(long id) {
+		this.id = id;
 	}
-
-	public Usuario getCreador() {
-		return creador;
-	}
-
-	public List<Receta> getSubrecetas() {
-		return subrecetas;
-	}
-
-	public long getId() {
-		return id;
-	}
-		
+	
 }

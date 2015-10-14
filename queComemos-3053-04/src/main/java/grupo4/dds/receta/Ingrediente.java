@@ -8,11 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
 @Entity
 @Table(name = "Ingredientes")
-public class Ingrediente implements WithGlobalEntityManager {
+public class Ingrediente {
 	
 	@Id
 	@GeneratedValue
@@ -77,6 +75,15 @@ public class Ingrediente implements WithGlobalEntityManager {
 		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
+	}
+
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

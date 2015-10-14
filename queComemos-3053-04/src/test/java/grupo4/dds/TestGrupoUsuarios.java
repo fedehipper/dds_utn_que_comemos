@@ -3,7 +3,6 @@ package grupo4.dds;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import grupo4.dds.receta.Ingrediente;
-import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Vegano;
 
@@ -28,8 +27,8 @@ public class TestGrupoUsuarios extends BaseTest {
 
 		arielFolino.agregarGrupo(grupo1);
 		fecheSena.agregarGrupo(grupo1);
-		arielFolino.agregarCondicion(new Celiaco());
-		fecheSena.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("carne", 0f));
 		
@@ -43,8 +42,8 @@ public class TestGrupoUsuarios extends BaseTest {
 
 		arielFolino.agregarGrupo(grupo1);
 		fecheSena.agregarGrupo(grupo1);
-		arielFolino.agregarCondicion(new Celiaco());
-		fecheSena.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("pescado", 0f));
 		
@@ -54,7 +53,6 @@ public class TestGrupoUsuarios extends BaseTest {
 	/* Test: @puedeVer/1 */
 	@Test
 	public void testUnGrupoPuedeVerUnaRecetaSiAlgunoDeSusMiembrosLaVe() {
-		milanesa = Receta.crearNueva(fecheSena, null, "");
 		
 		grupo1.agregarUsuario(matiasMartino);
 		grupo1.agregarUsuario(arielFolino);
@@ -65,7 +63,6 @@ public class TestGrupoUsuarios extends BaseTest {
 	
 	@Test
 	public void testUnGrupoNoPuedeVerUnaRecetaSiNingunoDeSusMiembrosLaVe() {
-		milanesa = Receta.crearNueva(fecheSena, null, null);
 		
 		grupo1.agregarUsuario(matiasMartino);
 		grupo1.agregarUsuario(arielFolino);

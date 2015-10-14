@@ -1,9 +1,8 @@
 package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
-import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.RecetaPublica;
+import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.Ordenar;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
@@ -32,18 +31,18 @@ public class TestPostProcesadores extends BaseTest {
 	@Before
 	public void setUp() {
 
-		RecetaPublica receta1 = RecetaPublica.crearNueva(new EncabezadoDeReceta("sopa", null, null, 100), null);
-		RecetaPublica receta2 = RecetaPublica.crearNueva(new EncabezadoDeReceta("pollo", null, null, 300), null);
-		RecetaPublica receta3 = RecetaPublica.crearNueva(new EncabezadoDeReceta("pure", null, null, 600), null);
-		RecetaPublica receta4 = RecetaPublica.crearNueva(new EncabezadoDeReceta("papa", null, null, 999), null);
-		RecetaPublica receta5 = RecetaPublica.crearNueva(new EncabezadoDeReceta("salmon", null, null, 200), null);
-		RecetaPublica receta6 = RecetaPublica.crearNueva(new EncabezadoDeReceta("milanesa", null, null, 100), null);
-		RecetaPublica receta7 = RecetaPublica.crearNueva(new EncabezadoDeReceta("empanada", null, null, 300), null);
-		RecetaPublica receta8 = RecetaPublica.crearNueva(new EncabezadoDeReceta("tomate", null, null, 600), null);
-		RecetaPublica receta9 = RecetaPublica.crearNueva(new EncabezadoDeReceta("albondiga", null, null, 999), null);
-		RecetaPublica receta10 = RecetaPublica.crearNueva(new EncabezadoDeReceta("remolacha", null, null, 200), null);
-		RecetaPublica receta11 = RecetaPublica.crearNueva(new EncabezadoDeReceta("zanahoria", null, null, 100), null);
-		RecetaPublica receta12 = RecetaPublica.crearNueva(new EncabezadoDeReceta("bondiola", null, null, 200), null);
+		Receta receta1 = sopa;
+		Receta receta2 = pollo;
+		Receta receta3 = pure;
+		Receta receta4 = lomito;
+		Receta receta5 = salmon;
+		Receta receta6 = milanesa;
+		Receta receta7 = new BuilderReceta().hacerValida().nombre("empanada").calorias(498).build();
+		Receta receta8 = new BuilderReceta().hacerValida().nombre("tomate").build();
+		Receta receta9 = bife;
+		Receta receta10 = new BuilderReceta().hacerValida().nombre("remolacha").build();
+		Receta receta11 = new BuilderReceta().hacerValida().nombre("zanahoria").build();
+		Receta receta12 = coliflor;
 		
 		recetas = Arrays.asList(receta1, receta2, receta3, receta4, receta5, receta6, receta7, 
 				receta8, receta9, receta10, receta11, receta12);
@@ -69,7 +68,6 @@ public class TestPostProcesadores extends BaseTest {
 	@Test
 	public void testTomar10Primero() {
 		procesamiento = new TomarDiezPrimeros();		
-		
 		assertEquals(recetas.subList(0, 9), mockRepositorioRecetas.listarRecetasPara(null, null, procesamiento));
 	}
 	
@@ -89,14 +87,12 @@ public class TestPostProcesadores extends BaseTest {
 	@Test
 	public void testOrdenarAlfbeticamente() {
 		procesamiento = new Ordenar((a,b) -> a.getNombreDelPlato().compareTo(b.getNombreDelPlato()));		
-		
 		assertEquals(subRecetasOrdenadasAlfabeticamente, mockRepositorioSubRecetas.listarRecetasPara(null, null, procesamiento));
 	}
 	
 	@Test
 	public void testOrdenarPorCalorias() {
 		procesamiento = new Ordenar((a,b) -> a.getTotalCalorias() - b.getTotalCalorias());		
-		
 		assertEquals(subRecetasOrdenadasPorCalorias, mockRepositorioSubRecetas.listarRecetasPara(null, null, procesamiento));
 	}
 }
