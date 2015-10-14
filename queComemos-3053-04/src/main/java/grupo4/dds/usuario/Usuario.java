@@ -28,6 +28,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -57,18 +58,18 @@ public class Usuario implements Persistible {
 	
 	@OneToMany
 	protected List<Receta> recetas = new ArrayList<>();
-	@OneToMany
+	@ManyToMany
 	protected Set<GrupoUsuarios> grupos = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Preferidas")
 	protected List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
 	protected List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	protected List<Condicion> condiciones = new ArrayList<>();
-	@OneToMany
+	@ManyToMany
 	protected Set<Receta> historial = new HashSet<>();
 	
 	/* Servicios */
