@@ -10,6 +10,14 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue(value = "C")
 public class Celiaco extends Condicion {
 
+	private static Condicion self = new Celiaco();
+	
+	public static Condicion instance() {
+		return self;
+	}
+	
+	private Celiaco() { id = 1; }
+	
 	public boolean esValidaCon(Usuario usuario) {
 		return true;
 	}

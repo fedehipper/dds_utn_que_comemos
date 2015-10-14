@@ -175,7 +175,7 @@ public class Usuario implements Persistible {
 	}
 	
 	public boolean esVegano() {
-		return this.condiciones.contains(new Vegano());
+		return this.condiciones.contains(Vegano.instance());
 	}
 	
 	public boolean esHombre() {
