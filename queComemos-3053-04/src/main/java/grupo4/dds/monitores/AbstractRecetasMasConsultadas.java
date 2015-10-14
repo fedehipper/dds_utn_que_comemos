@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class AbstractRecetasMasConsultadas implements Monitor {
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public abstract class AbstractRecetasMasConsultadas extends Monitor {
 
 	public abstract void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
 

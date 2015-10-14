@@ -9,9 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Transient;
+
 public class RecetasMasConsultadasPorSexo extends AbstractRecetasMasConsultadas {
 	
+	@Transient
 	private Map<Receta, Integer> recetasConsultadasHombres = new HashMap<>();
+	@Transient
 	private Map<Receta, Integer> recetasConsultadasMujeres = new HashMap<>();
 	
 	@Override

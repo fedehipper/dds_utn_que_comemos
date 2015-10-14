@@ -1,6 +1,5 @@
-package grupo4.dds.monitores;
+package grupo4.dds.monitores.asincronicos;
 
-import grupo4.dds.monitores.asincronicos.MonitorAsincronico;
 import grupo4.dds.monitores.asincronicos.mail.Mail;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -10,8 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@Entity
+@DiscriminatorValue("mail")
 public class EnvioPorMail extends MonitorAsincronico {
 	
+	@Transient
 	public List<Usuario> suscriptos = new ArrayList<Usuario>();
 	
 	public void suscribir(Usuario usuario) {

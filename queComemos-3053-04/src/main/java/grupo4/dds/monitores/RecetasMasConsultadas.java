@@ -8,8 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@Entity
+@DiscriminatorValue("mas_consultadas")
 public class RecetasMasConsultadas extends AbstractRecetasMasConsultadas {
 
+	@Transient
 	protected Map<Receta, Integer> recetasConsultadas = new HashMap<>();
 	
 	@Override

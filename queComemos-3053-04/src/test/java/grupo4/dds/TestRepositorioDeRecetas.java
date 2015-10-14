@@ -3,7 +3,7 @@ package grupo4.dds;
 import static org.junit.Assert.*;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
-import grupo4.dds.monitores.MarcarFavoritas;
+import grupo4.dds.monitores.asincronicos.MarcarFavoritas;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;

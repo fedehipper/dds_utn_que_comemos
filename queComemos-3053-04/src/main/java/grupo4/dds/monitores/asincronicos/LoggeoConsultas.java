@@ -1,6 +1,5 @@
-package grupo4.dds.monitores;
+package grupo4.dds.monitores.asincronicos;
 
-import grupo4.dds.monitores.asincronicos.MonitorAsincronico;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Usuario;
@@ -8,11 +7,18 @@ import grupo4.dds.usuario.Usuario;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+@Entity
+@DiscriminatorValue("loggeo")
 public class LoggeoConsultas extends MonitorAsincronico {
 
+	@Transient
 	private Logger logger;
 	
 	public LoggeoConsultas() {

@@ -8,7 +8,12 @@ import grupo4.dds.usuario.Usuario;
 import java.time.LocalTime;
 import java.util.List;
 
-public class CantidadDeHoras implements Monitor {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("horas")
+public class CantidadDeHoras extends Monitor {
 
 	private int[] consultasPorHora = new int[24];
 	

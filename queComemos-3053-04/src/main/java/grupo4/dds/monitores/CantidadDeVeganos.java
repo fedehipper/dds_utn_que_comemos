@@ -6,7 +6,12 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
 
-public class CantidadDeVeganos implements Monitor {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("veganos")
+public class CantidadDeVeganos extends Monitor {
 
 	private int contadorDeVeganos = 0;
 	

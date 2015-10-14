@@ -15,6 +15,19 @@
     	<class>grupo4.dds.usuario.condicion.Hipertenso</class>
     	<class>grupo4.dds.usuario.condicion.Diabetico</class>
     	<class>grupo4.dds.usuario.gestionDePerfiles.SolicitudAltaUsuario</class>
+
+    	<class>grupo4.dds.monitores.AbstractRecetasMasConsultadas</class>
+    	<class>grupo4.dds.monitores.CantidadDeHoras</class>
+    	<class>grupo4.dds.monitores.CantidadDeVeganos</class>
+    	<class>grupo4.dds.monitores.Monitor</class>
+    	<class>grupo4.dds.monitores.RecetasMasConsultadas</class>
+    	<class>grupo4.dds.monitores.RecetasMasConsultadasPorSexo</class>
+    	
+    	<class>grupo4.dds.monitores.asincronicos.EnvioPorMail</class>
+    	<class>grupo4.dds.monitores.asincronicos.LoggeoConsultas</class>
+    	<class>grupo4.dds.monitores.asincronicos.MarcarFavoritas</class>
+    	<class>grupo4.dds.monitores.asincronicos.MonitorAsincronico</class>
+    	<class>grupo4.dds.monitores.asincronicos.TareaPendiente</class>
     	
     	<class>grupo4.dds.receta.Receta</class>
     	<class>grupo4.dds.receta.RecetaPublica</class>
