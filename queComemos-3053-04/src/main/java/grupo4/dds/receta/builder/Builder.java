@@ -80,7 +80,7 @@ public abstract class Builder<R extends Receta> implements WithGlobalEntityManag
 		return this;
 	}
 
-	public Builder<R> subreceta(List<Receta> subrecetas) {
+	public Builder<R> subrecetas(List<Receta> subrecetas) {
 		receta.agregarSubrecetas(subrecetas);
 		return this;
 	}
@@ -99,7 +99,11 @@ public abstract class Builder<R extends Receta> implements WithGlobalEntityManag
 		receta.setEncabezado(encabezado);
 		return this;
 	}
-
+	
+	public Builder<R> hacerValida() {
+		return calorias(10).ingrediente(Ingrediente.nuevoIngrediente("", 0));
+	}
+	
 	public R build() {	
 	
 		if (!receta.esValida()){

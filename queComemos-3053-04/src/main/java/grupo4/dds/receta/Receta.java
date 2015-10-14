@@ -1,7 +1,6 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
-import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -56,47 +55,6 @@ public class Receta {
 	@JoinTable(name = "Recetas_Subrecetas")
 	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
-
-	/* Constructores */
-	
-	public Receta(){	}
-	
-	public static Receta crearNueva() {
-		return crearNueva(null, null, null);
-	}
-	
-	public static Receta crearNueva(Usuario creador, EncabezadoDeReceta encabezado, String preparacion) {
-		return crearNueva(creador, encabezado, null, null, null, preparacion);
-	}
-
-	public static Receta crearNueva(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
-
-		Receta self = new Receta(creador, encabezado, ingredientes, condimentos, subrecetas, preparacion);
-		
-		//TODO: hacer validas recetas en los test para agregar esta funcion
-		//if(creador != null)
-		//	creador.agregarReceta(self);
-		
-		RepositorioDeRecetas.get().agregarReceta(self);
-		
-		return self;
-	}
-
-	protected Receta(Usuario creador, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, List<Receta> subrecetas, String preparacion) {
-
-		this.creador = creador;
-		this.encabezado = encabezado != null ? encabezado
-				: new EncabezadoDeReceta();
-		this.preparacion = preparacion;
-		this.ingredientes = ingredientes != null ? ingredientes
-				: new ArrayList<>();
-		this.condimentos = condimentos != null ? condimentos
-				: new ArrayList<>();
-		this.subrecetas = subrecetas != null ? subrecetas
-				: new ArrayList<Receta>();
-	}
 
 	/* Servicios */
 
@@ -194,7 +152,6 @@ public class Receta {
 		return lista.contains(Ingrediente.nuevaComida(nombre));
 	}
 
-	// TODO mejorar para llegar a algo más cercano a fold/reduct
 	private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
 
 		List<Ingrediente> acum = new ArrayList<Ingrediente>(seed);
@@ -211,6 +168,31 @@ public class Receta {
 		return encabezado.getTotalCalorias();
 	}
 
+	public String getNombreDelPlato() {
+		return encabezado.getNombreDelPlato();
+	}
+
+	public Temporada getTemporada() {
+		return encabezado.getTemporada();
+	}
+	
+	public EncabezadoDeReceta getEncabezado() {
+		return encabezado;
+	}
+
+	public Usuario getCreador() {
+		return creador;
+	}
+
+	public List<Receta> getSubrecetas() {
+		return subrecetas;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	
 	public void setTotalCalorias(int totalCalorias) {
 		encabezado.setTotalCalorias(totalCalorias);
 	}
@@ -239,14 +221,6 @@ public class Receta {
 		this.subrecetas.addAll(subrecetas);
 	}
 
-	public String getNombreDelPlato() {
-		return encabezado.getNombreDelPlato();
-	}
-
-	public Temporada getTemporada() {
-		return encabezado.getTemporada();
-	}
-
 	public void setCreador(Usuario creador) {
 		this.creador = creador;
 	}
@@ -259,23 +233,6 @@ public class Receta {
 		this.preparacion = preparacion;
 	}
 
-	public EncabezadoDeReceta getEncabezado() {
-		return encabezado;
-	}
-
-	public Usuario getCreador() {
-		return creador;
-	}
-
-	public List<Receta> getSubrecetas() {
-		return subrecetas;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	
 	public void setId(long id) {
 		this.id = id;
 	}
