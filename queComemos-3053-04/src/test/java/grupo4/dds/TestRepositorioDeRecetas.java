@@ -47,7 +47,7 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		arielFolino.agregarGrupo(grupo1);
 		matiasMartino.agregarGrupo(grupo2);
 		
-		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarCondicion(Vegano.instance());
 		fecheSena.agregarComidaQueLeDisgusta(Ingrediente.nuevaComida("coliflor"));
 		
 		salmon.agregarIngrediente(Ingrediente.nuevaComida("carne"));
@@ -114,7 +114,7 @@ public class TestRepositorioDeRecetas extends BaseTest {
 	public void testSiListamosRecetasParaUnUsuarioSeNotificanALosMonitoresRegistrados() {
 		
 		filtros.add(new FiltroNoLeGusta());	
-		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Vegano.instance());
 		
 		RepositorioDeRecetas.get().agregarMonitor(cantidadHoras);
 		RepositorioDeRecetas.get().agregarMonitor(cantidadVeganos);

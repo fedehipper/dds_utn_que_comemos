@@ -28,8 +28,8 @@ public class TestGrupoUsuarios extends BaseTest {
 
 		arielFolino.agregarGrupo(grupo1);
 		fecheSena.agregarGrupo(grupo1);
-		arielFolino.agregarCondicion(new Celiaco());
-		fecheSena.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("carne", 0f));
 		
@@ -43,8 +43,8 @@ public class TestGrupoUsuarios extends BaseTest {
 
 		arielFolino.agregarGrupo(grupo1);
 		fecheSena.agregarGrupo(grupo1);
-		arielFolino.agregarCondicion(new Celiaco());
-		fecheSena.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		grupo1.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("pescado", 0f));
 		

@@ -36,6 +36,10 @@ public class TestUsuario extends BaseTest {
 	@Before
 	public void setUp() {
 		bife.agregarIngrediente(Ingrediente.nuevoIngrediente("carne", 0f));
+		
+		arielFolino.agregarCondicion(Vegano.instance());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		arielFolino.agregarCondicion(Diabetico.instance());
 	}
 	
 	/* Test: @indiceDeMasaCorporal/0 */
@@ -106,9 +110,9 @@ public class TestUsuario extends BaseTest {
 	public void testEsValidoUnUsuarioConCondicionesValidas() {
 		Usuario usuario = new BuilderUsuario().nombre("Ariel").masculino().altura(1.75f).peso(75f).rutina(Rutina.ACTIVA_EJERCICIO_ADICIONAL).nacimiento(LocalDate.MIN).build();
 		
-		usuario.agregarCondicion(new Celiaco());
-		usuario.agregarCondicion(new Hipertenso());
-		usuario.agregarCondicion(new Diabetico());
+		usuario.agregarCondicion(Celiaco.instance());
+		usuario.agregarCondicion(Hipertenso.instance());
+		usuario.agregarCondicion(Diabetico.instance());
 
 		usuario.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("chivito", 0f));	
 		assertTrue(usuario.esValido());
@@ -118,9 +122,9 @@ public class TestUsuario extends BaseTest {
 	public void testNoEsValidoUnUsuarioConAlgunaCondicionInvalida() {
 		Usuario usuario = new BuilderUsuario().nombre("Ariel").masculino().altura(1.75f).peso(75f).rutina(Rutina.ACTIVA_EJERCICIO_ADICIONAL).nacimiento(LocalDate.MIN).build();
 		
-		usuario.agregarCondicion(new Celiaco());
-		usuario.agregarCondicion(new Hipertenso());
-		usuario.agregarCondicion(new Vegano());
+		usuario.agregarCondicion(Celiaco.instance());
+		usuario.agregarCondicion(Hipertenso.instance());
+		usuario.agregarCondicion(Vegano.instance());
 		
 		usuario.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("chivito", 0f));
 		
@@ -135,21 +139,14 @@ public class TestUsuario extends BaseTest {
 	
 	@Test
 	public void testNoSigueRutinaSaludableUnUsuarioConCondicionesSinSubsanar() {
-
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Hipertenso());
-		arielFolino.agregarCondicion(new Vegano());
-		
+		arielFolino.agregarCondicion(Hipertenso.instance());
 		assertFalse(arielFolino.sigueRutinaSaludable());
 	}
 	
 	@Test
 	public void testSigueRutinaSaludableUnUsuarioConCondicionesSubsanadas() {
 		
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Hipertenso());
-		arielFolino.agregarCondicion(new Vegano());
-		
+		arielFolino.agregarCondicion(Hipertenso.instance());
 		arielFolino.agregarPreferenciaAlimenticia(Ingrediente.nuevoIngrediente("frutas", 0f));
 		
 		assertFalse(arielFolino.sigueRutinaSaludable());
@@ -182,9 +179,7 @@ public class TestUsuario extends BaseTest {
 	@Test
 	public void testEsAdecuadaUnaRecetaParaUnUsuarioSiEsRecomendableParaTodasSusCondiciones() {
 		
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Hipertenso());
-		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Hipertenso.instance());
 		
 		Ingrediente frutas = Ingrediente.nuevoIngrediente("frutas", 0f);
 		Ingrediente azucar = Ingrediente.nuevoIngrediente("azucar", 99.9f);
@@ -199,9 +194,7 @@ public class TestUsuario extends BaseTest {
 	@Test
 	public void testNoEsAdecuadaUnaRecetaParaUnUsuarioSiNoEsRecomendableParaAlgunaDeSusCondiciones() {
 		
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Hipertenso());
-		arielFolino.agregarCondicion(new Vegano());
+		arielFolino.agregarCondicion(Hipertenso.instance());
 		
 		Ingrediente frutas = Ingrediente.nuevoIngrediente("frutas", 0f);
 		Ingrediente azucar = Ingrediente.nuevoIngrediente("azucar", 99.9f);
@@ -350,8 +343,8 @@ public class TestUsuario extends BaseTest {
 	@Test
 	public void testNoSePuedeSugerirUnaRecetaAUnUsuarioSiNoCumpleTodasSusCondiciones() {
 		
-		fecheSena.agregarCondicion(new Celiaco());
-		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarCondicion(Celiaco.instance());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		assertFalse(fecheSena.esAdecuada(bife));
 		assertFalse(fecheSena.puedeSugerirse(bife));
@@ -390,13 +383,9 @@ public class TestUsuario extends BaseTest {
 	/* Test: @cumpleTodasLasCondicionesDe/1 */
 	@Test 
 	public void testUnUsuarioNoCumpleTodasLasCondicionesDeOtroUsuario() {
-		
-		arielFolino.agregarCondicion(new Vegano());
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Diabetico());
-		
-		fecheSena.agregarCondicion(new Vegano());
-		fecheSena.agregarCondicion(new Hipertenso());
+
+		fecheSena.agregarCondicion(Vegano.instance());
+		fecheSena.agregarCondicion(Hipertenso.instance());
 		
 		assertFalse(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
 	}
@@ -410,11 +399,7 @@ public class TestUsuario extends BaseTest {
 	@Test 
 	public void testUnUsuarioCumpleTodasLasCondicionesDeOtroUsuario() {
 		
-		arielFolino.agregarCondicion(new Vegano());
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Diabetico());
-		
-		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		assertTrue(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
 	}
@@ -422,12 +407,8 @@ public class TestUsuario extends BaseTest {
 	@Test 
 	public void testUnUsuarioNoCumpleTodasLasCondicionesDeOtroUsuarioConDuplicados() {
 		
-		arielFolino.agregarCondicion(new Vegano());
-		arielFolino.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Diabetico());
-		
-		fecheSena.agregarCondicion(new Vegano());
-		fecheSena.agregarCondicion(new Vegano());
+		fecheSena.agregarCondicion(Vegano.instance());
+		fecheSena.agregarCondicion(Vegano.instance());
 		
 		assertTrue(arielFolino.cumpleTodasLasCondicionesDe(fecheSena));
 	}

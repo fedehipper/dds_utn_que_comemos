@@ -34,12 +34,12 @@ public class TestRepositorioDeUsuarios extends BaseTest {
 		repositorio.add(matiasMartino);
 		repositorio.add(lauraMartin);
 		
-		jorgeFernandez.agregarCondicion(new Vegano()).agregarCondicion(new Celiaco());
-		jorgeMartin.agregarCondicion(new Vegano()).agregarCondicion(new Diabetico());
-		matiasMartino.agregarCondicion(new Vegano()).agregarCondicion(new Diabetico());
-		lauraMartin.agregarCondicion(new Celiaco());
-		arielFolino.agregarCondicion(new Celiaco());
-		fecheSena.agregarCondicion(new Hipertenso());
+		jorgeFernandez.agregarCondicion(Vegano.instance()).agregarCondicion(Celiaco.instance());
+		jorgeMartin.agregarCondicion(Vegano.instance()).agregarCondicion(Diabetico.instance());
+		matiasMartino.agregarCondicion(Vegano.instance()).agregarCondicion(Diabetico.instance());
+		lauraMartin.agregarCondicion(Celiaco.instance());
+		arielFolino.agregarCondicion(Celiaco.instance());
+		fecheSena.agregarCondicion(Hipertenso.instance());
 	}
 
 	/* Test: @get/1 */
@@ -66,7 +66,7 @@ public class TestRepositorioDeUsuarios extends BaseTest {
 	public void testListarVeganosYCeliacos() {
 		List<Usuario> expected = Arrays.asList(jorgeMartin, matiasMartino);
 		
-		Usuario prototipo = BuilderUsuario.prototipo("Martin", Arrays.asList(new Vegano(), new Diabetico()));
+		Usuario prototipo = BuilderUsuario.prototipo("Martin", Arrays.asList(Vegano.instance(), Diabetico.instance()));
 		assertEqualsList(expected, repositorio.list(prototipo));
 	}
 	
@@ -75,7 +75,7 @@ public class TestRepositorioDeUsuarios extends BaseTest {
 		List<Usuario> expected = Arrays.asList(matiasMartino, jorgeMartin);
 		
 		Usuario prototipo = BuilderUsuario.prototipo("Martin");
-		prototipo.agregarCondicion(new Diabetico());
+		prototipo.agregarCondicion(Diabetico.instance());
 		
 		assertEqualsList(expected, repositorio.list(prototipo));
 	}
