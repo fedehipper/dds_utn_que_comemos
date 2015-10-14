@@ -21,11 +21,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import queComemos.entrega3.dominio.Dificultad;
 
@@ -34,13 +32,13 @@ import queComemos.entrega3.dominio.Dificultad;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_receta")
 @DiscriminatorValue("privada")
-public class Receta implements WithGlobalEntityManager {
+public class Receta {
 	
 	@Id
 	@GeneratedValue
 	@Column(name = "id_receta")
 	private long id;
-    @Transient
+    @ManyToOne
 	protected Usuario creador;
 
 	/* Encabezado de la receta */
@@ -48,13 +46,13 @@ public class Receta implements WithGlobalEntityManager {
 	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
 	/* Detalle de la receta */
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Recetas_Ingredientes")
 	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Recetas_Condimentos")
 	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
-	@OneToMany
+	@ManyToMany
 	@JoinTable(name = "Recetas_Subrecetas")
 	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
@@ -117,7 +115,7 @@ public class Receta implements WithGlobalEntityManager {
 
 	public float cantidadCondimento(String nombreCondimento) {
 		int index = getCondimentos().indexOf(Ingrediente.nuevaComida(nombreCondimento));
-		return getCondimentos().get(index).getCantidad();
+		return index < 0 ? 0 : getCondimentos().get(index).getCantidad();
 	}
 
 	public boolean puedeSerVistaPor(Usuario usuario) {
@@ -276,5 +274,10 @@ public class Receta implements WithGlobalEntityManager {
 	public long getId() {
 		return id;
 	}
-		
+
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 }

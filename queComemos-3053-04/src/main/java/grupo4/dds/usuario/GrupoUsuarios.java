@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,10 +29,10 @@ public class GrupoUsuarios implements Persistible {
 	private long id;
 	
 	private String nombre;
-	@OneToMany
+	@ManyToMany
 	@JoinTable(name = "Usuarios_Grupos")
 	private Set<Usuario> usuarios = new HashSet<>();
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Grupos_Ingredientes")
 	private List<Ingrediente> preferenciasAlimenticias = new ArrayList<>();
 	
