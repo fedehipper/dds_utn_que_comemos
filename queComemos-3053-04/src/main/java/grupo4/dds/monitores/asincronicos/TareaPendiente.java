@@ -25,6 +25,9 @@ public class TareaPendiente {
 	@Transient
 	private Consumer<Usuario> operacion;
 	
+	@SuppressWarnings("unused")
+	private TareaPendiente() {}
+	
 	public TareaPendiente(Usuario usuario, Consumer<Usuario> operacion) {
 		this.usuario = usuario;
 		this.operacion = operacion;

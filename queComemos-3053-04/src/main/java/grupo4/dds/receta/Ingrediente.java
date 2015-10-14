@@ -20,6 +20,8 @@ public class Ingrediente {
 	private String nombre;
 	private float cantidad;
 	
+	private Ingrediente() {}
+	
 	public static Ingrediente nuevaComida(String nombre) {
 		return nuevoIngrediente(nombre, 0);
 	}
