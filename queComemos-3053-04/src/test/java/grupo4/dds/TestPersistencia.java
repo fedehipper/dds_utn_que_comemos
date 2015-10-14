@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import grupo4.dds.receta.Ingrediente;
@@ -18,7 +16,7 @@ import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 
-import org.hibernate.collection.internal.PersistentBag;
+
 import org.junit.Before;
 import org.junit.Test;
 
