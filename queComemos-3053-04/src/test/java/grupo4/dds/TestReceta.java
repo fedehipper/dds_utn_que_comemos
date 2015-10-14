@@ -58,7 +58,7 @@ public class TestReceta extends BaseTest {
 	
 	@Test
 	public void testAlModificarUnaRecetaPublicaSeGeneraUnaNuevaRecetaConLasModificaciones() {
-		Receta recetaPublica = BuilderRecetaPublica.buildRecetaValida();
+		Receta recetaPublica = new BuilderRecetaPublica().hacerValida().build();
 		recetaPublica.setPreparacion("Preparación antes de modificar");
 		
 		federicoHipper.modificarReceta(recetaPublica, recetaPublica.getEncabezado(), recetaPublica.getIngredientes(), null, "Preparación después de modificar", null);

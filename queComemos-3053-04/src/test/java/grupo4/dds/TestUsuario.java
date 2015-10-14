@@ -10,6 +10,8 @@ import grupo4.dds.receta.EncabezadoDeReceta;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.RecetaPublica;
+import grupo4.dds.receta.builder.BuilderReceta;
+import grupo4.dds.receta.builder.BuilderRecetaPublica;
 import grupo4.dds.usuario.BuilderUsuario;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Rutina;
@@ -222,7 +224,7 @@ public class TestUsuario extends BaseTest {
 	
 	@Test
 	public void testUnUsuarioPuedeVerUnaRecetaPublica() {
-		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, null);
+		RecetaPublica recetaPublica = new BuilderRecetaPublica().hacerValida().build();
 		assertTrue(arielFolino.puedeVer(recetaPublica));
 	}
 	
@@ -253,7 +255,7 @@ public class TestUsuario extends BaseTest {
 	
 	@Test
 	public void testUnUsuarioPuedeModificarUnaRecetaPublica() {
-		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, null);
+		RecetaPublica recetaPublica = new BuilderRecetaPublica().hacerValida().build();
 		assertTrue(arielFolino.puedeModificar(recetaPublica));
 	}
 	
@@ -272,7 +274,10 @@ public class TestUsuario extends BaseTest {
 	public void testUnUsuarioNoPuedeAgregarUnaRecetaInadecuadaParaEl(){
 		expectedExcetption.expect(NoSePuedeAgregarLaReceta.class);
 		
-		Receta receta = Receta.crearNueva(fecheSena, null, null);
+		Ingrediente carne = Ingrediente.nuevaComida("carne");
+		Receta receta = new BuilderReceta().hacerValida().ingrediente(carne).creador(fecheSena).build();
+		fecheSena.agregarCondicion(Vegano.instance());
+		
 		assertFalse(fecheSena.esAdecuada(receta));
 		
 		fecheSena.agregarReceta(receta);
@@ -323,7 +328,8 @@ public class TestUsuario extends BaseTest {
 	@Test
 	public void testUnUsuarioModificaUnaRecetaPublicaPeroSoloElVeLosCambios(){
 
-		RecetaPublica recetaPublica = RecetaPublica.crearNueva(null, "Preparacion antes de modificar");
+		RecetaPublica recetaPublica = new BuilderRecetaPublica().hacerValida().build();
+		recetaPublica.setPreparacion("Preparacion antes de modificar");
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		encabezado.setTotalCalorias(4500);
