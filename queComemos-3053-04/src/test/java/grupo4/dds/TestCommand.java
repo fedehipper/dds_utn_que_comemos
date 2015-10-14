@@ -56,7 +56,6 @@ public class TestCommand extends BaseTest {
 			resultadoCon101Recetas.add(milanesa);
 		}
 		
-		federicoHipper.setMarcaFavorita(true);
 		mockLogger = new MockLogger(null);		
 		resultadoConsulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
 		parametros = Arrays.asList(new FiltroNoLeGusta(), new FiltroExcesoCalorias());
@@ -65,6 +64,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testMarcarComoFavoritaATodasLasRecetas() {
 		
+		federicoHipper.setMarcaFavorita(true);
 		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		repoTareas.ejecutarTodas();
 		
@@ -76,7 +76,6 @@ public class TestCommand extends BaseTest {
 
 		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		
-		federicoHipper.setMarcaFavorita(false);
 		repoTareas.ejecutarTodas();
 		
 		assertTrue(federicoHipper.getHistorial().isEmpty());
@@ -90,6 +89,7 @@ public class TestCommand extends BaseTest {
 		assertEqualsList(Arrays.asList(pollo), federicoHipper.getHistorial());
 		
 		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		federicoHipper.setMarcaFavorita(true);
 		repoTareas.ejecutarTodas();
 		
 		assertEqualsList(resultadoConsulta, federicoHipper.getHistorial());
