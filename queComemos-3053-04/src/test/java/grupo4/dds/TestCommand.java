@@ -56,8 +56,6 @@ public class TestCommand extends BaseTest {
 			resultadoCon101Recetas.add(milanesa);
 		}
 		
-		repoTareas.vaciar();
-		
 		federicoHipper.setMarcaFavorita(true);
 		mockLogger = new MockLogger(null);		
 		resultadoConsulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
