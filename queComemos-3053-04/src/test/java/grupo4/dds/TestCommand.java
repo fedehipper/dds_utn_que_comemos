@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import grupo4.dds.monitores.EnvioPorMail;
 import grupo4.dds.monitores.LoggeoConsultas;
 import grupo4.dds.monitores.MarcarFavoritas;
-import grupo4.dds.monitores.asincronicos.RepositorioTareas;
 import grupo4.dds.monitores.asincronicos.mail.EMailer;
 import grupo4.dds.monitores.asincronicos.mail.Mail;
 import grupo4.dds.monitores.asincronicos.mail.MailSender;
@@ -15,6 +14,7 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.filtros.FiltroExcesoCalorias;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
+import grupo4.dds.repositorios.RepositorioDeTareas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class TestCommand extends BaseTest {
 		
-	private RepositorioTareas repoTareas = RepositorioTareas.instance();
+	private RepositorioDeTareas repoTareas = RepositorioDeTareas.instance();
 	
 	private List<Receta> resultadoConsulta = new ArrayList<>();
 	private List<Receta> resultadoCon101Recetas = new ArrayList<>();

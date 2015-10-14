@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.monitores.MarcarFavoritas;
-import grupo4.dds.monitores.asincronicos.RepositorioTareas;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
@@ -14,6 +13,7 @@ import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
 import grupo4.dds.receta.busqueda.filtros.FiltroRecetasCaras;
 import grupo4.dds.receta.busqueda.postProcesamiento.Ordenar;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
+import grupo4.dds.repositorios.RepositorioDeTareas;
 import grupo4.dds.usuario.condicion.Vegano;
 
 import java.time.LocalTime;
@@ -137,7 +137,7 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		maria.setMarcaFavorita(true);
 		RepositorioDeRecetas.get().listarRecetasPara(maria, null, null);
 
-		RepositorioTareas.instance().ejecutarTodas();
+		RepositorioDeTareas.instance().ejecutarTodas();
 		
 		assertTrue(maria.getHistorial().containsAll(consulta));
 	}
