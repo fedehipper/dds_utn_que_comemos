@@ -15,7 +15,7 @@ import grupo4.dds.receta.builder.BuilderRecetaPublica;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
-
+import grupo4.dds.usuario.condicion.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -129,7 +129,17 @@ public class TestPersistencia extends BaseTest {
 	 }
 	
 
-	
+	@Test
+	public void testConsultaDeCondicion(){
+		maria.agregarCondicion(new Vegano());
+		maria.agregarCondicion(new Celiaco());
+		entityManager().persist(maria);
+		
+		TypedQuery<Usuario> q = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.nombre = 'Maria'", Usuario.class);
+		Usuario usuarioConsultado=q.getSingleResult();
+		
+		assertTrue(usuarioConsultado.esVegano());
+	}
 	
 
 }
