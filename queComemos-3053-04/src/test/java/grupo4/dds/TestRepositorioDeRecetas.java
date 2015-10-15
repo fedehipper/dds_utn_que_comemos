@@ -132,7 +132,7 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		
 		consulta = Arrays.asList(salmon, lomito, coliflor);
 		
-		repositorio.agregarMonitor(new MarcarFavoritas());
+		repositorio.agregarMonitor(MarcarFavoritas.instance());
 		
 		maria.setMarcaFavorita(true);
 		RepositorioDeRecetas.get().listarRecetasPara(maria, null, null);

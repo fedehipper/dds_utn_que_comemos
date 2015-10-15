@@ -65,7 +65,7 @@ public class TestCommand extends BaseTest {
 	public void testMarcarComoFavoritaATodasLasRecetas() {
 		
 		federicoHipper.setMarcaFavorita(true);
-		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		repoTareas.ejecutarTodas();
 		
 		assertTrue(federicoHipper.getHistorial().containsAll(resultadoConsulta));
@@ -74,7 +74,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 
-		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		
 		repoTareas.ejecutarTodas();
 		
@@ -88,7 +88,7 @@ public class TestCommand extends BaseTest {
 		
 		assertEqualsList(Arrays.asList(pollo), federicoHipper.getHistorial());
 		
-		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		federicoHipper.setMarcaFavorita(true);
 		repoTareas.ejecutarTodas();
 		
@@ -98,7 +98,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testAgregarEnvioDeMailEnMailPendientesEnRepositorioDeReceta() {
 		
-		EnvioPorMail envioPorMail = new EnvioPorMail();
+		EnvioPorMail envioPorMail = EnvioPorMail.instance();
 		envioPorMail.suscribir(federicoHipper);
 		envioPorMail.notificarConsulta(federicoHipper, resultadoConsulta, parametros);
 		
@@ -116,7 +116,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoSeEnvianMailsAUsuarioNoSuscriptos() {
 		
-		EnvioPorMail envioPorMail = new EnvioPorMail();
+		EnvioPorMail envioPorMail = EnvioPorMail.instance();
 		envioPorMail.notificarConsulta(fecheSena, resultadoConsulta, parametros);
 		
 		MailSender mockMailSender = new MockMailSender();
@@ -146,7 +146,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoLoggeaConsultasConMenosDe100Resultados(){
 				
-		LoggeoConsultas loggeoConsultas = new LoggeoConsultas();
+		LoggeoConsultas loggeoConsultas = LoggeoConsultas.instance();
 		loggeoConsultas.setLogger(mockLogger);
 		loggeoConsultas.notificarConsulta(federicoHipper, resultadoCon101Recetas.subList(0, 98), null);		
 		
@@ -160,7 +160,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testLoggeaConsultasConMasDe100Resultados(){
 
-		LoggeoConsultas loggeoConsultas = new LoggeoConsultas();
+		LoggeoConsultas loggeoConsultas = LoggeoConsultas.instance();
 		loggeoConsultas.setLogger(mockLogger);
 		loggeoConsultas.notificarConsulta(federicoHipper, resultadoCon101Recetas, null);		
 		

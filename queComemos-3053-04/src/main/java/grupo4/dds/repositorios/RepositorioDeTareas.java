@@ -1,6 +1,6 @@
 package grupo4.dds.repositorios;
 
-import grupo4.dds.monitores.asincronicos.TareaPendiente;
+import grupo4.dds.monitores.asincronicos.tareas.TareaPendiente;
 
 import java.util.List;
 

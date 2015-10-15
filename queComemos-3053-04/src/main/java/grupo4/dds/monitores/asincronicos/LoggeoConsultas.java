@@ -1,11 +1,12 @@
 package grupo4.dds.monitores.asincronicos;
 
+import grupo4.dds.monitores.asincronicos.tareas.TareaLoggeo;
+import grupo4.dds.monitores.asincronicos.tareas.TareaPendiente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -18,10 +19,17 @@ import org.apache.log4j.PropertyConfigurator;
 @DiscriminatorValue("loggeo")
 public class LoggeoConsultas extends MonitorAsincronico {
 
+	private static LoggeoConsultas self = new LoggeoConsultas();
+
 	@Transient
-	private Logger logger;
+	public Logger logger;
 	
-	public LoggeoConsultas() {
+	public static LoggeoConsultas instance() {
+		return self;
+	}
+
+	
+	private LoggeoConsultas() {
 		logger = Logger.getLogger(LoggeoConsultas.class);
 		PropertyConfigurator.configure("log4j.properties");
 	}
@@ -29,13 +37,10 @@ public class LoggeoConsultas extends MonitorAsincronico {
 	public void setLogger(Logger logger) {
 		this.logger = logger;
 	}
-
+	
 	@Override
-	public Consumer<Usuario> operacion(List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		return (Usuario u) -> {			
-			if (resultadoConsulta.size() > 100 && logger.isInfoEnabled()) {
-				logger.info("Consultas Con Mas De 100 Resultados");	
-			}
-		};
+	public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+		return new TareaLoggeo(usuario, resultadoConsulta, parametros);
 	}
+
 }
