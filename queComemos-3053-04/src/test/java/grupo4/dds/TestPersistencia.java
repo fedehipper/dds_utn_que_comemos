@@ -30,6 +30,7 @@ public class TestPersistencia extends BaseTest {
 	private RecetaPublica milanesa;
 	private Usuario fecheSena;
 	private Receta receta1;
+	private Receta receta2;
 	private Receta receta3;
 	private GrupoUsuarios grupo;
 	
@@ -171,4 +172,48 @@ public class TestPersistencia extends BaseTest {
 		
 	}
 
+	
+	@Test 
+	public void testVerificarSiSePersistenLasSubrecetas(){
+		
+		receta1 = new BuilderReceta().setCreador(ariel).
+				 setPreparacion("mandale cualquiera").
+				 setTotalCalorias(4000).
+				 setNombreDelPlato("mandale cualquiera").
+				 setIngrediente(Ingrediente.nuevoIngrediente("cualquiera", 0f)).
+				 build();
+		
+		receta2 = new BuilderReceta().setCreador(ariel).
+				 setPreparacion("receta distinta a la anterior").
+				 setTotalCalorias(4500).
+				 setNombreDelPlato("es distinta").
+				 setIngrediente(Ingrediente.nuevoIngrediente("distinto a cualquiera", 0f)).
+				 build();
+		
+		receta3 = new BuilderReceta().setCreador(ariel).
+				 setPreparacion("otra mas que no es como las anteriores").
+				 setTotalCalorias(4500).
+				 setNombreDelPlato("no es pasta").
+				 setIngrediente(Ingrediente.nuevoIngrediente("pasta", 0f)).
+				 build();
+		
+		receta1.agregarSubreceta(receta2);
+		receta1.agregarSubreceta(receta3);
+		
+		List<Receta> recetas = new ArrayList<>();
+		recetas.add(receta2);
+		recetas.add(receta3);
+		
+		entityManager().persist(receta1);
+		
+		TypedQuery<Receta> q = entityManager().createQuery("SELECT r FROM Receta r WHERE id = :id",Receta.class).
+				setParameter("id", receta1.getId());
+		
+		Receta recetaConsultada = q.getSingleResult();
+		
+		assertTrue(recetaConsultada.getSubrecetas().containsAll(recetas));
+	}
+	
+	
+	
 }
