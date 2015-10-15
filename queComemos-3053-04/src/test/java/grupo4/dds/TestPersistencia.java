@@ -141,5 +141,34 @@ public class TestPersistencia extends BaseTest {
 		assertTrue(usuarioConsultado.esVegano());
 	}
 	
+	@Test
+	public void testSePersisteElHistorialDeUnUsuario(){
+		
+		receta1 = new BuilderReceta().setCreador(fecheSena).
+				 setPreparacion("meter al horno por 5 horas").
+				 setTotalCalorias(4000).
+				 setNombreDelPlato("fideos al horno").
+				 setIngrediente(Ingrediente.nuevoIngrediente("fideos", 0f)).
+				 build();
+		
+		receta3 = new BuilderReceta().setCreador(fecheSena).
+				 setPreparacion("tirar a la parrilla").
+				 setTotalCalorias(4500).
+				 setNombreDelPlato("asado").
+				 setIngrediente(Ingrediente.nuevoIngrediente("carne", 0f)).
+				 build();
+		
+		fecheSena.marcarFavorita(receta1);
+		fecheSena.marcarFavorita(receta3);
+		
+		entityManager().persist(fecheSena);
+		
+		TypedQuery<Usuario> q = entityManager().createQuery("SELECT u FROM Usuario u WHERE u.nombre = 'Feche Sena'", Usuario.class);
+		
+		Usuario usuarioConsultado = q.getSingleResult();
+		
+		assertTrue(usuarioConsultado.getHistorial().contains(receta1));
+		
+	}
 
 }
