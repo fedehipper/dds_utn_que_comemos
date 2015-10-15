@@ -68,7 +68,7 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 	public void testMonitorRecetasMasConsultadas() {
 
 		RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
-		recetasMasConsultadas.notificarConsulta(null, consulta1, null);
+		recetasMasConsultadas.notificarConsulta(fecheSena, consulta1, null);
 		
 		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadas(1).keySet();
 		assertTrue(masConsultadas.contains(bife));

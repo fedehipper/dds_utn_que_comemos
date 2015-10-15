@@ -1,30 +1,27 @@
 package grupo4.dds.monitores;
 
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Sexo;
-import grupo4.dds.usuario.Usuario;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import javax.persistence.Transient;
+import javax.persistence.TypedQuery;
 
 public class RecetasMasConsultadasPorSexo extends AbstractRecetasMasConsultadas {
 	
-	@Transient
-	private Map<Receta, Integer> recetasConsultadasHombres = new HashMap<>();
-	@Transient
-	private Map<Receta, Integer> recetasConsultadasMujeres = new HashMap<>();
-	
-	@Override
-	public void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {	
-		super.seRealizoUnaConsulta(usuario.esHombre() ? recetasConsultadasHombres : recetasConsultadasMujeres, resultadoConsulta);
-	}
-	
 	public Map<Receta, Integer> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
-		return super.recetasMasConsultadas(sexo.equals(Sexo.MASCULINO) ? recetasConsultadasHombres : recetasConsultadasMujeres, cantidad);
+		
+		String query;
+		
+		if(sexo.equals(Sexo.MASCULINO))
+			query = "from Receta order by consultasHombres";
+		else
+			query = "from Receta order by consultasMujeres";
+		
+		TypedQuery<Receta> typedQuery = entityManager().createQuery(query, Receta.class);
+		
+		return typedQuery.getResultList().stream().collect(Collectors.toMap(r -> r, Receta::totalConsultas));
 	}	
 	
 }

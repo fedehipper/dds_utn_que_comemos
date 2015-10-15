@@ -55,6 +55,8 @@ public class Receta {
 	@JoinTable(name = "Recetas_Subrecetas")
 	protected List<Receta> subrecetas = new ArrayList<Receta>();
 	protected String preparacion;
+	protected int consultasHombres;
+	protected int consultasMujeres;
 
 	/* Servicios */
 
@@ -192,6 +194,18 @@ public class Receta {
 		return id;
 	}
 
+	public int consultasHombres() {
+		return consultasHombres;
+	}
+
+	public int consultasMujeres() {
+		return consultasMujeres;
+	}
+	
+	public int totalConsultas() {
+		return consultasMujeres + consultasHombres;
+	}
+	
 	
 	public void setTotalCalorias(int totalCalorias) {
 		encabezado.setTotalCalorias(totalCalorias);
@@ -235,6 +249,16 @@ public class Receta {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+
+
+	public void consultoHombre() {
+		consultasHombres++;
+	}
+
+	public void consultoMujer() {
+		consultasMujeres++;
 	}
 	
 }

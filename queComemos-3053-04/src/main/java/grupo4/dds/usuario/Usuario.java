@@ -200,6 +200,13 @@ public class Usuario implements Persistible {
 		consulta.forEach(r -> marcarFavorita(r));
 	}
 	
+	public void consulto(Receta receta) {
+		if(sexo.equals(Sexo.MASCULINO))
+			receta.consultoHombre();
+		else
+			receta.consultoMujer();
+	}
+	
 	/* Servicios internos */
 	
 	private boolean tieneCamposObligatorios() {
