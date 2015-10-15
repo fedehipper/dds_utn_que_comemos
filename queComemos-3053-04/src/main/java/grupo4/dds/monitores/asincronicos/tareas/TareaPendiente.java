@@ -5,9 +5,11 @@ import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +18,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Tareas_Pendientes")
@@ -33,15 +34,15 @@ public abstract class TareaPendiente {
 	protected Usuario usuario;
 	@ManyToMany
 	protected List<Receta> resultadoConsulta;
-	@Transient
-	protected List<Filtro> parametros;
+	@ElementCollection
+	protected List<String> parametros;
 	
 	public TareaPendiente() {}
 	
 	public TareaPendiente(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
 		this.usuario = usuario;
 		this.resultadoConsulta = resultadoConsulta;
-		this.parametros = parametros;
+		this.parametros = parametros == null ? null : parametros.stream().map(Filtro::toString).collect(Collectors.toList());
 	}
 	
 	public abstract void ejecutar();

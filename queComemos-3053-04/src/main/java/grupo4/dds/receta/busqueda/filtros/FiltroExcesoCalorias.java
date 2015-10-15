@@ -10,8 +10,9 @@ public class FiltroExcesoCalorias implements Filtro {
 		return r.getTotalCalorias() <= 500 && u.indiceDeMasaCorporal() <= 25;
 	}
 	
+	@Override
 	@CoberturaIgnore
-	public String getNombre(){
+	public String toString() {
 		return "ExcesoDeCalorias";
 	}
 

@@ -19,6 +19,7 @@ import grupo4.dds.repositorios.RepositorioDeTareas;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -109,7 +110,8 @@ public class TestCommand extends BaseTest {
 		
 		repoTareas.ejecutarTodas();
 		
-		Mail expected = new Mail(federicoHipper, resultadoConsulta, parametros);
+		List<String> nombreParametros = parametros.stream().map(Filtro::toString).collect(Collectors.toList());
+		Mail expected = new Mail(federicoHipper, resultadoConsulta, nombreParametros);
 		assertEquals(expected.crearMensaje(), mockMailSender.ultimoMail().crearMensaje());
 	}	
 

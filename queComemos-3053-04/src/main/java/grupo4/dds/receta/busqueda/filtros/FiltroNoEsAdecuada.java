@@ -10,10 +10,9 @@ public class FiltroNoEsAdecuada implements Filtro {
 		return u.esAdecuada(r);
 	}
 	
+	@Override
 	@CoberturaIgnore
-	public String getNombre(){
+	public String toString() {
 		return "Inadecuada";
 	}
-
-	
 }
