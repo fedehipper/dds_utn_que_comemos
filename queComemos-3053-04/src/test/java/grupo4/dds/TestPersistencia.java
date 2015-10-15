@@ -214,6 +214,40 @@ public class TestPersistencia extends BaseTest {
 		assertTrue(recetaConsultada.getSubrecetas().containsAll(recetas));
 	}
 	
+	@Test
+	public void testPersistenciaIngredientesDeReceta() {
+		
+		receta1 = new BuilderReceta().setCreador(ariel).setPreparacion("mandale cualquiera").
+			setTotalCalorias(4000).
+			setNombreDelPlato("mandale cualquiera").
+			setIngrediente(Ingrediente.nuevoIngrediente("dulce de leche", 0f)).
+			setIngrediente(Ingrediente.nuevoIngrediente("ajo", 0f)).
+			setIngrediente(Ingrediente.nuevoIngrediente("morron", 0f)).
+			setIngrediente(Ingrediente.nuevoIngrediente("apio", 0f)).
+			setIngrediente(Ingrediente.nuevoIngrediente("leche", 0f)).
+			build();
+		List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+		ingredientes = receta1.getIngredientes();
+		
+		entityManager().persist(receta1);
+
+		TypedQuery<Receta> q = entityManager().createQuery("SELECT r FROM Receta r WHERE id = :id", Receta.class).
+				setParameter("id", receta1.getId());
+		
+		Receta receta = q.getSingleResult();
+		
+		assertEquals(receta.getIngredientes(), ingredientes);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
