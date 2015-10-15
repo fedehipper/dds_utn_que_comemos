@@ -8,7 +8,6 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,7 +16,6 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 public class RepositorioDeRecetas implements WithGlobalEntityManager {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
-	private Set<Monitor> monitores = new HashSet<>();
 	
 	public static RepositorioDeRecetas get() {
 		return self;
@@ -46,9 +44,13 @@ public class RepositorioDeRecetas implements WithGlobalEntityManager {
 	}
 	
 	public void notificarATodos(Usuario usuario, List<Receta> consulta) {
-		this.monitores.forEach(monitor -> monitor.notificarConsulta(usuario, consulta, null));
+		monitores().forEach(monitor -> monitor.notificarConsulta(usuario, consulta, null));
 	}
 	
+	private List<Monitor> monitores() {
+		return entityManager().createQuery("from Monitor", Monitor.class).getResultList();
+	}
+
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
@@ -75,10 +77,10 @@ public class RepositorioDeRecetas implements WithGlobalEntityManager {
 	}
 
 	public void agregarMonitor(Monitor monitor) {
-		this.monitores.add(monitor);
+		entityManager().persist(monitor);
 	}
 	
 	public void removerMonitor(Monitor monitor) {
-		this.monitores.remove(monitor);
+		entityManager().remove(monitor);
 	}
 }

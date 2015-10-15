@@ -18,7 +18,6 @@ import javax.persistence.Table;
 public abstract class Condicion {
 	
 	@Id
-	//@GeneratedValue
 	@Column(name = "id_condicion")
 	protected long id;
 
@@ -28,4 +27,11 @@ public abstract class Condicion {
 
 	public abstract boolean esRecomendable(Receta receta);
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 }

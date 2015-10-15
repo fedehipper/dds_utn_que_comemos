@@ -1,5 +1,6 @@
 package grupo4.dds.receta.busqueda.filtros;
 
+import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
@@ -25,9 +26,10 @@ public class FiltroRecetasCaras implements Filtro {
 		ingredientesCaros.remove(unIngrediente);
 	}
 	
-	public String getNombre(){
+	@Override
+	@CoberturaIgnore
+	public String toString() {
 		return "RecetasCaras";
 	}
-
 	
 }

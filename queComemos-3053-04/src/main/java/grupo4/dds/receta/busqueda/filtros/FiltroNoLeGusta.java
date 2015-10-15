@@ -1,5 +1,6 @@
 package grupo4.dds.receta.busqueda.filtros;
 
+import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
@@ -10,9 +11,9 @@ public class FiltroNoLeGusta implements Filtro {
 		return u.leGusta(r);
 	}
 	
-	public String getNombre(){
+	@Override
+	@CoberturaIgnore
+	public String toString() {
 		return "NoLeGusta";
 	}
-
-
 }

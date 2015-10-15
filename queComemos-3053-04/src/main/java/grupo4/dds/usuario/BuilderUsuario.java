@@ -108,7 +108,6 @@ public class BuilderUsuario {
 	}
 	
 	public Usuario build() {
-		usuario.setMarcaFavorita(true);
 		RepositorioDeSolicitudes.get().solicitarIncorporación(usuario);
 		
 		return usuario;

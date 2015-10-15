@@ -4,10 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import grupo4.dds.monitores.EnvioPorMail;
-import grupo4.dds.monitores.LoggeoConsultas;
-import grupo4.dds.monitores.MarcarFavoritas;
-import grupo4.dds.monitores.asincronicos.RepositorioTareas;
+import grupo4.dds.monitores.asincronicos.EnvioPorMail;
+import grupo4.dds.monitores.asincronicos.LoggeoConsultas;
+import grupo4.dds.monitores.asincronicos.MarcarFavoritas;
 import grupo4.dds.monitores.asincronicos.mail.EMailer;
 import grupo4.dds.monitores.asincronicos.mail.Mail;
 import grupo4.dds.monitores.asincronicos.mail.MailSender;
@@ -15,10 +14,12 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.filtros.FiltroExcesoCalorias;
 import grupo4.dds.receta.busqueda.filtros.FiltroNoLeGusta;
+import grupo4.dds.repositorios.RepositorioDeTareas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -26,7 +27,7 @@ import org.junit.Test;
 
 public class TestCommand extends BaseTest {
 		
-	private RepositorioTareas repoTareas = RepositorioTareas.instance();
+	private RepositorioDeTareas repoTareas = RepositorioDeTareas.instance();
 	
 	private List<Receta> resultadoConsulta = new ArrayList<>();
 	private List<Receta> resultadoCon101Recetas = new ArrayList<>();
@@ -56,9 +57,6 @@ public class TestCommand extends BaseTest {
 			resultadoCon101Recetas.add(milanesa);
 		}
 		
-		repoTareas.vaciar();
-		
-		federicoHipper.setMarcaFavorita(true);
 		mockLogger = new MockLogger(null);		
 		resultadoConsulta = Arrays.asList(pollo, pure, salmon, lomito, coliflor);
 		parametros = Arrays.asList(new FiltroNoLeGusta(), new FiltroExcesoCalorias());
@@ -67,7 +65,8 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testMarcarComoFavoritaATodasLasRecetas() {
 		
-		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		federicoHipper.setMarcaFavorita(true);
+		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		repoTareas.ejecutarTodas();
 		
 		assertTrue(federicoHipper.getHistorial().containsAll(resultadoConsulta));
@@ -76,9 +75,8 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoSeMarcanComoFavoritasSiElUsuarioNoTieneLaOpcionActivada() {
 
-		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		
-		federicoHipper.setMarcaFavorita(false);
 		repoTareas.ejecutarTodas();
 		
 		assertTrue(federicoHipper.getHistorial().isEmpty());
@@ -91,7 +89,8 @@ public class TestCommand extends BaseTest {
 		
 		assertEqualsList(Arrays.asList(pollo), federicoHipper.getHistorial());
 		
-		new MarcarFavoritas().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
+		federicoHipper.setMarcaFavorita(true);
 		repoTareas.ejecutarTodas();
 		
 		assertEqualsList(resultadoConsulta, federicoHipper.getHistorial());
@@ -100,7 +99,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testAgregarEnvioDeMailEnMailPendientesEnRepositorioDeReceta() {
 		
-		EnvioPorMail envioPorMail = new EnvioPorMail();
+		EnvioPorMail envioPorMail = EnvioPorMail.instance();
 		envioPorMail.suscribir(federicoHipper);
 		envioPorMail.notificarConsulta(federicoHipper, resultadoConsulta, parametros);
 		
@@ -111,14 +110,15 @@ public class TestCommand extends BaseTest {
 		
 		repoTareas.ejecutarTodas();
 		
-		Mail expected = new Mail(federicoHipper, resultadoConsulta, parametros);
+		List<String> nombreParametros = parametros.stream().map(Filtro::toString).collect(Collectors.toList());
+		Mail expected = new Mail(federicoHipper, resultadoConsulta, nombreParametros);
 		assertEquals(expected.crearMensaje(), mockMailSender.ultimoMail().crearMensaje());
 	}	
 
 	@Test
 	public void testNoSeEnvianMailsAUsuarioNoSuscriptos() {
 		
-		EnvioPorMail envioPorMail = new EnvioPorMail();
+		EnvioPorMail envioPorMail = EnvioPorMail.instance();
 		envioPorMail.notificarConsulta(fecheSena, resultadoConsulta, parametros);
 		
 		MailSender mockMailSender = new MockMailSender();
@@ -148,7 +148,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testNoLoggeaConsultasConMenosDe100Resultados(){
 				
-		LoggeoConsultas loggeoConsultas = new LoggeoConsultas();
+		LoggeoConsultas loggeoConsultas = LoggeoConsultas.instance();
 		loggeoConsultas.setLogger(mockLogger);
 		loggeoConsultas.notificarConsulta(federicoHipper, resultadoCon101Recetas.subList(0, 98), null);		
 		
@@ -162,7 +162,7 @@ public class TestCommand extends BaseTest {
 	@Test
 	public void testLoggeaConsultasConMasDe100Resultados(){
 
-		LoggeoConsultas loggeoConsultas = new LoggeoConsultas();
+		LoggeoConsultas loggeoConsultas = LoggeoConsultas.instance();
 		loggeoConsultas.setLogger(mockLogger);
 		loggeoConsultas.notificarConsulta(federicoHipper, resultadoCon101Recetas, null);		
 		

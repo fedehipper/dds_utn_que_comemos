@@ -58,7 +58,7 @@ public class Usuario implements Persistible {
 	
 	@OneToMany
 	protected List<Receta> recetas = new ArrayList<>();
-	@ManyToMany
+	@ManyToMany(mappedBy="usuarios")
 	protected Set<GrupoUsuarios> grupos = new HashSet<>();
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -68,8 +68,10 @@ public class Usuario implements Persistible {
 	@JoinTable(name = "Usuarios_Comidas_Disgustadas")
 	protected List<Ingrediente> comidasQueLeDisgustan = new ArrayList<>();
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "Usuarios_Condiciones")
 	protected List<Condicion> condiciones = new ArrayList<>();
 	@ManyToMany
+	@JoinTable(name = "Usuarios_Recetas_Consultadas")
 	protected Set<Receta> historial = new HashSet<>();
 	
 	/* Servicios */
@@ -196,6 +198,13 @@ public class Usuario implements Persistible {
 	
 	public void marcarFavoritas(List<Receta> consulta) {
 		consulta.forEach(r -> marcarFavorita(r));
+	}
+	
+	public void consulto(Receta receta) {
+		if(sexo.equals(Sexo.MASCULINO))
+			receta.consultoHombre();
+		else
+			receta.consultoMujer();
 	}
 	
 	/* Servicios internos */
