@@ -251,8 +251,6 @@ public class Receta {
 		this.id = id;
 	}
 
-
-
 	public void consultoHombre() {
 		consultasHombres++;
 	}
@@ -261,4 +259,7 @@ public class Receta {
 		consultasMujeres++;
 	}
 	
+	public void resetContadorConsultas() {
+		consultasMujeres = consultasHombres = 0;
+	}
 }

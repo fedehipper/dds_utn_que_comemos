@@ -1,7 +1,6 @@
 package grupo4.dds;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import grupo4.dds.monitores.CantidadDeHoras;
 import grupo4.dds.monitores.CantidadDeVeganos;
 import grupo4.dds.monitores.RecetasMasConsultadas;
@@ -15,7 +14,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,8 +26,8 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 	
 	@Before
 	public void setup() {
-		consulta1 = Arrays.asList(sopa, sopa, bife, pure, coliflor, bife, sopa, salmon, bife, bife);
-		consulta2 = Arrays.asList(sopa, sopa, sopa, salmon, bife, bife);
+		consulta1 = Arrays.asList(salmon, bife, pure, coliflor, salmon, bife, sopa, salmon, bife, bife);
+		consulta2 = Arrays.asList(sopa, sopa, sopa, salmon, salmon);
 	}
 
 	@Test
@@ -69,30 +67,32 @@ public class TestObserver extends BaseTest implements WithGlobalEntityManager {
 
 		RecetasMasConsultadas recetasMasConsultadas = new RecetasMasConsultadas();
 		recetasMasConsultadas.notificarConsulta(fecheSena, consulta1, null);
+		recetasMasConsultadas.notificarConsulta(maria, consulta2, null);
 		
-		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadas(1).keySet();
-		assertTrue(masConsultadas.contains(bife));
+		List<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadas(1);
+		assertEquals(salmon, masConsultadas.get(0));
 	}
 
 	@Test
 	public void testMonitorRecetasMasConsultadasPorHombres() {
 		
 		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
+		recetasMasConsultadas.notificarConsulta(fecheSena, consulta1, null);
+		recetasMasConsultadas.notificarConsulta(maria, consulta2, null);
 
-		recetasMasConsultadas.notificarConsulta(arielFolino, consulta1, null);
-
-		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.MASCULINO, 1).keySet();
-		assertTrue(masConsultadas.contains(bife));
+		List<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.MASCULINO, 1);
+		assertEquals(bife, masConsultadas.get(0));
 	}
 	
 	@Test
 	public void testMonitorRecetasMasConsultadasPorMujeres() {
 		
 		RecetasMasConsultadasPorSexo recetasMasConsultadas = new RecetasMasConsultadasPorSexo();
+		recetasMasConsultadas.notificarConsulta(fecheSena, consulta1, null);
 		recetasMasConsultadas.notificarConsulta(maria, consulta2, null);
 		
-		Set<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.FEMENINO, 1).keySet();
-		assertTrue(masConsultadas.contains(sopa));
+		List<Receta> masConsultadas = recetasMasConsultadas.recetasMasConsultadasPor(Sexo.FEMENINO, 1);
+		assertEquals(sopa, masConsultadas.get(0));
 	}
 	
 }
