@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class TestRepositorioDeRecetas extends BaseTest {
 
-	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.get();
+	private RepositorioDeRecetas repositorio = RepositorioDeRecetas.instance();
 	
 	private CantidadDeVeganos cantidadVeganos = new CantidadDeVeganos();
 	private CantidadDeHoras cantidadHoras = new CantidadDeHoras();
@@ -116,11 +116,11 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		filtros.add(new FiltroNoLeGusta());	
 		arielFolino.agregarCondicion(Vegano.instance());
 		
-		RepositorioDeRecetas.get().agregarMonitor(cantidadHoras);
-		RepositorioDeRecetas.get().agregarMonitor(cantidadVeganos);
+		RepositorioDeRecetas.instance().agregarMonitor(cantidadHoras);
+		RepositorioDeRecetas.instance().agregarMonitor(cantidadVeganos);
 				
-		RepositorioDeRecetas.get().listarRecetasPara(arielFolino, filtros , null);
-		RepositorioDeRecetas.get().listarRecetasPara(federicoHipper, filtros , null);
+		RepositorioDeRecetas.instance().listarRecetasPara(arielFolino, filtros , null);
+		RepositorioDeRecetas.instance().listarRecetasPara(federicoHipper, filtros , null);
 		
 		assertEquals(2, cantidadHoras.cantidadDeConsultasPor(LocalTime.now().getHour()));
 		assertEquals(1, cantidadVeganos.getContadorDeVeganos());
@@ -135,7 +135,7 @@ public class TestRepositorioDeRecetas extends BaseTest {
 		repositorio.agregarMonitor(MarcarFavoritas.instance());
 		
 		maria.setMarcaFavorita(true);
-		RepositorioDeRecetas.get().listarRecetasPara(maria, null, null);
+		RepositorioDeRecetas.instance().listarRecetasPara(maria, null, null);
 
 		RepositorioDeTareas.instance().ejecutarTodas();
 		

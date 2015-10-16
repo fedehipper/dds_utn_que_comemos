@@ -43,7 +43,7 @@ public class GrupoUsuarios implements Persistible {
 		
 		GrupoUsuarios self = new GrupoUsuarios(nombre);
 		
-		RepositorioDeGrupos.get().add(self);
+		RepositorioDeGrupos.instance().add(self);
 		
 		return self;
 	}

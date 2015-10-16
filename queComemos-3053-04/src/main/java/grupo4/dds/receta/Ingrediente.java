@@ -27,8 +27,7 @@ public class Ingrediente {
 	}
 
 	public static Ingrediente nuevoIngrediente(String nombre, float cantidad) {
-		Ingrediente self = new Ingrediente(nombre, cantidad);
-		return self;
+		return new Ingrediente(nombre, cantidad);
 	}
 	
 	public static Ingrediente nuevoCondimento(String nombre, float cantidad) {

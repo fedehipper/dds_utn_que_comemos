@@ -1,5 +1,6 @@
 package grupo4.dds.monitores.asincronicos.tareas;
 
+import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.usuario.Usuario;
@@ -23,7 +24,7 @@ import javax.persistence.Table;
 @Table(name = "Tareas_Pendientes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_tarea")
-public abstract class TareaPendiente {
+public abstract class TareaPendiente implements Persistible {
 	
 	@Id
 	@GeneratedValue

@@ -1,6 +1,7 @@
 package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
+import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import queComemos.entrega3.dominio.Dificultad;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_receta")
 @DiscriminatorValue("privada")
-public class Receta {
+public class Receta implements Persistible {
 	
 	@Id
 	@GeneratedValue

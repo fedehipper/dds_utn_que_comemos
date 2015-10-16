@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestCommand extends BaseTest {
+public class TestMonitoresAsincronicos extends BaseTest {
 		
 	private RepositorioDeTareas repoTareas = RepositorioDeTareas.instance();
 	
@@ -129,22 +129,6 @@ public class TestCommand extends BaseTest {
 		assertNull(mockMailSender.ultimoMail());
 	}	
 
-/*
-	@Test
-	public void testEnviarMailEnMailSender(){
-		Mail otroMail = new Mail();
-		mailSender.enviarMail(otroMail);
-		verify(mailSender, times(1)).enviarMail(any(Mail.class));
-	}
-	
-	@Test 
-	public void testEnviarAMailSender(){
-		Mail otroMail = Mockito.mock(Mail.class);
-		otroMail.enviarMail(mailSender);
-		validateMockitoUsage();
-	}
-*/
-	
 	@Test
 	public void testNoLoggeaConsultasConMenosDe100Resultados(){
 				

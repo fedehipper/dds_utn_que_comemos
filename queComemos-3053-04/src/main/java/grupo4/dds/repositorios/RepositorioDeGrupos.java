@@ -2,22 +2,15 @@ package grupo4.dds.repositorios;
 
 import grupo4.dds.usuario.GrupoUsuarios;
 
-import java.util.List;
-
-public class RepositorioDeGrupos extends Repositorio {
+public class RepositorioDeGrupos extends Repositorio<GrupoUsuarios> {
 
 private static final RepositorioDeGrupos self = new RepositorioDeGrupos();
 	
-	public static RepositorioDeGrupos get() {
+	public static RepositorioDeGrupos instance() {
 		return self;
 	}
-
-	public GrupoUsuarios get(GrupoUsuarios grupo) {
-		return entityManager().find(GrupoUsuarios.class, grupo.getId());
-	}
-
-	public List<GrupoUsuarios> list() {
-		return entityManager().createQuery("from GrupoUsuarios", GrupoUsuarios.class).getResultList();
-	}
 	
+	private RepositorioDeGrupos() {
+		elementType = GrupoUsuarios.class;
+	}
 }

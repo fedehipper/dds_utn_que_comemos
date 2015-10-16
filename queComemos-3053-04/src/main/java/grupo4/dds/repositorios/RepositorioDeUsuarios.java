@@ -5,14 +5,19 @@ import grupo4.dds.usuario.Usuario;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RepositorioDeUsuarios extends Repositorio {
+public class RepositorioDeUsuarios extends Repositorio<Usuario> {
 
 	private static final RepositorioDeUsuarios self = new RepositorioDeUsuarios();
 	
-	public static RepositorioDeUsuarios get() {
+	public static RepositorioDeUsuarios instance() {
 		return self;
 	}
 
+	public RepositorioDeUsuarios() {
+		elementType = Usuario.class;
+	}
+	
+	@Override
 	public Usuario get(Usuario usuario) {
 		return listWithMatchingName(usuario).isEmpty() ? null : listWithMatchingName(usuario).get(0);
 	}

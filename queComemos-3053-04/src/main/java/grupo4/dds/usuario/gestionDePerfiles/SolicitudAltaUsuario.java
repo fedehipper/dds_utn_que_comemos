@@ -1,8 +1,10 @@
 package grupo4.dds.usuario.gestionDePerfiles;
 
+import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,14 +14,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Solicitudes_Alta_Usuarios")
-public class SolicitudAltaUsuario {
+public class SolicitudAltaUsuario implements Persistible {
 
 	@Id
 	@GeneratedValue()
 	@Column(name = "id_solicitud")
 	private long id;	
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	Usuario usuario;
 	String detalle;
 	boolean estado;
@@ -34,7 +36,7 @@ public class SolicitudAltaUsuario {
 
 	public void aceptada() {
 		estado = true;
-		RepositorioDeUsuarios.get().add(usuario);
+		RepositorioDeUsuarios.instance().add(usuario);
 	}
 
 	public void rechazada(String motivo) {

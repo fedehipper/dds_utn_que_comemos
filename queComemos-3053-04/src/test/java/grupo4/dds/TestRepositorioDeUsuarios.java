@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class TestRepositorioDeUsuarios extends BaseTest {
 	
-	private RepositorioDeUsuarios repositorio = RepositorioDeUsuarios.get();
+	private RepositorioDeUsuarios repositorio = RepositorioDeUsuarios.instance();
 	
 	private Usuario jorgeMartin = new BuilderUsuario().nombre("Jorge Martin").build();
 	private Usuario jorgeFernandez = new BuilderUsuario().nombre("Jorge Fernandez").build();

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class TestRepositorioDeGrupos extends BaseTest {
 	
-	private RepositorioDeGrupos repositorio = RepositorioDeGrupos.get();
+	private RepositorioDeGrupos repositorio = RepositorioDeGrupos.instance();
 	
 	@Test
 	public void testGetGrupo() {

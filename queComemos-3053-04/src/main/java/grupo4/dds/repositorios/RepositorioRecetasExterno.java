@@ -53,7 +53,7 @@ public class RepositorioRecetasExterno {
 				.stream().map(nombre -> Ingrediente.nuevaComida(nombre))
 				.collect(Collectors.toList());
 		
-		Usuario usuario = RepositorioDeUsuarios.get().get(BuilderUsuario.prototipo(recetaExterna.getAutor()));
+		Usuario usuario = RepositorioDeUsuarios.instance().get(BuilderUsuario.prototipo(recetaExterna.getAutor()));
 		
 		return (new BuilderReceta()).creador(usuario).encabezado(encabezado).ingredientes(ingredientes).build();
 	}

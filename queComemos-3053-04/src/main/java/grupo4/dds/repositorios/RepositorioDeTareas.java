@@ -2,11 +2,7 @@ package grupo4.dds.repositorios;
 
 import grupo4.dds.monitores.asincronicos.tareas.TareaPendiente;
 
-import java.util.List;
-
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
-public class RepositorioDeTareas implements WithGlobalEntityManager {
+public class RepositorioDeTareas extends Repositorio<TareaPendiente> {
 	
 	private static RepositorioDeTareas self = new RepositorioDeTareas();
 
@@ -14,16 +10,12 @@ public class RepositorioDeTareas implements WithGlobalEntityManager {
 		return self;
 	}
 	
-	public List<TareaPendiente> getTareasPendientes() {
-		return entityManager().createQuery("from TareaPendiente", TareaPendiente.class).getResultList();
-	}
-
-	public void agregarTarea(TareaPendiente tarea) {
-		entityManager().persist(tarea);
+	public RepositorioDeTareas() {
+		elementType = TareaPendiente.class;
 	}
 	
 	public void ejecutarTodas() {
-		getTareasPendientes().forEach(TareaPendiente::ejecutar);
+		list().forEach(TareaPendiente::ejecutar);
 	}
 
 }

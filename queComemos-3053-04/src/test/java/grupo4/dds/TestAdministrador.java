@@ -20,16 +20,16 @@ public class TestAdministrador extends BaseTest {
 	public void testAprobarSolicitud() {
 		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(fecheSena);
 		
-		RepositorioDeSolicitudes.get().aprobar(solicitud);
+		RepositorioDeSolicitudes.instance().aprobar(solicitud);
 		assertTrue(solicitud.estado());
-		assertNotNull(RepositorioDeUsuarios.get().get(fecheSena));
+		assertNotNull(RepositorioDeUsuarios.instance().get(fecheSena));
 	}
 
 	@Test
 	public void testRechazarSolicitud() {
 		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(arielFolino);
 		
-		RepositorioDeSolicitudes.get().rechazar(solicitud, "por mockoso");
+		RepositorioDeSolicitudes.instance().rechazar(solicitud, "por mockoso");
 		assertFalse(solicitud.estado());
 	}
 	
@@ -37,7 +37,7 @@ public class TestAdministrador extends BaseTest {
 	public void testVerSolicitudesPendientes() {
 		List<Usuario> expected = Arrays.asList(maria, fecheSena, arielFolino, matiasMartino, federicoHipper, cristianMaldonado);
 		List<Usuario> solicitudesPendientes = 
-				RepositorioDeSolicitudes.get().solicitudesPendientes().stream().
+				RepositorioDeSolicitudes.instance().list().stream().
 				map(s -> s.getUsuario()).collect(Collectors.toList());
 		
 		assertTrue(solicitudesPendientes.containsAll(expected) && solicitudesPendientes.size() == expected.size());

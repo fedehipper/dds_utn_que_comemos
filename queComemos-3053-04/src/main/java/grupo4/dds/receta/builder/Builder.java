@@ -110,7 +110,7 @@ public abstract class Builder<R extends Receta> implements WithGlobalEntityManag
 			throw new RecetaInvalida();
 		}
 		
-		RepositorioDeRecetas.get().agregarReceta((Receta) receta);
+		RepositorioDeRecetas.instance().add((Receta) receta);
 		
 		return receta;
 	}

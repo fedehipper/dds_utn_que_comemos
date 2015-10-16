@@ -11,21 +11,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
-public class RepositorioDeRecetas implements WithGlobalEntityManager {
+public class RepositorioDeRecetas extends Repositorio<Receta> {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	
-	public static RepositorioDeRecetas get() {
+	public static RepositorioDeRecetas instance() {
 		return self;
 	}
 
+	public RepositorioDeRecetas() {
+		elementType = Receta.class;
+	}
+	
 	/* Servicios */
 
 	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
 		
 		Stream<Receta> stream = recetasQuePuedeVer(usuario);
+		
 		if(filtros != null)
 			for (Filtro filtro : filtros)
 				stream = stream.filter(r -> filtro.test(usuario, r));
@@ -38,25 +41,24 @@ public class RepositorioDeRecetas implements WithGlobalEntityManager {
 		else
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
-		notificarATodos(usuario, consulta);
+		notificarATodos(usuario, consulta, filtros);
 
 		return consulta;
 	}
 	
-	public void notificarATodos(Usuario usuario, List<Receta> consulta) {
-		monitores().forEach(monitor -> monitor.notificarConsulta(usuario, consulta, null));
+	public void notificarATodos(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
+		monitores().forEach(monitor -> monitor.notificarConsulta(usuario, consulta, filtros));
 	}
 	
-	private List<Monitor> monitores() {
+	public List<Monitor> monitores() {
 		return entityManager().createQuery("from Monitor", Monitor.class).getResultList();
 	}
-
+	
 	/* Servicios privados */
 	
 	private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
-		List<Receta> recetas = entityManager().createQuery("from Receta", Receta.class).getResultList();
 		
-		HashSet<Receta> todasLasRecetas = new HashSet<>(recetas);
+		HashSet<Receta> todasLasRecetas = new HashSet<>(this.list());
 		todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
 		
 		return todasLasRecetas.stream().filter(r -> usuario.puedeVer(r));
@@ -64,18 +66,6 @@ public class RepositorioDeRecetas implements WithGlobalEntityManager {
 	
 	/* Accesors and Mutators */
 	
-	public void agregarReceta(Receta unaReceta) {
-		entityManager().persist(unaReceta);
-	}
-	
-	public void agregarRecetas(List<Receta> recetas) {
-		recetas.forEach(r -> agregarReceta(r));
-	}
-	
-	public void quitarReceta(Receta unaReceta) {
-		entityManager().remove(unaReceta);
-	}
-
 	public void agregarMonitor(Monitor monitor) {
 		entityManager().persist(monitor);
 	}

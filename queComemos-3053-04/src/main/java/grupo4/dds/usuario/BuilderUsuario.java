@@ -108,7 +108,7 @@ public class BuilderUsuario {
 	}
 	
 	public Usuario build() {
-		RepositorioDeSolicitudes.get().solicitarIncorporación(usuario);
+		RepositorioDeSolicitudes.instance().solicitarIncorporación(usuario);
 		
 		return usuario;
 	}

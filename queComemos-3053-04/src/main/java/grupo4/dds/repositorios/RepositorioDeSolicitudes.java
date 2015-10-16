@@ -4,23 +4,22 @@ import grupo4.dds.misc.CoberturaIgnore;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.gestionDePerfiles.SolicitudAltaUsuario;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
-public class RepositorioDeSolicitudes implements WithGlobalEntityManager {
+public class RepositorioDeSolicitudes extends Repositorio<SolicitudAltaUsuario> {
 
 	private static final RepositorioDeSolicitudes self = new RepositorioDeSolicitudes();
 	
-	public static RepositorioDeSolicitudes get() {
+	public static RepositorioDeSolicitudes instance() {
 		return self;
 	}
 	
+	public RepositorioDeSolicitudes() {
+		elementType = SolicitudAltaUsuario.class;
+	}
+
 	public void solicitarIncorporación(Usuario usuario) {
-		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(usuario);
-		entityManager().persist(usuario);
-		entityManager().persist(solicitud);
+		add(new SolicitudAltaUsuario(usuario));
 	}
 	
 	public void aprobar(SolicitudAltaUsuario solicitud) {
@@ -43,15 +42,10 @@ public class RepositorioDeSolicitudes implements WithGlobalEntityManager {
 	
 	@CoberturaIgnore
 	private void procesarTodas(Consumer<SolicitudAltaUsuario> procesador) {
-		for (SolicitudAltaUsuario solicitud : solicitudesPendientes()) {
-			solicitudesPendientes().remove(solicitud);	
+		for (SolicitudAltaUsuario solicitud : list()) {
+			list().remove(solicitud);	
 			procesador.accept(solicitud);
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<SolicitudAltaUsuario> solicitudesPendientes() {
-		return (List<SolicitudAltaUsuario>) entityManager().createQuery("from SolicitudAltaUsuario").getResultList();
-	}
-
 }
