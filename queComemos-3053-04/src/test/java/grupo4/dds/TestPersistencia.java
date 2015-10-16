@@ -17,6 +17,12 @@ import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
 
+import org.hibernate.StatelessSession;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,11 +39,14 @@ public class TestPersistencia extends BaseTest {
 	private Receta receta2;
 	private Receta receta3;
 	private GrupoUsuarios grupo;
+	private GrupoUsuarios otroGrupo;
 	
 	@Before
 	public void setUp() {
 			
 		grupo = GrupoUsuarios.crearGrupo("elEscuadronSuicida");
+		otroGrupo = GrupoUsuarios.crearGrupo("los gigolo");
+		
 		fecheSena = Usuario.crearPerfil("Feche Sena", null, null, 1.70f, 65.0f, null, false, null);
 		
 		maria = Usuario.crearPerfil("Maria", Sexo.FEMENINO, null, 1.70f, 65.0f, null, false, null);
@@ -240,12 +249,34 @@ public class TestPersistencia extends BaseTest {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
+	@Test 
+	public void testUsuarioPerteneceAMasDeUnGrupo() {
+		
+		otroGrupo.agregarUsuario(maria);
+		grupo.agregarUsuario(maria);
+
+		List<GrupoUsuarios> grupos = new ArrayList<GrupoUsuarios>();
+		grupos.add(grupo);
+		grupos.add(otroGrupo);
+		
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		usuarios.add(fecheSena);
+		usuarios.add(maria);
+		usuarios.add(ariel);
+		
+		entityManager().persist(grupo);
+		entityManager().persist(otroGrupo);
+		
+		TypedQuery<GrupoUsuarios> q = entityManager().createQuery("SELECT g FROM GrupoUsuarios g WHERE id IN( :id1, :id2 )", GrupoUsuarios.class)
+				.setParameter("id1", grupo.getId())
+				.setParameter("id2", otroGrupo.getId());
+			
+		List<GrupoUsuarios> gruposConsultados = q.getResultList();
+		
+		assertTrue(maria.perteneceA(gruposConsultados.get(0)) && maria.perteneceA(gruposConsultados.get(1)));
+		
+		
+	}
 	
 	
 	
