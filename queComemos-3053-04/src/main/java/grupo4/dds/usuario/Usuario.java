@@ -314,6 +314,10 @@ public class Usuario implements Persistible {
 		this.comidasQueLeDisgustan.addAll(comidas);
 		return this;
 	}
+	
+	public List<Receta> getRecetas() {
+		return this.recetas;
+	}
 
 	public Usuario agregarGrupo(GrupoUsuarios grupo) {
 		grupos.add(grupo);
