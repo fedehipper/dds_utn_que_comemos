@@ -16,13 +16,6 @@ import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.*;
-
-import org.hibernate.StatelessSession;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 import org.junit.Before;
 import org.junit.Test;
 
