@@ -23,6 +23,10 @@ public class RepositorioDeRecetas extends Repositorio<Receta> {
 		elementType = Receta.class;
 	}
 	
+	 public List<Receta> listar() {
+		 return entityManager().createQuery("from Receta", Receta.class).getResultList();
+	 }
+	
 	/* Servicios */
 
 	public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
@@ -53,6 +57,11 @@ public class RepositorioDeRecetas extends Repositorio<Receta> {
 	public List<Monitor> monitores() {
 		return entityManager().createQuery("from Monitor", Monitor.class).getResultList();
 	}
+	
+	public Receta buscar(long id) {
+		 return entityManager().find(Receta.class, id);
+	}
+	
 	
 	/* Servicios privados */
 	

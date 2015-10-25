@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<h1> Bienvenido a Que Comemos</h1>
+	</head>
+	
+	<body>
+		<p> estas fueron sus ultimas consultas </p>	
+
+		<table>
+			<td> Nombre </td>
+			<td> Calorias </td>
+			<td> Dificultad </td>
+			<td> Temporada </td>
+			
+			{{#recetas}}
+				<tr>
+					<td>{{nombre}}</td>
+					<td>{{calorias}}</td>
+					<td>{{dificultad}}</td>
+					<td>{{temporada}}</td>
+				</tr>
+			{{/recetas}}
+		</table>
+				
+	
+	</body>
+
+
+
+</html>

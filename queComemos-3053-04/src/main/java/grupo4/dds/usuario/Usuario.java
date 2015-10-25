@@ -11,6 +11,7 @@ import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
+import model.Consultora;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,9 +33,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 @Entity
 @Table(name = "Usuarios")
-public class Usuario implements Persistible {
+public class Usuario implements Persistible, WithGlobalEntityManager {
 
 	@Id
 	@GeneratedValue
@@ -78,8 +81,8 @@ public class Usuario implements Persistible {
 	
 	public float indiceDeMasaCorporal() {
 		return peso / (altura * altura);
-	}
-
+	}	
+	
 	public boolean sigueRutinaSaludable() {
 		float imc = indiceDeMasaCorporal();
 		return 18 < imc && imc < 30 && subsanaTodasLasCondiciones();
