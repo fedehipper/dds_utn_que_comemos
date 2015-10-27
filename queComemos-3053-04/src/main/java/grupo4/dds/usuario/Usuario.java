@@ -11,7 +11,6 @@ import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
-import model.Consultora;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
