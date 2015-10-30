@@ -1,7 +1,6 @@
 package grupo4.dds.main;
 
 import static spark.Spark.get;
-import static spark.Spark.post;
 import static spark.SparkBase.port;
 
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -11,7 +10,6 @@ public class Main {
 	public static void main(String[] args) {
 		
 		HomeController home = new HomeController();
-	    //ConsultorasController consultoras = new ConsultorasController();
 	    HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
 
 	    port(8086);
@@ -29,13 +27,6 @@ public class Main {
 	    //get("/consultoras/new", recetas::nuevo, engine);
 	    //get("/consultoras/:id", recetas::mostrar, engine);
 
-		
-		
-		
-		
-		
-		
-		
 	}
 
 }
