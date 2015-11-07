@@ -1,4 +1,4 @@
-package grupo4.dds.main;
+package grupo4.dds.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import spark.Response;
 public class HomeController {
 	
 	 public ModelAndView mostrar(Request request, Response response) {
-		 Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request.params("id")));
+		 List<Receta> receta = RepositorioDeRecetas.instance().buscarPorNombre("papas");
 		 return new ModelAndView(receta, "bienvenidos.hbs");
 	 }
 	 
@@ -21,7 +21,7 @@ public class HomeController {
 		    List<Receta> recetas;
 		    
 		    String idReceta = request.params("idReceta");
-		
+		    
 	    	recetas = RepositorioDeRecetas.instance().listar();
 		   	
 		    HashMap<String, Object> viewModel = new HashMap<>();

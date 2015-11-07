@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class RepositorioDeRecetas extends Repositorio<Receta> {
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+
+public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlobalEntityManager {
 
 	private static final RepositorioDeRecetas self = new RepositorioDeRecetas();
 	
@@ -82,4 +85,11 @@ public class RepositorioDeRecetas extends Repositorio<Receta> {
 	public void removerMonitor(Monitor monitor) {
 		entityManager().remove(monitor);
 	}
+	
+	
+	 public List<Receta> buscarPorNombre(String nombre) {
+		    return entityManager().createQuery("from Receta r where r.nombre like :nombre", Receta.class) //
+		        .setParameter("nombre", "%" + nombre + "%") //
+		        .getResultList();
+		  }
 }

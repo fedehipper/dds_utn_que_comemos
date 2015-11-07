@@ -59,6 +59,26 @@ public abstract class Builder<R extends Receta> implements WithGlobalEntityManag
 		encabezado.setDificultad(Dificultad.DIFICIL);
 		return this;
 	}
+	
+	public Builder<R> invierno() {
+		encabezado.setTemporada(Temporada.INVIERNO);
+		return this;
+	}
+	
+	public Builder<R> otonio() {
+		encabezado.setTemporada(Temporada.OTONIO);
+		return this;
+	}
+	
+	public Builder<R> primavera() {
+		encabezado.setTemporada(Temporada.PRIMAVERA);
+		return this;
+	}
+	
+	public Builder<R> verano() {
+		encabezado.setTemporada(Temporada.VERANO);
+		return this;
+	}
 
 	public Builder<R> ingrediente(Ingrediente unIngrediente) {
 		receta.agregarIngrediente(unIngrediente);
