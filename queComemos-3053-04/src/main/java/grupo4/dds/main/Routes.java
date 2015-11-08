@@ -15,7 +15,7 @@ public class Routes {
 		ConsultasController consultas = new ConsultasController();
 	    HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
 
-	    port(8080);
+	    port(8086);
 	    
 	    get("/", home::mostrar, engine);
 	    get("/index.html", (request, response) -> {

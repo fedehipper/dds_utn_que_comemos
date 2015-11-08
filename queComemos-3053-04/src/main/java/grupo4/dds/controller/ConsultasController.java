@@ -33,7 +33,7 @@ public class ConsultasController {
 		    viewModel.put("consultas", recetas);
 		    viewModel.put("filtroNombre", filtroNombre);
 		    
-		    response.redirect("/consultas");
+		   // response.redirect("/consultas");
 		    
 		    
 		    return new ModelAndView(viewModel, "consultas.hbs");
