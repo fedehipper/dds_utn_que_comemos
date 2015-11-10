@@ -58,7 +58,7 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 	protected String mail;
 	protected boolean marcaFavorita;
 	
-	@OneToMany
+	@OneToMany(mappedBy="creador")
 	protected List<Receta> recetas = new ArrayList<>();
 	@ManyToMany(mappedBy="usuarios")
 	protected Set<GrupoUsuarios> grupos = new HashSet<>();
