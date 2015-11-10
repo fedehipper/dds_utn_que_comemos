@@ -7,6 +7,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.receta.builder.BuilderRecetaPublica;
+import grupo4.dds.repositorios.RepositorioDeSolicitudes;
 import grupo4.dds.usuario.BuilderUsuario;
 import grupo4.dds.usuario.GrupoUsuarios;
 import grupo4.dds.usuario.Usuario;
@@ -27,6 +28,8 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps,Tran
 			Usuario federicoHipper = new BuilderUsuario().masculino().nombre("Federico Hipperdinger").altura(1.91f).peso(102.0f).build();
 			new BuilderUsuario().masculino().nombre("Matías Martino").altura(1.74f).peso(79.0f).build();
 			new BuilderUsuario().masculino().nombre("Cristian Maldonado").altura(1.81f).peso(87.0f).build();
+			
+			RepositorioDeSolicitudes.instance().aprobarTodas();
 
 			GrupoUsuarios.crearGrupo("grupo1");
 			GrupoUsuarios.crearGrupo("grupo2");
