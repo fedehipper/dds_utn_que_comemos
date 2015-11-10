@@ -1,0 +1,34 @@
+{{# partial "titulo" }}	
+	<title>Home - QueComemos</title>
+{{/partial}}
+		
+{{# partial "contenido" }}	
+
+<h1> Bienvenido a QueComemos! <h1>
+<br>
+<h3> Estas son sus ultimas recetas: <h3>
+<br>
+
+<div class="row">
+	<div class="col-md-12">	
+	<table class="table table-striped" >
+			<td>Nombre del plato</td>
+			<td>Calorias</td>
+			<td>Dificultad</td>
+			<td>Temporada</td>
+		</hr>
+	{{#recetasFavoritas}}
+		<tr>
+			<td>{{nombreDelPlato}}</td>
+			<td>{{totalCalorias}}</td>
+			<td>{{dificultad}}</td>
+			<td>{{temporada}}</td>
+		</tr>
+	{{/recetasFavoritas}}				
+	</table>
+	</div>
+</div>
+
+{{/partial}}
+				
+{{> layout.hbs }}

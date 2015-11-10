@@ -190,6 +190,10 @@ public class Receta implements Persistible {
 	public List<Receta> getSubrecetas() {
 		return subrecetas;
 	}
+	
+	public Dificultad getDificultad() {
+		return encabezado.getDificultad();
+	}
 
 	public long getId() {
 		return id;
