@@ -1,17 +1,5 @@
 package grupo4.dds.usuario;
 
-import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
-import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
-import grupo4.dds.persistencia.Persistible;
-import grupo4.dds.receta.EncabezadoDeReceta;
-import grupo4.dds.receta.Ingrediente;
-import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.busqueda.filtros.Filtro;
-import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
-import grupo4.dds.repositorios.RepositorioDeRecetas;
-import grupo4.dds.usuario.condicion.Condicion;
-import grupo4.dds.usuario.condicion.Vegano;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,8 +19,21 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+import grupo4.dds.excepciones.NoSePuedeAgregarLaReceta;
+import grupo4.dds.excepciones.NoSePuedeGuardarLaRecetaEnElHistorial;
+import grupo4.dds.persistencia.Persistible;
+import grupo4.dds.receta.EncabezadoDeReceta;
+import grupo4.dds.receta.Ingrediente;
+import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.busqueda.filtros.Filtro;
+import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
+import grupo4.dds.repositorios.RepositorioDeRecetas;
+import grupo4.dds.usuario.condicion.Condicion;
+import grupo4.dds.usuario.condicion.Vegano;
 
 @Entity
 @Table(name = "Usuarios")
@@ -74,7 +75,9 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 	protected List<Condicion> condiciones = new ArrayList<>();
 	@ManyToMany
 	@JoinTable(name = "Usuarios_Recetas_Consultadas")
-	protected Set<Receta> historial = new HashSet<>();
+	protected List<Receta> historial = new ArrayList<>();
+	@Transient
+	protected Set<Receta> favoritas = new HashSet<>();
 	
 	/* Servicios */
 	
@@ -195,6 +198,7 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 		if(!puedeVer(receta))
 			throw new NoSePuedeGuardarLaRecetaEnElHistorial();
 		
+		favoritas.add(receta);
 		historial.add(receta);
 	}
 	
@@ -207,6 +211,10 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 			receta.consultoHombre();
 		else
 			receta.consultoMujer();
+	}
+
+	public void consulto(List<Receta> recetas) {
+		historial.addAll(recetas);
 	}
 	
 	/* Servicios internos */
@@ -265,8 +273,12 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 		return mail;
 	}
 
-	public Set<Receta> getHistorial() {
-		return Collections.unmodifiableSet(historial);
+	public List<Receta> getHistorial() {
+		return Collections.unmodifiableList(historial);
+	}
+	
+	public Set<Receta> getFavoritas() {
+		return Collections.unmodifiableSet(favoritas);
 	}
 
 	public boolean getMarcaFavorita() {

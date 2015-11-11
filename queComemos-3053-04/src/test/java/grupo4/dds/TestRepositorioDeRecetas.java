@@ -139,7 +139,17 @@ public class TestRepositorioDeRecetas extends BaseTest {
 
 		RepositorioDeTareas.instance().ejecutarTodas();
 		
-		assertTrue(maria.getHistorial().containsAll(consulta));
+		assertTrue(maria.getFavoritas().containsAll(consulta));
+	}
+
+	@Test 
+	public void testLasBusquedasQuedanGuardadasEnElHistorialDelUsuario() {
+
+		RepositorioDeRecetas.instance().listarRecetasPara(maria, null, null);
+		assertEquals(4,maria.getHistorial().size());
+		
+		RepositorioDeRecetas.instance().listarRecetasPara(maria, null, null);
+		assertEquals(8,maria.getHistorial().size());
 	}
 	
 }

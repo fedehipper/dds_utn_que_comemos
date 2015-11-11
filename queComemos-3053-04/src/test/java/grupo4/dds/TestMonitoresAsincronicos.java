@@ -69,7 +69,7 @@ public class TestMonitoresAsincronicos extends BaseTest {
 		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		repoTareas.ejecutarTodas();
 		
-		assertTrue(federicoHipper.getHistorial().containsAll(resultadoConsulta));
+		assertTrue(federicoHipper.getFavoritas().containsAll(resultadoConsulta));
 	}
 	
 	@Test
@@ -87,15 +87,15 @@ public class TestMonitoresAsincronicos extends BaseTest {
 		
 		federicoHipper.marcarFavorita(pollo);
 		
-		assertEqualsList(Arrays.asList(pollo), federicoHipper.getHistorial());
+		assertEqualsList(Arrays.asList(pollo), federicoHipper.getFavoritas());
 		
 		MarcarFavoritas.instance().notificarConsulta(federicoHipper, resultadoConsulta, null);
 		federicoHipper.setMarcaFavorita(true);
 		repoTareas.ejecutarTodas();
 		
-		assertEqualsList(resultadoConsulta, federicoHipper.getHistorial());
+		assertEqualsList(resultadoConsulta, federicoHipper.getFavoritas());
 	}
-	
+
 	@Test
 	public void testAgregarEnvioDeMailEnMailPendientesEnRepositorioDeReceta() {
 		

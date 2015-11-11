@@ -49,6 +49,8 @@ public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlo
 			consulta = postProcesamiento.procesar(recetasFiltradas);
 
 		notificarATodos(usuario, consulta, filtros);
+		
+		usuario.consulto(consulta);
 
 		return consulta;
 	}
