@@ -1,82 +1,89 @@
-{{# partial "titulo" }}	
+{{# partial "titulo" }}
 	<title> Perfil de Usuario - QueComemos</title>
 {{/partial}}
-		
-{{# partial "contenido" }}	
+
+{{# partial "contenido" }}
 
 <h1> Perfil de Usuario </h1>
 <br>
 <br>
-	
+
 	<body>
 		<div class="container">
 		<form action="/perfil" method= "GET">
-			<div>
-				<label for="nombre">Nombre: </label>{{nombre}}
-			</div>
-			<div>
-				<label for="sexo">Sexo: </label>{{sexo}}
-			</div>
-			<div>
-				<label for="nacimiento">Fecha de nacimiento: </label>{{nacimiento}}
-			</div>
-			<div>
-				<label for="altura">Altura: </label>{{altura}}
-			</div>
-			<div>
-				<label for="peso">Peso: </label>{{peso}}
-			</div>
-			<div>
-				<label for="imc">IMC </label>{{imc}}
-			</div>
-			<div>
-				<label for="rutina">Rutina: </label>{{rutina}}
-			</div>
-			
-				<div>	
-					<table class="table table-striped" >
-						<hr>
-							<td>Preferencias alimenticias</td>
-						</hr>
-					{{#preferencias}}
-						<tr>
-							<td>{{nombre}}</td>
-						</tr>
-					{{/preferencias}}				
-					</table>
+
+			<div class="row">
+  			<div class="col-md-6">
+					<div>
+						<label for="nombre">Nombre: </label>{{nombre}}
+					</div>
+					<div>
+						<label for="sexo">Sexo: </label>{{sexo}}
+					</div>
+					<div>
+						<label for="nacimiento">Fecha de nacimiento: </label>{{nacimiento}}
+					</div>
+					<div>
+						<label for="altura">Altura: </label>{{altura}}
+					</div>
+					<div>
+						<label for="peso">Peso: </label>{{peso}}
+					</div>
+					<div>
+						<label for="imc">IMC </label>{{imc}}
+					</div>
+					<div>
+						<label for="rutina">Rutina: </label>{{rutina}}
+					</div>
 				</div>
-					
-				<div>	
-					<table class="table table-striped" >
-						<hr>
-							<td>Comidas que le disgustan</td>
-						</hr>
-					{{#disgusta}}
-						<tr>
-							<td>{{nombre}}</td>
-						</tr>
-					{{/disgusta}}				
-					</table>
+
+					<div class="col-md-6">
+						<div><label>condiciones</label></div>
+						<select multiple class="form-control">
+								{{#condiciones}}
+								<option>{{nombre}}</option>
+								{{/condiciones}}
+						</select>
+					</div>
+
+			</div>
+
+
+				<div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<table class="table table-bordered" >
+								<hr>
+										<td>Preferencias alimenticias</td>
+									</hr>
+								{{#preferencias}}
+									<tr>
+										<td>{{nombre}}</td>
+									</tr>
+								{{/preferencias}}
+							</table>
+						</div>
+					  <div class="col-md-6">
+							<table class="table table-bordered" >
+								<hr>
+									<td>Comidas que le disgustan</td>
+								</hr>
+							{{#disgusta}}
+								<tr>
+									<td>{{nombre}}</td>
+								</tr>
+							{{/disgusta}}
+							</table>
+						</div>
+					</div>
 				</div>
-				
-				<div>	
-					<table class="table" >
-						<hr>
-							<td>Condiciones</td>
-						</hr>
-					{{#condiciones}}
-						<tr>
-							<td>{{nombre}}</td>
-						</tr>
-					{{/condiciones}}				
-					</table>
-				</div>
-			
+
 		</form>
 		</div>
-	
-	</body>	
-	
+
+	</body>
+
 {{/partial}}
-				
+
 {{> layout.hbs }}
