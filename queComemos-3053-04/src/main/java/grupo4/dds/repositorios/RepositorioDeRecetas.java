@@ -64,6 +64,10 @@ public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlo
 	public Receta buscar(long id) {
 		 return entityManager().find(Receta.class, id);
 	}
+
+	public List<Receta> buscar(String nombreReceta) {
+		return entityManager().createQuery("from Receta where nombreDelPlato like '%" + nombreReceta + "%'", Receta.class).getResultList();
+	}
 	
 	
 	/* Servicios privados */
@@ -86,10 +90,4 @@ public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlo
 		entityManager().remove(monitor);
 	}
 	
-	
-	 public List<Receta> buscarPorNombre(String nombre) {
-		    return entityManager().createQuery("from Receta r where r.nombre like :nombre", Receta.class) //
-		        .setParameter("nombre", "%" + nombre + "%") //
-		        .getResultList();
-		  }
 }

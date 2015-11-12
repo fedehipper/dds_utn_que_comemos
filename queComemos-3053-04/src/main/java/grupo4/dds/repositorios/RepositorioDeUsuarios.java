@@ -1,5 +1,6 @@
 package grupo4.dds.repositorios;
 
+import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
@@ -39,6 +40,11 @@ public class RepositorioDeUsuarios extends Repositorio<Usuario> {
 	
 	public Usuario getConNombre(String usuario) {
 		return listWithName(usuario).isEmpty() ? null : listWithName(usuario).get(0);
+	}
+
+	public Usuario buscar(long id) {
+		 return entityManager().find(Usuario.class, id);
+
 	}
 
 }
