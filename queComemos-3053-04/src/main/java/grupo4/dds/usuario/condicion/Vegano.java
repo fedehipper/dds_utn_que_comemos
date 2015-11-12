@@ -16,7 +16,7 @@ public class Vegano extends Condicion {
 		return self;
 	}
 
-	private Vegano() { id = 3; }
+	private Vegano() { id = 3; nombre = "vegano";}
 	
 	public boolean esValidaCon(Usuario usuario) {
 		return !usuario.leGustaLaCarne();

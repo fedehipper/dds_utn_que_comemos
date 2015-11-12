@@ -5,6 +5,7 @@ import static spark.Spark.post;
 import static spark.SparkBase.port;
 import grupo4.dds.controller.ConsultasController;
 import grupo4.dds.controller.HomeController;
+import grupo4.dds.controller.PerfilController;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
@@ -14,6 +15,7 @@ public class Routes {
 		HomeController home = new HomeController();
 		ConsultasController consultas = new ConsultasController();
 	    HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
+	    PerfilController perfil = new PerfilController();
 
 	    port(8086);
 	    
@@ -25,6 +27,8 @@ public class Routes {
 	    
 	    get("/", home::listar, engine);
 	    get("/consultas", consultas::listar, engine);
+	    get("/perfil/:id", perfil::mostrar, engine);
+	    
 	    //post("/consultas", consultas::listar);
 	    //post("/consultas", recetas::crear);
 	    //get("/consultas/new", recetas::nuevo, engine);

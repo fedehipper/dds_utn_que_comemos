@@ -1,0 +1,79 @@
+<html>
+	<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+	</head>
+	
+	<body>
+		<div class="container">
+		<form action="/perfil" method= "GET">
+			<div>
+				<label for="nombre">Nombre: </label>{{nombre}}
+			</div>
+			<div>
+				<label for="sexo">Sexo: </label>{{sexo}}
+			</div>
+			<div>
+				<label for="nacimiento">Fecha de nacimiento: </label>{{nacimiento}}
+			</div>
+			<div>
+				<label for="altura">Altura: </label>{{altura}}
+			</div>
+			<div>
+				<label for="peso">Peso: </label>{{peso}}
+			</div>
+			<div>
+				<label for="imc">IMC </label>{{imc}}
+			</div>
+			<div>
+				<label for="rutina">Rutina: </label>{{rutina}}
+			</div>
+			
+				<div>	
+					<table class="table table-striped" >
+						<hr>
+							<td>Preferencias alimenticias</td>
+						</hr>
+					{{#preferencias}}
+						<tr>
+							<td>{{nombre}}</td>
+						</tr>
+					{{/preferencias}}				
+					</table>
+				</div>
+					
+				<div>	
+					<table class="table table-striped" >
+						<hr>
+							<td>Comidas que le disgustan</td>
+						</hr>
+					{{#disgusta}}
+						<tr>
+							<td>{{nombre}}</td>
+						</tr>
+					{{/disgusta}}				
+					</table>
+				</div>
+				
+				<div>	
+					<table class="table" >
+						<hr>
+							<td>Condiciones</td>
+						</hr>
+					{{#condiciones}}
+						<tr>
+							<td>{{nombre}}</td>
+						</tr>
+					{{/condiciones}}				
+					</table>
+				</div>
+			
+		</form>
+		</div>
+	
+	</body>	
+	
+</html>

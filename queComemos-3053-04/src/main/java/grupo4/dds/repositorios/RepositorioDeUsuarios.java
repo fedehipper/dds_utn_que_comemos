@@ -31,5 +31,14 @@ public class RepositorioDeUsuarios extends Repositorio<Usuario> {
 		String query = "from Usuario where nombre like '%" + usuario.getNombre() + "%'";
 		return entityManager().createQuery(query, Usuario.class).getResultList();
 	}
+	
+	private List<Usuario> listWithName(String usuario) {
+		String query = "from Usuario where nombre like '%" + usuario + "%'";
+		return entityManager().createQuery(query, Usuario.class).getResultList();
+	}
+	
+	public Usuario getConNombre(String usuario) {
+		return listWithName(usuario).isEmpty() ? null : listWithName(usuario).get(0);
+	}
 
 }
