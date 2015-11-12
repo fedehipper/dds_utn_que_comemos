@@ -1,14 +1,92 @@
 {{# partial "titulo" }}	
-	<title>Receta - QueComemos</title>
+	<title>Detalle de receta - QueComemos</title>
 {{/partial}}
 		
 {{# partial "contenido" }}	
 
-<br>  <br>
+<br>
+	<div class="container">
+	<form action="/receta" method= "GET">
+
+<div class="row">
+  <div class="col-md-1"> <label>Receta:</label> </div>
+  	<div class="col-md-4">
+  		<pre>nombre de receta</pre>
+  	</div>
+</div>
+<br>
+
+<div class="row">
+  <div class="col-md-1"><label>Calorias:</label></div>
+    	<div class="col-md-1">
+  			<pre>calorias</pre>
+  		</div>
+  <div class="col-md-2"><label>Creado por:</label></div>
+    	<div class="col-md-4">
+  			<pre>creador</pre>
+  		</div>
+</div>
+<br>
+
+<div class="row">
+  <div class="col-md-6"> <label>Dificultad</label> </div>
+  <div class="col-md-6"> <label>Temporada</label> </div>
+</div>
+<br>
+
+<div class="row">
+  <div class="col-md-2"> <pre>dificultad</pre> </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-1"></div>
+  <div class="col-md-1"></div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2"> <pre>temporada</pre> </div>
+ </div>
+
+<div class="row">
+	<div class="col-md-6"><label>Ingredientes</label>
+  		<table class= "table table-bordered">
+  			<td> <label>Dosis</label> </td>
+  			<td> <label>Ingredientes</label> </td>
+  		</table>
+  	</div>
+  <div class="col-md-6"><label>Condimentos</label>
+  	<select multiple class="form-control">
+  		<option>1</option>
+  		<option>2</option>
+  		<option>3</option>
+	</select>
+  </div> 
+</div>
+<br>
 
 
+<div class="row">
+  <div class="col-md-6">
+  	<div class="checkbox">
+  		<label>
+    		<input type="checkbox" value="">
+    		Favorita
+  		</label>
+  	</div>
+  </div>
+  <div class="col-md-6"><label>Condiciones Preexistentes</label>
+	<select class="form-control">
+  		<option>1</option>
+  		<option>2</option>
+  		<option>3</option>
+	</select>
+  </div>
+</div>
+<br>
 
+<div class="row">
+  <div class="col-md-6"> <label>Proceso de Preparacion</label> </div>
+</div>
 
+	<pre>proceso de preparacion....</pre>
+	
+<p class="text-center"><a class="btn btn-primary btn-lg" href="http://google.com" role="button">Volver</a></p>
 
 
 
