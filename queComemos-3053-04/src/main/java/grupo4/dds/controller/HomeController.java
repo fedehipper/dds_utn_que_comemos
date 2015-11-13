@@ -1,5 +1,6 @@
 package grupo4.dds.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.Objects;
 import grupo4.dds.main.Routes;
 import grupo4.dds.monitores.RecetasMasConsultadas;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.repositorios.RepositorioDeRecetas;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -25,14 +25,14 @@ public class HomeController {
 	
 	public List<Receta> recetasAMostrar() {
 
-		List<Receta> recetasAMosrar = RepositorioDeRecetas.instance().listar();
+		List<Receta> recetasAMosrar = new ArrayList<Receta>(Routes.usuarioActual.getFavoritas());
 		
 		if(Objects.isNull(recetasAMosrar) || recetasAMosrar.isEmpty())
 			recetasAMosrar = Routes.usuarioActual.getHistorial();
 		if(Objects.isNull(recetasAMosrar) || recetasAMosrar.isEmpty())
 			recetasAMosrar = new RecetasMasConsultadas().recetasMasConsultadas(10);
 		
-		return recetasAMosrar;
+		return recetasAMosrar.subList(0, Math.min(10, recetasAMosrar.size()));
 	}
 
 }

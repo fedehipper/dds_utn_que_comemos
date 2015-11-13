@@ -45,6 +45,11 @@ public class RecetaPublica extends Receta {
 			throw new EsInadecuadaDespuesDeModificar();
 		}
 	}
+	
+	@Override
+	public String getOrigen() {
+		return "Publica";
+	}
 
 	private Receta convertirEnPrivada(Usuario usuario) {
 		return new BuilderReceta().creador(usuario).encabezado(encabezado).ingredientes(ingredientes)

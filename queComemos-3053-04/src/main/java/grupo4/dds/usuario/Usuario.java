@@ -111,12 +111,12 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 		return leGusta(receta) && esAdecuada(receta);		
 	}
 	
-	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio) {
-		return repositorio.listarRecetasPara(this, null, null);
+	public List<Receta> recetasQuePuedeVer() {
+		return RepositorioDeRecetas.instance().listarRecetasPara(this, null, null);
 	}
 	
-	public List<Receta> recetasQuePuedeVer(RepositorioDeRecetas repositorio, List<Filtro> filtros, PostProcesamiento postProcesamiento ) {
-		return repositorio.listarRecetasPara(this, filtros, postProcesamiento);
+	public List<Receta> recetasQuePuedeVer(List<Filtro> filtros, PostProcesamiento postProcesamiento ) {
+		return RepositorioDeRecetas.instance().listarRecetasPara(this, filtros, postProcesamiento);
 	}
 	
 	public boolean puedeVer(Receta receta) {
