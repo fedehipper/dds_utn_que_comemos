@@ -1,5 +1,6 @@
 package grupo4.dds.repositorios;
 
+import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.List;
@@ -30,6 +31,20 @@ public class RepositorioDeUsuarios extends Repositorio<Usuario> {
 	private List<Usuario> listWithMatchingName(Usuario usuario) {
 		String query = "from Usuario where nombre like '%" + usuario.getNombre() + "%'";
 		return entityManager().createQuery(query, Usuario.class).getResultList();
+	}
+	
+	private List<Usuario> listWithName(String usuario) {
+		String query = "from Usuario where nombre like '%" + usuario + "%'";
+		return entityManager().createQuery(query, Usuario.class).getResultList();
+	}
+	
+	public Usuario getConNombre(String usuario) {
+		return listWithName(usuario).isEmpty() ? null : listWithName(usuario).get(0);
+	}
+
+	public Usuario buscar(long id) {
+		 return entityManager().find(Usuario.class, id);
+
 	}
 
 }

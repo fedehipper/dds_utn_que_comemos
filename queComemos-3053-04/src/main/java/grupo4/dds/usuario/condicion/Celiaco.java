@@ -16,7 +16,7 @@ public class Celiaco extends Condicion {
 		return self;
 	}
 	
-	private Celiaco() { id = 1; }
+	private Celiaco() { id = 1;nombre="celiaco"; }
 	
 	public boolean esValidaCon(Usuario usuario) {
 		return true;

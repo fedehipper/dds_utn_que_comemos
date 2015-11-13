@@ -7,7 +7,10 @@ import static spark.SparkBase.staticFileLocation;
 
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 
+import grupo4.dds.controller.ConsultasController;
 import grupo4.dds.controller.HomeController;
+import grupo4.dds.controller.PerfilController;
+import grupo4.dds.controller.RecetaController;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.BuilderUsuario;
 import grupo4.dds.usuario.Usuario;
@@ -20,7 +23,10 @@ public class Routes {
 	public static void main(String[] args) {
 		
 		HomeController home = new HomeController();
+		ConsultasController consultas = new ConsultasController();
+		RecetaController receta = new RecetaController();
 	    HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
+	    PerfilController perfil = new PerfilController();
 
 	    port(8086);
 	    
@@ -33,6 +39,10 @@ public class Routes {
 	      response.redirect("/");
 	      return null;
 	    });
+ 
+		get("/perfil/:id", perfil::mostrar, engine);
+	    get("/consultas", consultas::listar,engine);
+	    get("/receta", receta::mostrar,engine);
 	    
 	    after((rq, rs) -> {
 	    	PerThreadEntityManagers.getEntityManager();

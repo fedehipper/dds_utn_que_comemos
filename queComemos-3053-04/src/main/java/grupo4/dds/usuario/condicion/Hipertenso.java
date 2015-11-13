@@ -18,7 +18,7 @@ public class Hipertenso extends Condicion {
 		return self;
 	}
 
-	private Hipertenso() { id = 2; }
+	private Hipertenso() { id = 2; nombre="hipertenso"; }
 	
 	public boolean esValidaCon(Usuario usuario) {
 		return usuario.tienePreferenciasAlimenticias();

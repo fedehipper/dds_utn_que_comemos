@@ -239,7 +239,7 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 		return grupos.stream().anyMatch(g -> g.puedeVer(receta));
 	}
 	
-	private List<Condicion> getCondiciones() {
+	public List<Condicion> getCondiciones() {
 		return condiciones;
 	}
 	
@@ -344,6 +344,14 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 	
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public List<Ingrediente> getPreferenciasAlimenticias(){
+		return preferenciasAlimenticias;
+	}
+
+	public List<Ingrediente> getComidasQueLeDisgustan() {
+		return comidasQueLeDisgustan;
 	}
 
 }

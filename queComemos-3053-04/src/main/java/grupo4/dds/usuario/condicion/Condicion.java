@@ -20,12 +20,22 @@ public abstract class Condicion {
 	@Id
 	@Column(name = "id_condicion")
 	protected long id;
+	
+	public String nombre;
 
 	public abstract boolean esValidaCon(Usuario usuario);
 
 	public abstract boolean subsanaCondicion(Usuario usuario);
 
 	public abstract boolean esRecomendable(Receta receta);
+	
+	public void setNombre(String n){
+		nombre=n;
+	}
+	
+	public String getNombre(){
+		return nombre;
+	}
 
 	public long getId() {
 		return id;

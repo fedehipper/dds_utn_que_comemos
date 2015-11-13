@@ -18,7 +18,7 @@ public class Diabetico extends Condicion {
 		return self;
 	}
 
-	private Diabetico() { id = 4; }
+	private Diabetico() { id = 4; nombre="diabetico";}
 	
 	public boolean esValidaCon(Usuario usuario) {
 		return usuario.getSexo() != null && usuario.tienePreferenciasAlimenticias();
