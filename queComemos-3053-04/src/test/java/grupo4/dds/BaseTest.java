@@ -2,7 +2,9 @@ package grupo4.dds;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -38,6 +40,8 @@ public abstract class BaseTest implements WithGlobalEntityManager {
 	protected RecetaPublica lomito;
 	protected RecetaPublica coliflor;
 	
+	protected List<Receta> todasLasRecetas;
+	
 	@Before
 	public void baseSetUp() {
 		entityManager().getTransaction().begin();
@@ -62,6 +66,8 @@ public abstract class BaseTest implements WithGlobalEntityManager {
 		salmon = new BuilderRecetaPublica().nombre("salmon").calorias(200).ingrediente(ing).build();
 		lomito = new BuilderRecetaPublica().nombre("lomito").calorias(300).ingrediente(ing).build();
 		coliflor = new BuilderRecetaPublica().nombre("coliflor hervida").calorias(100).facil().ingrediente(ing).build();
+		
+		todasLasRecetas = Arrays.asList(milanesa, pollo, pure, sopa, bife, salmon, lomito, coliflor);
 	}
 	
 	@After

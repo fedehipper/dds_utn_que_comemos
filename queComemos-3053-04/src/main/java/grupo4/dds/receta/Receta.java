@@ -194,6 +194,10 @@ public class Receta implements Persistible {
 	public Dificultad getDificultad() {
 		return encabezado.getDificultad();
 	}
+	
+	public String getOrigen() {
+		return "Privada";
+	}
 
 	public long getId() {
 		return id;

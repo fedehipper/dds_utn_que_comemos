@@ -102,7 +102,7 @@ public class TestPersistencia extends BaseTest {
 		
 		Usuario usuarioConsultado = q.getSingleResult();
 		
-		assertTrue(usuarioConsultado.getHistorial().contains(lomito));
+		assertTrue(usuarioConsultado.getFavoritas().contains(lomito));
 		
 	}
 

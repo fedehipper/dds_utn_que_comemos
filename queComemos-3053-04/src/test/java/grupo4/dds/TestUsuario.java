@@ -376,7 +376,7 @@ public class TestUsuario extends BaseTest {
 		
 		List<Receta> expected = Arrays.asList(lomito, sopa);
 		
-		assertTrue(arielFolino.getHistorial().containsAll(expected));
+		assertTrue(arielFolino.getFavoritas().containsAll(expected));
 	}
 	
 	@Test 
