@@ -5,14 +5,16 @@
 {{# partial "contenido" }}
 <h1>Detalle de Receta</h1>
 <br>
+<br>
 <body>
 	<div class="container">
 	<form action="/receta" method= "GET">
+	
 
 <div class="row">
   <div class="col-md-1"> <label>Receta:</label> </div>
   	<div class="col-md-4">
-  		<pre>nombre de receta</pre>
+  		<pre>{{nombreDelPlato}}</pre>
   	</div>
 </div>
 <br>
@@ -20,11 +22,11 @@
 <div class="row">
   <div class="col-md-1"><label>Calorias:</label></div>
     	<div class="col-md-1">
-  			<pre>calorias</pre>
+  			<pre>{{cantidadCalorias}}</pre>
   		</div>
   <div class="col-md-2"><label>Creado por:</label></div>
     	<div class="col-md-4">
-  			<pre>creador</pre>
+  			<pre>{{creador}}</pre>
   		</div>
 </div>
 <br>
@@ -36,26 +38,35 @@
 <br>
 
 <div class="row">
-  <div class="col-md-2"> <pre>dificultad</pre> </div>
+  <div class="col-md-2"> <pre>{{dificultad}}</pre> </div>
   <div class="col-md-1"></div>
   <div class="col-md-1"></div>
   <div class="col-md-1"></div>
   <div class="col-md-1"></div>
-  <div class="col-md-2"> <pre>temporada</pre> </div>
+  <div class="col-md-2"> <pre>{{temporada}}</pre> </div>
  </div>
 
+<br>
 <div class="row">
 	<div class="col-md-6"><label>Ingredientes</label>
   		<table class= "table table-bordered">
+  		
+  			<td> <label>Nombre</label> </td>
   			<td> <label>Dosis</label> </td>
-  			<td> <label>Ingredientes</label> </td>
+  			
+  			{{#ingredientes}}
+  			<tr>
+				<td>{{nombre}}</td>
+				<td>{{cantidad}}</td>
+			</tr>
+			{{/ingredientes}}
   		</table>
   	</div>
   <div class="col-md-6"><label>Condimentos</label>
   	<select multiple class="form-control">
-  		<option>1</option>
-  		<option>2</option>
-  		<option>3</option>
+     {{#condimentos}}
+  		<option>{{nombre}}</option>
+  	{{/condimentos}}
 	</select>
   </div>
 </div>
@@ -66,16 +77,16 @@
   <div class="col-md-6">
   	<div class="checkbox">
   		<label>
-    		<input type="checkbox" value="">
+    		<input type="checkbox" value="{{marcaFavorita}}">
     		Favorita
   		</label>
   	</div>
   </div>
   <div class="col-md-6"><label>Condiciones Preexistentes</label>
 	<select class="form-control">
-  		<option>1</option>
-  		<option>2</option>
-  		<option>3</option>
+	    {{#condiciones}}
+  		<option>{{nombre}}</option>
+        {{/condiciones}}
 	</select>
   </div>
 </div>
@@ -85,9 +96,9 @@
   			<div class="col-md-6"> <label>Proceso de Preparacion</label> </div>
 			</div>
 
-			<pre>proceso de preparacion....</pre>
+			<pre>{{preparacion}} proceso de preparacion.....</pre>
 
-			<p class="text-center"><a class="btn btn-primary btn-lg" href="http://google.com" role="button">Volver</a></p>
+			<p class="text-center"><a class="btn btn-primary btn-lg" href="/consultas/buscar" role="button">Volver</a></p>
 		</form>
 	</div>
 </body>

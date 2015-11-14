@@ -43,7 +43,7 @@
         <properties> 
 	    <property name="hibernate.archive.autodetection" value="class"/>        
         
-            <!--property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
+             <!--property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/db_dds_grupo4" /> 
             <property name="hibernate.connection.username" value="root" /> 
             <property name="hibernate.connection.password" value="mysql" /--> 

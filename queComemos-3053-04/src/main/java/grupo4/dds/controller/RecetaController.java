@@ -14,15 +14,13 @@ public class RecetaController {
 	
 	public ModelAndView mostrar(Request request, Response response){
 		
-	/*	Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
+		Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
 		        .params("id")));
-		Usuario usuario = RepositorioDeUsuarios.instance().buscar(Long.parseLong(request
-		        .params("id")));*/
-		
+		Usuario usuario = RepositorioDeUsuarios.instance().buscar(2);
 		
         HashMap<String, Object> viewModel = new HashMap<>();
 		
-		/*viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
+		viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
 		viewModel.put("creador", receta.getCreador());
 		viewModel.put("cantidadCalorias", receta.getTotalCalorias());
 		viewModel.put("dificultad", receta.getDificultad());
@@ -31,8 +29,9 @@ public class RecetaController {
 		viewModel.put("condimentos", receta.getCondimentos());
 		viewModel.put("preparacion", receta.getPreparacion());
 		viewModel.put("marcaFavorita", usuario.getMarcaFavorita());
-		//viewModel.put("condiciones", usuario.);
-		*/
+		viewModel.put("condiciones",usuario.getCondiciones());
+		
+		
 		return new ModelAndView(viewModel, "receta.hbs");
 	}
 

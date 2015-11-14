@@ -19,6 +19,7 @@ public class Routes {
 		
 		HomeController home = new HomeController();
 		ConsultasController consultas = new ConsultasController();
+		ConsultasController consultasConResultados = new ConsultasController();
 		RecetaController receta = new RecetaController();
 	    HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
 	    PerfilController perfil = new PerfilController();
@@ -34,8 +35,10 @@ public class Routes {
 	    });
  
 		get("/perfil/:id", perfil::mostrar, engine);
-	    get("/consultas", consultas::listar,engine);
-	    get("/receta", receta::mostrar,engine);
+	    //get("/consultas", consultas::mostrar,engine);
+	    get("/consultas", consultasConResultados::listar,engine);
+	    get("/consultas/buscar", consultas::mostrar, engine);
+	    get("/receta/:id", receta::mostrar,engine);
 	    
 	    after((rq, rs) -> {
 	    	PerThreadEntityManagers.getEntityManager();

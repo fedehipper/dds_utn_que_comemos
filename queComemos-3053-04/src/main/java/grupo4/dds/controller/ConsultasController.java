@@ -17,7 +17,7 @@ public class ConsultasController {
 	public ModelAndView listar(Request request, Response response) {
 		
 		List<Receta> recetas;
-		String filtroNombre = request.params("filtroNombre");
+		String filtroNombre = request.queryParams("filtroNombre");
 		//Usuario usuario = RepositorioDeUsuarios.instance().buscar(Long.parseLong(request.params("id")));
 		
 		/*if (Objects.isNull(usuario))
@@ -36,6 +36,11 @@ public class ConsultasController {
 		viewModel.put("filtroNombre", filtroNombre);
 
 		return new ModelAndView(viewModel, "consultas.hbs");
+	}
+	
+	public ModelAndView mostrar(Request request, Response response){
+		return new ModelAndView(null, "consultas.hbs");
+		
 	}
 
 }
