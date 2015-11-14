@@ -42,6 +42,7 @@ public class Routes {
 	    });
  
 		get("/perfil/:id", perfil::mostrar, engine);
+		get("/perfil", perfil::mostrar, engine );
 	    //get("/consultas", consultas::mostrar,engine);
 	    get("/consultas", consultasConResultados::listar,engine);
 	    get("/consultas/buscar", consultas::mostrar, engine);
