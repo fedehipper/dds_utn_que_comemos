@@ -2,6 +2,7 @@ package grupo4.dds.controller;
 
 import java.util.HashMap;
 
+import grupo4.dds.main.Routes;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
@@ -16,7 +17,7 @@ public class RecetaController {
 		
 		Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
 		        .params("id")));
-		Usuario usuario = RepositorioDeUsuarios.instance().buscar(2);
+		Usuario usuario = Routes.usuarioActual;
 		
         HashMap<String, Object> viewModel = new HashMap<>();
 		
