@@ -30,7 +30,7 @@ public abstract class Condicion {
 	public abstract boolean esRecomendable(Receta receta);
 	
 	public void setNombre(String n){
-		nombre=n;
+		nombre = n;
 	}
 	
 	public String getNombre(){
