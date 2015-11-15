@@ -42,5 +42,18 @@ public class ConsultasController {
 		return new ModelAndView(null, "consultas.hbs");
 		
 	}
+	
+	public List<Receta> recetasAMostrar(String filtroNombre){
+		
+		List<Receta> recetas;
+		
+		
+		if (Objects.isNull(filtroNombre) || filtroNombre.isEmpty())
+			recetas = RepositorioDeRecetas.instance().listar();
+		else 
+			recetas = RepositorioDeRecetas.instance().buscar(filtroNombre);
+	    
+		return recetas;
+	}
 
 }
