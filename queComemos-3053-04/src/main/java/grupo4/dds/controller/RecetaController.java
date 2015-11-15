@@ -35,5 +35,9 @@ public class RecetaController {
 		
 		return new ModelAndView(viewModel, "receta.hbs");
 	}
+	
+	public Receta recetaMostrada(long id){
+		return RepositorioDeRecetas.instance().buscar(id);
+	}
 
 }

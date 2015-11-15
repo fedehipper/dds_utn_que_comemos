@@ -75,15 +75,16 @@
 
 <div class="row">
   <div class="col-md-6">
+   <br>
   	<div class="checkbox">
   		<label>
-    		<input type="checkbox" value="{{marcaFavorita}}">
+    		<input type="checkbox" value={{marcaFavorita}}>
     		Favorita
   		</label>
   	</div>
   </div>
   <div class="col-md-6"><label>Condiciones Preexistentes</label>
-	<select class="form-control">
+	<select multiple class="form-control">
 	    {{#condiciones}}
   		<option>{{nombre}}</option>
         {{/condiciones}}
@@ -96,7 +97,7 @@
   			<div class="col-md-6"> <label>Proceso de Preparacion</label> </div>
 			</div>
 
-			<pre>{{preparacion}} proceso de preparacion.....</pre>
+			<pre>{{preparacion}}</pre>
 
 			<p class="text-center"><a class="btn btn-primary btn-lg" href="/consultas/buscar" role="button">Volver</a></p>
 		</form>

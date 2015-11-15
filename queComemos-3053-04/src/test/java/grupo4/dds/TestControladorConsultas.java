@@ -11,6 +11,7 @@ import grupo4.dds.repositorios.RepositorioDeRecetas;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,8 @@ public class TestControladorConsultas extends BaseTest {
 	
 	@Test
 	public void testSiElUsuarioBuscaConTodosLosFiltrosNulos() {
-		assertEqualsList(recetasConsultadas, new ConsultasController().recetasAMostrar(null));
+		List<Receta> recetas = recetasConsultadas.stream().filter(r-> fecheSena.puedeVer(r)).collect(Collectors.toList());
+		assertEqualsList(recetas, new ConsultasController().recetasAMostrar(null));
 	}
 	
 	@Test
