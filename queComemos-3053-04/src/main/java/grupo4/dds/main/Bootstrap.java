@@ -32,13 +32,13 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps,Tran
 			
 			
 			Usuario maria = new BuilderUsuario().femenino().nombre("Maria").altura(1.70f).peso(65.0f).condicion(Celiaco.instance()).build();
-			Usuario fecheSena = new BuilderUsuario().masculino().nombre("Federico Sena").altura(1.70f).peso(65.0f).mail("fesena92@gmail.com").condicion(Hipertenso.instance()).build();
+			Usuario fecheSena = new BuilderUsuario().masculino().nombre("Federico Sena").altura(1.70f).peso(65.0f).mail("fesena92@gmail.com").build();
 			Usuario arielFolino = new BuilderUsuario().masculino().nombre("Ariel Folino").altura(1.69f).peso(96.0f).condicion(Vegano.instance()).condicion(Celiaco.instance()).build();
 			Usuario federicoHipper = new BuilderUsuario().masculino().nombre("Federico Hipperdinger").altura(1.91f).peso(102.0f).condicion(Diabetico.instance()).build();
 			Usuario matiasMartino = new BuilderUsuario().masculino().nombre("Matías Martino").altura(1.74f).peso(79.0f).condicion(Hipertenso.instance()).condicion(Vegano.instance()).build();
 			new BuilderUsuario().masculino().nombre("Cristian Maldonado").altura(1.81f).peso(87.0f).condicion(Hipertenso.instance()).condicion(Vegano.instance()).build();
 		
-			
+	
 			RepositorioDeSolicitudes.instance().aprobarTodas();
 
 			GrupoUsuarios.crearGrupo("grupo1");
@@ -72,7 +72,6 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps,Tran
 			federicoHipper.marcarFavorita(pure);
 			federicoHipper.marcarFavorita(pollo);
 			arielFolino.marcarFavorita(sopa);
-			
 			
 			
 		});
