@@ -1,5 +1,8 @@
 package grupo4.dds.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
@@ -38,11 +41,19 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps,Tran
 			Ingrediente azucar = Ingrediente.nuevoIngrediente("azucar", 50);
 			Ingrediente oregano = Ingrediente.nuevoIngrediente("oregano", 50);
 			Ingrediente muchaSal = Ingrediente.nuevoIngrediente("sal", 150);
+			
+			List<Ingrediente> condimentos = new ArrayList<>();
+			condimentos.add(oregano);
+			condimentos.add(muchaSal);
 
-			new BuilderReceta().invierno().creador(fecheSena).nombre("milanesa").dificil().calorias(999).ingrediente(pocaSal).build();
-			new BuilderReceta().verano().creador(federicoHipper).nombre("pollo").dificil().calorias(300).ingrediente(muchaSal).build();
-			new BuilderReceta().invierno().creador(federicoHipper).nombre("pure").calorias(600).ingrediente(oregano).build();
-			new BuilderReceta().verano().creador(arielFolino).nombre("sopa").calorias(100).facil().ingrediente(pocaSal).build();
+			new BuilderReceta().invierno().creador(fecheSena).nombre("milanesa").dificil().calorias(999).ingrediente(pocaSal).
+			preparacion("una feta de carne, la introducimos en un plato con pan raliado, y wala!! ha nacido una milanga ").condimentos(condimentos).build();
+			new BuilderReceta().verano().creador(federicoHipper).nombre("pollo").dificil().calorias(300).ingrediente(muchaSal).
+			preparacion("desplumamos el ave condimentamos con lo que tenga a mano y al horno").condimento(oregano).build();
+			new BuilderReceta().invierno().creador(federicoHipper).nombre("pure").calorias(600).ingrediente(oregano).
+			preparacion("hervir papas a 147 Cº y a una presion de 1 atm, esperamos 2 horas y con un tenedor aplastamos y hacemos pure a la papa ").build();
+			new BuilderReceta().verano().creador(arielFolino).nombre("sopa").calorias(100).facil().ingrediente(pocaSal).
+			preparacion("revanar verdura, de su preferencia y cubrir un volumen de 3*Pi*8cm ^ 2 * una altura de 25 cm con agua y vertir la verdura").build();
 			new BuilderReceta().otonio().creador(maria).nombre("bife").calorias(499).facil().ingrediente(azucar).build();
 			new BuilderRecetaPublica().primavera().nombre("salmon").calorias(200).ingrediente(azucar).build();
 			new BuilderRecetaPublica().invierno().nombre("lomito").calorias(300).ingrediente(pocaSal).build();
