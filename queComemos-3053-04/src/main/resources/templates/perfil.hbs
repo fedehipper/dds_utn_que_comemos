@@ -46,41 +46,64 @@
 						</select>
 					</div>
 
-			</div>
 
-
-				<div>
-
-					<div class="row">
-						<div class="col-md-6">
-							<table class="table table-bordered" >
-								<hr>
-										<td>Preferencias alimenticias</td>
-									</hr>
-								{{#preferencias}}
-									<tr>
-										<td>{{nombre}}</td>
-									</tr>
-								{{/preferencias}}
-							</table>
-						</div>
-					  <div class="col-md-6">
-							<table class="table table-bordered" >
-								<hr>
-									<td>Comidas que le disgustan</td>
-								</hr>
+			<div>
+				<div class="row">
+					<div class="col-md-6">
+						<table class="table table-bordered" >
+							<hr>
+								<td>Preferencias alimenticias</td>
+							</hr>
+							{{#preferencias}}
+							<tr>
+								<td>{{nombre}}</td>
+							</tr>
+							{{/preferencias}}
+						</table>
+					</div>
+					<div class="col-md-6">
+						<table class="table table-bordered" >
+							<hr>
+								<td>Comidas que le disgustan</td>
+							</hr>
 							{{#disgusta}}
-								<tr>
-									<td>{{nombre}}</td>
-								</tr>
+							<tr>
+								<td>{{nombre}}</td>
+							</tr>
 							{{/disgusta}}
-							</table>
-						</div>
+						</table>
 					</div>
 				</div>
+			</div>
 
-		</form>
 		</div>
+		
+		<h2> Recetas favoritas</h2>
+		
+		<div>
+			<table class="table table-bordered" >
+					<hr>
+						<td>Nombre</td>
+						<td>Calorías</td>
+						<td>Dificultad</td>
+						<td>Temporada</td>
+						
+					</hr>
+				{{#fav}}
+					<tr>
+						<div class="list-group">
+						    <td>{{nombreDelPlato}}</td>
+							<td>{{totalCalorias}}</td>
+							<td>{{Dificultad}}</td>
+							<td>{{Temporada}}</td>
+							<td><a href="/receta/{{id}}" class="list-group-item active"> Ver Receta </a></td>
+							</div>
+					</tr>
+				{{/fav}}
+			</table>
+		</div>
+	</form>
+	</div>
 
 	</body>
 

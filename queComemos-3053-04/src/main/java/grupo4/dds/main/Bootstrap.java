@@ -3,9 +3,11 @@ package grupo4.dds.main;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+
 
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -14,6 +16,7 @@ import grupo4.dds.receta.builder.BuilderRecetaPublica;
 import grupo4.dds.repositorios.RepositorioDeSolicitudes;
 import grupo4.dds.usuario.BuilderUsuario;
 import grupo4.dds.usuario.GrupoUsuarios;
+import grupo4.dds.usuario.Rutina;
 import grupo4.dds.usuario.Usuario;
 import grupo4.dds.usuario.condicion.Celiaco;
 import grupo4.dds.usuario.condicion.Diabetico;
@@ -72,6 +75,12 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps,Tran
 			federicoHipper.marcarFavorita(pure);
 			federicoHipper.marcarFavorita(pollo);
 			arielFolino.marcarFavorita(sopa);
+			
+			matiasMartino.marcarFavorita(bife);
+			matiasMartino.agregarPreferenciaAlimenticia(azucar);
+			matiasMartino.agregarPreferenciaAlimenticia(pocaSal);
+			matiasMartino.agregarComidaQueLeDisgusta(muchaSal);
+			matiasMartino.setRutina(Rutina.SEDENTARIA_CON_ALGO_EJERCICIO);
 			
 			
 		});
