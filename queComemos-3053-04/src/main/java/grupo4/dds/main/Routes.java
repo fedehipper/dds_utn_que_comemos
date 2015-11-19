@@ -5,7 +5,11 @@ import static spark.Spark.get;
 import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
 
+
+import java.util.Objects;
+
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
+
 
 import grupo4.dds.controller.ConsultasController;
 import grupo4.dds.controller.HomeController;
@@ -42,7 +46,10 @@ public class Routes {
 	    });
  
 		get("/perfil/:id", perfil::mostrar, engine);
-		get("/perfil", perfil::mostrar, engine );
+		get("/perfil", (request, response) -> {
+				response.redirect("/perfil/"+ Objects.toString(usuarioActual.getId()));
+				return null;
+		});
 	    //get("/consultas", consultas::mostrar,engine);
 	    get("/consultas", consultasConResultados::listar,engine);
 	    get("/consultas/buscar", consultas::mostrar, engine);

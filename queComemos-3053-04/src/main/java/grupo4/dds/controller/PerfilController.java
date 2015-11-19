@@ -29,7 +29,7 @@ public class PerfilController {
 		 	}
 		 	
 		 	viewModel.put("nombre", user.getNombre());
-		 	 	
+	 	
 		 	if (!Objects.isNull(user.getSexo())){
 		    	viewModel.put("sexo", user.getSexo());
 	 		}
@@ -61,6 +61,18 @@ public class PerfilController {
 		    if(!Objects.isNull(user.getFavoritas())){
 		    	viewModel.put("fav",user.getFavoritas());
 		    }
+		    
+		    String salud="Normal";
+		    
+		    if (user.indiceDeMasaCorporal()>30){
+		    	salud="Su estado de salud es CRITICO!!!!!";
+		    }
+		    else{if(user.indiceDeMasaCorporal()<18){
+		    	salud="Su IMC es menor de lo esperado normalmente";
+		    }
+		    }
+		    
+		    viewModel.put("salud", salud);
 		    
 		    return new ModelAndView(viewModel, "perfil.hbs");
 	 }
