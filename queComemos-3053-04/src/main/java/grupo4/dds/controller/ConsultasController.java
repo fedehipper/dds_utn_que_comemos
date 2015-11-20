@@ -18,11 +18,19 @@ public class ConsultasController {
 		
 		
 		String filtroNombre = request.queryParams("filtroNombre");
+		String filtroDificultad = request.queryParams("filtroDificultad");
+		String filtroTemporada = request.queryParams("filtroTemporada");
+		String filtroCaloriasDesde = (request.queryParams("filtroCaloriasDesde"));
+		String filtroCaloriasHasta = (request.queryParams("filtroCaloriasHasta"));
 
 		HashMap<String, Object> viewModel = new HashMap<>();
 		
 		viewModel.put("consultas", recetasAMostrar(filtroNombre));
 		viewModel.put("filtroNombre", filtroNombre);
+		viewModel.put("filtroDificultad", filtroDificultad);
+		viewModel.put("filtroTemporada", filtroTemporada);
+		viewModel.put("filtroCaloriasDesde", filtroCaloriasDesde);
+		viewModel.put("filtroCaloriasHasta", filtroCaloriasHasta);
 
 		return new ModelAndView(viewModel, "consultas.hbs");
 	}
