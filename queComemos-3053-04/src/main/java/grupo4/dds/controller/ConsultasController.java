@@ -25,7 +25,7 @@ public class ConsultasController {
 
 		HashMap<String, Object> viewModel = new HashMap<>();
 		
-		viewModel.put("consultas", recetasAMostrar(filtroNombre));
+		viewModel.put("consultas", recetasAMostrar(filtroNombre, filtroDificultad, filtroTemporada, filtroCaloriasDesde, filtroCaloriasHasta));
 		viewModel.put("filtroNombre", filtroNombre);
 		viewModel.put("filtroDificultad", filtroDificultad);
 		viewModel.put("filtroTemporada", filtroTemporada);
@@ -40,14 +40,16 @@ public class ConsultasController {
 		
 	}
 	
-	public List<Receta> recetasAMostrar(String filtroNombre){
+	public List<Receta> recetasAMostrar(String filtroNombre, String filtroDificultad, String filtroTemporada, String caloriasDesde, String caloriasHasta){
 		
 		List<Receta> recetas;
 		
-		if (Objects.isNull(filtroNombre) || filtroNombre.isEmpty())
+		if( (Objects.isNull(filtroNombre) || filtroNombre.isEmpty()) && (Objects.isNull(filtroDificultad) || filtroDificultad.isEmpty()) 
+		   && (Objects.isNull(filtroTemporada) || filtroTemporada.isEmpty()) && ( (Objects.isNull(caloriasDesde) || caloriasHasta.isEmpty()) &&
+				   (Objects.isNull(caloriasHasta) || caloriasHasta.isEmpty()) ) )
 			recetas = RepositorioDeRecetas.instance().listar();
 		else 
-			recetas = RepositorioDeRecetas.instance().buscar(filtroNombre);
+			recetas = RepositorioDeRecetas.instance().buscarPorFiltros(filtroNombre, filtroDificultad, filtroTemporada,caloriasDesde, caloriasHasta);
 	    
 		return recetas.stream().filter(r-> r.puedeSerVistaPor(Routes.usuarioActual)).collect(Collectors.toList());
 	}

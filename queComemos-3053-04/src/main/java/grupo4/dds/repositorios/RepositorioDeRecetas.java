@@ -2,6 +2,7 @@ package grupo4.dds.repositorios;
 
 import grupo4.dds.monitores.Monitor;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.Temporada;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.usuario.Usuario;
@@ -12,6 +13,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+import queComemos.entrega3.dominio.Dificultad;
+
+import java.util.Objects;
 
 
 public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlobalEntityManager {
@@ -91,5 +96,27 @@ public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlo
 	public void removerMonitor(Monitor monitor) {
 		entityManager().remove(monitor);
 	}
+	
+	   public List<Receta> buscarPorFiltros(String nombreReceta, String dificultad, String temporada, String caloriasDesde, String caloriasHasta){
+			String query="from Receta where id=id";
+				
+			if (!(Objects.isNull(nombreReceta)||nombreReceta.isEmpty())){
+				query=query+" AND nombreDelPlato like '%" + nombreReceta + "%'";
+			}
+			
+			if(!((Objects.isNull(caloriasDesde)||Objects.isNull(caloriasHasta))||(caloriasDesde.isEmpty()||caloriasHasta.isEmpty()))){
+				query=query+" AND totalCalorias between "+ Integer.parseInt(caloriasDesde) + " AND " + Integer.parseInt(caloriasHasta);
+			}
+			
+			if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
+				query=query+" AND  dificultad = " + Dificultad.valueOf(dificultad).ordinal();
+			}
+			
+			if(!(Objects.isNull(temporada)||temporada.isEmpty())){
+				query=query+" AND temporada = " + Temporada.valueOf(temporada).ordinal();
+			}
+		
+			return entityManager().createQuery(query,Receta.class).getResultList();	
+		}
 	
 }

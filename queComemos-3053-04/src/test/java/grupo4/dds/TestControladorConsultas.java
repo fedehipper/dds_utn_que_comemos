@@ -45,13 +45,13 @@ public class TestControladorConsultas extends BaseTest {
 	@Test
 	public void testSiElUsuarioBuscaConTodosLosFiltrosNulos() {
 		List<Receta> recetas = recetasConsultadas.stream().filter(r-> fecheSena.puedeVer(r)).collect(Collectors.toList());
-		assertEqualsList(recetas, new ConsultasController().recetasAMostrar(null));
+		assertEqualsList(recetas, new ConsultasController().recetasAMostrar(null,null,null,null,null));
 	}
 	
 	@Test
 	public void testSiElUsuarioBuscaConFiltroNombre(){
 		recetasConsultadas = RepositorioDeRecetas.instance().buscar("receta5");
-		assertEqualsList(recetasConsultadas, new ConsultasController().recetasAMostrar("receta5"));
+		assertEqualsList(recetasConsultadas, new ConsultasController().recetasAMostrar("receta5",null,null,null,null));
 	}
 
 }

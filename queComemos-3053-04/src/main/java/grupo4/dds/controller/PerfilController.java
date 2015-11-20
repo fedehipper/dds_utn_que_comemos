@@ -4,6 +4,7 @@ import grupo4.dds.main.Routes;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -16,6 +17,8 @@ public class PerfilController {
 	 public ModelAndView mostrar(Request request, Response response) {
 			
 		 	Long usuario=Long.parseLong(request.params("id"));
+		 	
+		 	DecimalFormat df = new DecimalFormat("0.00"); 
 		 	
 		 	Usuario user;
 		 	
@@ -44,7 +47,7 @@ public class PerfilController {
 		    	viewModel.put("peso", user.getPeso());
 		    }
 		    if (!Objects.isNull(user.indiceDeMasaCorporal())){
-		    	viewModel.put("imc", user.indiceDeMasaCorporal());
+		    	viewModel.put("imc", df.format(user.indiceDeMasaCorporal() ) );
 		    }
 			if (!Objects.isNull(user.getRutina())){
 		    	viewModel.put("rutina", user.getRutina().toString());

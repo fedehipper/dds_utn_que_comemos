@@ -76,7 +76,7 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps,Tran
 			federicoHipper.marcarFavorita(pollo);
 			arielFolino.marcarFavorita(sopa);
 			
-			matiasMartino.marcarFavorita(bife);
+			
 			matiasMartino.agregarPreferenciaAlimenticia(azucar);
 			matiasMartino.agregarPreferenciaAlimenticia(pocaSal);
 			matiasMartino.agregarComidaQueLeDisgusta(muchaSal);
