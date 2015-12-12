@@ -12,15 +12,23 @@
 <div class="row">
 	<div class="col-md-12">	
 	<table class="table table-striped" >
+
 			<td><strong>Nombre del plato</strong></td>
 			<td><strong>Calorias</strong></td>
 			<td><strong>Dificultad</strong></td>
 			<td><strong>Temporada</strong></td>
 			<td><strong>Origen</strong></td>
+
+			<td><b>Nombre del plato</b></td>
+			<td><b>Calorias</b></td>
+			<td><b>Dificultad</b></td>
+			<td><b>Temporada</b></td>
+			<td><b>Origen</b></td>
+
 		</hr>
 	{{#recetas}}
 		<tr>
-			<td>{{nombreDelPlato}}</td>
+			<td><a href = /receta/{{id}}>{{nombreDelPlato}}</a></td>
 			<td>{{totalCalorias}}</td>
 			<td>{{dificultad}}</td>
 			<td>{{temporada}}</td>
