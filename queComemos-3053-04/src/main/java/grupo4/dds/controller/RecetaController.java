@@ -1,6 +1,7 @@
 package grupo4.dds.controller;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import grupo4.dds.main.Routes;
 import grupo4.dds.receta.Receta;
@@ -22,7 +23,10 @@ public class RecetaController {
         HashMap<String, Object> viewModel = new HashMap<>();
 		
 		viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
+		if(!Objects.isNull(receta.getCreador()))
 		viewModel.put("creador", receta.getCreador());
+		else
+			viewModel.put("creador", "Nadie");
 		viewModel.put("cantidadCalorias", receta.getTotalCalorias());
 		viewModel.put("dificultad", receta.getDificultad());
 		viewModel.put("ingredientes", receta.getIngredientes());
@@ -31,6 +35,11 @@ public class RecetaController {
 		viewModel.put("preparacion", receta.getPreparacion());
 		viewModel.put("marcaFavorita", usuario.getMarcaFavorita());
 		viewModel.put("condiciones",usuario.getCondiciones());
+		
+		if(usuario.getHistorial().contains(receta))
+		viewModel.put("favorita", "true");
+		else
+			viewModel.put("favorita", "false");
 		
 		
 		return new ModelAndView(viewModel, "receta.hbs");

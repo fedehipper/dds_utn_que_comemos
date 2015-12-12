@@ -30,7 +30,7 @@
 						<label for="peso">Peso: </label> {{peso}}
 					</div>
 					<div>
-						<label for="imc">IMC </label> {{imc}} {{salud}}
+						<label for="imc">IMC </label> {{imc}} ({{salud}})
 					</div>
 					<div>
 						<label for="rutina">Rutina: </label>{{rutina}}
@@ -38,10 +38,10 @@
 				</div>
 
 					<div class="col-md-6">
-						<div><label>condiciones</label></div>
-						<select multiple class="form-control">
+						<div><label><h2>Condiciones</h2></label></div>
+						
 								{{#condiciones}}
-								<option>{{nombre}}</option>
+								{{nombre}},
 								{{/condiciones}}
 						</select>
 					</div>
@@ -80,7 +80,9 @@
 
 		</div>
 		
+		{{#if recetasFav}}
 		<div class="col-md-12">
+		
 		<h2> Recetas favoritas</h2>
 		
 		
@@ -92,19 +94,26 @@
 						<td>Temporada</td>
 						
 					</hr>
-				{{#fav}}
+				{{#recetasFav}}
 					<tr>
 						<div class="list-group">
 						    <td>{{nombreDelPlato}}</td>
 							<td>{{totalCalorias}}</td>
 							<td>{{Dificultad}}</td>
 							<td>{{Temporada}}</td>
-							<td><a href="/receta/{{id}}" class="list-group-item active"> Ver Receta </a></td>
+							<td><a href="/receta/{{id}}" class="btn btn-default"> Ver Receta </a></td>
 							</div>
 					</tr>
-				{{/fav}}
+				{{/recetasFav}}
 			</table>
 		</div>
+			{{else}}
+		<br>
+		<br>
+  <h3>No tiene recetas favoritas</h3>
+	<br>
+    
+  {{/if}}
 	</form>
 	</div>
 

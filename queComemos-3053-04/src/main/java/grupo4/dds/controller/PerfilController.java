@@ -1,11 +1,13 @@
 package grupo4.dds.controller;
 
 import grupo4.dds.main.Routes;
+import grupo4.dds.receta.Receta;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import spark.ModelAndView;
@@ -21,7 +23,7 @@ public class PerfilController {
 		 	DecimalFormat df = new DecimalFormat("0.00"); 
 		 	
 		 	Usuario user;
-		 	
+		 	List<Receta> recetasFavoritas;
 		 	HashMap<String, Object> viewModel = new HashMap<>();
 		 	
 		 	if (Objects.isNull(usuario)){
@@ -34,7 +36,7 @@ public class PerfilController {
 		 	viewModel.put("nombre", user.getNombre());
 	 	
 		 	if (!Objects.isNull(user.getSexo())){
-		    	viewModel.put("sexo", user.getSexo());
+		    	viewModel.put("sexo", user.getSexo().toString().substring(0, 1));
 	 		}
 		    
 		    if (!Objects.isNull(user.getFechaNacimiento())){
@@ -50,7 +52,7 @@ public class PerfilController {
 		    	viewModel.put("imc", df.format(user.indiceDeMasaCorporal() ) );
 		    }
 			if (!Objects.isNull(user.getRutina())){
-		    	viewModel.put("rutina", user.getRutina().toString());
+		    	viewModel.put("rutina", mayusPrimera(user.getRutina().toString().replace('_', ' ').toLowerCase()));
 			}
 		    if (!Objects.isNull(user.getPreferenciasAlimenticias())){
 		    	viewModel.put("preferencias", user.getPreferenciasAlimenticias());
@@ -61,10 +63,17 @@ public class PerfilController {
 		    if(!Objects.isNull(user.getCondiciones())){
 		        viewModel.put("condiciones", user.getCondiciones());
 		    }
-		    if(!Objects.isNull(user.getFavoritas())){
+		    if(!Objects.isNull(user.getFavoritas()))
 		    	viewModel.put("fav",user.getFavoritas());
-		    }
+		    	else
+		    	viewModel.put("fav", "Aún no tiene recetas favoritas");
 		    
+		   if(!Objects.isNull(user.getHistorial())){
+			   recetasFavoritas = user.getHistorial();
+			   viewModel.put("recetasFav",user.getHistorial());
+			   
+		   }
+		   
 		    String salud="Normal";
 		    
 		    if (user.indiceDeMasaCorporal()>30){
@@ -79,5 +88,13 @@ public class PerfilController {
 		    
 		    return new ModelAndView(viewModel, "perfil.hbs");
 	 }
+	 
+	public String mayusPrimera(String cadena){
+		String mayuscula=cadena.charAt(0)+""; 
+		mayuscula=mayuscula.toUpperCase();
+		cadena=cadena.replaceFirst 
+		(cadena.charAt(0)+"", mayuscula); 
+		return cadena;
+		}
 	
 }

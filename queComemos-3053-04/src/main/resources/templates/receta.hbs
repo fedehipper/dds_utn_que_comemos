@@ -37,6 +37,7 @@
 </div>
 <br>
 
+
 <div class="row">
   <div class="col-md-2"> <pre>{{dificultad}}</pre> </div>
   <div class="col-md-1"></div>
@@ -76,12 +77,11 @@
 <div class="row">
   <div class="col-md-6">
    <br>
-  	<div class="checkbox">
+   <div class="checkbox">
   		<label>
-    		<input type="checkbox" value={{marcaFavorita}}>
-    		Favorita
+    		<input type="checkbox" id="blankCheckbox" value="true" {{#if favorita}} checked {{else}} {{/if}}> Favorita
   		</label>
-  	</div>
+	</div>
   </div>
   <div class="col-md-6"><label>Condiciones Preexistentes</label>
 	<select multiple class="form-control">

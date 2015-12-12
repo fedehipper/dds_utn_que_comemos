@@ -37,8 +37,8 @@ public class Routes {
 	    
 	    staticFileLocation("/public");
 	    
-	    usuarioActual = RepositorioDeUsuarios.instance().get(BuilderUsuario.prototipo("Matías Martino"));
-	    
+	    usuarioActual = RepositorioDeUsuarios.instance().get(BuilderUsuario.prototipo("Federico Sena"));
+	  
 	    get("/", home::listarRecetas, engine);
 	    get("/index.html", (request, response) -> {
 	      response.redirect("/");
