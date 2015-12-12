@@ -38,10 +38,10 @@
 				</div>
 
 					<div class="col-md-6">
-						<div><label><h2>Condiciones</h2></label></div>
+						<div><label><h3>Condiciones</h3></label></div>
 						
 								{{#condiciones}}
-								{{nombre}},
+								<ul><span style="font-size: 150%"><em>{{nombre}}</em></span></ul>
 								{{/condiciones}}
 						</select>
 					</div>
@@ -51,28 +51,24 @@
 				<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-6">
-						<table class="table table-bordered" >
-							<hr>
-								<td>Preferencias alimenticias</td>
-							</hr>
+						
+								<label><h3>Preferencias alimenticias</h3></label>
+
 							{{#preferencias}}
-							<tr>
-								<td>{{nombre}}</td>
-							</tr>
+								<ul><span style="font-size: 150%"><em>{{nombre}}</em></span></ul>
 							{{/preferencias}}
-						</table>
+					
 					</div>
 					<div class="col-md-6">
-						<table class="table table-bordered" >
-							<hr>
-								<td>Comidas que le disgustan</td>
-							</hr>
+						
+								<label><h3>Comidas que le disgustan</h3></label>
+							
 							{{#disgusta}}
-							<tr>
-								<td>{{nombre}}</td>
-							</tr>
+							
+								<ul><span style="font-size: 150%"><em>{{nombre}}</em></span><ul>
+							
 							{{/disgusta}}
-						</table>
+					
 					</div>
 				</div>
 				</div>
