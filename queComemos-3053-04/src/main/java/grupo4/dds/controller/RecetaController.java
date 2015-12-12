@@ -36,12 +36,9 @@ public class RecetaController {
 		viewModel.put("marcaFavorita", usuario.getMarcaFavorita());
 		viewModel.put("condiciones",usuario.getCondiciones());
 		
-		if(usuario.getHistorial().contains(receta))
-		viewModel.put("favorita", "true");
-		else
-			viewModel.put("favorita", "false");
 		
-		
+		viewModel.put("favorita", usuario.getHistorial().contains(receta));
+
 		return new ModelAndView(viewModel, "receta.hbs");
 	}
 	
