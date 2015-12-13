@@ -26,7 +26,6 @@
 		</div>
 </div>
 <br>
-<br>
 <div class="row">
   <div class="col-md-1"><strong>Calorias:</strong></div>
     	<div class="col-md-1">
@@ -70,6 +69,7 @@
 
 <div class="row">
 	<div class="col-md-6"><strong>Ingredientes</strong>
+		<br><br>
   		<table class= "table table-bordered">
 
   			<td> <label>Nombre</label> </td>
@@ -84,14 +84,16 @@
   		</table>
   	</div>
   <div class="col-md-3"><strong>Condimentos</strong>
-
+		<br>
+<br>
      {{#condimentos}}
   		<ul><span style="font-size: 120%"><em><p class="text-capitalize">{{nombre}}</p></em></span></ul>
   	{{/condimentos}}
 
   </div>
 	<div class="col-md-3"><strong>Condiciones Preexistentes</strong>
-
+		<br>
+<br>
 			{{#condiciones}}
 			<ul><span style="font-size: 120%"><em><p class="text-capitalize">{{nombre}}</p></em></span></ul>
 				{{/condiciones}}
