@@ -57,12 +57,12 @@ public class Routes {
 				response.redirect("/perfil/"+ Objects.toString(usuarioActual.getId()));
 				return null;
 		});
-	    //get("/consultas", consultas::mostrar,engine);
+	    
 	    get("/consultas", consultasConResultados::listar,engine);
 	    get("/consultas/buscar", consultas::mostrar, engine);
+	    get("/receta/:id/editar", receta::nuevo,engine);
+	    post("/receta/:id/editar", receta::crear);
 	    get("/receta/:id", receta::mostrar,engine);
-	   // get("/editar/:id", edicion::mostrar,engine);
-	    get("/editar/:id", receta::nuevo,engine);
 	    
 	    after((rq, rs) -> {
 	    	PerThreadEntityManagers.getEntityManager();

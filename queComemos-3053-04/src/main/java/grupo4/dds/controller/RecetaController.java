@@ -78,9 +78,9 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		    
 		   
 		   
-		    withTransaction(() -> {
-		     // RepositorioConsultoras.instancia.agregar(new Consultora(nombre, cantidadEmpleados));
-		    });
+		  /*  withTransaction(() -> {
+		     
+		    });*/
 
 		    response.redirect("/recetas/buscar");
 		    return null;
