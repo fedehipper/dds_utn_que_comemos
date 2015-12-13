@@ -64,15 +64,32 @@
 	<div class="col-md-6"><label>Ingredientes</label>
   		<table class= "table table-bordered">
   		
-  			<td> <label>Nombre</label> </td>
-  			<td> <label>Dosis</label> </td>
+  			<td> <label>Nombre</label> 
   			
-  			{{#ingredientes}}
+  			  	<select class="form-control" name="nombreIngrediente">
+					{{#ingredientes}}
+  					<option>{{nombre}}</option>
+  					{{/ingredientes}}
+				</select>
+  			
+  			</td>
+  			<td> <label>Dosis</label> 
+  			
+  				<select class="form-control" name="dosis">
+					{{#ingredientes}}
+  					<option>{{cantidad}}</option>
+  					{{/ingredientes}}
+				</select>
+				
+  			
+  			</td>
+  			
+  			
   			<tr>
-				<td>{{nombre}}</td>
-				<td>{{cantidad}}</td>
+
+			
 			</tr>
-			{{/ingredientes}}
+			
   		</table>
   	</div>
   <div class="col-md-6"><label>Condimentos</label>
@@ -89,7 +106,7 @@
    <br>
    <div class="checkbox">
   		<label>
-    		<input type="checkbox" id="blankCheckbox" {{#if favorita}} checked{{/if}}> Favorita
+    		
   		</label>
 	</div>
   </div>

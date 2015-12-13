@@ -56,12 +56,11 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		 
 		  HashMap<String, Object> viewModel = new HashMap<>();
 		 
-		  List<String> nombreIngredientes = entityManager().createQuery("select distinct nombre from ingredientes", String.class).getResultList(); 
-		  List<Integer> dosis = entityManager().createQuery("select distinct cantidad from ingredientes", Integer.class).getResultList();
+		  List<Ingrediente> ingredientes =  entityManager().createQuery(" from Ingrediente", Ingrediente.class).getResultList(); 
 		   
-		  
-		  
-		    return new ModelAndView(null, "editar.hbs");
+		  viewModel.put("ingredientes", ingredientes);
+
+		    return new ModelAndView(viewModel, "editar.hbs");
 		  }
 
 		  public Void crear(Request request, Response response) {
@@ -80,6 +79,8 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		    response.redirect("/recetas/buscar");
 		    return null;
 		  }
+		  
+		 
 
 
 }
