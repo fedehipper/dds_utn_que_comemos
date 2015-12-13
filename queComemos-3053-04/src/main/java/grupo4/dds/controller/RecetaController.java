@@ -86,7 +86,7 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		     
 		    });*/
 
-		    response.redirect("/recetas/:id");
+		    response.redirect("/receta/"+Long.parseLong(request.params("id")));
 		    return null;
 		  }
 		  
