@@ -27,7 +27,8 @@ public class PerfilController {
 		 	HashMap<String, Object> viewModel = new HashMap<>();
 		 	
 		 	if (Objects.isNull(usuario)){
-		 		user=Routes.usuarioActual;
+		 		long id =Routes.usuarioActual.getId();
+		 		user = RepositorioDeUsuarios.instance().buscar(id);
 		 	}
 		 	else{
 		 		user=RepositorioDeUsuarios.instance().buscar(usuario);

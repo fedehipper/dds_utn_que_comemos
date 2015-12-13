@@ -18,7 +18,8 @@ public class RecetaController {
 		
 		Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
 		        .params("id")));
-		Usuario usuario = Routes.usuarioActual;
+		long usuarioId = Routes.usuarioActual.getId();
+		Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
 		
         HashMap<String, Object> viewModel = new HashMap<>();
 		
