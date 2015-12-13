@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import grupo4.dds.main.Routes;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
+import grupo4.dds.repositorios.RepositorioDeUsuarios;
+import grupo4.dds.usuario.Usuario;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -43,6 +45,8 @@ public class ConsultasController {
 	public List<Receta> recetasAMostrar(String filtroNombre, String filtroDificultad, String filtroTemporada, String caloriasDesde, String caloriasHasta){
 		
 		List<Receta> recetas;
+		Long id = Routes.usuarioActual.getId();
+		Usuario user = RepositorioDeUsuarios.instance().buscar(id);
 		
 		if( (Objects.isNull(filtroNombre) || filtroNombre.isEmpty()) && (Objects.isNull(filtroDificultad) || filtroDificultad.isEmpty()) 
 		   && (Objects.isNull(filtroTemporada) || filtroTemporada.isEmpty()) && ( (Objects.isNull(caloriasDesde) || caloriasHasta.isEmpty()) &&
@@ -51,7 +55,7 @@ public class ConsultasController {
 		else 
 			recetas = RepositorioDeRecetas.instance().buscarPorFiltros(filtroNombre, filtroDificultad, filtroTemporada,caloriasDesde, caloriasHasta);
 	    
-		return recetas.stream().filter(r-> r.puedeSerVistaPor(Routes.usuarioActual)).collect(Collectors.toList());
+		return recetas.stream().filter(r-> r.puedeSerVistaPor(user)).collect(Collectors.toList());
 	}
 
 }

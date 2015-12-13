@@ -64,11 +64,11 @@
   		</table>
   	</div>
   <div class="col-md-6"><label>Condimentos</label>
-  	<select multiple class="form-control">
+  	
      {{#condimentos}}
-  		<option>{{nombre}}</option>
+  		<ul><span style="font-size: 100%"><em>{{nombre}}</em></span><ul>
   	{{/condimentos}}
-	</select>
+
   </div>
 </div>
 <br>
@@ -84,11 +84,11 @@
 	</div>
   </div>
   <div class="col-md-6"><label>Condiciones Preexistentes</label>
-	<select multiple class="form-control">
+	
 	    {{#condiciones}}
-  		<option>{{nombre}}</option>
+  		<ul><p class="text-left"><span style="font-size: 100%"><em>{{nombre}}</em></span></p><ul>
         {{/condiciones}}
-	</select>
+	
   </div>
 </div>
 <br>
