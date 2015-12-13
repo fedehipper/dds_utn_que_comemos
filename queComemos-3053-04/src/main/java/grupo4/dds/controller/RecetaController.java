@@ -44,6 +44,7 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		viewModel.put("preparacion", receta.getPreparacion());
 		viewModel.put("marcaFavorita", usuario.getMarcaFavorita());
 		viewModel.put("condiciones",usuario.getCondiciones());
+		viewModel.put("id", Long.parseLong(request.params("id")));
 		
 		
 		viewModel.put("favorita", usuario.getHistorial().contains(receta));
@@ -65,11 +66,14 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		  List<Ingrediente> ingredientes =  entityManager().createQuery(" from Ingrediente", Ingrediente.class).getResultList(); 
 		   
 		  viewModel.put("ingredientes", ingredientes);
+		  viewModel.put("id", Long.parseLong(request.params("id")));
 
 		    return new ModelAndView(viewModel, "editar.hbs");
 		  }
 
 		  public Void crear(Request request, Response response) {
+			  
+			  
 		    String nombre = request.queryParams("nombre");
 		    int calorias = Integer.parseInt(request.queryParams("calorias"));
 		    String dificultad = request.queryParams("dificultad");
@@ -82,7 +86,7 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		     
 		    });*/
 
-		    response.redirect("/recetas/buscar");
+		    response.redirect("/recetas/:id");
 		    return null;
 		  }
 		  
