@@ -1,9 +1,11 @@
 package grupo4.dds.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import grupo4.dds.main.Routes;
+import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
@@ -12,7 +14,10 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class RecetaController {
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+
+public class RecetaController implements WithGlobalEntityManager, TransactionalOps {
 	
 	public ModelAndView mostrar(Request request, Response response){
 		
@@ -46,5 +51,35 @@ public class RecetaController {
 	public Receta recetaMostrada(long id){
 		return RepositorioDeRecetas.instance().buscar(id);
 	}
+	
+	  public ModelAndView nuevo(Request request, Response response) {
+		 
+		  HashMap<String, Object> viewModel = new HashMap<>();
+		 
+		  List<String> nombreIngredientes = entityManager().createQuery("select distinct nombre from ingredientes", String.class).getResultList(); 
+		  List<Integer> dosis = entityManager().createQuery("select distinct cantidad from ingredientes", Integer.class).getResultList();
+		   
+		  
+		  
+		    return new ModelAndView(null, "editar.hbs");
+		  }
+
+		  public Void crear(Request request, Response response) {
+		    String nombre = request.queryParams("nombre");
+		    int calorias = Integer.parseInt(request.queryParams("calorias"));
+		    String dificultad = request.queryParams("dificultad");
+		    String temporada = request.queryParams("temporada");
+		    String condimiento = request.queryParams("condimento");
+		    
+		   
+		   
+		    withTransaction(() -> {
+		     // RepositorioConsultoras.instancia.agregar(new Consultora(nombre, cantidadEmpleados));
+		    });
+
+		    response.redirect("/recetas/buscar");
+		    return null;
+		  }
+
 
 }

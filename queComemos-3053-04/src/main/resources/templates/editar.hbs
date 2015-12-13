@@ -1,0 +1,118 @@
+{{# partial "titulo" }}
+	<title>Receta - QueComemos</title>
+{{/partial}}
+
+{{# partial "contenido" }}
+<h1>Edicion de Receta</h1>
+<br>
+<br>
+<body>
+	<div class="container">
+	<form action="/receta" method= "POST">
+	
+
+<div class="row">
+  <div class="col-md-1"> <label>Receta:</label> </div>
+  	<div class="col-md-4">
+  		<input type="text" name="nombre">
+  	</div>
+</div>
+<br>
+
+<div class="row">
+  <div class="col-md-1"><label>Calorias:</label></div>
+    	<div class="col-md-1">
+  			<input type="myNumber" name="calorias">
+  		</div>
+ <!-- <div class="col-md-2"><label>Creado por:</label></div>
+    	<div class="col-md-4">
+  			<pre>{{creador}}</pre>
+  		</div>
+</div> -->
+
+<br>
+
+<div class="row">
+  <div class="col-md-6"> <label>Dificultad</label> </div>
+  <div class="col-md-6"> <label>Temporada</label> </div>
+</div>
+<br>
+
+
+<div class="row">
+  <div class="col-md-2"> <select class="form-control" name="dificultad">
+					<option></option>
+  					<option>FACIL</option>
+  					<option>MEDIANA</option>
+  					<option>DIFICIL</option>
+				</select> </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-1"></div>
+  <div class="col-md-1"></div>
+  <div class="col-md-1"></div>
+  <div class="col-md-2"> <select class="form-control" name="temporada">
+					<option></option>
+  					<option>VERANO</option>
+  					<option>OTONIO</option>
+  					<option>INVIERNO</option>
+  					<option>PRIMAVERA</option>
+				</select> </div>
+ </div>
+
+<br>
+<div class="row">
+	<div class="col-md-6"><label>Ingredientes</label>
+  		<table class= "table table-bordered">
+  		
+  			<td> <label>Nombre</label> </td>
+  			<td> <label>Dosis</label> </td>
+  			
+  			{{#ingredientes}}
+  			<tr>
+				<td>{{nombre}}</td>
+				<td>{{cantidad}}</td>
+			</tr>
+			{{/ingredientes}}
+  		</table>
+  	</div>
+  <div class="col-md-6"><label>Condimentos</label>
+  	
+    <input type="myNumber" name="condimento">
+
+  </div>
+</div>
+<br>
+
+
+<div class="row">
+  <div class="col-md-6">
+   <br>
+   <div class="checkbox">
+  		<label>
+    		<input type="checkbox" id="blankCheckbox" {{#if favorita}} checked{{/if}}> Favorita
+  		</label>
+	</div>
+  </div>
+  <div class="col-md-6"><label>Condiciones Preexistentes</label>
+	
+	    {{#condiciones}}
+  		<ul><p class="text-left"><span style="font-size: 100%"><em>{{nombre}}</em></span></p><ul>
+        {{/condiciones}}
+	
+  </div>
+</div>
+<br>
+
+			<div class="row">
+  			<div class="col-md-6"> <label>Proceso de Preparacion</label> </div>
+			</div>
+
+			<textarea class="form-control" rows="5"></textarea>
+
+			<p class="text-center"><a class="btn btn-primary btn-lg" href="/consultas/buscar" role="button">Volver</a></p>
+		</form>
+	</div>
+</body>
+{{/partial}}
+
+{{> layout.hbs }}
