@@ -9,96 +9,105 @@
 <body>
 	<div class="container">
 	<form action="/receta" method= "GET">
-	
+
 
 <div class="row">
-  <div class="col-md-1"> <label>Receta:</label> </div>
-  	<div class="col-md-4">
-  		<pre>{{nombreDelPlato}}</pre>
+
+  <div class="col-md-1"> <strong>Receta:</strong> </div>
+  	<div class="col-md-3">
+  		<p class="text-capitalize">{{nombreDelPlato}}</p>
   	</div>
+		<div class="col-md-4">
+			<div class="checkbox">
+			 <label>
+				 <input type="checkbox" id="blankCheckbox" {{#if favorita}} checked{{/if}}> <strong>Favorita</strong>
+			 </label>
+	 		</div>
+		</div>
 </div>
 <br>
-
+<br>
 <div class="row">
-  <div class="col-md-1"><label>Calorias:</label></div>
+  <div class="col-md-1"><strong>Calorias:</strong></div>
     	<div class="col-md-1">
-  			<pre>{{cantidadCalorias}}</pre>
+  			<p class="text-capitalize">{{cantidadCalorias}}</p>
   		</div>
-  <div class="col-md-2"><label>Creado por:</label></div>
+  <div class="col-md-1"><strong>Creador:</strong></div>
     	<div class="col-md-4">
-  			<pre>{{creador}}</pre>
+  			<p class="text-capitalize">{{creador}}</p>
   		</div>
 </div>
 <br>
-
+<br>
 <div class="row">
-  <div class="col-md-6"> <label>Dificultad</label> </div>
-  <div class="col-md-6"> <label>Temporada</label> </div>
+  <div class="col-md-1"> <strong>Dificultad</strong></div>
+		<div class="col-md-2">
+		<form>
+  	<fieldset disabled>
+		<div class="form-group">
+      <select id="disabledSelect" class="form-control">
+        <option><p class="text-capitalize">{{dificultad}}</p></option>
+      </select>
+    </div>
+	</fieldset>
+	</form>
+	</div>
+	<div class="col-md-3"></div>
+
+  <div class="col-md-1"> <strong>Temporada</strong> </div>
+	<div class="col-md-2">
+	<form>
+	<fieldset disabled>
+	<div class="form-group">
+		<select id="disabledSelect" class="form-control">
+			<option><p class="text-capitalize">{{temporada}}</p></option>
+		</select>
+	</div>
+</fieldset>
+</form>
 </div>
-<br>
-
+</div>
 
 <div class="row">
-  <div class="col-md-2"> <pre>{{dificultad}}</pre> </div>
-  <div class="col-md-1"></div>
-  <div class="col-md-1"></div>
-  <div class="col-md-1"></div>
-  <div class="col-md-1"></div>
-  <div class="col-md-2"> <pre>{{temporada}}</pre> </div>
- </div>
-
-<br>
-<div class="row">
-	<div class="col-md-6"><label>Ingredientes</label>
+	<div class="col-md-6"><strong>Ingredientes</strong>
   		<table class= "table table-bordered">
-  		
+
   			<td> <label>Nombre</label> </td>
   			<td> <label>Dosis</label> </td>
-  			
+
   			{{#ingredientes}}
   			<tr>
-				<td>{{nombre}}</td>
-				<td>{{cantidad}}</td>
+				<td><p class="text-capitalize">{{nombre}}</p></td>
+				<td><p class="text-capitalize">{{cantidad}}</p></td>
 			</tr>
 			{{/ingredientes}}
   		</table>
   	</div>
-  <div class="col-md-6"><label>Condimentos</label>
-  	
+  <div class="col-md-3"><strong>Condimentos</strong>
+
      {{#condimentos}}
-  		<ul><span style="font-size: 100%"><em>{{nombre}}</em></span><ul>
+  		<ul><span style="font-size: 120%"><em><p class="text-capitalize">{{nombre}}</p></em></span></ul>
   	{{/condimentos}}
 
   </div>
+	<div class="col-md-3"><strong>Condiciones Preexistentes</strong>
+
+			{{#condiciones}}
+			<ul><span style="font-size: 120%"><em><p class="text-capitalize">{{nombre}}</p></em></span></ul>
+				{{/condiciones}}
+
+	</div>
 </div>
 <br>
-
-
-<div class="row">
-  <div class="col-md-6">
-   <br>
-   <div class="checkbox">
-  		<label>
-    		<input type="checkbox" id="blankCheckbox" {{#if favorita}} checked{{/if}}> Favorita
-  		</label>
-	</div>
-  </div>
-  <div class="col-md-6"><label>Condiciones Preexistentes</label>
-	
-	    {{#condiciones}}
-  		<ul><p class="text-left"><span style="font-size: 100%"><em>{{nombre}}</em></span></p><ul>
-        {{/condiciones}}
-	
-  </div>
-</div>
 <br>
 
 			<div class="row">
-  			<div class="col-md-6"> <label>Proceso de Preparacion</label> </div>
+  			<div class="col-md-6"> <strong>Proceso de Preparacion</strong> </div>
 			</div>
 
-			<pre>{{preparacion}}</pre>
-
+			<em>{{preparacion}}</em>
+			<br>
+			<br>
 			<p class="text-center"><a class="btn btn-primary btn-lg" href="/consultas/buscar" role="button">Volver</a></p>
 		</form>
 	</div>
