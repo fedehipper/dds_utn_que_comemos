@@ -1,12 +1,15 @@
 package grupo4.dds.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import grupo4.dds.main.Routes;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
+import grupo4.dds.receta.Temporada;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
@@ -53,6 +56,9 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 	}
 	
 	  public ModelAndView nuevo(Request request, Response response) {
+		  
+		  Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
+			        .params("id")));
 		 
 		  HashMap<String, Object> viewModel = new HashMap<>();
 		 
@@ -80,7 +86,31 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		    return null;
 		  }
 		  
+		 public List<String> getTemporadas(){
+			 
+			 HashMap<Integer, String> temporadasBase = new HashMap<>();
+			 List<Integer> idTemporada = entityManager().createQuery("select distinct temporada from Receta", Integer.class).getResultList();
+			 idTemporada.forEach(t -> temporadasBase.put(t, this.dameStringTemporada(t)));
+			 
+			 
+			 return temporadasBase.values().stream().collect(Collectors.toList());
+			 
+		 }
 		 
+		 public String dameStringTemporada(Integer valor){
+				
+				switch(valor){
+				
+				case 0: return "INVIERNO";
+				case 1: return "VERANO";
+				case 2: return "OTONIO";
+				case 3: return "PRIMAVERA";
+				case 4: return "TODOELANIO";
+				
+				default: return "";
+				}
+				
+			}
 
 
 }

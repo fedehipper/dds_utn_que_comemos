@@ -8,7 +8,7 @@
 <br>
 <body>
 	<div class="container">
-	<form action="/receta" method= "POST">
+	<form action="/receta/{{id}}" method= "POST">
 	
 
 <div class="row">
@@ -125,7 +125,8 @@
 			</div>
 
 			<textarea class="form-control" rows="5"></textarea>
-
+			<br>
+			<p class = "text-left"><button type="submit" class="btn btn-primary btn-lg">Guardar</button></p>
 			<p class="text-center"><a class="btn btn-primary btn-lg" href="/consultas/buscar" role="button">Volver</a></p>
 		</form>
 	</div>
