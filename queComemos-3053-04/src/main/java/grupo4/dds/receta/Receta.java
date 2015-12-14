@@ -180,7 +180,7 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 		}
 		
 		if(!((Objects.isNull(calorias)||calorias.isEmpty()))){
-			query=query+", totalCalorias = "+ Integer.parseInt(calorias)+",";
+			query=query+", totalCalorias = "+ Integer.parseInt(calorias);
 		}
 		
 		if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
@@ -191,7 +191,7 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 			query=query+", temporada = " + Temporada.valueOf(temporada).ordinal();
 		}
 		
-		query= query + "where id= "+ getId();
+		query= query + "where id_receta= "+ getId();
 
 		return query;	
 	}

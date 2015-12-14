@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.main.Routes;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
@@ -88,8 +88,13 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		   
 		   
 		    withTransaction(() -> {
-		     
+		    	
+		    	if(receta.getOrigen()!="Publica")
 		    	receta.actualizarReceta(nombre, dificultad, temporada, calorias, nombreIngrediente, dosis);
+		    	else {
+
+		    	//debería crearse la receta privada (insert)
+		    	}
 		    });
 
 		    response.redirect("/receta/"+Long.parseLong(request.params("id")));
