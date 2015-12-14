@@ -73,18 +73,24 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 
 		  public Void crear(Request request, Response response) {
 			  
-			  
-		    String nombre = request.queryParams("nombre");
-		    int calorias = Integer.parseInt(request.queryParams("calorias"));
+			Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request.params("id")));
+			String nombre = request.queryParams("nombre");
+		    String calorias = request.queryParams("calorias");
 		    String dificultad = request.queryParams("dificultad");
 		    String temporada = request.queryParams("temporada");
 		    String condimiento = request.queryParams("condimento");
+		    String nombreIngrediente = request.queryParams("nombreIngrediente");
+		    String dosis = request.queryParams("dosis");
+		    
+		    long usuarioId = Routes.usuarioActual.getId();
+			Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
 		    
 		   
 		   
-		  /*  withTransaction(() -> {
+		    withTransaction(() -> {
 		     
-		    });*/
+		    	receta.actualizarReceta(nombre, dificultad, temporada, calorias, nombreIngrediente, dosis);
+		    });
 
 		    response.redirect("/receta/"+Long.parseLong(request.params("id")));
 		    return null;

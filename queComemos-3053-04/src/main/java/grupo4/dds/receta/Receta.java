@@ -7,6 +7,7 @@ import grupo4.dds.usuario.Usuario;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -25,6 +27,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 import queComemos.entrega3.dominio.Dificultad;
 
 @Entity
@@ -32,7 +36,7 @@ import queComemos.entrega3.dominio.Dificultad;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_receta")
 @DiscriminatorValue("privada")
-public class Receta implements Persistible {
+public class Receta implements Persistible, WithGlobalEntityManager {
 	
 	@Id
 	@GeneratedValue
@@ -163,6 +167,49 @@ public class Receta implements Persistible {
 			acum.addAll(f.apply(elem));
 
 		return acum;
+	}
+	
+	
+	public String actualizarReceta(String nombreReceta, String dificultad, String temporada, String calorias, String ingrediente, String dosis){
+		String query="update Receta SET ";
+		
+		//Long idIngrediente = entityManager().createQuery("select I.id_ingrediente from Ingrediente JOIN Receta r ON (I.id_receta = r.id_receta)",Ingrediente.class);
+		
+		if (!(Objects.isNull(nombreReceta)||nombreReceta.isEmpty())){
+			query=query+"nombreDelPlato = '%" + nombreReceta + "%'";
+		}
+		
+		if(!((Objects.isNull(calorias)||calorias.isEmpty()))){
+			query=query+", totalCalorias = "+ Integer.parseInt(calorias)+",";
+		}
+		
+		if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
+			query=query+", dificultad = " + Dificultad.valueOf(dificultad).ordinal();
+		}
+		
+		if(!(Objects.isNull(temporada)||temporada.isEmpty())){
+			query=query+", temporada = " + Temporada.valueOf(temporada).ordinal();
+		}
+		
+		query= query + "where id= "+ getId();
+
+		return query;	
+	}
+	
+	public String actualizarIngredientes(long idReceta, String ingrediente, String dosis) {
+		
+		String query="update Ingrediente SET ";
+		
+		if(!((Objects.isNull(ingrediente)||ingrediente.isEmpty()))){
+			query=query+", nombre = '%" + ingrediente + "%',";
+		}
+		
+		if(!((Objects.isNull(dosis)||dosis.isEmpty()))){
+			query=query+", cantidad = "+ Integer.parseInt(dosis)+",";
+		}
+		
+		return query;
+	
 	}
 
 	/* Accessors and Mutators */
