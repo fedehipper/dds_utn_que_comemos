@@ -274,7 +274,7 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
 	}
 
 	public List<Receta> getHistorial() {
-		return Collections.unmodifiableList(historial);
+		return historial;
 	}
 	
 	public Set<Receta> getFavoritas() {
