@@ -1,15 +1,12 @@
 package grupo4.dds.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.main.Routes;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
-import grupo4.dds.receta.Temporada;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
@@ -21,7 +18,7 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 public class RecetaController implements WithGlobalEntityManager, TransactionalOps {
-	
+			
 	public ModelAndView mostrar(Request request, Response response){
 		
 		Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
@@ -61,39 +58,53 @@ public class RecetaController implements WithGlobalEntityManager, TransactionalO
 		  Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request
 			        .params("id")));
 		 
+		  long usuarioId = Routes.usuarioActual.getId();
+		  Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
+			
 		  HashMap<String, Object> viewModel = new HashMap<>();
 		 
-		  List<Ingrediente> ingredientes =  entityManager().createQuery(" from Ingrediente", Ingrediente.class).getResultList(); 
+		  //List<Ingrediente> ingredientes =  entityManager().createQuery(" from Ingrediente", Ingrediente.class).getResultList(); 
 		   
-		  viewModel.put("ingredientes", ingredientes);
+		  viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
+		  viewModel.put("calorias", receta.getTotalCalorias());
+		  viewModel.put("temporada", receta.getTemporada());
+		  viewModel.put("dificultad", receta.getDificultad());
+		  viewModel.put("preparacion", receta.getPreparacion());
+		  viewModel.put("ingredientes", receta.getIngredientes());
+		  viewModel.put("favorita", usuario.getHistorial().contains(receta));
 		  viewModel.put("id", Long.parseLong(request.params("id")));
 
 		    return new ModelAndView(viewModel, "editar.hbs");
 		  }
 
 		  public Void crear(Request request, Response response) {
-			  
+			  	  
 			Receta receta = RepositorioDeRecetas.instance().buscar(Long.parseLong(request.params("id")));
-			String nombre = request.queryParams("nombre");
+			String nombre = request.queryParams("nombreDelPlato");
 		    String calorias = request.queryParams("calorias");
 		    String dificultad = request.queryParams("dificultad");
 		    String temporada = request.queryParams("temporada");
-		    String condimiento = request.queryParams("condimento");
+		    String favorita = request.queryParams("fav");
+		    String condimento = request.queryParams("condimento");
 		    String nombreIngrediente = request.queryParams("nombreIngrediente");
 		    String dosis = request.queryParams("dosis");
+		    String preparacion = request.queryParams("preparacion");
+		    String ingredientePorEliminar = request.queryParams("ingredienteSeleccionado");
 		    
 		    long usuarioId = Routes.usuarioActual.getId();
 			Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
-		    
-		   
-		   
+		   			
 		    withTransaction(() -> {
-		    	
-		    	if(receta.getOrigen()!="Publica")
-		    	receta.actualizarReceta(nombre, dificultad, temporada, calorias, nombreIngrediente, dosis);
-		    	else {
+		    				
+		    	if(receta.getOrigen() != "Publica"){
 
-		    	//debería crearse la receta privada (insert)
+		    		receta.actualizarReceta(nombre, dificultad, temporada, calorias, preparacion,favorita,
+		    				condimento,nombreIngrediente,dosis,ingredientePorEliminar);
+
+		    	}
+		    	else {
+		    		receta.crearReceta(nombre, dificultad, temporada, calorias, preparacion, favorita, usuario,
+		    				condimento, nombreIngrediente, dosis,receta.getIngredientes(),receta.getCondimentos(),ingredientePorEliminar);
 		    	}
 		    });
 

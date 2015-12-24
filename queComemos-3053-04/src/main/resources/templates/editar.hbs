@@ -11,12 +11,12 @@
 <div class="row">
   <div class="col-md-1"> <strong>Receta:</strong> </div>
   	<div class="col-md-3">
-  		<input type="text" name="nombre">
+  		<input type="text" name="nombreDelPlato" value = {{nombreDelPlato}}>
   	</div>
   	<div class="col-md-4">
 			<div class="checkbox">
 			 <label>
-				 <input type="checkbox" id="blankCheckbox" {{#if favorita}} checked{{/if}}> <strong>Favorita</strong>
+				 <input type="checkbox" id="blankCheckbox"  name="fav"{{#if favorita}} checked{{/if}}> <strong>Favorita</strong>
 			 </label>
 	 		</div>
 		</div>
@@ -25,13 +25,12 @@
 <div class="row">
   <div class="col-md-1"><strong>Calorias:</strong></div>
     	<div class="col-md-3">
-  			<input type="myNumber" name="calorias">
+  			<input type="myNumber" name="calorias" value = {{calorias}}>
   		</div>
   <div class="col-md-1"> <strong>Dificultad</strong> </div>
 		<div class="col-md-2">
 			<div class="form-group">
-				<select class="form-control" name="dificultad">
-					<option></option>
+				<select class="form-control" name="dificultad" value = {{dificultad}}>
 					<option>FACIL</option>
 					<option>MEDIANA</option>
 					<option>DIFICIL</option>
@@ -41,8 +40,7 @@
   <div class="col-md-1"> <strong>Temporada</strong> </div>
 		<div class="col-md-2">
 			<div class="form-group">
-				<select class="form-control" name="temporada">
-					<option></option>
+				<select class="form-control" name="temporada" value = {{temporada}}>
   				<option>INVIERNO</option>
   				<option>OTONIO</option>
   				<option>VERANO</option>
@@ -55,28 +53,43 @@
 <br></br>
 
 <div class="row">
-	<div class="col-md-6"><strong>Ingredientes</strong>
-  		<table class= "table table-bordered">
-  			<td> <label>Nombre</label>
-  			  	<select class="form-control" name="nombreIngrediente">
-							{{#ingredientes}}
-  							<option>{{nombre}}</option>
-  						{{/ingredientes}}
-						</select>
-  			</td>
-  			<td> <strong>Dosis</strong>
-  				<select class="form-control" name="dosis">
+	<div class="col-md-8">
+		<table class="table table-bordered">
+			<td>
+				 	<strong>Nombre</strong>
+					<input type="text" name="nombreIngrediente" value= {{nombreIngrediente}}>
+			</td>
+			<td>
+ 				<strong>Cantidad</strong>
+				<input type="text" name="dosis" value= {{dosis}}>
+			</td>
+			<td>
+				<button type="submit" class="btn btn-primary">Añadir Ingrediente</button>
+			</td>
+		</table>
+		<div class="row">
+  		<div class="col-md-2">
+				<select class="form-control" name="ingredienteSeleccionado">
 						{{#ingredientes}}
-  						<option>{{cantidad}}</option>
-  					{{/ingredientes}}
+				  			<option>{{nombre}}</option>
+				   	{{/ingredientes}}
 				</select>
-				</td>
-  		</table>
+			</div>
+  		<div class="col-md-4"> <button type="submit" class="btn btn-primary">Quitar Ingrediente</button> </div>
+			<div class="col-md-2">
+				<select class="form-control" name="condimentoSeleccionado">
+						{{#condimentos}}
+				  			<option>{{nombre}}</option>
+				   	{{/condimentos}}
+				</select>
+			</div>
+  		<div class="col-md-4"> <button type="submit" class="btn btn-primary">Quitar Condimento</button> </div>
+	</div>
   </div>
 
-<div class="col-md-6"><strong>Condimentos</strong>
-    <input type="myNumber" name="condimento">
-			<input type="button" id="btAdd" value="Añadir Condimento" class="bt" />
+<div class="col-md-4">
+    <input type="text" name="condimento">
+		<button type="submit" class="btn btn-primary">Añadir condimento</button>
   </div>
 </div>
 </div>
@@ -85,7 +98,7 @@
   			<div class="col-md-6"> <strong>Proceso de Preparacion</strong> </div>
 			</div>
 
-			<textarea class="form-control" rows="5"></textarea>
+			<textarea class="form-control" rows="5" name="preparacion" >{{preparacion}}</textarea>
 			<br></br>
 			<div class="row">
 				<div class="col-md-6">
@@ -94,7 +107,6 @@
 				<div class="col-md-6">
 					<p class = "text-center"><button type="submit" class="btn btn-primary btn-lg">Guardar</button></p>
 				</div>
-			</div>
 		</form>
 	</div>
 </body>

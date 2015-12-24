@@ -2,6 +2,7 @@ package grupo4.dds.receta;
 
 import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.persistencia.Persistible;
+import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -109,7 +109,20 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 		this.preparacion = preparacion;
 
 	}
+	
+	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, Ingrediente ingrediente,
+			Ingrediente condimento) {
 
+		if (!usuario.puedeModificar(this))
+			throw new NoSePuedeModificarLaReceta();
+
+		this.encabezado = encabezado;
+
+		if(ingrediente != null) this.ingredientes.add(ingrediente);
+		
+		if(condimento != null) this.condimentos.add(condimento);
+				
+	}
 	public String getPreparacion() {
 		if (preparacion == null & subrecetas.isEmpty())
 			return "";
@@ -169,47 +182,97 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 		return acum;
 	}
 	
-	
-	public String actualizarReceta(String nombreReceta, String dificultad, String temporada, String calorias, String ingrediente, String dosis){
-		String query="update Receta SET ";
+	public void actualizarReceta(String nombreReceta, String dificultad, String temporada, String calorias,
+			String preparacion,String favorita, String condimento, String ingrediente, String dosis, String paraEliminar){
 		
-		//Long idIngrediente = entityManager().createQuery("select I.id_ingrediente from Ingrediente JOIN Receta r ON (I.id_receta = r.id_receta)",Ingrediente.class);
+		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
+		Ingrediente nuevoCondimento = null;
+		Ingrediente nuevoIngrediente = null;
 		
 		if (!(Objects.isNull(nombreReceta)||nombreReceta.isEmpty())){
-			query=query+"nombreDelPlato = '%" + nombreReceta + "%'";
+			encabezado.setNombreDelPlato(nombreReceta);
 		}
 		
 		if(!((Objects.isNull(calorias)||calorias.isEmpty()))){
-			query=query+", totalCalorias = "+ Integer.parseInt(calorias);
+			encabezado.setTotalCalorias(Integer.parseInt(calorias));
 		}
 		
 		if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
-			query=query+", dificultad = " + Dificultad.valueOf(dificultad).ordinal();
+			encabezado.setDificultad(Dificultad.valueOf(dificultad));
 		}
 		
 		if(!(Objects.isNull(temporada)||temporada.isEmpty())){
-			query=query+", temporada = " + Temporada.valueOf(temporada).ordinal();
+			encabezado.setTemporada(Temporada.valueOf(temporada));
 		}
 		
-		query= query + "where id_receta= "+ getId();
-
-		return query;	
+		if(!(Objects.isNull(preparacion)||preparacion.isEmpty())){
+			this.setPreparacion(preparacion);
+		}
+				
+		if(!Objects.isNull(favorita)) 
+			this.getCreador().marcarFavorita(this);
+		else {
+			if(this.getCreador().getHistorial().contains(this)) this.getCreador().getHistorial().remove(this);
+		}
+		
+		if (!(Objects.isNull(condimento)||condimento.isEmpty())){
+			 nuevoCondimento = Ingrediente.nuevoCondimento(condimento, 0);
+		}
+		
+		if(!((Objects.isNull(ingrediente)||ingrediente.isEmpty())) && !((Objects.isNull(dosis)||dosis.isEmpty()))){
+			nuevoIngrediente = Ingrediente.nuevoIngrediente(ingrediente, Float.parseFloat(dosis));
+		}
+		
+		if (!(Objects.isNull(paraEliminar)||paraEliminar.isEmpty())){
+			this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+		}
+		
+		this.modificarReceta(this.getCreador(), encabezado, nuevoIngrediente, nuevoCondimento);
 	}
 	
-	public String actualizarIngredientes(long idReceta, String ingrediente, String dosis) {
+	public void crearReceta(String nombreReceta, String dificultad, String temporada, String calorias, String preparacion,
+			String favorita, Usuario usuario, String condimento, String nombreIngrediente, String dosis,
+			List<Ingrediente> ingredientes, List<Ingrediente> condimentos, String paraEliminar){
 		
-		String query="update Ingrediente SET ";
-		
-		if(!((Objects.isNull(ingrediente)||ingrediente.isEmpty()))){
-			query=query+", nombre = '%" + ingrediente + "%',";
+		BuilderReceta builder = new BuilderReceta();
+						
+		if (!(Objects.isNull(nombreReceta)||nombreReceta.isEmpty())){
+			builder.nombre(nombreReceta);
 		}
 		
-		if(!((Objects.isNull(dosis)||dosis.isEmpty()))){
-			query=query+", cantidad = "+ Integer.parseInt(dosis)+",";
+		if(!((Objects.isNull(calorias)||calorias.isEmpty()))){
+			builder.calorias(Integer.parseInt(calorias));
 		}
 		
-		return query;
-	
+		if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
+			builder.dificultad(Dificultad.valueOf(dificultad));
+		}
+		
+		if(!(Objects.isNull(temporada)||temporada.isEmpty())){
+			builder.temporada(Temporada.valueOf(temporada));
+		}
+		
+		if(!(Objects.isNull(preparacion)||preparacion.isEmpty())){
+			builder.preparacion(preparacion);
+		}
+
+		if (!(Objects.isNull(condimento)||condimento.isEmpty())){
+			 builder.condimento(Ingrediente.nuevoCondimento(condimento, 0));
+		}
+		
+		if(!Objects.isNull(favorita)) 
+			usuario.marcarFavorita(this);
+		else {
+			if(usuario.getHistorial().contains(this)) usuario.getHistorial().remove(this);
+		}
+		
+		if (!(Objects.isNull(nombreIngrediente)||nombreIngrediente.isEmpty()) && !(Objects.isNull(dosis)||dosis.isEmpty())){
+			builder.ingrediente(Ingrediente.nuevoIngrediente(nombreIngrediente, Float.parseFloat(dosis)));
+		}
+		
+		
+		Receta nuevaReceta = builder.ingredientes(ingredientes).condimentos(condimentos).creador(usuario).build();
+
 	}
 
 	/* Accessors and Mutators */

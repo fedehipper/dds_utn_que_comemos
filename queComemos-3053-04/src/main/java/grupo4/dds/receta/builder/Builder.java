@@ -45,6 +45,11 @@ public abstract class Builder<R extends Receta> implements WithGlobalEntityManag
 		return this;
 	}
 
+	public Builder<R> dificultad(Dificultad dificultad) {
+		encabezado.setDificultad(dificultad);
+		return this;
+	}
+	
 	public Builder<R> facil() {
 		encabezado.setDificultad(Dificultad.FACIL);
 		return this;
