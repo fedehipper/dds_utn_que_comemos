@@ -7,6 +7,7 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -183,7 +184,8 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 	}
 	
 	public void actualizarReceta(String nombreReceta, String dificultad, String temporada, String calorias,
-			String preparacion,String favorita, String condimento, String ingrediente, String dosis, String paraEliminar){
+			String preparacion,String favorita, String condimento, String ingrediente, String dosis,
+			String ingredienteParaEliminar, String condimentoParaEliminar){
 		
 		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 		Ingrediente nuevoCondimento = null;
@@ -223,16 +225,28 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 			nuevoIngrediente = Ingrediente.nuevoIngrediente(ingrediente, Float.parseFloat(dosis));
 		}
 		
-		if (!(Objects.isNull(paraEliminar)||paraEliminar.isEmpty())){
-			this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+		if (!(Objects.isNull(ingredienteParaEliminar)||ingredienteParaEliminar.isEmpty())){
+			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+			eliminarElemento(ingredientes,ingredienteParaEliminar);
+		}
+		
+		if (!(Objects.isNull(condimentoParaEliminar)||condimentoParaEliminar.isEmpty())){
+			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+			eliminarElemento(condimentos,condimentoParaEliminar);
 		}
 		
 		this.modificarReceta(this.getCreador(), encabezado, nuevoIngrediente, nuevoCondimento);
 	}
 	
-	public void crearReceta(String nombreReceta, String dificultad, String temporada, String calorias, String preparacion,
+	public void eliminarElemento(List<Ingrediente> lista,String nombreIngrediente){
+		for(int x=0;x<lista.size();x++) {
+			  if(lista.get(x).getNombre().equals(nombreIngrediente)) lista.remove(lista.get(x));
+		}
+	}
+	
+	public Receta crearReceta(String nombreReceta, String dificultad, String temporada, String calorias, String preparacion,
 			String favorita, Usuario usuario, String condimento, String nombreIngrediente, String dosis,
-			List<Ingrediente> ingredientes, List<Ingrediente> condimentos, String paraEliminar){
+			List<Ingrediente> ingredientes, List<Ingrediente> condimentos, String ingredienteParaEliminar, String condimentoParaEliminar){
 		
 		BuilderReceta builder = new BuilderReceta();
 						
@@ -272,7 +286,18 @@ public class Receta implements Persistible, WithGlobalEntityManager {
 		
 		
 		Receta nuevaReceta = builder.ingredientes(ingredientes).condimentos(condimentos).creador(usuario).build();
-
+		
+		if (!(Objects.isNull(ingredienteParaEliminar)||ingredienteParaEliminar.isEmpty())){
+			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+			eliminarElemento(nuevaReceta.getIngredientes(),ingredienteParaEliminar);
+		}
+		
+		if (!(Objects.isNull(condimentoParaEliminar)||condimentoParaEliminar.isEmpty())){
+			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+			eliminarElemento(nuevaReceta.getCondimentos(),condimentoParaEliminar);
+		}
+		
+		return nuevaReceta;
 	}
 
 	/* Accessors and Mutators */

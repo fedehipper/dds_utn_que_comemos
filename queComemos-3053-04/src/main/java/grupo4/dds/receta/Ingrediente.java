@@ -17,7 +17,7 @@ public class Ingrediente {
 	@Column(name = "id_ingrediente")
 	private long id;
 	
-	private String nombre;
+	public String nombre;
 	private float cantidad;
 	
 	private Ingrediente() {}
