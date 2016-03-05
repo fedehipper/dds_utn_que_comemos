@@ -8,9 +8,11 @@ import java.util.function.Consumer;
 
 public class RepositorioDeSolicitudes extends Repositorio<SolicitudAltaUsuario> {
 
-	private static final RepositorioDeSolicitudes self = new RepositorioDeSolicitudes();
+	private static volatile RepositorioDeSolicitudes self = null;
 	
 	public static RepositorioDeSolicitudes instance() {
+		if(self == null)
+			self = new RepositorioDeSolicitudes();
 		return self;
 	}
 	
