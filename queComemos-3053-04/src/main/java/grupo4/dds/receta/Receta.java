@@ -4,15 +4,12 @@ import grupo4.dds.excepciones.NoSePuedeModificarLaReceta;
 import grupo4.dds.persistencia.Persistible;
 import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.usuario.Usuario;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;

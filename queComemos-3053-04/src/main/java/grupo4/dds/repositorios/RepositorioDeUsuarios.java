@@ -1,8 +1,7 @@
 package grupo4.dds.repositorios;
 
-import grupo4.dds.receta.Receta;
-import grupo4.dds.usuario.Usuario;
 
+import grupo4.dds.usuario.Usuario;
 import java.util.List;
 import java.util.stream.Collectors;
 

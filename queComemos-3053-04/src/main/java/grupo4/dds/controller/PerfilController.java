@@ -1,13 +1,11 @@
 package grupo4.dds.controller;
 
 import grupo4.dds.main.Routes;
-import grupo4.dds.receta.Receta;
 import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.Usuario;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 import spark.ModelAndView;
@@ -23,7 +21,6 @@ public class PerfilController {
 		 	DecimalFormat df = new DecimalFormat("0.00"); 
 		 	
 		 	Usuario user;
-		 	List<Receta> recetasFavoritas;
 		 	HashMap<String, Object> viewModel = new HashMap<>();
 		 	
 		 	if (Objects.isNull(usuario)){
@@ -67,27 +64,24 @@ public class PerfilController {
 		    if(!Objects.isNull(user.getFavoritas()))
 		    	viewModel.put("fav",user.getFavoritas());
 		    	else
-		    	viewModel.put("fav", "Aún no tiene recetas favoritas");
+		    	viewModel.put("fav", "AÃºn no tiene recetas favoritas");
 		    
 		   if(!Objects.isNull(user.getHistorial())){
-			   recetasFavoritas = user.getHistorial();
 			   viewModel.put("recetasFav",user.getHistorial());
-			   
 		   }
 		   
-		    String salud="Normal";
+		   String salud="Normal";
 		    
-		    if (user.indiceDeMasaCorporal()>30){
-		    	salud="Su estado de salud es CRITICO!!!!!";
-		    }
-		    else{if(user.indiceDeMasaCorporal()<18){
-		    	salud="Su IMC es menor de lo esperado normalmente";
-		    }
-		    }
+		   if(user.indiceDeMasaCorporal()>30)
+			   salud="Su estado de salud es CRITICO!!!!!";
+		   else {
+			   if(user.indiceDeMasaCorporal()<18){
+				   salud="Su IMC es menor de lo esperado normalmente";
+			   }
+		   }
 		    
-		    viewModel.put("salud", salud);
-		    
-		    return new ModelAndView(viewModel, "perfil.hbs");
+		   viewModel.put("salud", salud);
+		   return new ModelAndView(viewModel, "perfil.hbs");
 	 }
 	 
 	public String mayusPrimera(String cadena){

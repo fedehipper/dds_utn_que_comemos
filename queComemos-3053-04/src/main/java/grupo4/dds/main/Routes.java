@@ -5,19 +5,9 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
-
-
-
-
 import java.util.Objects;
-
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
-
-
-
-
 import grupo4.dds.controller.ConsultasController;
-
 import grupo4.dds.controller.HomeController;
 import grupo4.dds.controller.PerfilController;
 import grupo4.dds.controller.RecetaController;
@@ -25,7 +15,8 @@ import grupo4.dds.repositorios.RepositorioDeUsuarios;
 import grupo4.dds.usuario.BuilderUsuario;
 import grupo4.dds.usuario.Usuario;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import static spark.Spark.post;
+
+
 public class Routes {
 	
 	static public Usuario usuarioActual;
