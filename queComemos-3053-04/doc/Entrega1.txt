@@ -1,5 +1,5 @@
 Para poder desarrollar el TP se utilizó una clase general Usuario, que representa a la persona en cuanto a condiciones y gustos,
-una clase Receta para modelar cada receta y para ciertos datos creamos también una clase denominada EncabezadoDeReceta que representa justamente 
+una clase Receta para modelar cada receta y para ciertos datos creamos también una clase denominada EncabezadoDeReceta que representa justamente
 el encabezado pedido de la receta.
 Luego para la distinción de las recetas públicas de las privadas, utilizamos una herencia teniendo como clase padre a Receta y como clase hija a
 RecetaPublica (que representa la pública) para poder hacer las validaciones y los métodos correspondientes a sobre si puede ser vista, modificada, etc.
@@ -16,15 +16,6 @@ con los atributos correspondientes, pero luego de ver que recibía muchos parámet
 Con la herencia modelada podemos tener tanto una receta de un usuario que sería privada, como una receta publica que hereda de la privada y nos sirvió para modelar
 el permiso o no de quién puede acceder o modificar una receta. Además de contar con la ventaja de la reusabilidad de código en ciertos métodos, ya que ambas recetas
 si bien se comportan diferente serían similares en ciertos aspectos.
-Los ingredientes inicialmente los pensamos como strings y luego como hashMap pensando en la idea de que no tenían comportamiento alguno. Pero terminamos de 
+Los ingredientes inicialmente los pensamos como strings y luego como hashMap pensando en la idea de que no tenían comportamiento alguno. Pero terminamos de
 modelarlos como una clase Ingrediente para poder reconocer cual es carne y cuál no, para usarlos en los métodos que solicitaban cierta restricción con esa cuestión.
 En cuanto a los tests, hicimos tests unitarios y algunos integradores separándolos por receta, usuario y condición.
-
-
-
-
-
-
- 
-
-

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.uqbar-project:jpa-java8-extras:1.0-alpha-1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/uqbar-project/jpa-java8-extras/1.0-alpha-1/jpa-java8-extras-1.0-alpha-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/uqbar-project/jpa-java8-extras/1.0-alpha-1/jpa-java8-extras-1.0-alpha-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/uqbar-project/jpa-java8-extras/1.0-alpha-1/jpa-java8-extras-1.0-alpha-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
