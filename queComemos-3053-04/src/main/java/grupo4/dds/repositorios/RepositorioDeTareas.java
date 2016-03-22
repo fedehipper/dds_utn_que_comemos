@@ -4,10 +4,12 @@ import grupo4.dds.monitores.asincronicos.tareas.TareaPendiente;
 
 public class RepositorioDeTareas extends Repositorio<TareaPendiente> {
 	
-	private static RepositorioDeTareas self = new RepositorioDeTareas();
+	private static volatile RepositorioDeTareas instance = null;
 
 	public static RepositorioDeTareas instance() {
-		return self;
+		if(instance == null)
+			instance = new RepositorioDeTareas();
+		return instance;
 	}
 	
 	public RepositorioDeTareas() {
