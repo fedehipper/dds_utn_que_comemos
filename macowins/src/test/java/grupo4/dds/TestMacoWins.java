@@ -14,8 +14,8 @@ public class TestMacoWins {
 	private static Prenda camisa = new Camisa(IMPORTADA, new Sarkany(), maco);
 	private static Prenda zapato = new Zapatos(NACIONAL, new Sarkany(), 5, maco);
 	private static Prenda sombrero = new Sombrero(IMPORTADA, new Armani(), 5, maco);
-	private static LocalDate fecha1 = LocalDate.of(2015, 04, 04);
-	private static LocalDate fecha2 = LocalDate.of(2016, 02, 28);
+	private static LocalDate fecha1 = LocalDate.of(2015, 4, 4);
+	private static LocalDate fecha2 = LocalDate.of(2016, 2, 28);
 	
 
 	@BeforeClass

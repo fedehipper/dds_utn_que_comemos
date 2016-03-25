@@ -1,5 +1,5 @@
 package grupo4.dds;
 
-public interface Marca {
-	public double precioFinal(Prenda prenda);
+interface Marca{
+	double precioFinal(Prenda prenda);
 }
