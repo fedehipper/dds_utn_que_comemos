@@ -2,9 +2,7 @@ package grupo4.dds;
 
 import java.time.LocalDate;
 
-
-class Venta {
-	
+class Venta {	
 	private Prenda prendaVendida;
 	private int cantidadVendida;
 	private LocalDate fechaVenta;
@@ -13,21 +11,14 @@ class Venta {
 		prendaVendida = prenda;
 		cantidadVendida = cantidad;
 		fechaVenta = fecha;
-	
 	}
 	
 	double precio() {
-		return ((prendaVendida.precioFinal()) * cantidadVendida);
+		return prendaVendida.precioFinal() * cantidadVendida;
 	}
-	
 	
 	LocalDate getFechaVenta() {
 		return fechaVenta;
 	}
-	
-
-	
-	
-
 
 }
