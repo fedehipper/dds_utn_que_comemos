@@ -1,6 +1,7 @@
 *~
 *.log*
 .temp
+.idea
 .classpath
 .project
 schema.sql
