@@ -38,13 +38,11 @@ public class TestPrendas {
 		assertEquals(sombrero.precioBase(), 155, 0.1);
 	}
 
-	
 	@Test
 	public void testPrecioBaseZapato() {
 		zapato = new Zapatos(NACIONAL, new Armani(), 5, maco);
 		assertEquals(zapato.precioBase(), 425, 0.1);
 	}
-
 
 	@Test
 	public void testPrecioOriginalSaco() {
@@ -69,7 +67,6 @@ public class TestPrendas {
 		sombrero = new Sombrero(IMPORTADA, new Armani(), 5, maco);
 		assertEquals(sombrero.precioOriginal(), 331.5, 0.1);
 	}
-
 	
 	@Test
 	public void testPrecioOriginalZapato() {
@@ -77,8 +74,6 @@ public class TestPrendas {
 		assertEquals(zapato.precioOriginal(), 525, 0.1);
 	}
 
-
-	
 	@Test
 	public void testPrecioFinalSaco() {
 		saco = new Saco(NACIONAL, new Armani(), 5, maco);
@@ -103,11 +98,25 @@ public class TestPrendas {
 		assertEquals(sombrero.precioFinal(), 546.975, 0.1);
 	}
 
-	
 	@Test
 	public void testPrecioFinalZapato() {
 		zapato = new Zapatos(NACIONAL, new Sarkany(), 5, maco);
 		assertEquals(zapato.precioFinal(), 708.75, 0.1);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
