@@ -15,25 +15,24 @@ import javax.persistence.Entity;
 @DiscriminatorValue("horas")
 public class CantidadDeHoras extends Monitor {
 
-	private int[] consultasPorHora = new int[24];
-	
-	public void notificarConsulta(Usuario usuario, List<Receta> consulta, List<Filtro> parametros) {
-		
-		int horaActual = LocalTime.now().getHour();
-		consultasPorHora[horaActual] += 1;
-	}
-	
-	public int cantidadDeConsultasPor(int unaHora) {
-		
-		int cantConsultas = 0;
-		
-		try {
-			cantConsultas = consultasPorHora[unaHora];
-		}
-		catch(ArrayIndexOutOfBoundsException err) {
-			throw new HoraInvalida();
-		}
-		
-		return cantConsultas;
-	}
+    private int[] consultasPorHora = new int[24];
+
+    public void notificarConsulta(Usuario usuario, List<Receta> consulta, List<Filtro> parametros) {
+
+        int horaActual = LocalTime.now().getHour();
+        consultasPorHora[horaActual] += 1;
+    }
+
+    public int cantidadDeConsultasPor(int unaHora) {
+
+        int cantConsultas = 0;
+
+        try {
+            cantConsultas = consultasPorHora[unaHora];
+        } catch (ArrayIndexOutOfBoundsException err) {
+            throw new HoraInvalida();
+        }
+
+        return cantConsultas;
+    }
 }

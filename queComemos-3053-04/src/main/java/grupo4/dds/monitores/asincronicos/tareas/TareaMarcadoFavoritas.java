@@ -13,17 +13,18 @@ import javax.persistence.Entity;
 @DiscriminatorValue("favoritas")
 public class TareaMarcadoFavoritas extends TareaPendiente {
 
-	public TareaMarcadoFavoritas() {
-	}
+    public TareaMarcadoFavoritas() {
+    }
 
-	public TareaMarcadoFavoritas(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		super(usuario, resultadoConsulta, parametros);
-	}
-	
-	@Override
-	public void ejecutar() {
-		if(usuario.getMarcaFavorita())
-			usuario.marcarFavoritas(resultadoConsulta);
-	}
+    public TareaMarcadoFavoritas(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        super(usuario, resultadoConsulta, parametros);
+    }
+
+    @Override
+    public void ejecutar() {
+        if (usuario.getMarcaFavorita()) {
+            usuario.marcarFavoritas(resultadoConsulta);
+        }
+    }
 
 }

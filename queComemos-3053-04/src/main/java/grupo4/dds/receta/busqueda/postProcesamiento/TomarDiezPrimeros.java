@@ -6,8 +6,8 @@ import java.util.List;
 
 public class TomarDiezPrimeros implements PostProcesamiento {
 
-	public List<Receta> procesar(List<Receta> recetas) {
-		return recetas.subList(0, 9);
-	}
-	
+    public List<Receta> procesar(List<Receta> recetas) {
+        return recetas.subList(0, 9);
+    }
+
 }

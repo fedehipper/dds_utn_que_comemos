@@ -6,9 +6,9 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("mas_consultadas")
 public class RecetasMasConsultadas extends AbstractRecetasMasConsultadas {
-	
-	public RecetasMasConsultadas() {
-		condicionOrden = "(consultasHombres + consultasMujeres)";
-	}
+
+    public RecetasMasConsultadas() {
+        condicionOrden = "(consultasHombres + consultasMujeres)";
+    }
 
 }

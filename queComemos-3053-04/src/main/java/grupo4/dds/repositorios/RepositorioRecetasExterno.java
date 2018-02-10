@@ -20,42 +20,41 @@ import queComemos.entrega3.repositorio.RepoRecetas;
 
 public class RepositorioRecetasExterno {
 
-	private static final RepositorioRecetasExterno self = new RepositorioRecetasExterno();
-	private RepoRecetas repoExterno = new RepoRecetas();
-	
-	/* Constructores */
-	
-	public static RepositorioRecetasExterno get() {
-		return self;
-	}
+    private static final RepositorioRecetasExterno self = new RepositorioRecetasExterno();
+    private RepoRecetas repoExterno = new RepoRecetas();
 
-	protected RepositorioRecetasExterno() {}
+    /* Constructores */
+    public static RepositorioRecetasExterno get() {
+        return self;
+    }
 
-	/* Servicios */
-	
-	public List<Receta> getRecetas() {
-		Type tipoLista = new TypeToken<ArrayList<queComemos.entrega3.dominio.Receta>>(){}.getType();
-		List<queComemos.entrega3.dominio.Receta> recetasExternas = new Gson().fromJson(repoExterno.getRecetas(new BusquedaRecetas()), tipoLista);
-		
-		return recetasExternas.stream().map(re -> importarReceta(re)).collect(Collectors.toList());
-	}
+    protected RepositorioRecetasExterno() {
+    }
 
-	/* Servicios privados */
-	
-	public Receta importarReceta(queComemos.entrega3.dominio.Receta recetaExterna) {
+    /* Servicios */
+    public List<Receta> getRecetas() {
+        Type tipoLista = new TypeToken<ArrayList<queComemos.entrega3.dominio.Receta>>() {
+        }.getType();
+        List<queComemos.entrega3.dominio.Receta> recetasExternas = new Gson().fromJson(repoExterno.getRecetas(new BusquedaRecetas()), tipoLista);
 
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta(
-				recetaExterna.getNombre(), null,
-				recetaExterna.getDificultadReceta(),
-				recetaExterna.getTotalCalorias());
-		
-		List<Ingrediente> ingredientes = recetaExterna.getIngredientes()
-				.stream().map(nombre -> Ingrediente.nuevaComida(nombre))
-				.collect(Collectors.toList());
-		
-		Usuario usuario = RepositorioDeUsuarios.instance().get(BuilderUsuario.prototipo(recetaExterna.getAutor()));
-		
-		return (new BuilderReceta()).creador(usuario).encabezado(encabezado).ingredientes(ingredientes).build();
-	}
+        return recetasExternas.stream().map(re -> importarReceta(re)).collect(Collectors.toList());
+    }
+
+    /* Servicios privados */
+    public Receta importarReceta(queComemos.entrega3.dominio.Receta recetaExterna) {
+
+        EncabezadoDeReceta encabezado = new EncabezadoDeReceta(
+                recetaExterna.getNombre(), null,
+                recetaExterna.getDificultadReceta(),
+                recetaExterna.getTotalCalorias());
+
+        List<Ingrediente> ingredientes = recetaExterna.getIngredientes()
+                .stream().map(nombre -> Ingrediente.nuevaComida(nombre))
+                .collect(Collectors.toList());
+
+        Usuario usuario = RepositorioDeUsuarios.instance().get(BuilderUsuario.prototipo(recetaExterna.getAutor()));
+
+        return (new BuilderReceta()).creador(usuario).encabezado(encabezado).ingredientes(ingredientes).build();
+    }
 
 }

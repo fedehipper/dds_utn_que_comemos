@@ -16,32 +16,32 @@ import javax.persistence.Table;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_condicion")
 public abstract class Condicion {
-	
-	@Id
-	@Column(name = "id_condicion")
-	protected long id;
-	
-	public String nombre;
 
-	public abstract boolean esValidaCon(Usuario usuario);
+    @Id
+    @Column(name = "id_condicion")
+    protected long id;
 
-	public abstract boolean subsanaCondicion(Usuario usuario);
+    public String nombre;
 
-	public abstract boolean esRecomendable(Receta receta);
-	
-	public void setNombre(String n){
-		nombre = n;
-	}
-	
-	public String getNombre(){
-		return nombre;
-	}
+    public abstract boolean esValidaCon(Usuario usuario);
 
-	public long getId() {
-		return id;
-	}
+    public abstract boolean subsanaCondicion(Usuario usuario);
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public abstract boolean esRecomendable(Receta receta);
+
+    public void setNombre(String n) {
+        nombre = n;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

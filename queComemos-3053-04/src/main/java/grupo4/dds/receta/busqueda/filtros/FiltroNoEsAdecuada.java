@@ -6,13 +6,13 @@ import grupo4.dds.usuario.Usuario;
 
 public class FiltroNoEsAdecuada implements Filtro {
 
-	public boolean test(Usuario u, Receta r) {
-		return u.esAdecuada(r);
-	}
-	
-	@Override
-	@CoberturaIgnore
-	public String toString() {
-		return "Inadecuada";
-	}
+    public boolean test(Usuario u, Receta r) {
+        return u.esAdecuada(r);
+    }
+
+    @Override
+    @CoberturaIgnore
+    public String toString() {
+        return "Inadecuada";
+    }
 }

@@ -12,36 +12,36 @@ import javax.persistence.Table;
 @Table(name = "Usuarios")
 public class ContadorReceta {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id_usuario")
-	private long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "id_usuario")
+    private long id;
 
-	private Receta receta;
-	private int cantConsultas;
-	
-	public Receta getReceta() {
-		return receta;
-	}
+    private Receta receta;
+    private int cantConsultas;
 
-	public void setReceta(Receta receta) {
-		this.receta = receta;
-	}
+    public Receta getReceta() {
+        return receta;
+    }
 
-	public int getCantConsultas() {
-		return cantConsultas;
-	}
+    public void setReceta(Receta receta) {
+        this.receta = receta;
+    }
 
-	public void setCantConsultas(int cantConsultas) {
-		this.cantConsultas = cantConsultas;
-	}
+    public int getCantConsultas() {
+        return cantConsultas;
+    }
 
-	public long getId() {
-		return id;
-	}
+    public void setCantConsultas(int cantConsultas) {
+        this.cantConsultas = cantConsultas;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}	
-	
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }

@@ -13,15 +13,16 @@ import javax.persistence.Entity;
 @DiscriminatorValue("veganos")
 public class CantidadDeVeganos extends Monitor {
 
-	private int contadorDeVeganos = 0;
-	
-	public void notificarConsulta(Usuario usuario, List<Receta> consulta, List<Filtro> parametros) {
-		if(consulta.stream().anyMatch(Receta::esDificil) && usuario.esVegano()) 
-			contadorDeVeganos++;
-	}
-	
-	public int getContadorDeVeganos() {
-		return contadorDeVeganos;
-	}
-	
+    private int contadorDeVeganos = 0;
+
+    public void notificarConsulta(Usuario usuario, List<Receta> consulta, List<Filtro> parametros) {
+        if (consulta.stream().anyMatch(Receta::esDificil) && usuario.esVegano()) {
+            contadorDeVeganos++;
+        }
+    }
+
+    public int getContadorDeVeganos() {
+        return contadorDeVeganos;
+    }
+
 }

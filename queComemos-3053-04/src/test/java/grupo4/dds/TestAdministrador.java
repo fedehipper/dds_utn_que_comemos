@@ -16,30 +16,30 @@ import org.junit.Test;
 
 public class TestAdministrador extends BaseTest {
 
-	@Test
-	public void testAprobarSolicitud() {
-		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(fecheSena);
-		
-		RepositorioDeSolicitudes.instance().aprobar(solicitud);
-		assertTrue(solicitud.estado());
-		assertNotNull(RepositorioDeUsuarios.instance().get(fecheSena));
-	}
+    @Test
+    public void testAprobarSolicitud() {
+        SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(fecheSena);
 
-	@Test
-	public void testRechazarSolicitud() {
-		SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(arielFolino);
-		
-		RepositorioDeSolicitudes.instance().rechazar(solicitud, "por mockoso");
-		assertFalse(solicitud.estado());
-	}
-	
-	@Test
-	public void testVerSolicitudesPendientes() {
-		List<Usuario> expected = Arrays.asList(maria, fecheSena, arielFolino, matiasMartino, federicoHipper, cristianMaldonado);
-		List<Usuario> solicitudesPendientes = 
-				RepositorioDeSolicitudes.instance().list().stream().
-				map(s -> s.getUsuario()).collect(Collectors.toList());
-		
-		assertTrue(solicitudesPendientes.containsAll(expected) && solicitudesPendientes.size() == expected.size());
-	}
+        RepositorioDeSolicitudes.instance().aprobar(solicitud);
+        assertTrue(solicitud.estado());
+        assertNotNull(RepositorioDeUsuarios.instance().get(fecheSena));
+    }
+
+    @Test
+    public void testRechazarSolicitud() {
+        SolicitudAltaUsuario solicitud = new SolicitudAltaUsuario(arielFolino);
+
+        RepositorioDeSolicitudes.instance().rechazar(solicitud, "por mockoso");
+        assertFalse(solicitud.estado());
+    }
+
+    @Test
+    public void testVerSolicitudesPendientes() {
+        List<Usuario> expected = Arrays.asList(maria, fecheSena, arielFolino, matiasMartino, federicoHipper, cristianMaldonado);
+        List<Usuario> solicitudesPendientes
+                = RepositorioDeSolicitudes.instance().list().stream().
+                        map(s -> s.getUsuario()).collect(Collectors.toList());
+
+        assertTrue(solicitudesPendientes.containsAll(expected) && solicitudesPendientes.size() == expected.size());
+    }
 }

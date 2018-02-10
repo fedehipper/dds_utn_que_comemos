@@ -15,17 +15,18 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue("mail")
 public class TareaEnvioPorMail extends TareaPendiente {
 
-	public TareaEnvioPorMail() {
-	}
+    public TareaEnvioPorMail() {
+    }
 
-	public TareaEnvioPorMail(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		super(usuario, resultadoConsulta, parametros);
-	}
+    public TareaEnvioPorMail(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        super(usuario, resultadoConsulta, parametros);
+    }
 
-	@Override
-	public void ejecutar() {
-		if(EnvioPorMail.instance().suscriptos.contains(usuario))
-			new Mail(usuario, resultadoConsulta, parametros).enviarMail();
-	}
+    @Override
+    public void ejecutar() {
+        if (EnvioPorMail.instance().suscriptos.contains(usuario)) {
+            new Mail(usuario, resultadoConsulta, parametros).enviarMail();
+        }
+    }
 
 }

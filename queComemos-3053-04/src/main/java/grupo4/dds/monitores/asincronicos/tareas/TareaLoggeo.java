@@ -13,18 +13,19 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("loggeo")
 public class TareaLoggeo extends TareaPendiente {
-	
-	public TareaLoggeo() {
-	}
 
-	public TareaLoggeo(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		super(usuario, resultadoConsulta, parametros);
-	}
-	
-	@Override
-	public void ejecutar() {
-		if (resultadoConsulta.size() > 100 && LoggeoConsultas.instance().logger.isInfoEnabled())
-			LoggeoConsultas.instance().logger.info("Consultas Con Mas De 100 Resultados");	
-	}
+    public TareaLoggeo() {
+    }
+
+    public TareaLoggeo(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        super(usuario, resultadoConsulta, parametros);
+    }
+
+    @Override
+    public void ejecutar() {
+        if (resultadoConsulta.size() > 100 && LoggeoConsultas.instance().logger.isInfoEnabled()) {
+            LoggeoConsultas.instance().logger.info("Consultas Con Mas De 100 Resultados");
+        }
+    }
 
 }

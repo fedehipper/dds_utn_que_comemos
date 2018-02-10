@@ -21,18 +21,18 @@ import javax.persistence.Table;
 @DiscriminatorColumn(name = "tipo_monitor")
 public abstract class Monitor {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id_monitor")
-	protected long id;
+    @Id
+    @GeneratedValue
+    @Column(name = "id_monitor")
+    protected long id;
 
-	public abstract void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
+    public abstract void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 }

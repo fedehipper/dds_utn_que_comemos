@@ -12,23 +12,26 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue(value = "H")
 public class Hipertenso extends Condicion {
 
-	private static Condicion self = new Hipertenso();
-	
-	public static Condicion instance() {
-		return self;
-	}
+    private static Condicion self = new Hipertenso();
 
-	private Hipertenso() { id = 2; nombre="hipertenso"; }
-	
-	public boolean esValidaCon(Usuario usuario) {
-		return usuario.tienePreferenciasAlimenticias();
-	}
+    public static Condicion instance() {
+        return self;
+    }
 
-	public boolean subsanaCondicion(Usuario usuario) {
-		return usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL);
-	}
+    private Hipertenso() {
+        id = 2;
+        nombre = "hipertenso";
+    }
 
-	public boolean esRecomendable(Receta receta) {
-		return !(receta.tieneCondimento("sal") || receta.tieneCondimento("caldo"));
-	}
+    public boolean esValidaCon(Usuario usuario) {
+        return usuario.tienePreferenciasAlimenticias();
+    }
+
+    public boolean subsanaCondicion(Usuario usuario) {
+        return usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL);
+    }
+
+    public boolean esRecomendable(Receta receta) {
+        return !(receta.tieneCondimento("sal") || receta.tieneCondimento("caldo"));
+    }
 }
