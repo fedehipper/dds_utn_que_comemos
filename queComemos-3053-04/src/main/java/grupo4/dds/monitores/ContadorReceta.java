@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "Usuarios")
+@Data
 public class ContadorReceta {
 
     @Id
@@ -19,29 +21,5 @@ public class ContadorReceta {
 
     private Receta receta;
     private int cantConsultas;
-
-    public Receta getReceta() {
-        return receta;
-    }
-
-    public void setReceta(Receta receta) {
-        this.receta = receta;
-    }
-
-    public int getCantConsultas() {
-        return cantConsultas;
-    }
-
-    public void setCantConsultas(int cantConsultas) {
-        this.cantConsultas = cantConsultas;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
 }

@@ -9,14 +9,13 @@ import grupo4.dds.usuario.Usuario;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import queComemos.entrega3.dominio.Dificultad;
 
 import java.util.Objects;
+import static java.util.stream.Collectors.toList;
 
 public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlobalEntityManager {
 
@@ -36,29 +35,21 @@ public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlo
 
     /* Servicios */
     public List<Receta> listarRecetasPara(Usuario usuario, List<Filtro> filtros, PostProcesamiento postProcesamiento) {
+        List<Receta> recetasFiltradas = filtrarRecetas(usuario, filtros);
+        List<Receta> consulta = postProcesamiento == null ? recetasFiltradas : postProcesamiento.procesar(recetasFiltradas);
+        notificarATodos(usuario, consulta, filtros);
+        usuario.consulto(consulta);
+        return consulta;
+    }
 
-        Stream<Receta> stream = recetasQuePuedeVer(usuario);
-
+    private List<Receta> filtrarRecetas(Usuario usuario, List<Filtro> filtros) {
+        List<Receta> recetasQuePuedeVerUsuario = recetasQuePuedeVer(usuario);;
         if (filtros != null) {
             for (Filtro filtro : filtros) {
-                stream = stream.filter(r -> filtro.test(usuario, r));
+                recetasQuePuedeVerUsuario = recetasQuePuedeVerUsuario.stream().filter(r -> filtro.test(usuario, r)).collect(toList());
             }
         }
-
-        List<Receta> recetasFiltradas = stream.collect(Collectors.toList());
-        List<Receta> consulta;
-
-        if (postProcesamiento == null) {
-            consulta = recetasFiltradas;
-        } else {
-            consulta = postProcesamiento.procesar(recetasFiltradas);
-        }
-
-        notificarATodos(usuario, consulta, filtros);
-
-        usuario.consulto(consulta);
-
-        return consulta;
+        return recetasQuePuedeVerUsuario;
     }
 
     public void notificarATodos(Usuario usuario, List<Receta> consulta, List<Filtro> filtros) {
@@ -78,12 +69,12 @@ public class RepositorioDeRecetas extends Repositorio<Receta> implements WithGlo
     }
 
     /* Servicios privados */
-    private Stream<Receta> recetasQuePuedeVer(Usuario usuario) {
+    private List<Receta> recetasQuePuedeVer(Usuario usuario) {
 
         HashSet<Receta> todasLasRecetas = new HashSet<>(this.list());
         todasLasRecetas.addAll(RepositorioRecetasExterno.get().getRecetas());
 
-        return todasLasRecetas.stream().filter(r -> usuario.puedeVer(r));
+        return todasLasRecetas.stream().filter(r -> usuario.puedeVer(r)).collect(toList());
     }
 
     /* Accesors and Mutators */

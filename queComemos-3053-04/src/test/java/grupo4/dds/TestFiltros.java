@@ -17,6 +17,7 @@ import grupo4.dds.usuario.condicion.Vegano;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,7 +100,7 @@ public class TestFiltros extends BaseTest {
         filtroCaras.agregarIngredienteCaro(Ingrediente.nuevaComida("tomate"));
         filtros.add(filtroCaras);
 
-        expected = Arrays.asList(sopa, pure, milanesa);
+        expected = asList(sopa, pure, milanesa);
 
         sopa.agregarIngrediente(Ingrediente.nuevaComida("brocoli"));
         milanesa.agregarIngrediente(Ingrediente.nuevaComida("coliflor"));

@@ -1,6 +1,5 @@
 package grupo4.dds;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -12,6 +11,7 @@ import grupo4.dds.monitores.RecetasMasConsultadas;
 import grupo4.dds.receta.Ingrediente;
 import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.builder.BuilderReceta;
+import static java.util.Arrays.asList;
 
 public class TestControladorHome extends BaseTest {
 
@@ -39,8 +39,8 @@ public class TestControladorHome extends BaseTest {
         Receta receta11 = new BuilderReceta().creador(matiasMartino).nombre("receta11").dificil().calorias(300).ingrediente(ing).build();
         Receta receta12 = new BuilderReceta().creador(matiasMartino).nombre("receta12").calorias(600).ingrediente(ing).build();
 
-        favoritas = Arrays.asList(receta11, receta2, receta3, receta4, receta5, receta6, receta7, receta8, receta12);
-        masConsultadasPorUsuario = Arrays.asList(receta1, receta10, receta9, receta4, receta5, receta6, receta7, receta8, receta12);
+        favoritas = asList(receta11, receta2, receta3, receta4, receta5, receta6, receta7, receta8, receta12);
+        masConsultadasPorUsuario = asList(receta1, receta10, receta9, receta4, receta5, receta6, receta7, receta8, receta12);
 
     }
 

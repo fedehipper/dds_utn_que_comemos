@@ -18,9 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "Grupos")
+@Data
 public class GrupoUsuarios implements Persistible {
 
     @Id
@@ -81,18 +83,6 @@ public class GrupoUsuarios implements Persistible {
 
     public void agregarPreferenciaAlimenticia(Ingrediente comida) {
         preferenciasAlimenticias.add(comida);
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
 }

@@ -18,21 +18,14 @@ public class CantidadDeHoras extends Monitor {
     private int[] consultasPorHora = new int[24];
 
     public void notificarConsulta(Usuario usuario, List<Receta> consulta, List<Filtro> parametros) {
-
-        int horaActual = LocalTime.now().getHour();
-        consultasPorHora[horaActual] += 1;
+        consultasPorHora[LocalTime.now().getHour()] += 1;
     }
 
     public int cantidadDeConsultasPor(int unaHora) {
-
-        int cantConsultas = 0;
-
-        try {
-            cantConsultas = consultasPorHora[unaHora];
-        } catch (ArrayIndexOutOfBoundsException err) {
+        if(unaHora >= 0 && unaHora < 24) {
+            return consultasPorHora[unaHora];
+        } else {
             throw new HoraInvalida();
         }
-
-        return cantConsultas;
     }
 }

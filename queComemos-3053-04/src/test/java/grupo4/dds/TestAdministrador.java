@@ -10,7 +10,7 @@ import grupo4.dds.usuario.gestionDePerfiles.SolicitudAltaUsuario;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class TestAdministrador extends BaseTest {
         List<Usuario> expected = Arrays.asList(maria, fecheSena, arielFolino, matiasMartino, federicoHipper, cristianMaldonado);
         List<Usuario> solicitudesPendientes
                 = RepositorioDeSolicitudes.instance().list().stream().
-                        map(s -> s.getUsuario()).collect(Collectors.toList());
+                        map(s -> s.getUsuario()).collect(toList());
 
         assertTrue(solicitudesPendientes.containsAll(expected) && solicitudesPendientes.size() == expected.size());
     }

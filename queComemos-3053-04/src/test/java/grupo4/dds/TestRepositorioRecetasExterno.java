@@ -10,7 +10,8 @@ public class TestRepositorioRecetasExterno {
 
     @Test
     public void testGetRecetasDevuelveUnaListaDeRecetasPrivadas() {
-        assertTrue(RepositorioRecetasExterno.get().getRecetas().stream().allMatch(r -> r.getClass().equals(Receta.class)));
+        assertTrue(RepositorioRecetasExterno.get().getRecetas().
+                stream().allMatch(r -> r.getClass().equals(Receta.class)));
     }
 
 }

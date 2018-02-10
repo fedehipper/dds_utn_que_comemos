@@ -14,11 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "Monitores")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_monitor")
+@Data
 public abstract class Monitor {
 
     @Id
@@ -28,11 +30,5 @@ public abstract class Monitor {
 
     public abstract void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+       
 }

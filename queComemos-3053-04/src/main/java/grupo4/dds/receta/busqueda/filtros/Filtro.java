@@ -5,6 +5,6 @@ import grupo4.dds.usuario.Usuario;
 
 public interface Filtro {
 
-    public boolean test(Usuario u, Receta r);
+    boolean test(Usuario usuario, Receta receta);
 
 }

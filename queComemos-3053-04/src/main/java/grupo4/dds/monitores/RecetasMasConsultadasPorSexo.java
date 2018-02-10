@@ -2,6 +2,7 @@ package grupo4.dds.monitores;
 
 import grupo4.dds.receta.Receta;
 import grupo4.dds.usuario.Sexo;
+import static grupo4.dds.usuario.Sexo.MASCULINO;
 
 import java.util.List;
 
@@ -13,9 +14,8 @@ import javax.persistence.Entity;
 public class RecetasMasConsultadasPorSexo extends AbstractRecetasMasConsultadas {
 
     public List<Receta> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
-
-        condicionOrden = sexo.equals(Sexo.MASCULINO) ? "consultasHombres" : "consultasMujeres";
-        return super.recetasMasConsultadas(cantidad);
+        condicionOrden = sexo.equals(MASCULINO) ? "consultasHombres" : "consultasMujeres";
+        return recetasMasConsultadas(cantidad);
     }
 
 }

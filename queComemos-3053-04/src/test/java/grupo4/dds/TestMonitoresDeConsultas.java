@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import grupo4.dds.excepciones.HoraInvalida;
@@ -16,6 +15,7 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.builder.BuilderReceta;
 import grupo4.dds.usuario.Sexo;
 import grupo4.dds.usuario.condicion.Vegano;
+import static java.util.Arrays.asList;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,8 +32,8 @@ public class TestMonitoresDeConsultas extends BaseTest {
 
     @Before
     public void setup() {
-        consulta1 = Arrays.asList(salmon, bife, pure, coliflor, salmon, bife, sopa, salmon, bife, bife);
-        consulta2 = Arrays.asList(sopa, sopa, sopa, salmon, salmon);
+        consulta1 = asList(salmon, bife, pure, coliflor, salmon, bife, sopa, salmon, bife, bife);
+        consulta2 = asList(sopa, sopa, sopa, salmon, salmon);
     }
 
     @Test

@@ -1,15 +1,17 @@
 package grupo4.dds.receta;
 
-import grupo4.dds.misc.CoberturaIgnore;
+import static java.util.Arrays.asList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "Ingredientes")
+@Data
 public class Ingrediente {
 
     @Id
@@ -40,19 +42,10 @@ public class Ingrediente {
         this.cantidad = cantidad;
     }
 
-    public float getCantidad() {
-        return this.cantidad;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
     public boolean esCarne() {
-        return nombre.equals("carne") || nombre.equals("chivito") || nombre.equals("chori") || nombre.equals("pollo");
+        return asList("carne", "chivito", "chori", "pollo").contains(nombre);
     }
 
-    @CoberturaIgnore
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -61,7 +54,6 @@ public class Ingrediente {
         return result;
     }
 
-    @CoberturaIgnore
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -82,14 +74,6 @@ public class Ingrediente {
             return false;
         }
         return true;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
 }

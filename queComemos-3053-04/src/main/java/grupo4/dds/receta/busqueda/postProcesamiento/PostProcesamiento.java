@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PostProcesamiento {
 
-    public List<Receta> procesar(List<Receta> recetas);
+    List<Receta> procesar(List<Receta> recetas);
 
 }

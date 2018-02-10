@@ -32,8 +32,11 @@ import grupo4.dds.receta.Receta;
 import grupo4.dds.receta.busqueda.filtros.Filtro;
 import grupo4.dds.receta.busqueda.postProcesamiento.PostProcesamiento;
 import grupo4.dds.repositorios.RepositorioDeRecetas;
+import static grupo4.dds.usuario.Sexo.FEMENINO;
+import static grupo4.dds.usuario.Sexo.MASCULINO;
 import grupo4.dds.usuario.condicion.Condicion;
 import grupo4.dds.usuario.condicion.Vegano;
+import static java.util.Arrays.asList;
 
 @Entity
 @Table(name = "Usuarios")
@@ -124,7 +127,7 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
     }
 
     public boolean cumpleTodasLasCondicionesDe(Usuario usuario) {
-        return usuario.noTieneCondiciones() ? true : this.getCondiciones().containsAll(usuario.getCondiciones());
+        return usuario.noTieneCondiciones() ? true : getCondiciones().containsAll(usuario.getCondiciones());
     }
 
     /* Servicios secundarios */
@@ -153,11 +156,11 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
     }
 
     public boolean leGustaLaCarne() {
-        return preferenciasAlimenticias.stream().anyMatch(a -> a.esCarne());
+        return preferenciasAlimenticias.stream().anyMatch(Ingrediente::esCarne);
     }
 
     public boolean tieneRutina(Rutina rutina) {
-        return this.rutina == null ? false : this.rutina.equals(rutina);
+        return this.rutina == null ? false : rutina.equals(rutina);
     }
 
     public boolean tieneReceta(Receta receta) {
@@ -185,11 +188,11 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
     }
 
     public boolean esHombre() {
-        return Sexo.MASCULINO.equals(sexo);
+        return MASCULINO.equals(sexo);
     }
 
     public boolean esMujer() {
-        return Sexo.FEMENINO.equals(sexo);
+        return FEMENINO.equals(sexo);
     }
 
     public void marcarFavorita(Receta receta) {
@@ -207,7 +210,7 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
     }
 
     public void consulto(Receta receta) {
-        if (sexo.equals(Sexo.MASCULINO)) {
+        if (sexo.equals(MASCULINO)) {
             receta.consultoHombre();
         } else {
             receta.consultoMujer();
@@ -219,8 +222,8 @@ public class Usuario implements Persistible, WithGlobalEntityManager {
     }
 
     /* Servicios internos */
-    private boolean tieneCamposObligatorios() {
-        return this.nombre != null && this.peso != 0 && this.altura != 0 && this.fechaNacimiento != null && this.rutina != null;
+    private boolean tieneCamposObligatorios() {   
+        return !asList(nombre, fechaNacimiento, rutina).contains(null) && peso != 0 && altura != 0;
     }
 
     private boolean todasLasCondicionesCumplen(Predicate<Condicion> predicado) {

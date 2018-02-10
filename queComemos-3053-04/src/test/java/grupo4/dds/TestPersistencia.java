@@ -133,7 +133,7 @@ public class TestPersistencia extends BaseTest {
                 ingrediente(Ingrediente.nuevoIngrediente("apio", 0f)).
                 ingrediente(Ingrediente.nuevoIngrediente("leche", 0f)).
                 build();
-        List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+        List<Ingrediente> ingredientes = new ArrayList<>();
         ingredientes = larga.getIngredientes();
 
         entityManager().persist(larga);
@@ -153,11 +153,11 @@ public class TestPersistencia extends BaseTest {
         grupo1.agregarUsuario(maria);
         grupo2.agregarUsuario(maria);
 
-        List<GrupoUsuarios> grupos = new ArrayList<GrupoUsuarios>();
+        List<GrupoUsuarios> grupos = new ArrayList<>();
         grupos.add(grupo1);
         grupos.add(grupo2);
 
-        List<Usuario> usuarios = new ArrayList<Usuario>();
+        List<Usuario> usuarios = new ArrayList<>();
         usuarios.add(fecheSena);
         usuarios.add(maria);
         usuarios.add(arielFolino);

@@ -14,12 +14,12 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
     @CoberturaIgnore
     @Override
     public Date convertToDatabaseColumn(LocalDate locDate) {
-        return (locDate == null ? null : Date.valueOf(locDate));
+        return locDate == null ? null : Date.valueOf(locDate);
     }
 
     @CoberturaIgnore
     @Override
     public LocalDate convertToEntityAttribute(Date sqlDate) {
-        return (sqlDate == null ? null : sqlDate.toLocalDate());
+        return sqlDate == null ? null : sqlDate.toLocalDate();
     }
 }
