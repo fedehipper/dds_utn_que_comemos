@@ -20,144 +20,145 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 public class RecetaController implements WithGlobalEntityManager,
-		TransactionalOps {
+        TransactionalOps {
 
-	public ModelAndView mostrar(Request request, Response response) {
+    public ModelAndView mostrar(Request request, Response response) {
 
-		Receta receta = RepositorioDeRecetas.instance().buscar(
-				Long.parseLong(request.params("id")));
-		long usuarioId = Routes.usuarioActual.getId();
-		Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
+        Receta receta = RepositorioDeRecetas.instance().buscar(
+                Long.parseLong(request.params("id")));
+        long usuarioId = Routes.usuarioActual.getId();
+        Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
 
-		HashMap<String, Object> viewModel = new HashMap<>();
+        HashMap<String, Object> viewModel = new HashMap<>();
 
-		viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
-		if (!Objects.isNull(receta.getCreador()))
-			viewModel.put("creador", receta.getCreador());
-		else
-			viewModel.put("creador", "Nadie");
-		viewModel.put("cantidadCalorias", receta.getTotalCalorias());
-		viewModel.put("dificultad", receta.getDificultad());
-		viewModel.put("ingredientes", receta.getIngredientes());
-		viewModel.put("temporada", receta.getTemporada());
-		viewModel.put("condimentos", receta.getCondimentos());
-		viewModel.put("preparacion", receta.getPreparacion());
-		viewModel.put("marcaFavorita", usuario.getMarcaFavorita());
-		viewModel.put("condiciones", usuario.getCondiciones());
-		viewModel.put("id", Long.parseLong(request.params("id")));
+        viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
+        if (!Objects.isNull(receta.getCreador())) {
+            viewModel.put("creador", receta.getCreador());
+        } else {
+            viewModel.put("creador", "Nadie");
+        }
+        viewModel.put("cantidadCalorias", receta.getTotalCalorias());
+        viewModel.put("dificultad", receta.getDificultad());
+        viewModel.put("ingredientes", receta.getIngredientes());
+        viewModel.put("temporada", receta.getTemporada());
+        viewModel.put("condimentos", receta.getCondimentos());
+        viewModel.put("preparacion", receta.getPreparacion());
+        viewModel.put("marcaFavorita", usuario.getMarcaFavorita());
+        viewModel.put("condiciones", usuario.getCondiciones());
+        viewModel.put("id", Long.parseLong(request.params("id")));
 
-		viewModel.put("favorita", usuario.getHistorial().contains(receta));
+        viewModel.put("favorita", usuario.getHistorial().contains(receta));
 
-		return new ModelAndView(viewModel, "receta.hbs");
-	}
+        return new ModelAndView(viewModel, "receta.hbs");
+    }
 
-	public Receta recetaMostrada(long id) {
-		return RepositorioDeRecetas.instance().buscar(id);
-	}
+    public Receta recetaMostrada(long id) {
+        return RepositorioDeRecetas.instance().buscar(id);
+    }
 
-	public ModelAndView nuevo(Request request, Response response) {
+    public ModelAndView nuevo(Request request, Response response) {
 
-		Receta receta = RepositorioDeRecetas.instance().buscar(
-				Long.parseLong(request.params("id")));
+        Receta receta = RepositorioDeRecetas.instance().buscar(
+                Long.parseLong(request.params("id")));
 
-		long usuarioId = Routes.usuarioActual.getId();
-		Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
+        long usuarioId = Routes.usuarioActual.getId();
+        Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
 
-		HashMap<String, Object> viewModel = new HashMap<>();
+        HashMap<String, Object> viewModel = new HashMap<>();
 
-		List<Ingrediente> ingredientes= new ArrayList<Ingrediente>();
-		
-		ingredientes.addAll((entityManager().createQuery("FROM Ingrediente",Ingrediente.class).getResultList()));
+        List<Ingrediente> ingredientes = new ArrayList<>();
 
-		viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
-		viewModel.put("calorias", receta.getTotalCalorias());
-		viewModel.put("temporada", receta.getTemporada());
-		viewModel.put("dificultad", receta.getDificultad());
-		viewModel.put("preparacion", receta.getPreparacion());
-		viewModel.put("ingredientes", receta.getIngredientes());
-		viewModel.put("condimentos", receta.getCondimentos());
-		viewModel.put("favorita", usuario.getHistorial().contains(receta));
-		viewModel.put("id", Long.parseLong(request.params("id")));
-		viewModel.put("ingredientesAgregar", ingredientes);
-		viewModel.put("condimentosAgregar", ingredientes);
-		
-		return new ModelAndView(viewModel, "editar.hbs");
-	}
+        ingredientes.addAll((entityManager().createQuery("FROM Ingrediente", Ingrediente.class).getResultList()));
 
-	public Void crear(Request request, Response response) {
+        viewModel.put("nombreDelPlato", receta.getNombreDelPlato());
+        viewModel.put("calorias", receta.getTotalCalorias());
+        viewModel.put("temporada", receta.getTemporada());
+        viewModel.put("dificultad", receta.getDificultad());
+        viewModel.put("preparacion", receta.getPreparacion());
+        viewModel.put("ingredientes", receta.getIngredientes());
+        viewModel.put("condimentos", receta.getCondimentos());
+        viewModel.put("favorita", usuario.getHistorial().contains(receta));
+        viewModel.put("id", Long.parseLong(request.params("id")));
+        viewModel.put("ingredientesAgregar", ingredientes);
+        viewModel.put("condimentosAgregar", ingredientes);
 
-		Receta receta = RepositorioDeRecetas.instance().buscar(
-				Long.parseLong(request.params("id")));
-		String nombre = request.queryParams("nombreDelPlato");
-		String calorias = request.queryParams("calorias");
-		String dificultad = request.queryParams("dificultad");
-		String temporada = request.queryParams("temporada");
-		String favorita = request.queryParams("fav");
-		String condimento = request.queryParams("condimento");
-		String nombreIngrediente = request.queryParams("nombreIngrediente");
-		String dosis = request.queryParams("dosis");
-		String preparacion = request.queryParams("preparacion");
-		String ingredientePorEliminar = request
-				.queryParams("ingredienteSeleccionado");
-		String condimentoPorEliminar = request
-				.queryParams("condimentoSeleccionado");
+        return new ModelAndView(viewModel, "editar.hbs");
+    }
 
-		long usuarioId = Routes.usuarioActual.getId();
-		Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
+    public Void crear(Request request, Response response) {
 
-		withTransaction(() -> {
+        Receta receta = RepositorioDeRecetas.instance().buscar(
+                Long.parseLong(request.params("id")));
+        String nombre = request.queryParams("nombreDelPlato");
+        String calorias = request.queryParams("calorias");
+        String dificultad = request.queryParams("dificultad");
+        String temporada = request.queryParams("temporada");
+        String favorita = request.queryParams("fav");
+        String condimento = request.queryParams("condimento");
+        String nombreIngrediente = request.queryParams("nombreIngrediente");
+        String dosis = request.queryParams("dosis");
+        String preparacion = request.queryParams("preparacion");
+        String ingredientePorEliminar = request
+                .queryParams("ingredienteSeleccionado");
+        String condimentoPorEliminar = request
+                .queryParams("condimentoSeleccionado");
 
-			if (receta.getOrigen() == "Publica") {
-				receta.crearReceta(nombre, dificultad, temporada, calorias,
-						preparacion, favorita, usuario, condimento,
-						nombreIngrediente, dosis, receta.getIngredientes(),
-						receta.getCondimentos(), ingredientePorEliminar,
-						condimentoPorEliminar);
+        long usuarioId = Routes.usuarioActual.getId();
+        Usuario usuario = RepositorioDeUsuarios.instance().buscar(usuarioId);
 
-			} else {
-				receta.actualizarReceta(nombre, dificultad, temporada,
-						calorias, preparacion, favorita, condimento,
-						nombreIngrediente, dosis, ingredientePorEliminar,
-						condimentoPorEliminar);
-			}
-		});
+        withTransaction(() -> {
 
-		response.redirect("/receta/" + Long.parseLong(request.params("id")));
-		return null;
-	}
+            if (receta.getOrigen() == "Publica") {
+                receta.crearReceta(nombre, dificultad, temporada, calorias,
+                        preparacion, favorita, usuario, condimento,
+                        nombreIngrediente, dosis, receta.getIngredientes(),
+                        receta.getCondimentos(), ingredientePorEliminar,
+                        condimentoPorEliminar);
 
-	public List<String> getTemporadas() {
+            } else {
+                receta.actualizarReceta(nombre, dificultad, temporada,
+                        calorias, preparacion, favorita, condimento,
+                        nombreIngrediente, dosis, ingredientePorEliminar,
+                        condimentoPorEliminar);
+            }
+        });
 
-		HashMap<Integer, String> temporadasBase = new HashMap<>();
-		List<Integer> idTemporada = entityManager().createQuery(
-				"select distinct temporada from Receta", Integer.class)
-				.getResultList();
-		idTemporada.forEach(t -> temporadasBase.put(t,
-				this.dameStringTemporada(t)));
+        response.redirect("/receta/" + Long.parseLong(request.params("id")));
+        return null;
+    }
 
-		return temporadasBase.values().stream().collect(Collectors.toList());
+    public List<String> getTemporadas() {
 
-	}
+        HashMap<Integer, String> temporadasBase = new HashMap<>();
+        List<Integer> idTemporada = entityManager().createQuery(
+                "select distinct temporada from Receta", Integer.class)
+                .getResultList();
+        idTemporada.forEach(t -> temporadasBase.put(t,
+                this.dameStringTemporada(t)));
 
-	public String dameStringTemporada(Integer valor) {
+        return temporadasBase.values().stream().collect(Collectors.toList());
 
-		switch (valor) {
+    }
 
-		case 0:
-			return "INVIERNO";
-		case 1:
-			return "VERANO";
-		case 2:
-			return "OTONIO";
-		case 3:
-			return "PRIMAVERA";
-		case 4:
-			return "TODOELANIO";
+    public String dameStringTemporada(Integer valor) {
 
-		default:
-			return "";
-		}
+        switch (valor) {
 
-	}
+            case 0:
+                return "INVIERNO";
+            case 1:
+                return "VERANO";
+            case 2:
+                return "OTONIO";
+            case 3:
+                return "PRIMAVERA";
+            case 4:
+                return "TODOELANIO";
+
+            default:
+                return "";
+        }
+
+    }
 
 }

@@ -19,28 +19,27 @@ import org.apache.log4j.PropertyConfigurator;
 @DiscriminatorValue("loggeo")
 public class LoggeoConsultas extends MonitorAsincronico {
 
-	private static LoggeoConsultas self = new LoggeoConsultas();
+    private static LoggeoConsultas self = new LoggeoConsultas();
 
-	@Transient
-	public Logger logger;
-	
-	public static LoggeoConsultas instance() {
-		return self;
-	}
+    @Transient
+    public Logger logger;
 
-	
-	private LoggeoConsultas() {
-		logger = Logger.getLogger(LoggeoConsultas.class);
-		PropertyConfigurator.configure("log4j.properties");
-	}
+    public static LoggeoConsultas instance() {
+        return self;
+    }
 
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-	
-	@Override
-	public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		return new TareaLoggeo(usuario, resultadoConsulta, parametros);
-	}
+    private LoggeoConsultas() {
+        logger = Logger.getLogger(LoggeoConsultas.class);
+        PropertyConfigurator.configure("log4j.properties");
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    @Override
+    public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        return new TareaLoggeo(usuario, resultadoConsulta, parametros);
+    }
 
 }

@@ -6,22 +6,23 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Ordenar implements PostProcesamiento {
-	
-	private Comparator<Receta> criterio;
 
-	public Ordenar() {}
+    private Comparator<Receta> criterio;
 
-	public Ordenar(Comparator<Receta> criterio) {
-		this.criterio = criterio;
-	}
+    public Ordenar() {
+    }
 
-	public List<Receta> procesar(List<Receta> recetas) {
-		recetas.sort(criterio);
-		return recetas;
-	}
+    public Ordenar(Comparator<Receta> criterio) {
+        this.criterio = criterio;
+    }
 
-	public void setCriterio(Comparator<Receta> criterio) {
-		this.criterio = criterio;
-	}
-		
+    public List<Receta> procesar(List<Receta> recetas) {
+        recetas.sort(criterio);
+        return recetas;
+    }
+
+    public void setCriterio(Comparator<Receta> criterio) {
+        this.criterio = criterio;
+    }
+
 }

@@ -11,11 +11,11 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("mas_consultadas_por_sexo")
 public class RecetasMasConsultadasPorSexo extends AbstractRecetasMasConsultadas {
-	
-	public List<Receta> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
-		
-		condicionOrden = sexo.equals(Sexo.MASCULINO) ? "consultasHombres" : "consultasMujeres";
-		return super.recetasMasConsultadas(cantidad);
-	}	
-	
+
+    public List<Receta> recetasMasConsultadasPor(Sexo sexo, int cantidad) {
+
+        condicionOrden = sexo.equals(Sexo.MASCULINO) ? "consultasHombres" : "consultasMujeres";
+        return super.recetasMasConsultadas(cantidad);
+    }
+
 }

@@ -12,25 +12,28 @@ import grupo4.dds.usuario.Usuario;
 @DiscriminatorValue(value = "D")
 public class Diabetico extends Condicion {
 
-	private static Condicion self = new Diabetico();
-	
-	public static Condicion instance() {
-		return self;
-	}
+    private static Condicion self = new Diabetico();
 
-	private Diabetico() { id = 4; nombre="diabetico";}
-	
-	public boolean esValidaCon(Usuario usuario) {
-		return usuario.getSexo() != null && usuario.tienePreferenciasAlimenticias();
-	}
+    public static Condicion instance() {
+        return self;
+    }
 
-	public boolean subsanaCondicion(Usuario usuario) {
-		return usuario.tieneRutina(ACTIVA_SIN_EJERCICIO_ADICIONAL) || usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
-															   || usuario.getPeso() <= 70;
-	}
+    private Diabetico() {
+        id = 4;
+        nombre = "diabetico";
+    }
 
-	public boolean esRecomendable(Receta receta) {
-		return receta.cantidadCondimento("azucar") <= 100;
-	}
-	
+    public boolean esValidaCon(Usuario usuario) {
+        return usuario.getSexo() != null && usuario.tienePreferenciasAlimenticias();
+    }
+
+    public boolean subsanaCondicion(Usuario usuario) {
+        return usuario.tieneRutina(ACTIVA_SIN_EJERCICIO_ADICIONAL) || usuario.tieneRutina(ACTIVA_EJERCICIO_ADICIONAL)
+                || usuario.getPeso() <= 70;
+    }
+
+    public boolean esRecomendable(Receta receta) {
+        return receta.cantidadCondimento("azucar") <= 100;
+    }
+
 }

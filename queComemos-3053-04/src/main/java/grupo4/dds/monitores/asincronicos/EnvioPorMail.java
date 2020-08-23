@@ -16,30 +16,30 @@ import javax.persistence.OneToMany;
 @Entity
 @DiscriminatorValue("mail")
 public class EnvioPorMail extends MonitorAsincronico {
-	
-	private static EnvioPorMail self = new EnvioPorMail();
-	
-	@OneToMany
-	public List<Usuario> suscriptos = new ArrayList<Usuario>();
-	
-	public static EnvioPorMail instance() {
-		return self;
-	}
 
-	private EnvioPorMail() {}
+    private static EnvioPorMail self = new EnvioPorMail();
 
-	public void suscribir(Usuario usuario) {
-		suscriptos.add(usuario);
-	}
+    @OneToMany
+    public List<Usuario> suscriptos = new ArrayList<Usuario>();
 
-	public void desuscribir(Usuario usuario) {
-		suscriptos.remove(usuario);
-	}
+    public static EnvioPorMail instance() {
+        return self;
+    }
 
-	@Override
-	public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		return new TareaEnvioPorMail(usuario, resultadoConsulta, parametros);
-	}
+    private EnvioPorMail() {
+    }
+
+    public void suscribir(Usuario usuario) {
+        suscriptos.add(usuario);
+    }
+
+    public void desuscribir(Usuario usuario) {
+        suscriptos.remove(usuario);
+    }
+
+    @Override
+    public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        return new TareaEnvioPorMail(usuario, resultadoConsulta, parametros);
+    }
 
 }
-

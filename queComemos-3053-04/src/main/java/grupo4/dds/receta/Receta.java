@@ -35,372 +35,388 @@ import queComemos.entrega3.dominio.Dificultad;
 @DiscriminatorColumn(name = "tipo_receta")
 @DiscriminatorValue("privada")
 public class Receta implements Persistible, WithGlobalEntityManager {
-	
-	@Id
-	@GeneratedValue
-	@Column(name = "id_receta")
-	private long id;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id_receta")
+    private long id;
     @ManyToOne
-	protected Usuario creador;
+    protected Usuario creador;
 
-	/* Encabezado de la receta */
-	@Embedded
-	protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
+    /* Encabezado de la receta */
+    @Embedded
+    protected EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
 
-	/* Detalle de la receta */
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Recetas_Ingredientes")
-	protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Recetas_Condimentos")
-	protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
-	@ManyToMany
-	@JoinTable(name = "Recetas_Subrecetas")
-	protected List<Receta> subrecetas = new ArrayList<Receta>();
-	protected String preparacion;
-	protected int consultasHombres;
-	protected int consultasMujeres;
+    /* Detalle de la receta */
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Recetas_Ingredientes")
+    protected List<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Recetas_Condimentos")
+    protected List<Ingrediente> condimentos = new ArrayList<Ingrediente>();
+    @ManyToMany
+    @JoinTable(name = "Recetas_Subrecetas")
+    protected List<Receta> subrecetas = new ArrayList<Receta>();
+    protected String preparacion;
+    protected int consultasHombres;
+    protected int consultasMujeres;
 
-	/* Servicios */
+    /* Servicios */
+    public boolean esValida() {
+        int totalCalorias = getTotalCalorias();
+        return !ingredientes.isEmpty() && 10 <= totalCalorias && totalCalorias <= 5000;
+    }
 
-	public boolean esValida() {
-		int totalCalorias = getTotalCalorias();
-		return !ingredientes.isEmpty() && 10 <= totalCalorias && totalCalorias <= 5000;
-	}
+    public boolean tieneIngrediente(String nombreIngrediente) {
+        return tiene(getIngredientes(), nombreIngrediente);
+    }
 
-	public boolean tieneIngrediente(String nombreIngrediente) {
-		return tiene(getIngredientes(), nombreIngrediente);
-	}
+    public boolean tieneCondimento(String nombreCondimento) {
+        return tiene(getCondimentos(), nombreCondimento);
+    }
 
-	public boolean tieneCondimento(String nombreCondimento) {
-		return tiene(getCondimentos(), nombreCondimento);
-	}
+    public float cantidadCondimento(String nombreCondimento) {
+        int index = getCondimentos().indexOf(Ingrediente.nuevaComida(nombreCondimento));
+        return index < 0 ? 0 : getCondimentos().get(index).getCantidad();
+    }
 
-	public float cantidadCondimento(String nombreCondimento) {
-		int index = getCondimentos().indexOf(Ingrediente.nuevaComida(nombreCondimento));
-		return index < 0 ? 0 : getCondimentos().get(index).getCantidad();
-	}
+    public boolean puedeSerVistaPor(Usuario usuario) {
+        if (creador == null) {
+            return false;
+        }
+        return creador.equals(usuario);
+    }
 
-	public boolean puedeSerVistaPor(Usuario usuario) {
-		if(creador == null)
-			return false;
-		return creador.equals(usuario);
-	}
+    public boolean puedeSerAgregadaPor(Usuario usuario) {
+        return puedeSerVistaPor(usuario);
+    }
 
-	public boolean puedeSerAgregadaPor(Usuario usuario) {
-		return puedeSerVistaPor(usuario);
-	}
+    public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
+            List<Ingrediente> condimentos, String preparacion, List<Receta> subrecetas) {
 
-	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, List<Ingrediente> ingredientes,
-			List<Ingrediente> condimentos, String preparacion, List<Receta> subrecetas) {
+        if (!usuario.puedeModificar(this)) {
+            throw new NoSePuedeModificarLaReceta();
+        }
 
-		if (!usuario.puedeModificar(this))
-			throw new NoSePuedeModificarLaReceta();
+        this.encabezado = encabezado;
+        this.ingredientes = ingredientes != null ? ingredientes
+                : new ArrayList<>();
+        this.condimentos = condimentos != null ? condimentos
+                : new ArrayList<>();
+        this.subrecetas = subrecetas != null ? subrecetas
+                : new ArrayList<Receta>();
+        this.preparacion = preparacion;
 
-		this.encabezado = encabezado;
-		this.ingredientes = ingredientes != null ? ingredientes
-				: new ArrayList<>();
-		this.condimentos = condimentos != null ? condimentos
-				: new ArrayList<>();
-		this.subrecetas = subrecetas != null ? subrecetas
-				: new ArrayList<Receta>();
-		this.preparacion = preparacion;
+    }
 
-	}
-	
-	public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, Ingrediente ingrediente,
-			Ingrediente condimento) {
+    public void modificarReceta(Usuario usuario, EncabezadoDeReceta encabezado, Ingrediente ingrediente,
+            Ingrediente condimento) {
 
-		if (!usuario.puedeModificar(this))
-			throw new NoSePuedeModificarLaReceta();
+        if (!usuario.puedeModificar(this)) {
+            throw new NoSePuedeModificarLaReceta();
+        }
 
-		this.encabezado = encabezado;
+        this.encabezado = encabezado;
 
-		if(ingrediente != null) this.ingredientes.add(ingrediente);
-		
-		if(condimento != null) this.condimentos.add(condimento);
-				
-	}
-	public String getPreparacion() {
-		if (preparacion == null & subrecetas.isEmpty())
-			return "";
+        if (ingrediente != null) {
+            this.ingredientes.add(ingrediente);
+        }
 
-		String preparacionDeSubrecetas = subrecetas == null ? null : subrecetas
-				.stream().map(Receta::getPreparacion)
-				.collect(Collectors.joining(""));
+        if (condimento != null) {
+            this.condimentos.add(condimento);
+        }
 
-		if (preparacionDeSubrecetas == null)
-			return preparacion;
+    }
 
-		return String.join("", preparacion, preparacionDeSubrecetas);
-	}
+    public String getPreparacion() {
+        if (preparacion == null & subrecetas.isEmpty()) {
+            return "";
+        }
 
-	public List<Ingrediente> getIngredientes() {
-		return getConSubrecetas((Receta receta) -> { return receta.ingredientes;}, ingredientes);
-	}
+        String preparacionDeSubrecetas = subrecetas == null ? null : subrecetas
+                .stream().map(Receta::getPreparacion)
+                .collect(Collectors.joining(""));
 
-	public List<Ingrediente> getCondimentos() {
-		return getConSubrecetas((Receta receta) -> {return receta.condimentos;}, condimentos);
-	}
+        if (preparacionDeSubrecetas == null) {
+            return preparacion;
+        }
 
-	public boolean contieneAlguna(List<Ingrediente> comidas) {
-		return !noContieneNinguna(comidas);
-	}
+        return String.join("", preparacion, preparacionDeSubrecetas);
+    }
 
-	public boolean noContieneNinguna(List<Ingrediente> comidas) {
-		return Collections.disjoint(getIngredientes(), comidas);
-	}
+    public List<Ingrediente> getIngredientes() {
+        return getConSubrecetas((Receta receta) -> {
+            return receta.ingredientes;
+        }, ingredientes);
+    }
 
-	public boolean tieneCarne() {
-		return getIngredientes().stream().anyMatch(i -> i.esCarne());
-	}
+    public List<Ingrediente> getCondimentos() {
+        return getConSubrecetas((Receta receta) -> {
+            return receta.condimentos;
+        }, condimentos);
+    }
 
-	public boolean esDificil() {
-		return Dificultad.DIFICIL.equals(encabezado.dificultad);
-	}
-	
-	@Override
-	public String toString() {
-		return getNombreDelPlato();
-	}
+    public boolean contieneAlguna(List<Ingrediente> comidas) {
+        return !noContieneNinguna(comidas);
+    }
 
-	/* Servicios privados */
+    public boolean noContieneNinguna(List<Ingrediente> comidas) {
+        return Collections.disjoint(getIngredientes(), comidas);
+    }
 
-	private boolean tiene(List<Ingrediente> lista, String nombre) {
-		return lista.contains(Ingrediente.nuevaComida(nombre));
-	}
+    public boolean tieneCarne() {
+        return getIngredientes().stream().anyMatch(i -> i.esCarne());
+    }
 
-	private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
+    public boolean esDificil() {
+        return Dificultad.DIFICIL.equals(encabezado.dificultad);
+    }
 
-		List<Ingrediente> acum = new ArrayList<Ingrediente>(seed);
+    @Override
+    public String toString() {
+        return getNombreDelPlato();
+    }
 
-		for (Receta elem : subrecetas) 
-			acum.addAll(f.apply(elem));
+    /* Servicios privados */
+    private boolean tiene(List<Ingrediente> lista, String nombre) {
+        return lista.contains(Ingrediente.nuevaComida(nombre));
+    }
 
-		return acum;
-	}
-	
-	public void actualizarReceta(String nombreReceta, String dificultad, String temporada, String calorias,
-			String preparacion,String favorita, String condimento, String ingrediente, String dosis,
-			String ingredienteParaEliminar, String condimentoParaEliminar){
-		
-		EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
-		Ingrediente nuevoCondimento = null;
-		Ingrediente nuevoIngrediente = null;
-		
-		if (!(Objects.isNull(nombreReceta)||nombreReceta.isEmpty())){
-			encabezado.setNombreDelPlato(nombreReceta);
-		}
-		
-		if(!((Objects.isNull(calorias)||calorias.isEmpty()))){
-			encabezado.setTotalCalorias(Integer.parseInt(calorias));
-		}
-		
-		if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
-			encabezado.setDificultad(Dificultad.valueOf(dificultad));
-		}
-		
-		if(!(Objects.isNull(temporada)||temporada.isEmpty())){
-			encabezado.setTemporada(Temporada.valueOf(temporada));
-		}
-		
-		if(!(Objects.isNull(preparacion)||preparacion.isEmpty())){
-			this.setPreparacion(preparacion);
-		}
-				
-		if(!Objects.isNull(favorita)) 
-			this.getCreador().marcarFavorita(this);
-		else {
-			if(this.getCreador().getHistorial().contains(this)) this.getCreador().getHistorial().remove(this);
-		}
-		
-		if (!(Objects.isNull(condimento)||condimento.isEmpty())){
-			 nuevoCondimento = Ingrediente.nuevoCondimento(condimento, 0);
-		}
-		
-		if(!((Objects.isNull(ingrediente)||ingrediente.isEmpty())) && !((Objects.isNull(dosis)||dosis.isEmpty()))){
-			nuevoIngrediente = Ingrediente.nuevoIngrediente(ingrediente, Float.parseFloat(dosis));
-		}
-		
-		if (!(Objects.isNull(ingredienteParaEliminar)||ingredienteParaEliminar.isEmpty())){
-			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
-			eliminarElemento(ingredientes,ingredienteParaEliminar);
-		}
-		
-		if (!(Objects.isNull(condimentoParaEliminar)||condimentoParaEliminar.isEmpty())){
-			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
-			eliminarElemento(condimentos,condimentoParaEliminar);
-		}
-		
-		this.modificarReceta(this.getCreador(), encabezado, nuevoIngrediente, nuevoCondimento);
-	}
-	
-	public void eliminarElemento(List<Ingrediente> lista,String nombreIngrediente){
-		for(int x=0;x<lista.size();x++) {
-			  if(lista.get(x).getNombre().equals(nombreIngrediente)) lista.remove(lista.get(x));
-		}
-	}
-	
-	public Receta crearReceta(String nombreReceta, String dificultad, String temporada, String calorias, String preparacion,
-			String favorita, Usuario usuario, String condimento, String nombreIngrediente, String dosis,
-			List<Ingrediente> ingredientes, List<Ingrediente> condimentos, String ingredienteParaEliminar, String condimentoParaEliminar){
-		
-		BuilderReceta builder = new BuilderReceta();
-						
-		if (!(Objects.isNull(nombreReceta)||nombreReceta.isEmpty())){
-			builder.nombre(nombreReceta);
-		}
-		
-		if(!((Objects.isNull(calorias)||calorias.isEmpty()))){
-			builder.calorias(Integer.parseInt(calorias));
-		}
-		
-		if(!(Objects.isNull(dificultad)||dificultad.isEmpty())){
-			builder.dificultad(Dificultad.valueOf(dificultad));
-		}
-		
-		if(!(Objects.isNull(temporada)||temporada.isEmpty())){
-			builder.temporada(Temporada.valueOf(temporada));
-		}
-		
-		if(!(Objects.isNull(preparacion)||preparacion.isEmpty())){
-			builder.preparacion(preparacion);
-		}
+    private List<Ingrediente> getConSubrecetas(Function<Receta, List<Ingrediente>> f, List<Ingrediente> seed) {
 
-		if (!(Objects.isNull(condimento)||condimento.isEmpty())){
-			 builder.condimento(Ingrediente.nuevoCondimento(condimento, 0));
-		}
-		
-		if(!Objects.isNull(favorita)) 
-			usuario.marcarFavorita(this);
-		else {
-			if(usuario.getHistorial().contains(this)) usuario.getHistorial().remove(this);
-		}
-		
-		if (!(Objects.isNull(nombreIngrediente)||nombreIngrediente.isEmpty()) && !(Objects.isNull(dosis)||dosis.isEmpty())){
-			builder.ingrediente(Ingrediente.nuevoIngrediente(nombreIngrediente, Float.parseFloat(dosis)));
-		}
-		
-		
-		Receta nuevaReceta = builder.ingredientes(ingredientes).condimentos(condimentos).creador(usuario).build();
-		
-		if (!(Objects.isNull(ingredienteParaEliminar)||ingredienteParaEliminar.isEmpty())){
-			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
-			eliminarElemento(nuevaReceta.getIngredientes(),ingredienteParaEliminar);
-		}
-		
-		if (!(Objects.isNull(condimentoParaEliminar)||condimentoParaEliminar.isEmpty())){
-			//this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
-			eliminarElemento(nuevaReceta.getCondimentos(),condimentoParaEliminar);
-		}
-		
-		return nuevaReceta;
-	}
+        List<Ingrediente> acum = new ArrayList<Ingrediente>(seed);
 
-	/* Accessors and Mutators */
+        for (Receta elem : subrecetas) {
+            acum.addAll(f.apply(elem));
+        }
 
-	public int getTotalCalorias() {
-		return encabezado.getTotalCalorias();
-	}
+        return acum;
+    }
 
-	public String getNombreDelPlato() {
-		return encabezado.getNombreDelPlato();
-	}
+    public void actualizarReceta(String nombreReceta, String dificultad, String temporada, String calorias,
+            String preparacion, String favorita, String condimento, String ingrediente, String dosis,
+            String ingredienteParaEliminar, String condimentoParaEliminar) {
 
-	public Temporada getTemporada() {
-		return encabezado.getTemporada();
-	}
-	
-	public EncabezadoDeReceta getEncabezado() {
-		return encabezado;
-	}
+        EncabezadoDeReceta encabezado = new EncabezadoDeReceta();
+        Ingrediente nuevoCondimento = null;
+        Ingrediente nuevoIngrediente = null;
 
-	public Usuario getCreador() {
-		return creador;
-	}
+        if (!(Objects.isNull(nombreReceta) || nombreReceta.isEmpty())) {
+            encabezado.setNombreDelPlato(nombreReceta);
+        }
 
-	public List<Receta> getSubrecetas() {
-		return subrecetas;
-	}
-	
-	public Dificultad getDificultad() {
-		return encabezado.getDificultad();
-	}
-	
-	public String getOrigen() {
-		return "Privada";
-	}
+        if (!((Objects.isNull(calorias) || calorias.isEmpty()))) {
+            encabezado.setTotalCalorias(Integer.parseInt(calorias));
+        }
 
-	public long getId() {
-		return id;
-	}
+        if (!(Objects.isNull(dificultad) || dificultad.isEmpty())) {
+            encabezado.setDificultad(Dificultad.valueOf(dificultad));
+        }
 
-	public int consultasHombres() {
-		return consultasHombres;
-	}
+        if (!(Objects.isNull(temporada) || temporada.isEmpty())) {
+            encabezado.setTemporada(Temporada.valueOf(temporada));
+        }
 
-	public int consultasMujeres() {
-		return consultasMujeres;
-	}
-	
-	public int totalConsultas() {
-		return consultasMujeres + consultasHombres;
-	}
-	
-	
-	public void setTotalCalorias(int totalCalorias) {
-		encabezado.setTotalCalorias(totalCalorias);
-	}
+        if (!(Objects.isNull(preparacion) || preparacion.isEmpty())) {
+            this.setPreparacion(preparacion);
+        }
 
-	public void agregarIngrediente(Ingrediente unIngrediente) {
-		ingredientes.add(unIngrediente);
-	}
-	
-	public void agregarIngredientes(List<Ingrediente> ingredientes) {
-		this.ingredientes.addAll(ingredientes);
-	}
+        if (!Objects.isNull(favorita)) {
+            this.getCreador().marcarFavorita(this);
+        } else {
+            if (this.getCreador().getHistorial().contains(this)) {
+                this.getCreador().getHistorial().remove(this);
+            }
+        }
 
-	public void agregarCondimento(Ingrediente unCondimento) {
-		condimentos.add(unCondimento);
-	}
+        if (!(Objects.isNull(condimento) || condimento.isEmpty())) {
+            nuevoCondimento = Ingrediente.nuevoCondimento(condimento, 0);
+        }
 
-	public void agregarCondimentos(List<Ingrediente> condimentos) {
-		this.condimentos.addAll(condimentos);
-	}
-	
-	public void agregarSubreceta(Receta subreceta) {
-		subrecetas.add(subreceta);
-	}
-	
-	public void agregarSubrecetas(List<Receta> subrecetas) {
-		this.subrecetas.addAll(subrecetas);
-	}
+        if (!((Objects.isNull(ingrediente) || ingrediente.isEmpty())) && !((Objects.isNull(dosis) || dosis.isEmpty()))) {
+            nuevoIngrediente = Ingrediente.nuevoIngrediente(ingrediente, Float.parseFloat(dosis));
+        }
 
-	public void setCreador(Usuario creador) {
-		this.creador = creador;
-	}
+        if (!(Objects.isNull(ingredienteParaEliminar) || ingredienteParaEliminar.isEmpty())) {
+            //this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+            eliminarElemento(ingredientes, ingredienteParaEliminar);
+        }
 
-	public void setEncabezado(EncabezadoDeReceta encabezado) {
-		this.encabezado = encabezado;
-	}
+        if (!(Objects.isNull(condimentoParaEliminar) || condimentoParaEliminar.isEmpty())) {
+            //this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+            eliminarElemento(condimentos, condimentoParaEliminar);
+        }
 
-	public void setPreparacion(String preparacion) {
-		this.preparacion = preparacion;
-	}
+        this.modificarReceta(this.getCreador(), encabezado, nuevoIngrediente, nuevoCondimento);
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void eliminarElemento(List<Ingrediente> lista, String nombreIngrediente) {
+        for (int x = 0; x < lista.size(); x++) {
+            if (lista.get(x).getNombre().equals(nombreIngrediente)) {
+                lista.remove(lista.get(x));
+            }
+        }
+    }
 
-	public void consultoHombre() {
-		consultasHombres++;
-	}
+    public Receta crearReceta(String nombreReceta, String dificultad, String temporada, String calorias, String preparacion,
+            String favorita, Usuario usuario, String condimento, String nombreIngrediente, String dosis,
+            List<Ingrediente> ingredientes, List<Ingrediente> condimentos, String ingredienteParaEliminar, String condimentoParaEliminar) {
 
-	public void consultoMujer() {
-		consultasMujeres++;
-	}
-	
-	public void resetContadorConsultas() {
-		consultasMujeres = consultasHombres = 0;
-	}
+        BuilderReceta builder = new BuilderReceta();
+
+        if (!(Objects.isNull(nombreReceta) || nombreReceta.isEmpty())) {
+            builder.nombre(nombreReceta);
+        }
+
+        if (!((Objects.isNull(calorias) || calorias.isEmpty()))) {
+            builder.calorias(Integer.parseInt(calorias));
+        }
+
+        if (!(Objects.isNull(dificultad) || dificultad.isEmpty())) {
+            builder.dificultad(Dificultad.valueOf(dificultad));
+        }
+
+        if (!(Objects.isNull(temporada) || temporada.isEmpty())) {
+            builder.temporada(Temporada.valueOf(temporada));
+        }
+
+        if (!(Objects.isNull(preparacion) || preparacion.isEmpty())) {
+            builder.preparacion(preparacion);
+        }
+
+        if (!(Objects.isNull(condimento) || condimento.isEmpty())) {
+            builder.condimento(Ingrediente.nuevoCondimento(condimento, 0));
+        }
+
+        if (!Objects.isNull(favorita)) {
+            usuario.marcarFavorita(this);
+        } else {
+            if (usuario.getHistorial().contains(this)) {
+                usuario.getHistorial().remove(this);
+            }
+        }
+
+        if (!(Objects.isNull(nombreIngrediente) || nombreIngrediente.isEmpty()) && !(Objects.isNull(dosis) || dosis.isEmpty())) {
+            builder.ingrediente(Ingrediente.nuevoIngrediente(nombreIngrediente, Float.parseFloat(dosis)));
+        }
+
+        Receta nuevaReceta = builder.ingredientes(ingredientes).condimentos(condimentos).creador(usuario).build();
+
+        if (!(Objects.isNull(ingredienteParaEliminar) || ingredienteParaEliminar.isEmpty())) {
+            //this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+            eliminarElemento(nuevaReceta.getIngredientes(), ingredienteParaEliminar);
+        }
+
+        if (!(Objects.isNull(condimentoParaEliminar) || condimentoParaEliminar.isEmpty())) {
+            //this.getIngredientes().remove(paraEliminar);//como carajo puede eliminar un ingrediente
+            eliminarElemento(nuevaReceta.getCondimentos(), condimentoParaEliminar);
+        }
+
+        return nuevaReceta;
+    }
+
+    /* Accessors and Mutators */
+    public int getTotalCalorias() {
+        return encabezado.getTotalCalorias();
+    }
+
+    public String getNombreDelPlato() {
+        return encabezado.getNombreDelPlato();
+    }
+
+    public Temporada getTemporada() {
+        return encabezado.getTemporada();
+    }
+
+    public EncabezadoDeReceta getEncabezado() {
+        return encabezado;
+    }
+
+    public Usuario getCreador() {
+        return creador;
+    }
+
+    public List<Receta> getSubrecetas() {
+        return subrecetas;
+    }
+
+    public Dificultad getDificultad() {
+        return encabezado.getDificultad();
+    }
+
+    public String getOrigen() {
+        return "Privada";
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public int consultasHombres() {
+        return consultasHombres;
+    }
+
+    public int consultasMujeres() {
+        return consultasMujeres;
+    }
+
+    public int totalConsultas() {
+        return consultasMujeres + consultasHombres;
+    }
+
+    public void setTotalCalorias(int totalCalorias) {
+        encabezado.setTotalCalorias(totalCalorias);
+    }
+
+    public void agregarIngrediente(Ingrediente unIngrediente) {
+        ingredientes.add(unIngrediente);
+    }
+
+    public void agregarIngredientes(List<Ingrediente> ingredientes) {
+        this.ingredientes.addAll(ingredientes);
+    }
+
+    public void agregarCondimento(Ingrediente unCondimento) {
+        condimentos.add(unCondimento);
+    }
+
+    public void agregarCondimentos(List<Ingrediente> condimentos) {
+        this.condimentos.addAll(condimentos);
+    }
+
+    public void agregarSubreceta(Receta subreceta) {
+        subrecetas.add(subreceta);
+    }
+
+    public void agregarSubrecetas(List<Receta> subrecetas) {
+        this.subrecetas.addAll(subrecetas);
+    }
+
+    public void setCreador(Usuario creador) {
+        this.creador = creador;
+    }
+
+    public void setEncabezado(EncabezadoDeReceta encabezado) {
+        this.encabezado = encabezado;
+    }
+
+    public void setPreparacion(String preparacion) {
+        this.preparacion = preparacion;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void consultoHombre() {
+        consultasHombres++;
+    }
+
+    public void consultoMujer() {
+        consultasMujeres++;
+    }
+
+    public void resetContadorConsultas() {
+        consultasMujeres = consultasHombres = 0;
+    }
 }

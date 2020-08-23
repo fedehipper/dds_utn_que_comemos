@@ -15,18 +15,18 @@ import javax.persistence.Entity;
 @DiscriminatorValue("favoritas")
 public class MarcarFavoritas extends MonitorAsincronico {
 
-	private static MarcarFavoritas self = new MarcarFavoritas();
-	
-	public static MarcarFavoritas instance() {
-		return self;
-	}
+    private static MarcarFavoritas self = new MarcarFavoritas();
 
-	private MarcarFavoritas() {}
+    public static MarcarFavoritas instance() {
+        return self;
+    }
 
-	@Override
-	public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		return new TareaMarcadoFavoritas(usuario, resultadoConsulta, parametros);
-	}
-	
+    private MarcarFavoritas() {
+    }
+
+    @Override
+    public TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        return new TareaMarcadoFavoritas(usuario, resultadoConsulta, parametros);
+    }
 
 }

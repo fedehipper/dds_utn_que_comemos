@@ -14,11 +14,11 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class MonitorAsincronico extends Monitor {
 
-	@Override
-	public void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
-		RepositorioDeTareas.instance().add(nuevaTarea(usuario, resultadoConsulta, parametros));
-	}
-	
-	public abstract TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
+    @Override
+    public void notificarConsulta(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros) {
+        RepositorioDeTareas.instance().add(nuevaTarea(usuario, resultadoConsulta, parametros));
+    }
+
+    public abstract TareaPendiente nuevaTarea(Usuario usuario, List<Receta> resultadoConsulta, List<Filtro> parametros);
 
 }

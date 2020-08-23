@@ -16,49 +16,49 @@ import javax.persistence.Table;
 @Table(name = "Solicitudes_Alta_Usuarios")
 public class SolicitudAltaUsuario implements Persistible {
 
-	@Id
-	@GeneratedValue()
-	@Column(name = "id_solicitud")
-	private long id;	
-	
-	@OneToOne(cascade = CascadeType.PERSIST)
-	Usuario usuario;
-	String detalle;
-	boolean estado;
-	
-	@SuppressWarnings("unused")
-	private SolicitudAltaUsuario(){}
-	
-	public SolicitudAltaUsuario(Usuario usuario) {
-		this.usuario = usuario;
-		this.estado = false;
-	}
+    @Id
+    @GeneratedValue()
+    @Column(name = "id_solicitud")
+    private long id;
 
-	public void aceptada() {
-		estado = true;
-		RepositorioDeUsuarios.instance().add(usuario);
-	}
+    @OneToOne(cascade = CascadeType.PERSIST)
+    Usuario usuario;
+    String detalle;
+    boolean estado;
 
-	public void rechazada(String motivo) {
-		estado = false;
-		detalle = motivo;
-	}
+    @SuppressWarnings("unused")
+    private SolicitudAltaUsuario() {
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public SolicitudAltaUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        this.estado = false;
+    }
 
-	public boolean estado() {
-		return estado;
-	}
+    public void aceptada() {
+        estado = true;
+        RepositorioDeUsuarios.instance().add(usuario);
+    }
 
-	
-	public long getId() {
-		return id;
-	}
+    public void rechazada(String motivo) {
+        estado = false;
+        detalle = motivo;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public boolean estado() {
+        return estado;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }
