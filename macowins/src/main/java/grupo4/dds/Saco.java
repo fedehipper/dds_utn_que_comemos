@@ -1,6 +1,6 @@
 package grupo4.dds;
 
-class Saco extends Prenda {
+public class Saco extends Prenda {
 
     private int botones;
 
@@ -8,7 +8,7 @@ class Saco extends Prenda {
         return 300 + 10 * botones;
     }
 
-    Saco(TipoDeImportacion tipoDeImportacion, Marca marca, int cantBotones, MacoWins negocio) {
+    public Saco(TipoDeImportacion tipoDeImportacion, Marca marca, int cantBotones, MacoWins negocio) {
         super(tipoDeImportacion, marca, negocio);
         botones = cantBotones;
     }

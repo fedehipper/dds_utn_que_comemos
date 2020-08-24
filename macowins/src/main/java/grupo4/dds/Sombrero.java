@@ -1,6 +1,6 @@
 package grupo4.dds;
 
-class Sombrero extends Prenda {
+public class Sombrero extends Prenda {
 
     private double coeficienteDeMetrosexualidad;
 
@@ -8,7 +8,7 @@ class Sombrero extends Prenda {
         return 150 + coeficienteDeMetrosexualidad;
     }
 
-    Sombrero(TipoDeImportacion tipoDeImportacion, Marca marca, double coeficiente, MacoWins negocio) {
+    public Sombrero(TipoDeImportacion tipoDeImportacion, Marca marca, double coeficiente, MacoWins negocio) {
         super(tipoDeImportacion, marca, negocio);
         coeficienteDeMetrosexualidad = coeficiente;
     }

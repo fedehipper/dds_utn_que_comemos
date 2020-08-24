@@ -1,8 +1,8 @@
 package grupo4.dds;
 
-class Camisa extends Prenda {
+public class Camisa extends Prenda {
 
-    Camisa(TipoDeImportacion tipoDeImportacion, Marca marca, MacoWins negocio) {
+    public Camisa(TipoDeImportacion tipoDeImportacion, Marca marca, MacoWins negocio) {
         super(tipoDeImportacion, marca, negocio);
     }
 

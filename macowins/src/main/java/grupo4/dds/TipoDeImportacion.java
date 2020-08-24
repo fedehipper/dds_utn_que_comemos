@@ -1,5 +1,5 @@
 package grupo4.dds;
 
-enum TipoDeImportacion {
+public enum TipoDeImportacion {
     NACIONAL, IMPORTADA
 }

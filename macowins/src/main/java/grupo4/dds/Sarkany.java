@@ -1,6 +1,6 @@
 package grupo4.dds;
 
-class Sarkany implements Marca {
+public class Sarkany implements Marca {
 
     public double precioFinal(Prenda prenda) {
         double precio = prenda.precioOriginal();

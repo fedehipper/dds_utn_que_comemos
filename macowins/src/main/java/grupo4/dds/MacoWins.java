@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-class MacoWins {
+public class MacoWins {
 
     private Collection<Venta> ventas = new ArrayList<>();
 

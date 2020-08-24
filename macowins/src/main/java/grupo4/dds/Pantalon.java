@@ -1,6 +1,6 @@
 package grupo4.dds;
 
-class Pantalon extends Prenda {
+public class Pantalon extends Prenda {
 
     private int cmTela;
 
@@ -8,7 +8,7 @@ class Pantalon extends Prenda {
         return 250 + cmTela;
     }
 
-    Pantalon(TipoDeImportacion tipoDeImportacion, Marca marca, int tela, MacoWins negocio) {
+    public Pantalon(TipoDeImportacion tipoDeImportacion, Marca marca, int tela, MacoWins negocio) {
         super(tipoDeImportacion, marca, negocio);
         cmTela = tela;
     }
